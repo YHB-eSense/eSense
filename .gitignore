@@ -1,0 +1,7 @@
+# Visual Studio
+.vs
+
+# LaTeX
+*.aux
+*.synctex.gz
+*.pdf
