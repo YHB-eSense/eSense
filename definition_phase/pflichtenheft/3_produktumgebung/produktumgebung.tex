@@ -1,0 +1,38 @@
+\documentclass[../pflichtenheft.tex]{subfiles}
+
+\begin{document}
+
+	\section{Produktumgebung}
+		\subsection{Software}
+			\begin{itemize}
+				\item \gls{ios} (Versionen 10 bis 13) soll unterstützt werden
+				\item \Gls{android} (Versionen 7 bis 10) soll unterstützt werden
+				\item Das \Gls{product} wird mit \Gls{xamarin} entwickelt
+				\item Die \Gls{library}en \Gls{komp1} und \Gls{komp2} werden daher auch speziell für \Gls{xamarin} entwickelt
+			\end{itemize}
+
+		\subsection{Externe Bibliotheken}
+			\begin{itemize}
+				\item Die \Gls{library} \quote{Bluetooth LE plugin for Xamarin} \see{https://github.com/xabre/xamarin-bluetooth-le}
+				\item WK: Eine \Gls{library}, welche es ermöglicht, den \Gls{bpm}-Wert einer \gls{audiofile} zu berechnen
+				\item WK: Eine \Gls{library}, welche die Einbettung von \Gls{spotify} in die \Gls{app} ermöglicht
+			\end{itemize}
+
+		\subsection{Hardware}
+			\begin{itemize}
+				\item Das \Gls{device} muss sowohl \Gls{bc}, als auch \Gls{ble} unterstützen
+				\item 1 GB \Gls{ram} um schnelle Auswertung von Daten zu ermöglichen
+				\item 200 MB freier interner Speicherplatz zum Speichern der \Gls{app}
+				\item 200 MB freier interner Speicherplatz zum Speichern von \Gls{audiofile}en
+			\end{itemize}
+
+		\subsection{Zugriffsberechtigungen}
+			\begin{itemize}
+				\item Zugriff auf Standort und \Gls{bt} (wegen eingebundener \Gls{library})
+				\item Zugriff auf internen Speicher zum Lesen von \Gls{audiofile}en
+				\item WK: Zugriff auf \Gls{spotify}-Account
+			\end{itemize}
+
+	\let\thefootnote\relax\footnote{WK: Diese Vorraussetzung kommt von einem Wunschkriterium.}
+
+\end{document}

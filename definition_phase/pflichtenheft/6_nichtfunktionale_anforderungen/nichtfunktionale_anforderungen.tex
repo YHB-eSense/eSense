@@ -1,0 +1,41 @@
+\documentclass[../pflichtenheft.tex]{subfiles}
+
+\newcommand{\nf}[1]{\item[\hypertarget{nf#1}{/NF#1/}]}
+
+
+\begin{document}
+
+\section{Nichtfunktionale Anforderungen}
+	\begin{itemize}
+		\nf{010} Alle Komponenten sollen weitestmöglich plattformunspezifisch sein.
+		\subsection{Komponente 1: Sensor Bibliothek}
+			\nf{100} Die Sensor Bibliothek (\Gls{komp1}) soll ein hohes Maß an Konfigurierbarkeit bieten
+			(etwa durch Spezifikation der gewünschten Sampling-Raten).
+			\nf{110} Der Verbindungsaufbau (\falink{305}) zu den \Gls{earable}s soll in mindestens einem von zwei
+			Fällen erfolgreich sein.
+		\subsection{Komponente 2: Schritterkennungs Bibliothek}
+			\nf{200} Die Schritterkennung (\falink{210}) muss bei einer Geschwindigkeit von 0,5 bis 3 Schritten pro
+			Sekunde ordnungsgemäß funktionieren.
+			\nf{210} Die Schritterkennung (\falink{210}) muss einen Schritt nach maximal 5 Sekunden registriert haben.
+			\nf{220} Der Schrittzähler (\falink{221}) darf um maximal 30\% vom tatsächlichen Wert abweichen.
+			\nf{230} Die ermittelte Schrittfrequenz (\falink{222}) darf um maximal 0,5 Schritte pro Sekunde vom
+			tatsächlichen Wert abweichen.
+		\subsection{Komponente 3: Anwendung}
+			\nf{300} Der lokalen \Gls{audiolib} (\falink{320}) sollen mindestens 50 \Gls{audiofile}en hinzugefügt
+			werden können.
+			\nf{310} Das Hinzufügen von neuen \Gls{audiofile}en zur lokalem \Gls{audiolib} (\falink{321}) soll ohne
+			Ermittlung des BPM-Wert maximal 2 Sekunden dauern.
+			\nf{320} Das Finden eines zur Schrittfrequenz passenden Liedes (\falink{343}) soll maximal 5 Sekunden
+			dauern.
+			\nf{330} Der Wechsel zu den anderen \Gls{view}en soll mit maximal einer Sekunde Verzögerung ablaufen
+			\nf{340} \Gls{user} begehen nach einstündiger Nutzung der \Gls{app} (\Gls{komp3}) nur noch maximal 2
+			Fehler pro Tag.
+			\nf{350W} Die automatisch ermittelte \Gls{bpm}-Wert einer \Gls{audiofile} (\falink{370W}) soll vom
+			tatsächlichen Wert um maximal 15 \Gls{bpm} abweichen.
+			\nf{360} Die Sprache soll ohne Neustart der App geändert werden können
+			\nf{370} In einer Session des Motivationsmusik-Modus soll ein Lied nicht mehrmals hintereinander abgespielt werden
+	\end{itemize}
+
+	\let\thefootnote\relax\footnote{Mit W markierte NFs gehören zu den Wunschkriterien.}
+
+\end{document}

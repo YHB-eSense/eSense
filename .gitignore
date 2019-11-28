@@ -1,1 +1,15 @@
+# Visual Studio
 .vs
+
+# LaTeX
+*.aux
+*.synctex.gz
+*.pdf
+*.dvi
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.glo
+*.ist
