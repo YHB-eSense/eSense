@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,11 @@ namespace Karl.View
 		public ConnectionPage()
 		{
 			InitializeComponent();
+		}
+
+		async void OnRefreshDevices(object sender, EventArgs args)
+		{
+
 		}
 	}
 }
