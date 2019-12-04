@@ -7,11 +7,19 @@
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
 		<StackLayout>
+			
 			<StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
 				<Button Text="AudioPlayer" 
 					HorizontalOptions="CenterAndExpand"
 					Clicked="AP_Button_Clicked"/>
 			</StackLayout>
+			
+			<StackLayout Orientation="Horizontal">
+				<Label Text="{Binding Path=StepsAmount}"
+					x:Name="Steps"
+					HorizontalOptions="CenterAndExpand"/>
+			</StackLayout>
+			
 			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
 				<Button Text="AudioLibrary" 
 					HorizontalOptions="StartAndExpand"
@@ -23,11 +31,19 @@
 					HorizontalOptions="EndAndExpand"
 					Clicked="MM_Button_Clicked"/>
 			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="{Binding Path=DeviceName}"
+					x:Name="Device"
+					HorizontalOptions="CenterAndExpand"/>
+			</StackLayout>
+			
 			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
 				<Button Text="Settings" 
 					HorizontalOptions="CenterAndExpand"
 					Clicked="S_Button_Clicked"/>
 			</StackLayout>
+			
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

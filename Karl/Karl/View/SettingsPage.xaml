@@ -17,8 +17,7 @@
 				</Picker.Items>
 			</Picker>
 			<Button Text="Reset Steps"
-				Clicked="OnResetSteps"
-			/>
+				Clicked="OnResetSteps"/>
 		</StackLayout>
-    </ContentPage.Content>
+	</ContentPage.Content>
 </ContentPage>

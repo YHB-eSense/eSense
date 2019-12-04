@@ -6,21 +6,27 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Karl.ViewModel;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : ContentPage
 	{
+		MainPageVM mainpagevm;
+
 		public MainPage()
 		{
 			InitializeComponent();
+			mainpagevm = new MainPageVM();
+			this.BindingContext = mainpagevm;
 		}
 
 		private void AP_Button_Clicked(object sender, EventArgs e)
 		{
 			Navigation.PushAsync(new AudioPlayerPage());
 		}
+
 		private void AL_Button_Clicked(object sender, EventArgs e)
 		{
 			Navigation.PushAsync(new AudioLibPage());

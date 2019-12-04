@@ -11,7 +11,6 @@ using Karl.ViewModel;
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-
 	public partial class SettingsPage : ContentPage
 	{
 
