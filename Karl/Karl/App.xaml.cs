@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Karl.View;
 
 namespace Karl
 {
@@ -10,7 +11,7 @@ namespace Karl
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

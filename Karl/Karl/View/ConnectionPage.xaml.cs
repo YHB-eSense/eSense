@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,21 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ModesPage : ContentPage
+	public partial class ConnectionPage : ContentPage
 	{
-		public ModesPage()
+		public ConnectionPage()
 		{
 			InitializeComponent();
-		}
-
-		private void Switch_Toggled(object sender, ToggledEventArgs e)
-		{
-
-		}
-
-		private void Switch_Toggled_1(object sender, ToggledEventArgs e)
-		{
-
 		}
 	}
 }

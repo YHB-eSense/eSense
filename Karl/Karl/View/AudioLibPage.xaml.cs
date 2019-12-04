@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Karl
+namespace Karl.View
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AudioLibPage : ContentPage
-    {
-        public AudioLibPage()
-        {
-            InitializeComponent();
-        }
-    }
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class AudioLibPage : ContentPage
+	{
+		public AudioLibPage()
+		{
+			InitializeComponent();
+		}
+	}
 }
