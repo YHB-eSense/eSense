@@ -17,21 +17,21 @@ namespace Karl.View
 
 		private SettingsPageVM svm;
 
-		public SettingPage()
+		public SettingsPage()
 		{
 			InitializeComponent();
 			svm = new SettingsPageVM();
 		}
 
-		async void OnChangedLanguage(object sender, EventArgs args)
+		public void OnChangedLanguage(object sender, EventArgs args)
 		{
 			svm.changedLanguage("eng");
 		}
-		async void OnChangedDeviceName(object sender, EventArgs args)
+		public void OnChangedDeviceName(object sender, EventArgs args)
 		{
 			svm.changedDeviceName("Name");
 		}
-		async void OnResetSteps(object sender, EventArgs args)
+		public void OnResetSteps(object sender, EventArgs args)
 		{
 			svm.resetSteps();
 		}

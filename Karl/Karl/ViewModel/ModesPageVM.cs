@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.ViewModel
 {
-	class ModesVM
+	class ModesPageVM
 	{
 		public void MotivationModeOn()
 		{

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.ViewModel
 {
-	class MainVM
+	class MainPageVM
 	{
 
 	}

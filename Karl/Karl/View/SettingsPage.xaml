@@ -8,10 +8,14 @@
     <ContentPage.Content>
 		<StackLayout>
 			<Button Text="Change Device Name"
-				Clicked="OnChangedDeviceName"
-			/>
+				Clicked="OnChangedDeviceName"/>
 			<Label Text="Select Language"/>
-			<Picker ClassId="LanguageSelector"/>
+			<Picker ClassId="LanguageSelector">
+				<Picker.Items>
+					<x:String>"English"</x:String>
+					<x:String>"German"</x:String>
+				</Picker.Items>
+			</Picker>
 			<Button Text="Reset Steps"
 				Clicked="OnResetSteps"
 			/>

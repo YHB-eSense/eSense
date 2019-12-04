@@ -13,12 +13,12 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ModesPage : ContentPage
 	{
-		ModesVM modesvm;
+		ModesPageVM modesvm;
 
 		public ModesPage()
 		{
 			InitializeComponent();
-			modesvm = new ModesVM();
+			modesvm = new ModesPageVM();
 		}
 
 		private void MM_Switch_Toggled(object sender, ToggledEventArgs e)

@@ -17,7 +17,7 @@ namespace Karl.View
 			InitializeComponent();
 		}
 
-		async void OnRefreshDevices(object sender, EventArgs args)
+		public void OnRefreshDevices(object sender, EventArgs args)
 		{
 
 		}
