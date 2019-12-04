@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -6,10 +6,28 @@
              mc:Ignorable="d"
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+		<StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="StartExpand">
+				<Button Text="AudioPlayer" 
+					HorizontalOptions="CenterAndExpand"
+					Clicked="AP_Button_Clicked"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+				<Button Text="AudioLibrary" 
+					HorizontalOptions="StartAndExpand"
+					Clicked="AL_Button_Clicked"/>
+				<Button Text="Connect"
+					HorizontalOptions="CenterAndExpand"
+					Clicked="C_Button_Clicked"/>
+				<Button Text="ModeManager"
+					HorizontalOptions="EndAndExpand"
+					Clicked="MM_Button_Clicked"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+				<Button Text="Settings" 
+					HorizontalOptions="CenterAndExpand"
+					Clicked="S_Button_Clicked"/>
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>

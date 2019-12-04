@@ -23,7 +23,7 @@ namespace Karl.View
 
 		private void MM_Switch_Toggled(object sender, ToggledEventArgs e)
 		{
-			if(e.Value == true)
+			if(e.Value == false)
 			{
 				modesvm.MotivationModeOff();
 			}
@@ -35,13 +35,13 @@ namespace Karl.View
 
 		private void AM_Switch_Toggled(object sender, ToggledEventArgs e)
 		{
-			if (e.Value == true)
+			if (e.Value == false)
 			{
-				modesvm.MotivationModeOff();
+				modesvm.AutostopModeOff();
 			}
 			else
 			{
-				modesvm.MotivationModeOn();
+				modesvm.AutostopModeOn();
 			}
 		}
 	}

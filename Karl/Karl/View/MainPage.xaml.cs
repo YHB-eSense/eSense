@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +16,30 @@ namespace Karl.View
 		{
 			InitializeComponent();
 		}
+
+		private void AP_Button_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new AudioPlayerPage());
+		}
+		private void AL_Button_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new AudioLibPage());
+		}
+
+		private void C_Button_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new ConnectionPage());
+		}
+
+		private void MM_Button_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new ModesPage());
+		}
+
+		private void S_Button_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new SettingsPage());
+		}
+
 	}
 }

@@ -14,7 +14,8 @@
                        TextColor="Black"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="Center"/>
-				<Switch IsToggled="false"
+				<Switch x:Name="MM_Switch"
+						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center"
                         Toggled="MM_Switch_Toggled"/>
@@ -25,7 +26,8 @@
                        TextColor="Black"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="Center"/>
-				<Switch IsToggled="false"
+				<Switch x:Name="AM_Switch"
+						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center"
                         Toggled="AM_Switch_Toggled"/>

@@ -16,12 +16,12 @@ namespace Karl.ViewModel
 
 		}
 
-		public void AutoStopModeOn()
+		public void AutostopModeOn()
 		{
 
 		}
 
-		public void AutStopModeOff()
+		public void AutostopModeOff()
 		{
 
 		}
