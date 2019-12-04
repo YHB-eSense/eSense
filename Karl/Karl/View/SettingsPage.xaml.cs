@@ -12,7 +12,7 @@ namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 
-	public partial class SettingPage : ContentPage
+	public partial class SettingsPage : ContentPage
 	{
 
 		private SettingsPageVM svm;
