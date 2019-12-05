@@ -4,7 +4,13 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public interface AudioLib
+	public class AudioLib
 	{
+		private IAudioLib lib;
+
+		protected void useBasicAudioLib()
+		{
+			lib = BasicAudioLib.SingletonBasicAudioLib;
+		}
 	}
 }

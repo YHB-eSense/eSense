@@ -13,6 +13,13 @@ namespace Karl.Model
 		private ModeHandler modeHandler { get; }
 		private ConnectionHandler connection;
 
-
+		public AppLogic()
+		{
+			audioLib = new AudioLib();
+			settingsHandler = new SettingsHandler(audioLib);
+			audioPlayer = new AudioPlayer();
+			modeHandler = new ModeHandler(audioPlayer);
+			connection = new ConnectionHandler();
+		}
 	}
 }

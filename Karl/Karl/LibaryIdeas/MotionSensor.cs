@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Karl.Model
+namespace Karl.LibraryIdeas
 {
 	public class MotionSensorChangedEventArgs : EventArgs
 	{
