@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace Karl.Model
+namespace Karl.LibraryIdeas
 {
 	interface Earable
 	{

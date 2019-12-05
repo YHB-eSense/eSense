@@ -1,4 +1,4 @@
-﻿namespace Karl.Model
+namespace Karl.LibraryIdeas
 {
 	public interface IAudioStream
 	{

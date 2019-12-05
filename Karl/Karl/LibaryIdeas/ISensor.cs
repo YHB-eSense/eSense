@@ -1,6 +1,6 @@
 using System;
 
-namespace Karl.Model
+namespace Karl.LibraryIdeas
 {
 
 	public interface ISensor
