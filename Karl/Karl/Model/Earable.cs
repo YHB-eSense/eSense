@@ -9,6 +9,8 @@ namespace Karl.Model
 
 		long Id { get; set; }
 
+		IAudioStream AudioStream { get; }
+
 		List<ISensor> Sensors { get; }
 
 		bool Connect();
@@ -16,7 +18,5 @@ namespace Karl.Model
 		bool IsConnected();
 
 		bool Disconnect();
-
-		IAudioStream AudioStream();
 	}
 }
