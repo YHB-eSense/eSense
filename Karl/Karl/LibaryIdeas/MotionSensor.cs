@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Karl.LibraryIdeas
+namespace Karl.Model
 {
-	public class IMUChangedEventArgs : EventArgs
+	public class MotionSensorChangedEventArgs : EventArgs
 	{
-		public IMUChangedEventArgs(short[] gyro, short[] acc)
+		public MotionSensorChangedEventArgs(short[] gyro, short[] acc)
 		{
 			Gyro = gyro;
 			Acc = acc;
@@ -15,11 +15,11 @@ namespace Karl.LibraryIdeas
 		public short[] Acc { get; }
 	}
 
-	class IMUSensor : ISensor
+	class MotionSensor : ISensor
 	{
 		public event EventHandler ValueChanged;
 
-		protected virtual void OnValueChanged(IMUChangedEventArgs e)
+		protected virtual void OnValueChanged(MotionSensorChangedEventArgs e)
 		{
 			ValueChanged?.Invoke(this, e);
 		}

@@ -6,5 +6,6 @@ namespace Karl.Model
 {
 	class ConnectionHandler
 	{
+	
 	}
 }

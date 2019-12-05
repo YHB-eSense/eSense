@@ -9,14 +9,8 @@
         <StackLayout>
 			<Label Text="Available Devices"
 				   HorizontalOptions="Center"/>
-			<ListView CachingStrategy="RecycleElement">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<ViewCell>
-							
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
+			<ListView ItemsSource="{Binding Path=Devices}">
+				
 			</ListView>
 			<Label Text="Press on device to connect"
 				   HorizontalOptions="Center"/>
