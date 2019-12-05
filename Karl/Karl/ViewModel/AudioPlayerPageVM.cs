@@ -14,27 +14,27 @@ namespace Karl.ViewModel
 			this.appLogic = appLogic;
 		}
 
-		public void pause() {
+		public void OnPause() {
 
 		}
 
-		public void play() {
+		public void OnPlay() {
 
 		}
 
-		public void skip() {
+		public void OnSkip() {
 
 		}
 
-		public void playPrevious() {
+		public void OnPlayPrevious() {
 
 		}
 
-		public void changeVolume(int volume) {
+		public void OnChangeVolume(int volume) {
 
 		}
 
-		public void moveInSong(int location) {
+		public void OnMoveInSong(float time) {
 
 		}
 
