@@ -13,38 +13,48 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : ContentPage
 	{
-		MainPageVM mainpagevm;
+		private MainPageVM mainPageVM;
+		private AudioPlayerPage audioPlayerPage;
+		private AudioLibPage audiolLibPage;
+		private ConnectionPage connectionPage;
+		private ModesPage modesPage;
+		private SettingsPage settingsPage;
 
 		public MainPage()
 		{
 			InitializeComponent();
-			mainpagevm = new MainPageVM();
-			this.BindingContext = mainpagevm;
+			mainPageVM = new MainPageVM();
+			audioPlayerPage = new AudioPlayerPage();
+			audiolLibPage = new AudioLibPage();
+			connectionPage = new ConnectionPage();
+			modesPage = new ModesPage();
+			settingsPage = new SettingsPage();
+			this.BindingContext = mainPageVM;
 		}
 
 		private void AP_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new AudioPlayerPage());
+			Navigation.PushAsync(audioPlayerPage);
 		}
 
 		private void AL_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new AudioLibPage());
+			Navigation.PushAsync(audiolLibPage);
 		}
 
 		private void C_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new ConnectionPage());
+			Navigation.PushAsync(connectionPage);
 		}
 
 		private void MM_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new ModesPage());
+			Navigation.PushAsync(modesPage);
 		}
 
 		private void S_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new SettingsPage());
+			Navigation.PushAsync(settingsPage);
 		}
 
 	}
