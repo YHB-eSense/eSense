@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,28 @@ namespace Karl.View
 		public AudioPlayerPage()
 		{
 			InitializeComponent();
+		}
+
+		public void OnPlayPause(object sender, EventArgs args)
+		{
+
+		}
+
+		public void OnSkip(object sender, EventArgs args)
+		{
+
+		}
+		public void OnPlayPrev(object sender, EventArgs args)
+		{
+
+		}
+
+		public void OnMoveInSong(object sender, EventArgs args) {
+
+		}
+
+		public void OnChangedVolume(object sender, EventArgs args) {
+
 		}
 	}
 }

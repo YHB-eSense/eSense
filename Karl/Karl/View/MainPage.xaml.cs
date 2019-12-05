@@ -44,7 +44,9 @@ namespace Karl.View
 
 		private void S_Button_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(new SettingsPage());
+			//Navigation.PushAsync(new SettingsPage());
+			mainpagevm.DeviceName = "Earables";
+			mainpagevm.StepsAmount = "150 steps";
 		}
 
 	}
