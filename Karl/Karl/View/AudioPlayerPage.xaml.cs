@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Karl.ViewModel;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AudioPlayerPage : ContentPage
 	{
-		public AudioPlayerPage()
+		private AudioPlayerPageVM audioPlayerPageVM;
+
+		public AudioPlayerPage(AudioPlayerPageVM audioPlayerPageVM)
 		{
 			InitializeComponent();
+			this.audioPlayerPageVM = audioPlayerPageVM;
 		}
 
 		public void OnPlayPause(object sender, EventArgs args)

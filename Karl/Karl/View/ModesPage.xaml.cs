@@ -13,23 +13,23 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ModesPage : ContentPage
 	{
-		ModesPageVM modesvm;
+		private ModesPageVM modesPageVM;
 
-		public ModesPage()
+		public ModesPage(ModesPageVM modesPageVM)
 		{
 			InitializeComponent();
-			modesvm = new ModesPageVM();
+			this.modesPageVM = modesPageVM;
 		}
 
 		private void MM_Switch_Toggled(object sender, ToggledEventArgs e)
 		{
 			if(e.Value == false)
 			{
-				modesvm.MotivationModeOff();
+				modesPageVM.MotivationModeOff();
 			}
 			else
 			{
-				modesvm.MotivationModeOn();
+				modesPageVM.MotivationModeOn();
 			}
 		}
 
@@ -37,11 +37,11 @@ namespace Karl.View
 		{
 			if (e.Value == false)
 			{
-				modesvm.AutostopModeOff();
+				modesPageVM.AutostopModeOff();
 			}
 			else
 			{
-				modesvm.AutostopModeOn();
+				modesPageVM.AutostopModeOn();
 			}
 		}
 	}

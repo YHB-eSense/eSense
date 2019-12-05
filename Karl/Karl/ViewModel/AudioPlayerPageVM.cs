@@ -1,11 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	class AudioPlayerPageVM
+	public class AudioPlayerPageVM
 	{
+		private AppLogic appLogic;
+
+		public AudioPlayerPageVM(AppLogic appLogic)
+		{
+			this.appLogic = appLogic;
+		}
 
 		public void pause() {
 

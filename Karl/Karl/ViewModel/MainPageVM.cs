@@ -2,11 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	class MainPageVM : INotifyPropertyChanged
-	{	
+	public class MainPageVM : INotifyPropertyChanged
+	{
+		private AppLogic appLogic;
+
+		public MainPageVM(AppLogic appLogic)
+		{
+			this.appLogic = appLogic;
+		}
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private string deviceName;

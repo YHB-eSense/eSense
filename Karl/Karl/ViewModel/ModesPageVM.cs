@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	class ModesPageVM
+	public class ModesPageVM
 	{
+		private AppLogic appLogic;
+
+		public ModesPageVM(AppLogic appLogic)
+		{
+			this.appLogic = appLogic;
+		}
+
 		public void MotivationModeOn()
 		{
 
