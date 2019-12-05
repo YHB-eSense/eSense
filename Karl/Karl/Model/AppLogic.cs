@@ -16,8 +16,8 @@ namespace Karl.Model
 		public AppLogic()
 		{
 			audioLib = new AudioLib();
-			settingsHandler = new SettingsHandler(audioLib);
-			audioPlayer = new AudioPlayer();
+			audioPlayer = new AudioPlayer(audioLib);
+			settingsHandler = new SettingsHandler(audioLib, audioPlayer);
 			modeHandler = new ModeHandler(audioPlayer);
 			connection = new ConnectionHandler();
 		}

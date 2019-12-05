@@ -6,7 +6,7 @@ namespace Karl.Model
 {
 	internal class ConfigFile
 	{
-		private ConfigFile singletonConfigFile = null;
+		private static ConfigFile singletonConfigFile = null;
 		public static ConfigFile SingletonConfigFile { get
 			{
 				if (singletonConfigFile == null)

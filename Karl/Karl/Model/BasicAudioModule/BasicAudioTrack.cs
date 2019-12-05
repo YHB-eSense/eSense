@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.Model
 {
-	interface IAudioLib
+	class BasicAudioTrack : ITrack
 	{
 	}
 }

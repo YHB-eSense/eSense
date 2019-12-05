@@ -12,5 +12,15 @@ namespace Karl.Model
 		{
 			lib = BasicAudioLib.SingletonBasicAudioLib;
 		}
+
+
+	}
+	internal interface IAudioLib
+	{
+	}
+
+	internal interface ITrack
+	{
+		string Name { get; }
 	}
 }
