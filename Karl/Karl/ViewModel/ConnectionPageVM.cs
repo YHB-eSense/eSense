@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	class ConnectionPageVM : INotifyPropertyChanged
+	public class ConnectionPageVM : INotifyPropertyChanged
 	{
+		private AppLogic appLogic;
+
+		public ConnectionPageVM(AppLogic appLogic)
+		{
+			this.appLogic = appLogic;
+		}
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private ObservableCollection<string> devices;

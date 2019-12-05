@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	class SettingsPageVM
+	public class SettingsPageVM
 	{
+		private AppLogic appLogic;
+
+		public SettingsPageVM(AppLogic appLogic)
+		{
+			this.appLogic = appLogic;
+		}
+
 		public void changedDeviceName(String deviceName) {
 
 		}

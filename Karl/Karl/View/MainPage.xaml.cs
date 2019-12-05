@@ -20,16 +20,17 @@ namespace Karl.View
 		private ModesPage modesPage;
 		private SettingsPage settingsPage;
 
-		public MainPage()
+		public MainPage(AudioPlayerPage audioPlayerPage, AudioLibPage audiolLibPage, ConnectionPage connectionPage,
+			ModesPage modesPage, SettingsPage settingsPage, MainPageVM mainPageVM)
 		{
 			InitializeComponent();
-			mainPageVM = new MainPageVM();
-			audioPlayerPage = new AudioPlayerPage();
-			audiolLibPage = new AudioLibPage();
-			connectionPage = new ConnectionPage();
-			modesPage = new ModesPage();
-			settingsPage = new SettingsPage();
-			this.BindingContext = mainPageVM;
+			this.audioPlayerPage = audioPlayerPage;
+			this.audiolLibPage = audiolLibPage;
+			this.connectionPage = connectionPage;
+			this.modesPage = modesPage;
+			this.settingsPage = settingsPage;
+			this.mainPageVM = mainPageVM;
+			this.BindingContext = this. mainPageVM;
 		}
 
 		private void AP_Button_Clicked(object sender, EventArgs e)

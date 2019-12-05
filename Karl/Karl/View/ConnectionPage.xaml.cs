@@ -15,11 +15,11 @@ namespace Karl.View
 	{
 		private ConnectionPageVM connectionPageVM;
 
-		public ConnectionPage()
+		public ConnectionPage(ConnectionPageVM connectionPageVM)
 		{
 			InitializeComponent();
-			connectionPageVM = new ConnectionPageVM();
-			this.BindingContext = connectionPageVM;
+			this.connectionPageVM = connectionPageVM;
+			this.BindingContext = this.connectionPageVM;
 		}
 
 		public void OnRefreshDevices(object sender, EventArgs args)
