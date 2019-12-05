@@ -13,5 +13,15 @@ namespace Karl.ViewModel
 		{
 			this.appLogic = appLogic;
 		}
+
+		public string[] GetTitles()
+		{
+			return null;
+		}
+
+		public void OnTitleSelected()
+		{
+
+		}
 	}
 }

@@ -13,10 +13,9 @@ namespace Karl.ViewModel
 
 		public ConnectionPageVM(AppLogic appLogic)
 		{
+			devices = new ObservableCollection<string>();
 			this.appLogic = appLogic;
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		private ObservableCollection<string> devices;
 
@@ -28,11 +27,6 @@ namespace Karl.ViewModel
 			}
 		}
 
-		public ConnectionPageVM()
-		{
-			devices = new ObservableCollection<string>();
-		}
-
 		public void AddDevice(String name)
 		{
 			if(!devices.Contains(name))
@@ -41,11 +35,14 @@ namespace Karl.ViewModel
 				OnPropertyChanged("Devices");
 			}
 		}
+
 		public void RefreshDevices() {
 			//devices.Clear();
 			//load new device list
 			OnPropertyChanged("Devices");
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void OnPropertyChanged(string propertyName)
 		{
