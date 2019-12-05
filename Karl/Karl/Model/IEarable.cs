@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	interface Earable
+	interface IEarable
 	{
 		string Name { get; set; }
 
-		long Id { get; set; }
+		Guid Id { get; }
 
 		IAudioStream AudioStream { get; }
 
