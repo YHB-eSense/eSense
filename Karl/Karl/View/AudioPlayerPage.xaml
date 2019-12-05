@@ -7,7 +7,20 @@
              x:Class="Karl.View.AudioPlayerPage">
     <ContentPage.Content>
         <StackLayout>
-			
+			<Label Text="Aktueller Song"
+				   ClassId="SongTitle"
+				   Margin="20"
+				   FontSize="40"
+				   HorizontalOptions="Center"/>
+			<Image BackgroundColor="Aqua"
+					Margin="40"/>
+			<Slider ValueChanged="OnMoveInSong"/>
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Button Text="PS" ClassId="PreviousSong" HorizontalOptions="Center"/>
+				<Button Text="P" ClassId="PreviousSong" HorizontalOptions="Center"/>
+				<Button Text="NS" ClassId="PreviousSong" HorizontalOptions="Center"/>
+			</StackLayout>
+			<Slider ValueChanged="OnChangedVolume"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
