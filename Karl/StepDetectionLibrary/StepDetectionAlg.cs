@@ -5,9 +5,14 @@ using System.Text;
 
 namespace StepDetectionLibrary
 {
-	class StepDetectionAlg
+	class StepDetectionAlg : IObserver
 	{
 		private void Algorithm()
+		{
+
+		}
+
+		void IObserver.Update()
 		{
 
 		}

@@ -4,8 +4,10 @@ using System.Text;
 
 namespace StepDetectionLibrary
 {
-	class Output
-	{
+	interface ISubject
+	{ 
+		void AddListener();
+		void PushInfo();
 
 	}
 }

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace StepDetectionLibrary
 {
-	interface ISubject
+	interface IObserver
 	{
-		void AddListener();
+		void Update();
 	}
 }
