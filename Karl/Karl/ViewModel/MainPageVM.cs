@@ -59,5 +59,13 @@ namespace Karl.ViewModel
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+
+		public AppLogic AppLogic
+		{
+			get => default;
+			set
+			{
+			}
+		}
 	}
 }

@@ -21,6 +21,14 @@ namespace Karl.View
 			this.audioPlayerPageVM = audioPlayerPageVM;
 		}
 
+		public AudioPlayerPageVM AudioPlayerPageVM
+		{
+			get => default;
+			set
+			{
+			}
+		}
+
 		private void OnPausePlay(object sender, ToggledEventArgs e)
 		{
 			if(e.Value == true)

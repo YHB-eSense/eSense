@@ -22,6 +22,14 @@ namespace Karl.View
 			this.BindingContext = this.connectionPageVM;
 		}
 
+		public ConnectionPageVM ConnectionPageVM
+		{
+			get => default;
+			set
+			{
+			}
+		}
+
 		public void OnRefreshDevices(object sender, EventArgs args)
 		{
 			connectionPageVM.RefreshDevices();

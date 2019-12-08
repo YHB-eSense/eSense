@@ -14,6 +14,14 @@ namespace Karl.ViewModel
 			this.appLogic = appLogic;
 		}
 
+		public AppLogic AppLogic
+		{
+			get => default;
+			set
+			{
+			}
+		}
+
 		public string[] GetTitles()
 		{
 			return null;

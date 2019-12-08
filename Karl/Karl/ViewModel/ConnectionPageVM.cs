@@ -54,5 +54,12 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public AppLogic AppLogic
+		{
+			get => default;
+			set
+			{
+			}
+		}
 	}
 }

@@ -9,42 +9,27 @@ namespace Karl
 {
     public partial class App : Application
     {
-		private AppLogic appLogic;
-
-		private MainPageVM mainPageVM;
-		private AudioPlayerPageVM audioPlayerPageVM;
-		private AudioLibPageVM audioLibPageVM;
-		private ConnectionPageVM connectionPageVM;
-		private ModesPageVM modesPageVM;
-		private SettingsPageVM settingsPageVM;
-
-		private MainPage mainPage;
-		private AudioPlayerPage audioPlayerPage;
-		private AudioLibPage audioLibPage;
-		private ConnectionPage connectionPage;
-		private ModesPage modesPage;
-		private SettingsPage settingsPage;
 
 		public App()
         {
             InitializeComponent();
 
-			appLogic = new AppLogic();
+			AppLogic appLogic = new AppLogic();
 
-			mainPageVM = new MainPageVM(appLogic);
-			audioPlayerPageVM = new AudioPlayerPageVM(appLogic);
-			audioLibPageVM = new AudioLibPageVM(appLogic);
-			connectionPageVM = new ConnectionPageVM(appLogic);
-			modesPageVM = new ModesPageVM(appLogic);
-			settingsPageVM = new SettingsPageVM(appLogic);
+			MainPageVM mainPageVM = new MainPageVM(appLogic);
+			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM(appLogic);
+			AudioLibPageVM audioLibPageVM = new AudioLibPageVM(appLogic);
+			ConnectionPageVM connectionPageVM = new ConnectionPageVM(appLogic);
+			ModesPageVM modesPageVM = new ModesPageVM(appLogic);
+			SettingsPageVM settingsPageVM = new SettingsPageVM(appLogic);
 
-			audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
-			audioLibPage = new AudioLibPage(audioLibPageVM);
-			connectionPage = new ConnectionPage(connectionPageVM);
-			modesPage = new ModesPage(modesPageVM);
-			settingsPage = new SettingsPage(settingsPageVM);
+			AudioPlayerPage audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
+			AudioLibPage audioLibPage = new AudioLibPage(audioLibPageVM);
+			ConnectionPage connectionPage = new ConnectionPage(connectionPageVM);
+			ModesPage modesPage = new ModesPage(modesPageVM);
+			SettingsPage settingsPage = new SettingsPage(settingsPageVM);
 
-			mainPage = new MainPage(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, mainPageVM);
+			MainPage mainPage = new MainPage(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, mainPageVM);
 
 			MainPage = new NavigationPage(mainPage);
         }
