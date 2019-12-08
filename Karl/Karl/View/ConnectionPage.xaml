@@ -9,9 +9,7 @@
         <StackLayout>
 			<Label Text="Available Devices"
 				   HorizontalOptions="Center"/>
-			<ListView ItemsSource="{Binding Path=Devices}">
-				
-			</ListView>
+			<ListView ItemsSource="{Binding Path=Devices}" />
 			<Label Text="Press on device to connect"
 				   HorizontalOptions="Center"/>
 			<Button Text="Refresh"

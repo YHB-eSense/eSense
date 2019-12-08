@@ -21,26 +21,39 @@ namespace Karl.View
 			this.audioPlayerPageVM = audioPlayerPageVM;
 		}
 
-		public void OnPlayPause(object sender, EventArgs args)
+		private void OnPausePlay(object sender, ToggledEventArgs e)
 		{
-
+			if(e.Value == true)
+			{
+				audioPlayerPageVM.Pause();
+			}
+			else
+			{
+				audioPlayerPageVM.Play();
+			}
 		}
 
-		public void OnSkip(object sender, EventArgs args)
-		{
-
-		}
 		public void OnPlayPrev(object sender, EventArgs args)
 		{
-
+			audioPlayerPageVM.PlayPrevious();
 		}
 
-		public void OnMoveInSong(object sender, EventArgs args) {
-
+		public void OnPlayNext(object sender, EventArgs args)
+		{
+			audioPlayerPageVM.PlayNext();
 		}
 
-		public void OnChangedVolume(object sender, EventArgs args) {
-
+		public void OnMoveInSong(object sender, EventArgs args)
+		{
+			audioPlayerPageVM.MoveInSong(TimeSlider.Value);
 		}
+
+		public void OnChangedVolume(object sender, EventArgs args)
+		{
+			int newStep = (int) Math.Round(VolumeSlider.Value);
+			VolumeSlider.Value = newStep;
+			audioPlayerPageVM.ChangeVolume(newStep);
+		}
+
 	}
 }

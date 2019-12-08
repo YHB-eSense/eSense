@@ -10,13 +10,6 @@ namespace Karl.ViewModel
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
 		private AppLogic appLogic;
-
-		public ConnectionPageVM(AppLogic appLogic)
-		{
-			devices = new ObservableCollection<string>();
-			this.appLogic = appLogic;
-		}
-
 		private ObservableCollection<string> devices;
 
 		public ObservableCollection<string> Devices
@@ -27,18 +20,27 @@ namespace Karl.ViewModel
 			}
 		}
 
-		public void AddDevice(String name)
+		public ConnectionPageVM(AppLogic appLogic)
 		{
-			if(!devices.Contains(name))
+			devices = new ObservableCollection<string>();
+			this.appLogic = appLogic;
+		}
+
+		private ObservableCollection<string> GetDevices()
+		{
+			ObservableCollection<string> deviceList = new ObservableCollection<string>();
+			/*
+			string[] devices = appLogic.
+			for(int i = 0; i < devices.Length; i++)
 			{
-				devices.Add(name);
-				OnPropertyChanged("Devices");
+				deviceList.Add(devices[i]);
 			}
+			*/
+			return deviceList;
 		}
 
 		public void RefreshDevices() {
-			//devices.Clear();
-			//load new device list
+			devices = GetDevices();
 			OnPropertyChanged("Devices");
 		}
 
