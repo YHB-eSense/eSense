@@ -22,14 +22,6 @@ namespace Karl.View
 			this.settingsPageVM = settingsPageVM;
 		}
 
-		public SettingsPageVM SettingsPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
 		public void OnChangedLanguage(object sender, EventArgs args)
 		{
 			settingsPageVM.changedLanguage("eng");

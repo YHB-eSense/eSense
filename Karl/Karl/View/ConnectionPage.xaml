@@ -6,14 +6,10 @@
              mc:Ignorable="d"
              x:Class="Karl.View.ConnectionPage">
     <ContentPage.Content>
-        <StackLayout>
-			<Label Text="Available Devices"
-				   HorizontalOptions="Center"/>
-			<ListView ItemsSource="{Binding Path=Devices}" />
-			<Label Text="Press on device to connect"
-				   HorizontalOptions="Center"/>
+		<StackLayout>
+			<ListView ItemsSource="{Binding Devices}" />
 			<Button Text="Refresh"
-					Clicked="OnRefreshDevices"/>
+					Command="{Binding RefreshCommand}"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

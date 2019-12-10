@@ -13,26 +13,14 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ConnectionPage : ContentPage
 	{
-		private ConnectionPageVM connectionPageVM;
+		private ConnectionPageVM ConnectionPageVM { get; }
 
 		public ConnectionPage(ConnectionPageVM connectionPageVM)
 		{
 			InitializeComponent();
-			this.connectionPageVM = connectionPageVM;
-			this.BindingContext = this.connectionPageVM;
+			ConnectionPageVM = connectionPageVM;
+			BindingContext = ConnectionPageVM;
 		}
 
-		public ConnectionPageVM ConnectionPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public void OnRefreshDevices(object sender, EventArgs args)
-		{
-			connectionPageVM.RefreshDevices();
-		}
 	}
 }

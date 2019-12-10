@@ -1,292 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Karl.View.AudioLibPage" Collapsed="true">
-    <Position X="0.75" Y="3.5" Width="1.5" />
-    <AssociationLine Name="AudioLibPageVM" Type="Karl.ViewModel.AudioLibPageVM" FixedToPoint="true">
-      <Path>
-        <Point X="2.062" Y="4.191" />
-        <Point X="2.062" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.131" Y="0.695" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.AudioLibPage">
+    <Position X="0.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\AudioLibPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AudioLibPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.View.AudioPlayerPage" Collapsed="true">
-    <Position X="2.75" Y="3.5" Width="1.5" />
-    <AssociationLine Name="AudioPlayerPageVM" Type="Karl.ViewModel.AudioPlayerPageVM" FixedToPoint="true">
-      <Path>
-        <Point X="4.062" Y="4.191" />
-        <Point X="4.062" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.068" Y="0.695" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.AudioPlayerPage">
+    <Position X="2.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAICAEAEAAAAAAAAAAgCAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <HashCode>AAAAAICAEAEAAAAAAAAAAgAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>View\AudioPlayerPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AudioPlayerPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.View.ConnectionPage" Collapsed="true">
-    <Position X="4.75" Y="3.5" Width="1.5" />
-    <AssociationLine Name="ConnectionPageVM" Type="Karl.ViewModel.ConnectionPageVM" FixedToPoint="true">
-      <Path>
-        <Point X="6.062" Y="4.191" />
-        <Point X="6.062" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.079" Y="0.685" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.ConnectionPage">
+    <Position X="4.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAoAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>View\ConnectionPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ConnectionPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.View.MainPage" Collapsed="true">
-    <Position X="6.75" Y="1.5" Width="1.5" />
-    <AssociationLine Name="AudioLibPage" Type="Karl.View.AudioLibPage" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.75" Y="1.625" />
-        <Point X="2.062" Y="1.625" />
-        <Point X="2.062" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="AudioPlayerPage" Type="Karl.View.AudioPlayerPage" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.75" Y="1.812" />
-        <Point X="4.062" Y="1.812" />
-        <Point X="4.062" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="ConnectionPage" Type="Karl.View.ConnectionPage" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.75" Y="2" />
-        <Point X="6.062" Y="2" />
-        <Point X="6.062" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="ModesPage" Type="Karl.View.ModesPage" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8.25" Y="1.938" />
-        <Point X="10.125" Y="1.938" />
-        <Point X="10.125" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="SettingsPage" Type="Karl.View.SettingsPage" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8.25" Y="1.688" />
-        <Point X="12.125" Y="1.688" />
-        <Point X="12.125" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="MainPageVM" Type="Karl.ViewModel.MainPageVM" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="7.688" Y="2.191" />
-        <Point X="7.688" Y="2.566" />
-        <Point X="8.125" Y="2.566" />
-        <Point X="8.125" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.027" Y="0.883" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.MainPage">
+    <Position X="6.75" Y="1.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAABAQBAAQgAQIAAAACAADgAAAgCAAMAg=</HashCode>
+      <HashCode>AAAAAAAAABAAABAABAAAgAAIAAAAAAADAAAAACAAMAg=</HashCode>
       <FileName>View\MainPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AudioLibPage" />
-      <Property Name="AudioPlayerPage" />
-      <Property Name="ConnectionPage" />
-      <Property Name="ModesPage" />
-      <Property Name="SettingsPage" />
-      <Property Name="MainPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.View.ModesPage" Collapsed="true">
-    <Position X="8.75" Y="3.5" Width="1.5" />
-    <AssociationLine Name="ModesPageVM" Type="Karl.ViewModel.ModesPageVM" FixedToPoint="true">
-      <Path>
-        <Point X="9.812" Y="4.191" />
-        <Point X="9.812" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.006" Y="0.695" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.ModesPage">
+    <Position X="8.75" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>View\ModesPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ModesPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.View.SettingsPage" Collapsed="true">
-    <Position X="10.75" Y="3.5" Width="1.5" />
-    <AssociationLine Name="SettingsPageVM" Type="Karl.ViewModel.SettingsPageVM" FixedFromPoint="true">
-      <Path>
-        <Point X="12.062" Y="4.191" />
-        <Point X="12.062" Y="5.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.068" Y="0.695" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.View.SettingsPage">
+    <Position X="10.75" Y="2.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAAAAAASAAAAAAAAAAAAAgAAAAAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAASAAAAAAAAAAAAAgAAAAAAIA=</HashCode>
       <FileName>View\SettingsPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="SettingsPageVM" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.ViewModel.AudioLibPageVM" Collapsed="true">
+  <Class Name="Karl.ViewModel.AudioLibPageVM">
     <Position X="0.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="1.5" Y="6.312" />
-        <Point X="1.5" Y="8.188" />
-        <Point X="5.75" Y="8.188" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="3.089" Y="0.102" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAQAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>ViewModel\AudioLibPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.ViewModel.AudioPlayerPageVM" Collapsed="true">
-    <Position X="2.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.5" Y="6.312" />
-        <Point X="3.5" Y="7.938" />
-        <Point X="5.75" Y="7.938" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="1.162" Y="0.102" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.ViewModel.AudioPlayerPageVM">
+    <Position X="2.5" Y="5.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>ACAgAQAIAAAAAAAAAAAIAAAAAAAAAABAgAAAQAAAAAA=</HashCode>
+      <HashCode>ACAgAQAIAAAAAAAAAAAIAAAAAAAAAAAAgAAAQAAAAAA=</HashCode>
       <FileName>ViewModel\AudioPlayerPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.ViewModel.ConnectionPageVM" Collapsed="true">
-    <Position X="4.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5.5" Y="6.312" />
-        <Point X="5.5" Y="6.687" />
-        <Point X="6.125" Y="6.687" />
-        <Point X="6.125" Y="7.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.027" Y="0.539" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.ViewModel.ConnectionPageVM">
+    <Position X="4.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAwABAAEBAIAAAQAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAwABAAEAAIAAAQAAAAAA=</HashCode>
       <FileName>ViewModel\ConnectionPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
     <Lollipop Position="0.1" />
   </Class>
-  <Class Name="Karl.ViewModel.MainPageVM" Collapsed="true">
-    <Position X="6.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedToPoint="true">
-      <Path>
-        <Point X="6.938" Y="6.312" />
-        <Point X="6.938" Y="7.75" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.911" Y="0.768" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.ViewModel.MainPageVM">
+    <Position X="6.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAIAAIAAAAgAAEAABABAAIQAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAIAAIAAAAgAAEAAAABAAIQAAAAAA=</HashCode>
       <FileName>ViewModel\MainPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
     <Lollipop Position="0.1" />
   </Class>
-  <Class Name="Karl.ViewModel.ModesPageVM" Collapsed="true">
-    <Position X="8.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9.5" Y="6.312" />
-        <Point X="9.5" Y="7.938" />
-        <Point X="7.25" Y="7.938" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.725" Y="0.122" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.ViewModel.ModesPageVM">
+    <Position X="8.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>BQAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAQIAAAAA=</HashCode>
+      <HashCode>BQAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAQIAAAAA=</HashCode>
       <FileName>ViewModel\ModesPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.ViewModel.SettingsPageVM" Collapsed="true">
-    <Position X="10.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="AppLogic" Type="Karl.Model.AppLogic" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.5" Y="6.312" />
-        <Point X="11.5" Y="8.188" />
-        <Point X="7.25" Y="8.188" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="2.964" Y="0.123" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="Karl.ViewModel.SettingsPageVM">
+    <Position X="10.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAADAAAAAQAAABAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAACAAAAAQAAABAA=</HashCode>
       <FileName>ViewModel\SettingsPageVM.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AppLogic" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="Karl.App" Collapsed="true">
-    <Position X="6.75" Y="0.5" Width="1.5" />
+  <Class Name="Karl.App">
+    <Position X="5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Karl.Model.AppLogic" Collapsed="true">
-    <Position X="5.75" Y="7.75" Width="1.5" />
+  <Class Name="Karl.Model.AppLogic">
+    <Position X="6.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAAABBAAAIAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Model\AppLogic.cs</FileName>

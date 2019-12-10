@@ -14,14 +14,6 @@ namespace Karl.ViewModel
 			this.appLogic = appLogic;
 		}
 
-		public AppLogic AppLogic
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
 		public void changedDeviceName(String deviceName) {
 
 		}

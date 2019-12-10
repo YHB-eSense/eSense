@@ -13,55 +13,34 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AudioPlayerPage : ContentPage
 	{
-		private AudioPlayerPageVM audioPlayerPageVM;
+		private AudioPlayerPageVM AudioPlayerPageVM;
 
 		public AudioPlayerPage(AudioPlayerPageVM audioPlayerPageVM)
 		{
 			InitializeComponent();
-			this.audioPlayerPageVM = audioPlayerPageVM;
+			AudioPlayerPageVM = audioPlayerPageVM;
+			BindingContext = AudioPlayerPageVM;
 		}
 
-		public AudioPlayerPageVM AudioPlayerPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
+			int newStep = (int) Math.Round(VolumeSlider.Value);
+			VolumeSlider.Value = newStep;
+			AudioPlayerPageVM.ChangeVolume(newStep);
 
-		private void OnPausePlay(object sender, ToggledEventArgs e)
+		private void OnPausePlay(object sender, EventArgs e)
 		{
-			if(e.Value == true)
+			if (AudioPlayerPageVM.PausePlayBoolean)
 			{
-				audioPlayerPageVM.Pause();
+				//update icon of PausePlayButton to Pause
 			}
 			else
 			{
-				audioPlayerPageVM.Play();
+				//update icon of PausePlayButton to Play
 			}
 		}
 
-		public void OnPlayPrev(object sender, EventArgs args)
+		private void OnMoveInSong(object sender, ValueChangedEventArgs e)
 		{
-			audioPlayerPageVM.PlayPrevious();
+			
 		}
-
-		public void OnPlayNext(object sender, EventArgs args)
-		{
-			audioPlayerPageVM.PlayNext();
-		}
-
-		public void OnMoveInSong(object sender, EventArgs args)
-		{
-			audioPlayerPageVM.MoveInSong(TimeSlider.Value);
-		}
-
-		public void OnChangedVolume(object sender, EventArgs args)
-		{
-			int newStep = (int) Math.Round(VolumeSlider.Value);
-			VolumeSlider.Value = newStep;
-			audioPlayerPageVM.ChangeVolume(newStep);
-		}
-
 	}
 }

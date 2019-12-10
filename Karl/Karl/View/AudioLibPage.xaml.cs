@@ -20,13 +20,5 @@ namespace Karl.View
 			InitializeComponent();
 			this.audioLibPageVM = audioLibPageVM;
 		}
-
-		public AudioLibPageVM AudioLibPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
 	}
 }

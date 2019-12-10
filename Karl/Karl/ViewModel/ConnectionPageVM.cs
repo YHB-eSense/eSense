@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Xamarin.Forms;
 using Karl.Model;
 
 namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
-		private AppLogic appLogic;
-		private ObservableCollection<string> devices;
-
-		public ObservableCollection<string> Devices
-		{
-			get
-			{
-				return devices;
-			}
-		}
+		private AppLogic AppLogic { get; }
+		public ObservableCollection<string> Devices { get; set; }
+		public ICommand RefreshCommand { get; }
 
 		public ConnectionPageVM(AppLogic appLogic)
 		{
-			devices = new ObservableCollection<string>();
-			this.appLogic = appLogic;
+			AppLogic = appLogic;
+			Devices = new ObservableCollection<string>();
+			RefreshCommand = new Command(RefreshDevices);
+
 		}
 
 		private ObservableCollection<string> GetDevices()
@@ -40,9 +37,11 @@ namespace Karl.ViewModel
 		}
 
 		public void RefreshDevices() {
-			devices = GetDevices();
+			Devices = GetDevices();
 			OnPropertyChanged("Devices");
 		}
+
+		//Eventhandling
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,14 +50,6 @@ namespace Karl.ViewModel
 			if (PropertyChanged != null)
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-
-		public AppLogic AppLogic
-		{
-			get => default;
-			set
-			{
 			}
 		}
 	}

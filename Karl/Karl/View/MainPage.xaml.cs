@@ -33,54 +33,6 @@ namespace Karl.View
 			this.BindingContext = this. mainPageVM;
 		}
 
-		public AudioLibPage AudioLibPage
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public AudioPlayerPage AudioPlayerPage
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public ConnectionPage ConnectionPage
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public ModesPage ModesPage
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public SettingsPage SettingsPage
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
-		public MainPageVM MainPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
 		private void AP_Button_Clicked(object sender, EventArgs e)
 		{
 			Navigation.PushAsync(audioPlayerPage);

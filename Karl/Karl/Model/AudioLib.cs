@@ -19,8 +19,4 @@ namespace Karl.Model
 	{
 	}
 
-	internal interface ITrack
-	{
-		string Name { get; }
-	}
 }

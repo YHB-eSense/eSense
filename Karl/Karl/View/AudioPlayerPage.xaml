@@ -6,24 +6,32 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
-		<StackLayout Orientation="Vertical" VerticalOptions="Center">
+		<StackLayout Margin="20" Orientation="Vertical" VerticalOptions="Center">
 			<Slider x:Name="TimeSlider"
 					Minimum="0"
-					Maximum="100"
+					Maximum="{Binding Duration}"
+					Value="{Binding Time}"
 					HorizontalOptions="FillAndExpand"
+					MaximumTrackColor="Black"
 					ValueChanged="OnMoveInSong"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				<Button Text="PS" HorizontalOptions="Center"
-						Clicked="OnPlayPrev"/>
-				<Switch HorizontalOptions="Center"
-						Toggled="Switch_Toggled"/>
-				<Button Text="NS" HorizontalOptions="Center"
-						Clicked="OnPlayNext"/>
+				<Button Text="PS"
+						HorizontalOptions="Center"
+						Command="{Binding PlayPrevCommand}"/>
+				<Button Text="PP"
+						HorizontalOptions="Center"
+						Command="{Binding PausePlayCommand}"
+						CommandParameter="{Binding PausePlayBoolean}"
+						Clicked="OnPausePlay"/>
+				<Button Text="NS"
+						HorizontalOptions="Center"
+						Command="{Binding PlayNextCommand}"/>
 			</StackLayout>
 			<Slider	x:Name="VolumeSlider"
 					Minimum="0"
 					Maximum="100"
 					HorizontalOptions="FillAndExpand"
+					MaximumTrackColor="Black"
 					ValueChanged="OnChangedVolume"/>
 		</StackLayout>
 	</ContentPage.Content>

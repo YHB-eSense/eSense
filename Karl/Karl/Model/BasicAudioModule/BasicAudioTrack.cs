@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class BasicAudioTrack : ITrack
+	class BasicAudioTrack : IAudioTrack
 	{
 	}
 }

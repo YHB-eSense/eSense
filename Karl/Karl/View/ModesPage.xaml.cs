@@ -21,14 +21,6 @@ namespace Karl.View
 			this.modesPageVM = modesPageVM;
 		}
 
-		public ModesPageVM ModesPageVM
-		{
-			get => default;
-			set
-			{
-			}
-		}
-
 		private void MM_Switch_Toggled(object sender, ToggledEventArgs e)
 		{
 			if(e.Value == false)
