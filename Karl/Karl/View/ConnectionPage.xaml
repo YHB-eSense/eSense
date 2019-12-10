@@ -7,9 +7,10 @@
              x:Class="Karl.View.ConnectionPage">
     <ContentPage.Content>
 		<StackLayout>
-			<ListView ItemsSource="{Binding Devices}" />
+			<ListView ItemsSource="{Binding Devices}"
+					  ItemTapped="DeviceNameTapped"/>
 			<Button Text="Refresh"
-					Command="{Binding RefreshCommand}"/>
+					Command="{Binding RefreshDevicesCommand}"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

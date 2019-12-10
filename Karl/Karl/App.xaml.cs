@@ -16,7 +16,6 @@ namespace Karl
 
 			AppLogic appLogic = new AppLogic();
 
-			MainPageVM mainPageVM = new MainPageVM(appLogic);
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM(appLogic);
 			AudioLibPageVM audioLibPageVM = new AudioLibPageVM(appLogic);
 			ConnectionPageVM connectionPageVM = new ConnectionPageVM(appLogic);
@@ -29,7 +28,8 @@ namespace Karl
 			ModesPage modesPage = new ModesPage(modesPageVM);
 			SettingsPage settingsPage = new SettingsPage(settingsPageVM);
 
-			MainPage mainPage = new MainPage(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, mainPageVM);
+			MainPageVM mainPageVM = new MainPageVM(appLogic, audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage);
+			MainPage mainPage = new MainPage(mainPageVM);
 
 			MainPage = new NavigationPage(mainPage);
         }

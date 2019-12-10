@@ -13,7 +13,7 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ConnectionPage : ContentPage
 	{
-		private ConnectionPageVM ConnectionPageVM { get; }
+		private ConnectionPageVM ConnectionPageVM;
 
 		public ConnectionPage(ConnectionPageVM connectionPageVM)
 		{
@@ -22,5 +22,15 @@ namespace Karl.View
 			BindingContext = ConnectionPageVM;
 		}
 
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			ConnectionPageVM.RefreshDevices();
+		}
+
+		private void DeviceNameTapped(object sender, ItemTappedEventArgs e)
+		{
+			ConnectionPageVM.ConnectToDeviceCommand.Execute(sender);
+		}
 	}
 }

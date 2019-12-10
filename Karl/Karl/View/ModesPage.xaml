@@ -18,7 +18,7 @@
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center"
-                        Toggled="MM_Switch_Toggled"/>
+                        Toggled="MMSwitchToggled"/>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal">
 				<Label Text="AutoStop-Mode"
@@ -30,7 +30,7 @@
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center"
-                        Toggled="AM_Switch_Toggled"/>
+                        Toggled="AMSwitchToggled"/>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

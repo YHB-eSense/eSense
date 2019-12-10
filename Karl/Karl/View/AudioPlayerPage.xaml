@@ -7,10 +7,11 @@
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
 		<StackLayout Margin="20" Orientation="Vertical" VerticalOptions="Center">
+			<Image Source="{Binding AudioTrack.Cover}"/>
 			<Slider x:Name="TimeSlider"
 					Minimum="0"
-					Maximum="{Binding Duration}"
-					Value="{Binding Time}"
+					Maximum="{Binding AudioTrack.Duration}"
+					Value="{Binding AudioTrack.CurrentPosition}"
 					HorizontalOptions="FillAndExpand"
 					MaximumTrackColor="Black"
 					ValueChanged="OnMoveInSong"/>

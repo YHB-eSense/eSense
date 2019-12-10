@@ -14,25 +14,22 @@ namespace Karl.View
 	public partial class SettingsPage : ContentPage
 	{
 
-		private SettingsPageVM settingsPageVM;
+		private SettingsPageVM SettingsPageVM;
 
 		public SettingsPage(SettingsPageVM settingsPageVM)
 		{
 			InitializeComponent();
-			this.settingsPageVM = settingsPageVM;
+			SettingsPageVM = settingsPageVM;
+			BindingContext = SettingsPageVM;
 		}
 
-		public void OnChangedLanguage(object sender, EventArgs args)
+		protected override void OnAppearing()
 		{
-			settingsPageVM.changedLanguage("eng");
+			base.OnAppearing();
+			SettingsPageVM.GetLanguages();
+			SettingsPageVM.GetSelectedLanguage();
+			SettingsPageVM.GetDeviceName();
 		}
-		public void OnChangedDeviceName(object sender, EventArgs args)
-		{
-			settingsPageVM.changedDeviceName("Name");
-		}
-		public void OnResetSteps(object sender, EventArgs args)
-		{
-			settingsPageVM.resetSteps();
-		}
+
 	}
 }

@@ -13,12 +13,12 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AudioLibPage : ContentPage
 	{
-		private AudioLibPageVM audioLibPageVM;
+		private AudioLibPageVM AudioLibPageVM;
 
 		public AudioLibPage(AudioLibPageVM audioLibPageVM)
 		{
 			InitializeComponent();
-			this.audioLibPageVM = audioLibPageVM;
+			AudioLibPageVM = audioLibPageVM;
 		}
 	}
 }

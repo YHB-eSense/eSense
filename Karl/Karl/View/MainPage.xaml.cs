@@ -13,50 +13,47 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : ContentPage
 	{
-		private MainPageVM mainPageVM;
-		private AudioPlayerPage audioPlayerPage;
-		private AudioLibPage audiolLibPage;
-		private ConnectionPage connectionPage;
-		private ModesPage modesPage;
-		private SettingsPage settingsPage;
+		private MainPageVM MainPageVM;
 
-		public MainPage(AudioPlayerPage audioPlayerPage, AudioLibPage audiolLibPage, ConnectionPage connectionPage,
-			ModesPage modesPage, SettingsPage settingsPage, MainPageVM mainPageVM)
+		public MainPage(MainPageVM mainPageVM)
 		{
 			InitializeComponent();
-			this.audioPlayerPage = audioPlayerPage;
-			this.audiolLibPage = audiolLibPage;
-			this.connectionPage = connectionPage;
-			this.modesPage = modesPage;
-			this.settingsPage = settingsPage;
-			this.mainPageVM = mainPageVM;
-			this.BindingContext = this. mainPageVM;
+			MainPageVM = mainPageVM;
+			BindingContext = MainPageVM;
 		}
 
-		private void AP_Button_Clicked(object sender, EventArgs e)
+		protected override void OnAppearing()
 		{
-			Navigation.PushAsync(audioPlayerPage);
+			base.OnAppearing();
+			MainPageVM.GetDeviceName();
+			MainPageVM.GetStepsAmount();
+			MainPageVM.GetIcon();
 		}
 
-		private void AL_Button_Clicked(object sender, EventArgs e)
+		private void GotoAudioPlayerPage(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(audiolLibPage);
+			MainPageVM.AudioPlayerPageCommand.Execute(Navigation);
 		}
 
-		private void C_Button_Clicked(object sender, EventArgs e)
+		private void GotoAudioLibPage(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(connectionPage);
+			MainPageVM.AudioLibPageCommand.Execute(Navigation);
 		}
 
-		private void MM_Button_Clicked(object sender, EventArgs e)
+		private void GotoConnectionPage(object sender, EventArgs e)
+		{	
+			MainPageVM.ConnectionPageCommand.Execute(Navigation);
+		}
+
+		private void GotoModesPage(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(modesPage);
+			MainPageVM.ModesPageCommand.Execute(Navigation);
 		}
 
-		private void S_Button_Clicked(object sender, EventArgs e)
+		private void GotoSettingsPage(object sender, EventArgs e)
 		{
-			Navigation.PushAsync(settingsPage);
+			MainPageVM.SettingsPageCommand.Execute(Navigation);
 		}
-
+		
 	}
 }

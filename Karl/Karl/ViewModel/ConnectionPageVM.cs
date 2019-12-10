@@ -11,21 +11,33 @@ namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic { get; }
-		public ObservableCollection<string> Devices { get; set; }
-		public ICommand RefreshCommand { get; }
+		private AppLogic AppLogic;
+		public ICommand RefreshDevicesCommand;
+		public ICommand ConnectToDeviceCommand;
+		private ObservableCollection<string> devices;
+		public ObservableCollection<string> Devices
+		{
+			get
+			{
+				return devices;
+			}
+			set
+			{
+				devices = value;
+				OnPropertyChanged("Devices");
+			}
+		}
 
 		public ConnectionPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
 			Devices = new ObservableCollection<string>();
-			RefreshCommand = new Command(RefreshDevices);
-
+			RefreshDevicesCommand = new Command(RefreshDevices);
+			ConnectToDeviceCommand = new Command<string>(ConnectToDevice);
 		}
 
-		private ObservableCollection<string> GetDevices()
-		{
-			ObservableCollection<string> deviceList = new ObservableCollection<string>();
+		public void RefreshDevices() {
+			ObservableCollection<string> devices = new ObservableCollection<string>();
 			/*
 			string[] devices = appLogic.
 			for(int i = 0; i < devices.Length; i++)
@@ -33,13 +45,13 @@ namespace Karl.ViewModel
 				deviceList.Add(devices[i]);
 			}
 			*/
-			return deviceList;
+			Devices = devices;
 		}
 
-		public void RefreshDevices() {
-			Devices = GetDevices();
-			OnPropertyChanged("Devices");
-		}
+		private void ConnectToDevice(string deviceName)
+		{
+			//AppLogic
+		} 
 
 		//Eventhandling
 

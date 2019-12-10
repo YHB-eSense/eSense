@@ -22,9 +22,12 @@ namespace Karl.View
 			BindingContext = AudioPlayerPageVM;
 		}
 
-			int newStep = (int) Math.Round(VolumeSlider.Value);
-			VolumeSlider.Value = newStep;
-			AudioPlayerPageVM.ChangeVolume(newStep);
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			AudioPlayerPageVM.GetAudioTrack();
+			AudioPlayerPageVM.GetPausePlayBoolean();
+		}
 
 		private void OnPausePlay(object sender, EventArgs e)
 		{
@@ -41,6 +44,11 @@ namespace Karl.View
 		private void OnMoveInSong(object sender, ValueChangedEventArgs e)
 		{
 			
+		}
+
+		private void OnChangedVolume(object sender, ValueChangedEventArgs e)
+		{
+
 		}
 	}
 }

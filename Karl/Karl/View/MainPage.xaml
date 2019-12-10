@@ -11,11 +11,11 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
 				<Button Text="AudioPlayer" 
 					HorizontalOptions="CenterAndExpand"
-					Clicked="AP_Button_Clicked"/>
+					Clicked="GotoAudioPlayerPage"/>
 			</StackLayout>
 			
 			<StackLayout Orientation="Horizontal">
-				<Label Text="{Binding Path=StepsAmount}"
+				<Label Text="{Binding StepsAmount}"
 					x:Name="Steps"
 					HorizontalOptions="CenterAndExpand"/>
 			</StackLayout>
@@ -23,17 +23,18 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
 				<Button Text="AudioLibrary" 
 					HorizontalOptions="StartAndExpand"
-					Clicked="AL_Button_Clicked"/>
+					Clicked="GotoAudioLibPage"/>
 				<Button Text="Connect"
+					ImageSource="{Binding Icon}"
 					HorizontalOptions="CenterAndExpand"
-					Clicked="C_Button_Clicked"/>
+					Clicked="GotoConnectionPage"/>
 				<Button Text="ModeManager"
 					HorizontalOptions="EndAndExpand"
-					Clicked="MM_Button_Clicked"/>
+					Clicked="GotoModesPage"/>
 			</StackLayout>
 
 			<StackLayout Orientation="Horizontal">
-				<Label Text="{Binding Path=DeviceName}"
+				<Label Text="{Binding DeviceName}"
 					x:Name="Device"
 					HorizontalOptions="CenterAndExpand"/>
 			</StackLayout>
@@ -41,7 +42,7 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
 				<Button Text="Settings" 
 					HorizontalOptions="CenterAndExpand"
-					Clicked="S_Button_Clicked"/>
+					Clicked="GotoSettingsPage"/>
 			</StackLayout>
 			
 		</StackLayout>

@@ -10,16 +10,30 @@ namespace Karl.ViewModel
 {
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic { get; }
-		public AudioTrack AudioTrack { get; set; }
-		public double Time { get; set; }
-		public double Duration { get; set; }
-		public ICommand PausePlayCommand { get; }
-		public ICommand PlayPrevCommand { get; }
-		public ICommand PlayNextCommand { get; }
-		public ICommand ChangeVolumeCommand { get; }
-		public ICommand MoveInSongCommand { get; }
-		public Boolean PausePlayBoolean { get; set; }
+		private AppLogic AppLogic;
+		public AudioTrack AudioTrack;
+		public ICommand PausePlayCommand;
+		public ICommand PlayPrevCommand;
+		public ICommand PlayNextCommand;
+		public ICommand ChangeVolumeCommand;
+		public ICommand MoveInSongCommand;
+		private Boolean pausePlayBoolean;
+
+		public Boolean PausePlayBoolean
+		{
+			get
+			{
+				return pausePlayBoolean;
+			}
+			set
+			{
+				if(value =!pausePlayBoolean)
+				{
+					pausePlayBoolean = value;
+					OnPropertyChanged("PausePlayBoolean");
+				}
+			}
+		}
 
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{
@@ -29,22 +43,6 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			ChangeVolumeCommand = new Command<int>(ChangeVolume);
 			MoveInSongCommand = new Command<double>(MoveInSong);
-			Duration = AudioTrack.Duration;
-			PausePlayBoolean = false;
-		}
-
-		private AudioTrack GetTrack()
-		{
-			AudioTrack audioTrack = new AudioTrack();
-			//stattdessen audioTrack von AppLogic holen
-			return audioTrack;
-		}
-
-		private double GetTime()
-		{
-			double time = 0;
-			//stattdessen time von AppLogic holen
-			return time;
 		}
 
 		public void PausePlay()
@@ -52,29 +50,29 @@ namespace Karl.ViewModel
 			if (PausePlayBoolean)
 			{
 				//AudioLogic
-				PausePlayBoolean = false;
-				OnPropertyChanged("PausePlayBoolean");
+				PausePlayBoolean = !PausePlayBoolean;
 			}
 			else
 			{
 				//AudioLogic
-				PausePlayBoolean = true;
-				OnPropertyChanged("PausePlayBoolean");
+				PausePlayBoolean = !PausePlayBoolean;
 			}
 		}
 
 		public void PlayPrev()
 		{
 			//AudioLogic
-			AudioTrack = GetTrack();
-			OnPropertyChanged("Duration");
+			GetAudioTrack();
+			OnPropertyChanged("AudioTrack.Duration");
+			OnPropertyChanged("AudioTrack.Cover");
 		}
 
 		public void PlayNext()
 		{
 			//AudioLogic
-			AudioTrack = GetTrack();
-			OnPropertyChanged("Duration");
+			GetAudioTrack();
+			OnPropertyChanged("AudioTrack.Duration");
+			OnPropertyChanged("AudioTrack.Cover");
 		}
 
 		public void ChangeVolume(int volume)
@@ -85,6 +83,20 @@ namespace Karl.ViewModel
 		public void MoveInSong(double time)
 		{
 			//AudioLogic	//TODO
+		}
+
+		public void GetAudioTrack()
+		{
+			AudioTrack audioTrack = new AudioTrack();
+			//stattdessen audioTrack von AppLogic holen
+			AudioTrack = audioTrack;
+		}
+
+		public void GetPausePlayBoolean()
+		{
+			Boolean pausePlayBoolean = false;
+			//AppLogic
+			PausePlayBoolean = pausePlayBoolean;
 		}
 
 		//Eventhandling

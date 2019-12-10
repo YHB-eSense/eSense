@@ -7,17 +7,16 @@
              x:Class="Karl.View.SettingsPage">
     <ContentPage.Content>
 		<StackLayout>
+			<Entry Text="{Binding DeviceName}"
+				x:Name="DeviceNameEntry"/>
 			<Button Text="Change Device Name"
-				Clicked="OnChangedDeviceName"/>
+				Command="{Binding ChangeDeviceNameCommand}"
+				CommandParameter="{Binding Source={x:Reference DeviceNameEntry}, Path=Text}"/>
 			<Label Text="Select Language"/>
-			<Picker ClassId="LanguageSelector">
-				<Picker.Items>
-					<x:String>"English"</x:String>
-					<x:String>"German"</x:String>
-				</Picker.Items>
-			</Picker>
+			<Picker ItemsSource="{Binding Languages}"
+				SelectedItem="{Binding SelectedLanguage}"/>
 			<Button Text="Reset Steps"
-				Clicked="OnResetSteps"/>
+				Command="{Binding ResetStepsCommand}"/>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
