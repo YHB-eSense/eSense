@@ -21,15 +21,15 @@ namespace Karl
 			ConnectionPageVM connectionPageVM = new ConnectionPageVM(appLogic);
 			ModesPageVM modesPageVM = new ModesPageVM(appLogic);
 			SettingsPageVM settingsPageVM = new SettingsPageVM(appLogic);
-
+			MainPageVM mainPageVM = new MainPageVM(appLogic);
 			AudioPlayerPage audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
 			AudioLibPage audioLibPage = new AudioLibPage(audioLibPageVM);
 			ConnectionPage connectionPage = new ConnectionPage(connectionPageVM);
 			ModesPage modesPage = new ModesPage(modesPageVM);
 			SettingsPage settingsPage = new SettingsPage(settingsPageVM);
-
-			MainPageVM mainPageVM = new MainPageVM(appLogic, audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage);
 			MainPage mainPage = new MainPage(mainPageVM);
+
+			NavigationHandler.SetPages(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, mainPage);
 
 			MainPage = new NavigationPage(mainPage);
         }

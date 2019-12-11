@@ -27,7 +27,6 @@ namespace Karl.View
 			base.OnAppearing();
 			MainPageVM.GetDeviceName();
 			MainPageVM.GetStepsAmount();
-			MainPageVM.GetIcon();
 		}
 
 		private void GotoAudioPlayerPage(object sender, EventArgs e)
@@ -54,6 +53,7 @@ namespace Karl.View
 		{
 			MainPageVM.SettingsPageCommand.Execute(Navigation);
 		}
+		
 		
 	}
 }

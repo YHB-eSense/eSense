@@ -9,7 +9,8 @@
         <StackLayout Orientation="Vertical">
 			<StackLayout>
 				<ListView ItemsSource="{Binding Songs}"
-					ItemTapped="SongTapped"/>
+						  />
+				<!-- ItemTapped="SongTapped"/> !-->
 			</StackLayout>
 			<StackLayout Orientation="Vertical">
 				<Button Text="Sort after Title"
