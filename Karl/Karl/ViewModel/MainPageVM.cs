@@ -18,6 +18,7 @@ namespace Karl.ViewModel
 		public ICommand ConnectionPageCommand;
 		public ICommand ModesPageCommand;
 		public ICommand SettingsPageCommand;
+		public INavigation Navigation { get; set; }
 		private string deviceName;
 		private string stepsAmount;
 		private Boolean connectBoolean;
@@ -73,24 +74,25 @@ namespace Karl.ViewModel
 		public MainPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
-			AudioPlayerPageCommand = new Command<INavigation>(GotoAudioPlayerPage);
-			AudioLibPageCommand = new Command<INavigation>(GotoAudioLibPage);
-			ConnectionPageCommand = new Command<INavigation>(GotoConnectionPage);
-			ModesPageCommand = new Command<INavigation>(GotoModesPage);
-			SettingsPageCommand = new Command<INavigation>(GotoSettingsPage);
+			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
+			AudioLibPageCommand = new Command(GotoAudioLibPage);
+			ConnectionPageCommand = new Command(GotoConnectionPage);
+			ModesPageCommand = new Command(GotoModesPage);
+			SettingsPageCommand = new Command(GotoSettingsPage);
 		}
 
-		private void GotoAudioPlayerPage(INavigation navigation)
+		private void GotoAudioPlayerPage()
 		{
-			NavigationHandler.GotoAudioPlayerPage(navigation);
+			NavigationHandler.GotoAudioPlayerPage();
+			//NavigationHandler.GotoAudioPlayerPage(Navigation);
 		}
 
-		private void GotoAudioLibPage(INavigation navigation)
+		private void GotoAudioLibPage()
 		{
-			NavigationHandler.GotoAudioLibPage(navigation);
+			NavigationHandler.GotoAudioLibPage(Navigation);
 		}
 
-		private void GotoConnectionPage(INavigation navigation)
+		private void GotoConnectionPage()
 		{
 			if(ConnectBoolean)
 			{
@@ -98,18 +100,18 @@ namespace Karl.ViewModel
 			}
 			else
 			{
-			NavigationHandler.GotoConnectionPage(navigation);
+			NavigationHandler.GotoConnectionPage(Navigation);
 			}
 		}
 
-		private void GotoModesPage(INavigation navigation)
+		private void GotoModesPage()
 		{
-			NavigationHandler.GotoModesPage(navigation);
+			NavigationHandler.GotoModesPage(Navigation);
 		}
 
-		private void GotoSettingsPage(INavigation navigation)
+		private void GotoSettingsPage()
 		{
-			NavigationHandler.GotoSettingsPage(navigation);
+			NavigationHandler.GotoSettingsPage(Navigation);
 		}
 
 		public void GetDeviceName()

@@ -26,14 +26,16 @@ namespace Karl.ViewModel
 			MainPage = mainPage;
 		}
 
-		public static void GotoAudioPlayerPage(INavigation navigation)
+		public static void GotoAudioPlayerPage()
 		{
-			navigation.PushAsync(AudioPlayerPage);
+			//navigation.PushAsync(AudioPlayerPage);
+			Application.Current.MainPage.Navigation.PushAsync(AudioPlayerPage);
 		}
 
 		public static void GotoAudioLibPage(INavigation navigation)
 		{
-			navigation.PushAsync(AudioLibPage);
+			//navigation.PushAsync(AudioLibPage);
+			Application.Current.MainPage.Navigation.PushAsync(AudioPlayerPage);
 		}
 
 		public static void GotoConnectionPage(INavigation navigation)
