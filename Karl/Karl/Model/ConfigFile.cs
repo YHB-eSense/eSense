@@ -6,7 +6,7 @@ namespace Karl.Model
 {
 	class ConfigFile
 	{
-		internal Nullable<Language> language
+		internal Nullable<Language> Language
 		{
 			get
 			{
@@ -18,19 +18,22 @@ namespace Karl.Model
 				//todo
 			}
 		}
-		internal String AudioLibImp { get; set; }
-		private static ConfigFile singletonConfigFile = null;
-		internal static ConfigFile SingletonConfigFile { get
+		internal String AudioLibImp { get; set; }//todo
+		internal static ConfigFile SingletonConfigFile
+		{
+			get
 			{
-				if (singletonConfigFile == null)
+				if (SingletonConfigFile == null)
 				{
-					singletonConfigFile = new ConfigFile();
-					return singletonConfigFile;
-				} else
+					SingletonConfigFile = new ConfigFile();
+					return SingletonConfigFile;
+				}
+				else
 				{
-					return singletonConfigFile;
+					return SingletonConfigFile;
 				}
 			}
+			set => SingletonConfigFile = value;
 		}
 
 		private ConfigFile() { }

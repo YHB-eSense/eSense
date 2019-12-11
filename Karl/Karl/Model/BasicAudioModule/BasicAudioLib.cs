@@ -6,24 +6,27 @@ namespace Karl.Model
 {
 	public partial class AudioLib
 	{
+		protected void UseBasicAudioLib()
+		{
+			lib = BasicAudioLib.SingletonBasicAudioLib;
+		}
 		sealed private class BasicAudioLib : IAudioLib
 		{
-			private static BasicAudioLib singletonBasicAudioLib;
-
 			public static BasicAudioLib SingletonBasicAudioLib
 			{
 				get
 				{
-					if (singletonBasicAudioLib == null)
+					if (SingletonBasicAudioLib == null)
 					{
-						singletonBasicAudioLib = new BasicAudioLib();
-						return singletonBasicAudioLib;
+						SingletonBasicAudioLib = new BasicAudioLib();
+						return SingletonBasicAudioLib;
 					}
 					else
 					{
-						return singletonBasicAudioLib;
+						return SingletonBasicAudioLib;
 					}
 				}
+				private set => SingletonBasicAudioLib = value;
 			}
 
 			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo

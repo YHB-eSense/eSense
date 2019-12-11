@@ -7,7 +7,7 @@ namespace Karl.Model
 	public class ModeHandler 
 	{
 		private AudioPlayer audioPlayer;
-		public List<IMode> Modes { get; }
+		public List<Mode> Modes { get; }
 
 
 		internal ModeHandler(AudioPlayer audioPlayer)

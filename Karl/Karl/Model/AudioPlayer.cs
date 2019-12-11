@@ -17,11 +17,6 @@ namespace Karl.Model
 			this.audioLib = audioLib;
 		}
 
-		internal void UseBasicAudioPlayer()
-		{
-			audioPlayerImp = BasicAudioPlayer.SingletonBasicAudioPlayer;
-		}
-
 		public void PauseTrack()
 		{
 			audioPlayerImp.PauseTrack();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.Model
 {
-	internal enum Lang
+	public enum Lang
 	{
 		//todo
 
@@ -13,6 +13,29 @@ namespace Karl.Model
 
 	class LangManager : IObservable<Lang>
 	{
+		public static LangManager SingletonLangManager
+		{
+			get
+			{
+				if (SingletonLangManager == null)
+				{
+					SingletonLangManager = new LangManager();
+					return SingletonLangManager;
+				}
+				else
+				{
+					return SingletonLangManager;
+				}
+			}
+			private set => SingletonLangManager = value;
+		}
+
+		private LangManager()
+		{
+			//todo
+		}
+
+
 		//todo https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8
 		public IDisposable Subscribe(IObserver<Lang> observer)
 		{

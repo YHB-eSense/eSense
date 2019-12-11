@@ -8,12 +8,7 @@ namespace Karl.Model
 	{
 		//todo
 		private IAudioLib lib;
-		public AudioTrack currentTrack { get; set; }
-
-		protected void UseBasicAudioLib()
-		{
-			lib = BasicAudioLib.SingletonBasicAudioLib;
-		}
+		public AudioTrack CurrentTrack { get; set; }
 
 		public IList<AudioTrack> GetAudioTracks()
 		{

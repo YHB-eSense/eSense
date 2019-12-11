@@ -8,21 +8,30 @@ namespace Karl.Model
 	public partial class AudioTrack
 	{
 		private IAudioTrack audioTrack;
-		public double Duration { get
+		public double Duration
+		{
+			get
 			{
 				//todo
 				return 0;
-			} }
-		public Image Cover { get
+			}
+		}
+		public Image Cover
+		{
+			get
 			{
 				//todo
 				return null;
-			} }
-		public double CurrentPosition { get
+			}
+		}
+		public double CurrentPosition
+		{
+			get
 			{
 				//todo
 				return 0;
-			} }
+			}
+		}
 
 		private interface IAudioTrack
 		{

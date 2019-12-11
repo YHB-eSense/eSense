@@ -6,24 +6,27 @@ namespace Karl.Model
 {
 	public partial class AudioPlayer
 	{
+		internal void UseBasicAudioPlayer()
+		{
+			audioPlayerImp = BasicAudioPlayer.SingletonBasicAudioPlayer;
+		}
 		private sealed class BasicAudioPlayer : IAudioPlayer
 		{
-			private static BasicAudioPlayer singletonBasicAudioPlayer;
-
 			public static BasicAudioPlayer SingletonBasicAudioPlayer
 			{
 				get
 				{
-					if (singletonBasicAudioPlayer == null)
+					if (SingletonBasicAudioPlayer == null)
 					{
-						singletonBasicAudioPlayer = new BasicAudioPlayer();
-						return singletonBasicAudioPlayer;
+						SingletonBasicAudioPlayer = new BasicAudioPlayer();
+						return SingletonBasicAudioPlayer;
 					}
 					else
 					{
-						return singletonBasicAudioPlayer;
+						return SingletonBasicAudioPlayer;
 					}
 				}
+				set => SingletonBasicAudioPlayer = value;
 			}
 
 			private BasicAudioPlayer()

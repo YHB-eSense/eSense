@@ -4,16 +4,22 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class MotivateMode : IMode
+	class MotivateMode : Mode
 	{
-		public void Activate()
+
+		public override void Activate()
 		{
 			throw new NotImplementedException(); //todo
 		}
 
-		public void Deactivate()
+		public override void Deactivate()
 		{
 			throw new NotImplementedException(); //todo
+		}
+
+		protected override String UpdateName(Lang value)
+		{
+			throw new NotImplementedException();//todo
 		}
 	}
 }
