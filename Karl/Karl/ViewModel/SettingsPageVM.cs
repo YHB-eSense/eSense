@@ -19,6 +19,7 @@ namespace Karl.ViewModel
 		private string selectedLanguage;
 		private string deviceName;
 
+		/**List contains all available languages*/
 		public ObservableCollection<string> Languages
 		{
 			get
@@ -35,6 +36,7 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/**Contains the language of the app**/
 		public string SelectedLanguage
 		{
 			get
@@ -52,6 +54,7 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/**Contains name of the connected Device**/
 		public string DeviceName
 		{
 			get
@@ -91,7 +94,8 @@ namespace Karl.ViewModel
 			//AppLogic
 		}
 
-		public void GetLanguages()
+		/**Gets Languages from Model and refreshs the Listview afterwards**/
+		public void RefreshLanguages()
 		{
 			ObservableCollection<string> languages = new ObservableCollection<string>();
 			/*
