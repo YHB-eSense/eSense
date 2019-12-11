@@ -13,49 +13,59 @@ namespace Karl.ViewModel
 		static public ConnectionPage ConnectionPage;
 		static public ModesPage ModesPage;
 		static public SettingsPage SettingsPage;
+		static public AddSongPage AddSongPage;
 		static public MainPage MainPage;
 
 		public static void SetPages(AudioPlayerPage audioPlayerPage, AudioLibPage audioLibPage, ConnectionPage connectionPage,
-			ModesPage modesPage, SettingsPage settingsPage, MainPage mainPage)
+			ModesPage modesPage, SettingsPage settingsPage, AddSongPage addSongPage, MainPage mainPage)
 		{
 			AudioPlayerPage = audioPlayerPage;
 			AudioLibPage = audioLibPage;
 			ConnectionPage = connectionPage;
 			ModesPage = modesPage;
 			SettingsPage = settingsPage;
+			AddSongPage = addSongPage;
 			MainPage = mainPage;
 		}
 
-		public static void GotoAudioPlayerPage()
+		public static async void GotoAudioPlayerPage()
 		{
-			//navigation.PushAsync(AudioPlayerPage);
-			Application.Current.MainPage.Navigation.PushAsync(AudioPlayerPage);
+			await Application.Current.MainPage.Navigation.PushAsync(AudioPlayerPage);
 		}
 
-		public static void GotoAudioLibPage(INavigation navigation)
+		public static async void GotoAudioLibPage()
 		{
-			//navigation.PushAsync(AudioLibPage);
-			Application.Current.MainPage.Navigation.PushAsync(AudioPlayerPage);
+			await Application.Current.MainPage.Navigation.PushAsync(AudioLibPage);
 		}
 
-		public static void GotoConnectionPage(INavigation navigation)
+		public static async void GotoConnectionPage()
 		{
-			navigation.PushAsync(ConnectionPage);
+			await Application.Current.MainPage.Navigation.PushAsync(ConnectionPage);
 		}
 
-		public static void GotoModesPage(INavigation navigation)
+		public static async void GotoModesPage()
 		{
-			navigation.PushAsync(ModesPage);
+			await Application.Current.MainPage.Navigation.PushAsync(ModesPage);
 		}
 
-		public static void GotoSettingsPage(INavigation navigation)
+		public static async void GotoSettingsPage()
 		{
-			navigation.PushAsync(SettingsPage);
+			await Application.Current.MainPage.Navigation.PushAsync(SettingsPage);
 		}
 
-		public static void GotoMainPage(INavigation navigation)
+		public static async void GotoAddSongPage()
 		{
-			navigation.PushAsync(MainPage);
+			await Application.Current.MainPage.Navigation.PushAsync(AddSongPage);
+		}
+
+		public static async void GotoMainPage()
+		{
+			await Application.Current.MainPage.Navigation.PushAsync(MainPage);
+		}
+
+		public static async void GoBack()
+		{
+			await Application.Current.MainPage.Navigation.PopAsync();
 		}
 
 	}

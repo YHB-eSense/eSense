@@ -12,16 +12,12 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		private Image icon; 
-		public ICommand AudioPlayerPageCommand;
-		public ICommand AudioLibPageCommand;
-		public ICommand ConnectionPageCommand;
-		public ICommand ModesPageCommand;
-		public ICommand SettingsPageCommand;
-		public INavigation Navigation { get; set; }
+		private Image iconOn;
+		private Image iconOff;
 		private string deviceName;
 		private string stepsAmount;
 		private Boolean connectBoolean;
+		private Image icon;
 
 		public string DeviceName
 		{
@@ -66,10 +62,39 @@ namespace Karl.ViewModel
 				if (connectBoolean != value)
 				{
 					connectBoolean = value;
+					if (ConnectBoolean)
+					{
+						Icon = iconOn;
+					}
+					else
+					{
+						Icon = iconOff;
+					}
+				}
+			}
+		}
+
+		public Image Icon
+		{
+			get
+			{
+				return icon;
+			}
+			set
+			{
+				if (icon != value)
+				{
+					Icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
 		}
+
+		public ICommand AudioPlayerPageCommand { get; }
+		public ICommand AudioLibPageCommand { get; }
+		public ICommand ConnectionPageCommand { get; }
+		public ICommand ModesPageCommand { get; }
+		public ICommand SettingsPageCommand { get; }
 
 		public MainPageVM(AppLogic appLogic)
 		{
@@ -79,20 +104,20 @@ namespace Karl.ViewModel
 			ConnectionPageCommand = new Command(GotoConnectionPage);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
+			ConnectBoolean = false;
 		}
 
-		private void GotoAudioPlayerPage()
+		public void GotoAudioPlayerPage()
 		{
 			NavigationHandler.GotoAudioPlayerPage();
-			//NavigationHandler.GotoAudioPlayerPage(Navigation);
 		}
 
-		private void GotoAudioLibPage()
+		public void GotoAudioLibPage()
 		{
-			NavigationHandler.GotoAudioLibPage(Navigation);
+			NavigationHandler.GotoAudioLibPage();
 		}
 
-		private void GotoConnectionPage()
+		public void GotoConnectionPage()
 		{
 			if(ConnectBoolean)
 			{
@@ -100,18 +125,18 @@ namespace Karl.ViewModel
 			}
 			else
 			{
-			NavigationHandler.GotoConnectionPage(Navigation);
+				NavigationHandler.GotoConnectionPage();
 			}
 		}
 
-		private void GotoModesPage()
+		public void GotoModesPage()
 		{
-			NavigationHandler.GotoModesPage(Navigation);
+			NavigationHandler.GotoModesPage();
 		}
 
-		private void GotoSettingsPage()
+		public void GotoSettingsPage()
 		{
-			NavigationHandler.GotoSettingsPage(Navigation);
+			NavigationHandler.GotoSettingsPage();
 		}
 
 		public void GetDeviceName()
@@ -130,7 +155,9 @@ namespace Karl.ViewModel
 
 		public void GetConnectBoolean()
 		{
+			Boolean connectBoolean = false;
 			//AppLogic
+			ConnectBoolean = connectBoolean;
 		}
 
 		//Eventhandling

@@ -12,8 +12,6 @@ namespace Karl.ViewModel
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		public ICommand RefreshDevicesCommand;
-		public ICommand ConnectToDeviceCommand;
 		private ObservableCollection<string> devices;
 
 		/**Contains available Bluetooth Devices**/
@@ -30,6 +28,9 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public ICommand RefreshDevicesCommand { get; }
+		public ICommand ConnectToDeviceCommand { get; }
+
 		public ConnectionPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
@@ -38,7 +39,8 @@ namespace Karl.ViewModel
 			ConnectToDeviceCommand = new Command<string>(ConnectToDevice);
 		}
 
-		public void RefreshDevices() {
+		public void RefreshDevices()
+		{
 			ObservableCollection<string> devices = new ObservableCollection<string>();
 			/*
 			string[] devices = appLogic.
@@ -47,6 +49,8 @@ namespace Karl.ViewModel
 				deviceList.Add(devices[i]);
 			}
 			*/
+			devices.Add("Ear1");
+			devices.Add("Ear2");
 			Devices = devices;
 		}
 

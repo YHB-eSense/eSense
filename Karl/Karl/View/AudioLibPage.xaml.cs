@@ -21,5 +21,12 @@ namespace Karl.View
 			AudioLibPageVM = audioLibPageVM;
 			BindingContext = AudioLibPageVM;
 		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			AudioLibPageVM.GetSongs();
+		}
+
 	}
 }

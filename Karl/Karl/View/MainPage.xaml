@@ -23,14 +23,14 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
 				<Button Text="AudioLibrary" 
 					HorizontalOptions="StartAndExpand"
-					Clicked="GotoAudioLibPage"/>
+					Command="{Binding AudioLibPageCommand}"/>
 				<Button Text="Connect"
 					ImageSource="{Binding Icon}"
 					HorizontalOptions="CenterAndExpand"
-					Clicked="GotoConnectionPage"/>
+					Command="{Binding ConnectionPageCommand}"/>
 				<Button Text="ModeManager"
 					HorizontalOptions="EndAndExpand"
-					Clicked="GotoModesPage"/>
+					Command="{Binding ModesPageCommand}"/>
 			</StackLayout>
 
 			<StackLayout Orientation="Horizontal">
@@ -42,7 +42,7 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
 				<Button Text="Settings" 
 					HorizontalOptions="CenterAndExpand"
-					Clicked="GotoSettingsPage"/>
+					Command="{Binding SettingsPageCommand}"/>
 			</StackLayout>
 			
 		</StackLayout>

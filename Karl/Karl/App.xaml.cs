@@ -20,15 +20,18 @@ namespace Karl
 			ConnectionPageVM connectionPageVM = new ConnectionPageVM(appLogic);
 			ModesPageVM modesPageVM = new ModesPageVM(appLogic);
 			SettingsPageVM settingsPageVM = new SettingsPageVM(appLogic);
+			AddSongPageVM addSongPageVM = new AddSongPageVM(appLogic);
 			MainPageVM mainPageVM = new MainPageVM(appLogic);
+
 			AudioPlayerPage audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
 			AudioLibPage audioLibPage = new AudioLibPage(audioLibPageVM);
 			ConnectionPage connectionPage = new ConnectionPage(connectionPageVM);
 			ModesPage modesPage = new ModesPage(modesPageVM);
 			SettingsPage settingsPage = new SettingsPage(settingsPageVM);
+			AddSongPage addSongPage = new AddSongPage(addSongPageVM);
 			MainPage mainPage = new MainPage(mainPageVM);
 
-			NavigationHandler.SetPages(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, mainPage);
+			NavigationHandler.SetPages(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, addSongPage, mainPage);
 
 			MainPage = new NavigationPage(mainPage);
         }
