@@ -54,6 +54,5 @@ namespace Karl.View
 			MainPageVM.SettingsPageCommand.Execute(Navigation);
 		}
 		
-		
 	}
 }

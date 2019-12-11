@@ -12,21 +12,15 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		/*
-		private AudioPlayerPage AudioPlayerPage;
-		private AudioLibPage AudioLibPage;
-		private ConnectionPage ConnectionPage;
-		private ModesPage ModesPage;
-		private SettingsPage SettingsPage;
-		*/
-		private string deviceName;
-		private string stepsAmount;
-		private Image icon;
+		private Image icon; 
 		public ICommand AudioPlayerPageCommand;
 		public ICommand AudioLibPageCommand;
 		public ICommand ConnectionPageCommand;
 		public ICommand ModesPageCommand;
 		public ICommand SettingsPageCommand;
+		private string deviceName;
+		private string stepsAmount;
+		private Boolean connectBoolean;
 
 		public string DeviceName
 		{
@@ -60,17 +54,17 @@ namespace Karl.ViewModel
 			}
 		}
 
-		public Image Icon
+		public Boolean ConnectBoolean
 		{
 			get
 			{
-				return icon;
+				return connectBoolean;
 			}
 			set
 			{
-				if (icon != value)
+				if (connectBoolean != value)
 				{
-					icon = value;
+					connectBoolean = value;
 					OnPropertyChanged("Icon");
 				}
 			}
@@ -86,25 +80,6 @@ namespace Karl.ViewModel
 			SettingsPageCommand = new Command<INavigation>(GotoSettingsPage);
 		}
 
-		/*
-		public MainPageVM(AppLogic appLogic, AudioPlayerPage audioPlayerPage, AudioLibPage audioLibPage, ConnectionPage connectionPage,
-			ModesPage modesPage, SettingsPage settingsPage)
-		{
-			AppLogic = appLogic;
-			AudioPlayerPage = audioPlayerPage;
-			AudioLibPage = audioLibPage;
-			ConnectionPage = connectionPage;
-			ModesPage = modesPage;
-			SettingsPage = settingsPage;
-			AudioPlayerPageCommand = new Command<INavigation>(GotoAudioPlayerPage);
-			AudioLibPageCommand = new Command<INavigation>(GotoAudioLibPage);
-			ConnectionPageCommand = new Command<INavigation>(GotoConnectionPage);
-			ModesPageCommand = new Command<INavigation>(GotoModesPage);
-			SettingsPageCommand = new Command<INavigation>(GotoSettingsPage);
-			
-		}
-		*/
-
 		private void GotoAudioPlayerPage(INavigation navigation)
 		{
 			NavigationHandler.GotoAudioPlayerPage(navigation);
@@ -117,10 +92,14 @@ namespace Karl.ViewModel
 
 		private void GotoConnectionPage(INavigation navigation)
 		{
-			//if(AppLogic.Connected) {AppLogic.Disconnect}
-			//else {
+			if(ConnectBoolean)
+			{
+				//AppLogic disconnect
+			}
+			else
+			{
 			NavigationHandler.GotoConnectionPage(navigation);
-			//}
+			}
 		}
 
 		private void GotoModesPage(INavigation navigation)
