@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public interface Mode
+	public interface IMode
 	{
+		void Activate();
+		void Deactivate();
 		//todo
 	}
 }

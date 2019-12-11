@@ -4,26 +4,39 @@ using System.Text;
 
 namespace Karl.Model
 {
-	sealed class BasicAudioLib : IAudioLib
+	public partial class AudioLib
 	{
-		private static BasicAudioLib singletonBasicAudioLib;
+		sealed private class BasicAudioLib : IAudioLib
+		{
+			private static BasicAudioLib singletonBasicAudioLib;
 
-		public static BasicAudioLib SingletonBasicAudioLib { get
+			public static BasicAudioLib SingletonBasicAudioLib
 			{
-				if (singletonBasicAudioLib == null)
+				get
 				{
-					singletonBasicAudioLib = new BasicAudioLib();
-					return singletonBasicAudioLib;
-				} else
-				{
-					return singletonBasicAudioLib;
+					if (singletonBasicAudioLib == null)
+					{
+						singletonBasicAudioLib = new BasicAudioLib();
+						return singletonBasicAudioLib;
+					}
+					else
+					{
+						return singletonBasicAudioLib;
+					}
 				}
 			}
-		}
 
-		private BasicAudioLib()
-		{
+			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo
 
+			private BasicAudioLib()
+			{
+				//todo
+			}
+
+			public void AddTrack()
+			{
+				throw new NotImplementedException(); //todo
+			}
 		}
 	}
 }

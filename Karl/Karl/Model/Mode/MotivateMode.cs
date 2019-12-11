@@ -4,7 +4,16 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class MotivateMode : Mode
+	class MotivateMode : IMode
 	{
+		public void Activate()
+		{
+			throw new NotImplementedException(); //todo
+		}
+
+		public void Deactivate()
+		{
+			throw new NotImplementedException(); //todo
+		}
 	}
 }

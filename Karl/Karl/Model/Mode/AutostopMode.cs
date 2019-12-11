@@ -4,7 +4,16 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class AutostopMode : Mode
+	class AutostopMode : IMode
 	{
+		public void Activate()
+		{
+			throw new NotImplementedException();//todo
+		}
+
+		public void Deactivate()
+		{
+			throw new NotImplementedException();//todo
+		}
 	}
 }

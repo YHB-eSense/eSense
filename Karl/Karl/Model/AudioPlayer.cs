@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public class AudioPlayer
+	public partial class AudioPlayer
 	{
 		private AudioLib audioLib;
-		private IAudioPlayer audioPlayerImplementation;
-		public int volume { get; set; } //todo react to changes from system
-		public double currentSecInTrack { get; set; } //todo updating it
+		private IAudioPlayer audioPlayerImp;
+		public int Volume { get; set; } //todo react to changes from system
+		public double CurrentSecInTrack { get; set; } //todo updating it
 		public bool Paused { get; set; }
 
 		internal AudioPlayer(AudioLib audioLib)
@@ -19,29 +19,37 @@ namespace Karl.Model
 
 		internal void UseBasicAudioPlayer()
 		{
-			audioPlayerImplementation = BasicAudioPlayer.SingletonBasicAudioPlayer;
+			audioPlayerImp = BasicAudioPlayer.SingletonBasicAudioPlayer;
 		}
 
 		public void PauseTrack()
 		{
-			//todo
+			audioPlayerImp.PauseTrack();
 		}
 		public void PlayTrack()
 		{
-			//todo
+			audioPlayerImp.PlayTrack();
 		}
 		public void NextTrack()
 		{
-			//todo
+			audioPlayerImp.NextTrack();
 		}
 		public void PrevTrack()
 		{
-			//todo
+			audioPlayerImp.PrevTrack();
+		}
+
+		private interface IAudioPlayer
+		{
+			void PauseTrack();
+			void PlayTrack();
+			void NextTrack();
+			void PrevTrack();
 		}
 	}
 
-	internal interface IAudioPlayer
+	/*internal interface IAudioPlayer
 	{
 
-	}
+	}*/
 }

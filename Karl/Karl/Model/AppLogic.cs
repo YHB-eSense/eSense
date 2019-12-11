@@ -28,12 +28,13 @@ namespace Karl.Model
 		public List<BluetoothDevice> SearchDevices()
 		{
 			//todo
-			return null;
+			return connection.SearchDevices();
 		}
 
-		public void ConnectDevice()
+		public void ConnectDevice(BluetoothDevice device)
 		{
 			//todo
+			connection.ConnectDevice(device);
 		}
 
 	}

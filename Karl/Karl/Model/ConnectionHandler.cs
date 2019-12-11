@@ -4,8 +4,17 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class ConnectionHandler
+	internal class ConnectionHandler
 	{
-	
+		internal List<BluetoothDevice> SearchDevices()
+		{
+			//todo
+			return null;
+		}
+
+		internal void ConnectDevice(BluetoothDevice device)
+		{
+			//todo
+		}
 	}
 }

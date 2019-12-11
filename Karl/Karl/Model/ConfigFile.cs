@@ -4,10 +4,23 @@ using System.Text;
 
 namespace Karl.Model
 {
-	internal class ConfigFile
+	class ConfigFile
 	{
+		internal Nullable<Language> language
+		{
+			get
+			{
+				//todo
+				return null;
+			}
+			set
+			{
+				//todo
+			}
+		}
+		internal String AudioLibImp { get; set; }
 		private static ConfigFile singletonConfigFile = null;
-		public static ConfigFile SingletonConfigFile { get
+		internal static ConfigFile SingletonConfigFile { get
 			{
 				if (singletonConfigFile == null)
 				{
@@ -22,5 +35,6 @@ namespace Karl.Model
 
 		private ConfigFile() { }
 
+		
 	}
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public class AudioLib
+	public partial class AudioLib
 	{
 		//todo
 		private IAudioLib lib;
@@ -17,7 +17,7 @@ namespace Karl.Model
 
 		public IList<AudioTrack> GetAudioTracks()
 		{
-			return null; //todo
+			return lib.AudioTracks; //todo
 		}
 
 		public void AddTrack()
@@ -25,10 +25,21 @@ namespace Karl.Model
 			//todo
 		}
 
+		private interface IAudioLib
+		{
+			IList<AudioTrack> AudioTracks { get; }
+			void AddTrack();
+			//todo
+		}
+
 	}
-	internal interface IAudioLib
+
+	/*internal interface IAudioLib
 	{
-		//todo
-	}
+		IList<AudioTrack> AudioTracks { get; }
+			void AddTrack();
+			//todo
+		
+	}*/
 
 }
