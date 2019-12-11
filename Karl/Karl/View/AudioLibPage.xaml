@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -6,10 +6,19 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <StackLayout Orientation="Vertical">
+			<StackLayout>
+				<ListView ItemsSource="{Binding Songs}"
+					ItemTapped="SongTapped"/>
+			</StackLayout>
+			<StackLayout Orientation="Vertical">
+				<Button Text="Sort after Title"
+					Command="{Binding TitleSortCommand}"/>
+				<Button Text="Sort after Artist"
+					Command="{Binding ArtistSortCommand}"/>
+				<Button Text="Sort after BPM-Value"
+					Command="{Binding BPMSortCommand}"/>
+			</StackLayout>
+		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
