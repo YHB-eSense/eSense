@@ -26,10 +26,10 @@
 						HorizontalOptions="Center"
 						Command="{Binding PlayPrevCommand}"/>
 				<Button Text="PP"
+						ImageSource="{Binding Icon}"
 						HorizontalOptions="Center"
 						Command="{Binding PausePlayCommand}"
-						CommandParameter="{Binding PausePlayBoolean}"
-						Clicked="OnPausePlay"/>
+						CommandParameter="{Binding PausePlayBoolean}"/>
 				<Button Text="NS"
 						HorizontalOptions="Center"
 						Command="{Binding PlayNextCommand}"/>

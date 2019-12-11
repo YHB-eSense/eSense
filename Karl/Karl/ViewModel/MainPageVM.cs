@@ -12,8 +12,8 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		private Image iconOn;
-		private Image iconOff;
+		private Image IconOn;
+		private Image IconOff;
 		private string deviceName;
 		private string stepsAmount;
 		private Boolean connectBoolean;
@@ -64,11 +64,11 @@ namespace Karl.ViewModel
 					connectBoolean = value;
 					if (ConnectBoolean)
 					{
-						Icon = iconOn;
+						Icon = IconOn;
 					}
 					else
 					{
-						Icon = iconOff;
+						Icon = IconOff;
 					}
 				}
 			}
@@ -104,6 +104,8 @@ namespace Karl.ViewModel
 			ConnectionPageCommand = new Command(GotoConnectionPage);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
+			IconOn = new Image(); //fileLocation
+			IconOff = new Image(); //fileLocation
 			ConnectBoolean = false;
 		}
 

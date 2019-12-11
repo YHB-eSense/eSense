@@ -27,18 +27,7 @@ namespace Karl.View
 			base.OnAppearing();
 			AudioPlayerPageVM.GetAudioTrack();
 			AudioPlayerPageVM.GetPausePlayBoolean();
-		}
-
-		private void OnPausePlay(object sender, EventArgs e)
-		{
-			if (AudioPlayerPageVM.PausePlayBoolean)
-			{
-				//update icon of PausePlayButton to Pause
-			}
-			else
-			{
-				//update icon of PausePlayButton to Play
-			}
+			AudioPlayerPageVM.GetVolume();
 		}
 
 	}
