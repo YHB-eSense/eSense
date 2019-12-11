@@ -7,6 +7,7 @@ namespace Karl.Model
 {
 	public class AudioTrack
 	{
+		private IAudioTrack audioTrack;
 		public double Duration { get; set; }
 		public Image Cover { get; set; }
 		public double CurrentPosition { get; set; }

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage">
     <ContentPage.Content>
 		<StackLayout>
@@ -14,7 +15,13 @@
 				CommandParameter="{Binding Source={x:Reference DeviceNameEntry}, Path=Text}"/>
 			<Label Text="Select Language"/>
 			<Picker ItemsSource="{Binding Languages}"
-				SelectedItem="{Binding SelectedLanguage}"/>
+				SelectedItem="{Binding SelectedLanguage}">
+				<Picker.Behaviors>
+					<b:EventToCommandBehavior EventName="SelectedIndexChanged"
+					Command="{Binding ChangeLanguageCommand}"
+					CommandParameter="Picker.SelectedItem" />
+				</Picker.Behaviors>
+			</Picker>
 			<Button Text="Reset Steps"
 				Command="{Binding ResetStepsCommand}"/>
 		</StackLayout>

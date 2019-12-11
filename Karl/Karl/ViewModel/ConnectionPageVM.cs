@@ -16,6 +16,7 @@ namespace Karl.ViewModel
 		public ICommand ConnectToDeviceCommand;
 		private ObservableCollection<string> devices;
 
+		/**Contains available Bluetooth Devices**/
 		public ObservableCollection<string> Devices
 		{
 			get
