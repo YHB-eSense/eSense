@@ -7,11 +7,15 @@
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
 		<StackLayout>
-			
+
 			<StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+				<StackLayout.BindingContext>
+					<x:Reference Name="This"/>
+				</StackLayout.BindingContext>
 				<Button Text="AudioPlayer" 
 					HorizontalOptions="CenterAndExpand"
-					Clicked="GotoAudioPlayerPage"/>
+					Command="{Binding AudioPlayerPageCommand}"
+					CommandParameter="{Binding Navigation}"/>
 			</StackLayout>
 			
 			<StackLayout Orientation="Horizontal">

@@ -18,12 +18,11 @@
 				<Switch x:Name="MM_Switch"
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        Toggled="MMSwitchToggled">
+                        VerticalOptions="Center">
 					<Switch.Behaviors>
 						<b:EventToCommandBehavior EventName="Toggled"
-					Command="{Binding MotivationModeCommand}"
-					CommandParameter="Switch.Toggled" />			
+						Command="{Binding MotivationModeCommand}"
+						CommandParameter="Switch.Toggled" />			
 					</Switch.Behaviors>
 				</Switch>
 			</StackLayout>
@@ -36,12 +35,11 @@
 				<Switch x:Name="AM_Switch"
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        Toggled="AMSwitchToggled">
+                        VerticalOptions="Center">
 					<Switch.Behaviors>
 						<b:EventToCommandBehavior EventName="Toggled"
-					Command="{Binding AutoStopModeCommand}"
-					CommandParameter="Switch.Toggled" />
+						Command="{Binding AutoStopModeCommand}"
+						CommandParameter="Switch.Toggled" />
 					</Switch.Behaviors>
 				</Switch>
 			</StackLayout>

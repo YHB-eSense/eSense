@@ -21,28 +21,5 @@ namespace Karl.View
 			ModesPageVM = modesPageVM;
 		}
 
-		private void MMSwitchToggled(object sender, ToggledEventArgs e)
-		{
-			if(e.Value)
-			{
-				ModesPageVM.MotivationModeOnCommand.Execute(null);
-			}
-			else
-			{
-				ModesPageVM.MotivationModeOffCommand.Execute(null);
-			}
-		}
-
-		private void AMSwitchToggled(object sender, ToggledEventArgs e)
-		{
-			if (e.Value)
-			{
-				ModesPageVM.AutostopModeOnCommand.Execute(null);
-			}
-			else
-			{
-				ModesPageVM.AutostopModeOffCommand.Execute(null);
-			}
-		}
 	}
 }
