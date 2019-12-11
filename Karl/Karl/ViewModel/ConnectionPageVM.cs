@@ -15,6 +15,7 @@ namespace Karl.ViewModel
 		public ICommand RefreshDevicesCommand;
 		public ICommand ConnectToDeviceCommand;
 		private ObservableCollection<string> devices;
+
 		public ObservableCollection<string> Devices
 		{
 			get

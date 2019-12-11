@@ -19,6 +19,7 @@ namespace Karl.View
 		{
 			InitializeComponent();
 			AudioLibPageVM = audioLibPageVM;
+			BindingContext = AudioLibPageVM;
 		}
 	}
 }

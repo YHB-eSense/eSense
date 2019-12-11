@@ -103,6 +103,11 @@ namespace Karl.ViewModel
 			PausePlayBoolean = pausePlayBoolean;
 		}
 
+		public void GetVolume()
+		{
+
+		}
+
 		//Eventhandling
 
 		public event PropertyChangedEventHandler PropertyChanged;
