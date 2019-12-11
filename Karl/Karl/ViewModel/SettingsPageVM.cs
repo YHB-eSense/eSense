@@ -13,6 +13,7 @@ namespace Karl.ViewModel
 	{
 		private AppLogic AppLogic;
 		public ICommand ChangeDeviceNameCommand;
+		public ICommand ChangeLanguageCommand;
 		public ICommand ResetStepsCommand;
 		private ObservableCollection<string> languages;
 		private string selectedLanguage;
@@ -71,6 +72,7 @@ namespace Karl.ViewModel
 		{
 			AppLogic = appLogic;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
+			ChangeLanguageCommand = new Command<String>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);
 		}
 
