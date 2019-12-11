@@ -8,6 +8,9 @@ namespace Karl.Model
 	{
 		private AudioLib audioLib;
 		private IAudioPlayer audioPlayerImplementation;
+		public int volume { get; set; } //todo react to changes from system
+		public double currentSecInTrack { get; set; } //todo updating it
+		public bool Paused { get; set; }
 
 		internal AudioPlayer(AudioLib audioLib)
 		{
@@ -19,11 +22,22 @@ namespace Karl.Model
 			audioPlayerImplementation = BasicAudioPlayer.SingletonBasicAudioPlayer;
 		}
 
-		public void play() { }
-		public void skip() { }
-		public void prev() { }
-		public void changeVolume() { }
-		public void moveToSecInSong() { }
+		public void pauseTrack()
+		{
+			//todo
+		}
+		public void playTrack()
+		{
+			//todo
+		}
+		public void nextTrack()
+		{
+			//todo
+		}
+		public void prevTrack()
+		{
+			//todo
+		}
 	}
 
 	internal interface IAudioPlayer

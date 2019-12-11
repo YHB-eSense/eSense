@@ -7,11 +7,22 @@ namespace Karl.Model
 	public class ModeHandler
 	{
 		private AudioPlayer audioPlayer;
-		List<Mode> modes;
+		public List<Mode> Modes { get; }
+
 
 		internal ModeHandler(AudioPlayer audioPlayer)
 		{
 			this.audioPlayer = audioPlayer;
+		}
+
+		public void activateMode()
+		{
+			//todo
+		}
+
+		public void deactivateMode()
+		{
+			//todo
 		}
 	}
 }

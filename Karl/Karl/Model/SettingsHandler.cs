@@ -9,6 +9,17 @@ namespace Karl.Model
 		private AudioLib audioLib;
 		private AudioPlayer audioPlayer;
 		private ConfigFile configFile;
+		public List<> Languages { get; }
+		//currentLanguage
+		public String DeviceName { get
+			{
+				//todo
+				return null;
+			}
+			set
+			{
+				//todo
+			} }
 
 		internal SettingsHandler(AudioLib audioLib, AudioPlayer audioPlayer)
 		{
@@ -17,6 +28,9 @@ namespace Karl.Model
 			configFile = ConfigFile.SingletonConfigFile;
 		}
 
-
+		public void resetSteps()
+		{
+			//todo
+		}
 	}
 }

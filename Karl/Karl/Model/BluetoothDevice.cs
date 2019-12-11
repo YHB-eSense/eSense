@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Karl.Model
 {
-	interface Mode
+	public class BluetoothDevice
 	{
+		//todo
 	}
 }
