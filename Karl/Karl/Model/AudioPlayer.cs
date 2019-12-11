@@ -22,19 +22,19 @@ namespace Karl.Model
 			audioPlayerImplementation = BasicAudioPlayer.SingletonBasicAudioPlayer;
 		}
 
-		public void pauseTrack()
+		public void PauseTrack()
 		{
 			//todo
 		}
-		public void playTrack()
+		public void PlayTrack()
 		{
 			//todo
 		}
-		public void nextTrack()
+		public void NextTrack()
 		{
 			//todo
 		}
-		public void prevTrack()
+		public void PrevTrack()
 		{
 			//todo
 		}

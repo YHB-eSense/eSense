@@ -9,8 +9,8 @@ namespace Karl.Model
 		private AudioLib audioLib;
 		private AudioPlayer audioPlayer;
 		private ConfigFile configFile;
-		public List<> Languages { get; }
-		//currentLanguage
+		public List<Language> Languages { get; }
+		public Language CurrentLang { get; }
 		public String DeviceName { get
 			{
 				//todo
@@ -28,7 +28,7 @@ namespace Karl.Model
 			configFile = ConfigFile.SingletonConfigFile;
 		}
 
-		public void resetSteps()
+		public void ResetSteps()
 		{
 			//todo
 		}

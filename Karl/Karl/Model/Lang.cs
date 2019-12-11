@@ -36,4 +36,10 @@ namespace Karl.Model
 		//todo
 	}
 
+	public struct Language
+	{
+		public String Name { get; }
+		internal String Tag { get; }
+	}
+
 }

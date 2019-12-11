@@ -15,12 +15,12 @@ namespace Karl.Model
 			this.audioPlayer = audioPlayer;
 		}
 
-		public void activateMode()
+		public void ActivateMode()
 		{
 			//todo
 		}
 
-		public void deactivateMode()
+		public void DeactivateMode()
 		{
 			//todo
 		}

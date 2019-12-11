@@ -25,13 +25,13 @@ namespace Karl.Model
 			connection = new ConnectionHandler();
 		}
 
-		public List<BluetoothDevice> searchDevices()
+		public List<BluetoothDevice> SearchDevices()
 		{
 			//todo
 			return null;
 		}
 
-		public void connectDevice()
+		public void ConnectDevice()
 		{
 			//todo
 		}
