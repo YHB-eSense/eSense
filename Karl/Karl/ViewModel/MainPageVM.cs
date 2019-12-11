@@ -133,11 +133,9 @@ namespace Karl.ViewModel
 			StepsAmount = stepsAmount;
 		}
 
-		public void GetIcon()
+		public void GetConnectBoolean()
 		{
-			Image icon = new Image();
 			//AppLogic
-			Icon = icon;
 		}
 
 		//Eventhandling

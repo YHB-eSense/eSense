@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
@@ -13,8 +14,13 @@
 					Maximum="{Binding AudioTrack.Duration}"
 					Value="{Binding AudioTrack.CurrentPosition}"
 					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black"
-					ValueChanged="OnMoveInSong"/>
+					MaximumTrackColor="Black">
+				<Slider.Behaviors>
+					<b:EventToCommandBehavior EventName="ValueChanged"
+					Command="{Binding MoveInSongCommand}"
+					CommandParameter="Slider.Value" />
+				</Slider.Behaviors>
+			</Slider>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 				<Button Text="PS"
 						HorizontalOptions="Center"
@@ -32,8 +38,13 @@
 					Minimum="0"
 					Maximum="100"
 					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black"
-					ValueChanged="OnChangedVolume"/>
+					MaximumTrackColor="Black">
+				<Slider.Behaviors>
+					<b:EventToCommandBehavior EventName="ValueChanged"
+					Command="{Binding ChangeVolumeCommand}"
+					CommandParameter="Slider.Value" />
+				</Slider.Behaviors>
+			</Slider>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

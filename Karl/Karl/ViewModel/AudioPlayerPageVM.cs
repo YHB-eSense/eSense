@@ -19,6 +19,7 @@ namespace Karl.ViewModel
 		public ICommand MoveInSongCommand;
 		private Boolean pausePlayBoolean;
 
+
 		public Boolean PausePlayBoolean
 		{
 			get
@@ -34,6 +35,9 @@ namespace Karl.ViewModel
 				}
 			}
 		}
+
+
+
 
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{
@@ -97,6 +101,11 @@ namespace Karl.ViewModel
 			Boolean pausePlayBoolean = false;
 			//AppLogic
 			PausePlayBoolean = pausePlayBoolean;
+		}
+
+		public void GetVolume()
+		{
+
 		}
 
 		//Eventhandling
