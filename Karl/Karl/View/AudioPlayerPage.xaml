@@ -14,10 +14,9 @@
 					Maximum="{Binding AudioTrack.Duration}"
 					Value="{Binding AudioTrack.CurrentPosition}"
 					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black"
-					ValueChanged="OnMoveInSong">
+					MaximumTrackColor="Black">
 				<Slider.Behaviors>
-					<b:EventToCommandBehavior EventName="OnMoveInSong"
+					<b:EventToCommandBehavior EventName="ValueChanged"
 					Command="{Binding MoveInSongCommand}"
 					CommandParameter="Slider.Value" />
 				</Slider.Behaviors>
@@ -39,10 +38,9 @@
 					Minimum="0"
 					Maximum="100"
 					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black"
-					ValueChanged="OnChangedVolume">
+					MaximumTrackColor="Black">
 				<Slider.Behaviors>
-					<b:EventToCommandBehavior EventName="OnChangedVolume"
+					<b:EventToCommandBehavior EventName="ValueChanged"
 					Command="{Binding ChangeVolumeCommand}"
 					CommandParameter="Slider.Value" />
 				</Slider.Behaviors>

@@ -41,7 +41,7 @@ namespace Karl.View
 			}
 		}
 
-		private void OnMoveInSong(object sender, ValueChangedEventArgs e)
+		public void OnMoveInSong(object sender, ValueChangedEventArgs e)
 		{
 			
 		}
