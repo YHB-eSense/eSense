@@ -49,23 +49,23 @@ namespace Karl.ViewModel
 
 		private void TitleSort()
 		{
-			//ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
-			//Songs = songs;
+			Songs = songs;
 		}
 
 		private void ArtistSort()
 		{
-			//ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
-			//Songs = songs;
+			Songs = songs;
 		}
 
 		private void BPMSort()
 		{
-			//ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
-			//Songs = songs;
+			Songs = songs;
 		}
 
 		private void PlaySong(AudioTrack audioTrack)
@@ -81,16 +81,16 @@ namespace Karl.ViewModel
 
 		private void SearchSong(string text)
 		{
-			//Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(text));
+			Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(text));
 			//reset
 		}
 
 		public void GetSongs()
 		{
-			//ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//AppLogic
 			//songs.Add("TNT");
-			//Songs = songs;
+			Songs = songs;
 		}
 
 		//Eventhandling

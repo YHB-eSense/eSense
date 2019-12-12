@@ -17,22 +17,20 @@
 					CommandParameter="SearchBar.Text" />
 				</SearchBar.Behaviors>
 			</SearchBar>
-			<!--
 			<ListView ItemsSource="{Binding Songs}">
-				
+
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Title}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
-				
+
 				<ListView.Behaviors>
 					<b:EventToCommandBehavior EventName="ItemTapped"
 					Command="{Binding PlaySongCommand}"
 					CommandParameter="ListView.SelectedItem" />
 				</ListView.Behaviors>
 			</ListView>
-			-->
 			<Button Text="Sort after Title"
 					Command="{Binding TitleSortCommand}"/>
 			<Button Text="Sort after Artist"

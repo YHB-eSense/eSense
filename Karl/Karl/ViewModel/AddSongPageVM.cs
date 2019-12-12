@@ -1,5 +1,5 @@
 using Karl.Model;
-//using Plugin.FilePicker;
+using Plugin.FilePicker;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,20 +27,18 @@ namespace Karl.ViewModel
 
 		private void AddSong()
 		{
-			//AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
+			AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
 			//AppLogic
 			NavigationHandler.GoBack();
 		}
 
 		private async void PickFile()
 		{
-			/*
 			var file = await CrossFilePicker.Current.PickFile();
 			if (file != null)
 			{
 				NewSongFileLocation = file.FileName;
 			}
-			*/
 		}
 	}
 }
