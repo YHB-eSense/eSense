@@ -12,21 +12,22 @@ namespace Karl.Model
 		}
 		private sealed class BasicAudioPlayer : IAudioPlayer
 		{
+			private static BasicAudioPlayer _singletonBasicAudioPlayer;
 			public static BasicAudioPlayer SingletonBasicAudioPlayer
 			{
 				get
 				{
-					if (SingletonBasicAudioPlayer == null)
+					if (_singletonBasicAudioPlayer == null)
 					{
-						SingletonBasicAudioPlayer = new BasicAudioPlayer();
-						return SingletonBasicAudioPlayer;
+						_singletonBasicAudioPlayer = new BasicAudioPlayer();
+						return _singletonBasicAudioPlayer;
 					}
 					else
 					{
-						return SingletonBasicAudioPlayer;
+						return _singletonBasicAudioPlayer;
 					}
 				}
-				set => SingletonBasicAudioPlayer = value;
+				set => _singletonBasicAudioPlayer = value;
 			}
 
 			private BasicAudioPlayer()
