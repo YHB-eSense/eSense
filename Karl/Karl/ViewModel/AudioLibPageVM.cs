@@ -89,7 +89,7 @@ namespace Karl.ViewModel
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//AppLogic
-			//songs.Add(new AudioTrack("TNT", "ACDC", 130, "location"));
+			//songs.Add("TNT");
 			Songs = songs;
 		}
 
