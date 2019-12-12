@@ -41,7 +41,7 @@ namespace Karl.Model
 			Title = title;
 			Artist = artist;
 			BPM = bpm;
-			FileLocation = fileLocation;
+			//FileLocation = fileLocation;
 			//Rest aus Metadaten auslesen
 		}
 
