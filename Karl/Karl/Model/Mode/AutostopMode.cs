@@ -23,7 +23,7 @@ namespace Karl.Model
 
 		protected override String UpdateName(Lang value)
 		{
-			return "Autostop Mode";//todo
+			return value.AUTOSTOP_MODE;//todo
 		}
 	} 
 }

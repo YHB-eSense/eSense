@@ -9,8 +9,8 @@ namespace Karl.Model
 		public String Name { get; protected set; }
 		protected Mode()
 		{
-			LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
-			Name = UpdateName(new Lang());
+			//LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
+			Name = UpdateName(LangManager.SingletonLangManager.CurrentLang);
 		}
 		public abstract void Activate();
 		public abstract void Deactivate();
