@@ -31,10 +31,21 @@ namespace Karl.Model
 		public ModeHandler ModeHandler { get; private set; }
 		//This handles the connection to the earables.
 		private ConnectionHandler Connection;
+		/// <summary>
+		/// The current Device for access from VM
+		/// </summary>
 		public BluetoothDevice CurrentDevice { get; }
+		/// <summary>
+		/// The total steps.
+		/// </summary>
 		public int Steps { get; }
+		/// <summary>
+		/// Is a Device connected?
+		/// </summary>
 		public bool Connected { get; }
-
+		/// <summary>
+		/// Create a new Model.
+		/// </summary>
 		public AppLogic()
 		{
 			AudioLib = new AudioLib();
@@ -43,18 +54,27 @@ namespace Karl.Model
 			ModeHandler = new ModeHandler(AudioPlayer);
 			Connection = new ConnectionHandler();
 		}
-
+		/// <summary>
+		/// Find Bluetooth Devices in Range.
+		/// </summary>
+		/// <returns>List of Bluetooth Devices</returns>
 		public List<BluetoothDevice> SearchDevices()
 		{
 			//todo
 			return Connection.SearchDevices();
 		}
-
+		/// <summary>
+		/// Connect with this Device
+		/// </summary>
+		/// <param name="device">Device to connect with.</param>
 		public void ConnectDevice(BluetoothDevice device)
 		{
 			//todo
 			Connection.ConnectDevice(device);
 		}
+		/// <summary>
+		/// Disconnect from current Device.
+		/// </summary>
 		public void DisconnectDevice()
 		{
 			//todo

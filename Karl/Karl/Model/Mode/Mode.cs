@@ -10,6 +10,7 @@ namespace Karl.Model
 		protected Mode()
 		{
 			LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
+			Name = UpdateName(new Lang());
 		}
 		public abstract void Activate();
 		public abstract void Deactivate();

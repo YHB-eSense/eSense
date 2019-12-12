@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public enum Lang
+	public class Lang
 	{
+
+		public String AUTOSTOP_MODE = "Autostop Mode";
+		public String MOTIVATE_MODE = "Motivation Mode";
+		
 		//todo
 
 
