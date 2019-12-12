@@ -1,4 +1,4 @@
-namespace eSenseCommnLib
+namespace EarableLibrary
 {
 	public interface IAudioStream
 	{

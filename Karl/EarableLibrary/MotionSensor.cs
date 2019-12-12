@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace eSenseCommnLib
+namespace EarableLibrary
 {
 	public class MotionSensorChangedEventArgs : EventArgs
 	{
