@@ -10,6 +10,20 @@
 	<ContentPage.Content>
 		<StackLayout Margin="20" Spacing="20">
 			<StackLayout Orientation="Horizontal">
+				<ListView ItemsSource="{Binding Modes}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<TextCell Text="{Binding Name}"/>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<!--
+					<ListView.Behaviors>
+						<b:EventToCommandBehavior EventName="ItemSelected"
+							Command="{Binding ConnectToDeviceCommand}"
+							CommandParameter="ListView.ItemSource" />
+					</ListView.Behaviors>
+					-->
+				</ListView>
 				<Label Text="Motivation-Mode"
                        FontSize="Large"
                        TextColor="Black"
