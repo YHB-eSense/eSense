@@ -18,15 +18,13 @@
 				</SearchBar.Behaviors>
 			</SearchBar>
 			<ListView ItemsSource="{Binding Songs}">
-
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Title}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
-
 				<ListView.Behaviors>
-					<b:EventToCommandBehavior EventName="ItemTapped"
+					<b:EventToCommandBehavior EventName="ItemSelected"
 					Command="{Binding PlaySongCommand}"
 					CommandParameter="ListView.SelectedItem" />
 				</ListView.Behaviors>

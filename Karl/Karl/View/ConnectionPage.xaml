@@ -9,15 +9,13 @@
     <ContentPage.Content>
 		<StackLayout>
 			<ListView ItemsSource="{Binding Devices}">
-
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Name}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
-
 				<ListView.Behaviors>
-					<b:EventToCommandBehavior EventName="ItemTapped"
+					<b:EventToCommandBehavior EventName="ItemSelected"
 					Command="{Binding ConnectToDeviceCommand}"
 					CommandParameter="ListView.ItemSource" />
 				</ListView.Behaviors>
