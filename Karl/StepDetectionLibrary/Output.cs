@@ -12,15 +12,26 @@ namespace StepDetectionLibrary
 		private double freq;
 		private int stepcount;
 
+		/// <summary>
+		/// constructor for output
+		/// </summary>
+		/// <param name="freq">frequency</param>
+		/// <param name="stepcount">step count</param>
 		public Output(double freq, int stepcount)
 		{
 			this.freq = freq;
 			this.stepcount = stepcount;
 		}
 
+		/// <summary>
+		/// freqency property
+		/// </summary>
 		public double Frequency
 		{ get{ return this.freq; } }
 
+		/// <summary>
+		/// step count property
+		/// </summary>
 		public int StepCount
 		{ get { return this.stepcount; } }
 
@@ -28,12 +39,14 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// gets data from stepdetectionalg and handles the output of data
 	/// </summary>
-	public class OutputManager : IObservable<Output>
+	public class OutputManager : IObservable<Output>, IObserver<Output>
 	{
 		private static OutputManager _singletonOutputManager;
 		private List<IObserver<Output>> observers;
 
-
+		/// <summary>
+		/// singleton pattern
+		/// </summary>
 		public static OutputManager SingletonOutputManager
 		{
 			get
@@ -49,6 +62,31 @@ namespace StepDetectionLibrary
 				}
 			}
 			private set => _singletonOutputManager = value;
+		}
+
+		/// <summary>
+		/// method if provider finished sending data
+		/// </summary>
+		public void OnCompleted()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// method when provider experienced an error condition
+		/// </summary>
+		/// <param name="error">exception</param>
+		public void OnError(Exception error)
+		{
+			throw new NotImplementedException();
+		}
+		/// <summary>
+		/// method when recieving new data
+		/// </summary>
+		/// <param name="value">accelertion + gyro data</param>
+		public void OnNext(Output value)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <summary>

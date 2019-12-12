@@ -10,16 +10,27 @@ namespace StepDetectionLibrary
 	/// </summary>
 	class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>
 	{
+		/// <summary>
+		/// method if provider finished sending data
+		/// </summary>
 		public void OnCompleted()
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// method when provider experienced an error condition
+		/// </summary>
+		/// <param name="error">exception</param>
 		public void OnError(Exception error)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// method when recieving new data
+		/// </summary>
+		/// <param name="value">accleration + gyro data</param>
 		public void OnNext(AccGyroData value)
 		{
 			throw new NotImplementedException();
@@ -42,14 +53,14 @@ namespace StepDetectionLibrary
 		{
 			throw new NotImplementedException();
 		}
-		private void Algorithm()
+
+		/// <summary>
+		/// method with algorithm to detect steps from acceleration and gyrodata
+		/// </summary>
+		/// <param name="data">acceleration and gyro data</param>
+		private void StepDetecAlg(AccGyroData data)
 		{
-
-		}
-
-		private void CalcFreq()
-		{
-
+			throw new NotImplementedException();
 		}
 	}
 
