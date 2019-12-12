@@ -13,9 +13,9 @@ namespace Karl.ViewModel
 	public class AudioLibPageVM
 	{
 		private AppLogic AppLogic;
-		private ObservableCollection<string> songs;
+		private ObservableCollection<AudioTrack> songs;
 
-		public ObservableCollection<string> Songs
+		public ObservableCollection<AudioTrack> Songs
 		{
 			get
 			{
@@ -38,39 +38,40 @@ namespace Karl.ViewModel
 		public AudioLibPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
-			Songs = new ObservableCollection<string>();
+			Songs = new ObservableCollection<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);
 			BPMSortCommand = new Command(BPMSort);
-			PlaySongCommand = new Command<string>(PlaySong);
+			PlaySongCommand = new Command<AudioTrack>(PlaySong);
 			AddSongCommand = new Command(AddSong);
 			SearchCommand = new Command<string>(SearchSong);
 		}
 
 		private void TitleSort()
 		{
-			ObservableCollection<string> songs = new ObservableCollection<string>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
 			Songs = songs;
 		}
 
 		private void ArtistSort()
 		{
-			ObservableCollection<string> songs = new ObservableCollection<string>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
 			Songs = songs;
 		}
 
 		private void BPMSort()
 		{
-			ObservableCollection<string> songs = new ObservableCollection<string>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//sort
 			Songs = songs;
 		}
 
-		private void PlaySong(string text)
+		private void PlaySong(AudioTrack audioTrack)
 		{
 			//Applogic
+			NavigationHandler.GoBack();
 		}
 
 		private void AddSong()
@@ -80,15 +81,15 @@ namespace Karl.ViewModel
 
 		private void SearchSong(string text)
 		{
-			Songs = (ObservableCollection<string>) Songs.Where(song => song.Contains(text));
+			Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(text));
 			//reset
 		}
 
 		public void GetSongs()
 		{
-			ObservableCollection<string> songs = new ObservableCollection<string>();
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//AppLogic
-			songs.Add("TNT");
+			//songs.Add("TNT");
 			Songs = songs;
 		}
 

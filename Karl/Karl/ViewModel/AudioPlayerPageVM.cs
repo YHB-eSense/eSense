@@ -9,13 +9,11 @@ namespace Karl.ViewModel
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		public AudioTrack AudioTrack;
-		public ICommand PausePlayCommand;
-		public ICommand PlayPrevCommand;
-		public ICommand PlayNextCommand;
-		public ICommand ChangeVolumeCommand;
-		public ICommand MoveInSongCommand;
+		//private Image IconPlay;
+		//private Image IconPause;
+		private AudioTrack AudioTrack;
 		private Boolean pausePlayBoolean;
+		//private Image icon;
 
 		/** True = Playing False=Pausing **/
 		public Boolean PausePlayBoolean
@@ -26,13 +24,36 @@ namespace Karl.ViewModel
 			}
 			set
 			{
-				if(value =!pausePlayBoolean)
+				if(value =! pausePlayBoolean)
 				{
 					pausePlayBoolean = value;
 					OnPropertyChanged("PausePlayBoolean");
 				}
 			}
 		}
+		/*
+		public Image Icon
+		{
+			get
+			{
+				return icon;
+			}
+			set
+			{
+				if (icon != value)
+				{
+					Icon = value;
+					OnPropertyChanged("Icon");
+				}
+			}
+		}
+		*/
+
+		public ICommand PausePlayCommand { get; }
+		public ICommand PlayPrevCommand { get; }
+		public ICommand PlayNextCommand { get; }
+		public ICommand ChangeVolumeCommand { get; }
+		public ICommand MoveInSongCommand { get; }
 
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{
@@ -42,6 +63,11 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			ChangeVolumeCommand = new Command<int>(ChangeVolume);
 			MoveInSongCommand = new Command<double>(MoveInSong);
+			//Icon = new Image();
+			//IconPlay = new Image(); //fileLocation
+			//IconPlay.Source = ImageSource.FromFile("");
+			//IconPause = new Image(); //fileLocation
+			PausePlayBoolean = false;
 		}
 
 		public void PausePlay()
@@ -50,11 +76,13 @@ namespace Karl.ViewModel
 			{
 				//AudioLogic
 				PausePlayBoolean = !PausePlayBoolean;
+				//Icon = IconPlay;
 			}
 			else
 			{
 				//AudioLogic
 				PausePlayBoolean = !PausePlayBoolean;
+				//Icon = IconPause;
 			}
 		}
 
@@ -86,9 +114,7 @@ namespace Karl.ViewModel
 
 		public void GetAudioTrack()
 		{
-			AudioTrack audioTrack = new AudioTrack();
 			//stattdessen audioTrack von AppLogic holen
-			AudioTrack = audioTrack;
 		}
 
 		public void GetPausePlayBoolean()
@@ -100,7 +126,7 @@ namespace Karl.ViewModel
 
 		public void GetVolume()
 		{
-
+			//AppLogic
 		}
 
 		//Eventhandling

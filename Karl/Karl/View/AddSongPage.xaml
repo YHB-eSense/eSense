@@ -7,9 +7,15 @@
              x:Class="Karl.View.AddSongPage">
     <ContentPage.Content>
         <StackLayout>
-			<Entry Placeholder="Title"/>
-			<Entry Placeholder="Artist"/>
-			<Entry Placeholder="BPM-Value"/>
+			<Entry Placeholder="Title"
+				   Text="{Binding NewSongTitle}"/>
+			<Entry Placeholder="Artist"
+				   Text="{Binding NewSongArtist}"/>
+			<Entry Placeholder="BPM"
+				   Text="{Binding NewSongBPM}"
+				   Keyboard="Numeric"/>
+			<Button Text="Pick File"
+					Command="{Binding PickFileCommand}"/>
 			<Button Text="Add Song"
 					Command="{Binding AddSongCommand}"/>
 		</StackLayout>
