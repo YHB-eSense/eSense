@@ -7,21 +7,26 @@ namespace StepDetectionLibrary
 	public struct Output
 	{
 		private double freq;
-		//private int stepcount?
+		private int stepcount;
 
-		public Output(double freq)
+		public Output(double freq, int stepcount)
 		{
 			this.freq = freq;
+			this.stepcount = stepcount;
 		}
 
 		public double Frequency
 		{ get{ return this.freq; } }
 
+		public int StepCount
+		{ get { return this.stepcount; } }
+
 	}
 	public class OutputManager : IObservable<Output>
 	{
 		private static OutputManager _singletonOutputManager;
-	
+		private List<IObserver<Output>> observers;
+
 
 		public static OutputManager SingletonOutputManager
 		{
@@ -42,6 +47,14 @@ namespace StepDetectionLibrary
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
 			throw new NotImplementedException(); //todo
+		}
+
+		public void Update(Output output)
+		{
+			foreach (var observer in observers)
+			{
+				observer.OnNext(output);
+			}
 		}
 	}
 }
