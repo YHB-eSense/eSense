@@ -37,9 +37,10 @@ namespace Karl.Model
 
 		private LangManager()
 		{
-			//todo
+			CurrentLang = new Lang();//todo
 		}
 
+		public Lang CurrentLang { get; private set; }
 
 		//todo https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8
 		public IDisposable Subscribe(IObserver<Lang> observer)
