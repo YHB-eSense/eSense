@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Karl.View.ModesPage">
@@ -17,8 +18,13 @@
 				<Switch x:Name="MM_Switch"
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        Toggled="MMSwitchToggled"/>
+                        VerticalOptions="Center">
+					<Switch.Behaviors>
+						<b:EventToCommandBehavior EventName="Toggled"
+						Command="{Binding MotivationModeCommand}"
+						CommandParameter="Switch.Toggled" />			
+					</Switch.Behaviors>
+				</Switch>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal">
 				<Label Text="AutoStop-Mode"
@@ -29,8 +35,13 @@
 				<Switch x:Name="AM_Switch"
 						IsToggled="false"
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        Toggled="AMSwitchToggled"/>
+                        VerticalOptions="Center">
+					<Switch.Behaviors>
+						<b:EventToCommandBehavior EventName="Toggled"
+						Command="{Binding AutoStopModeCommand}"
+						CommandParameter="Switch.Toggled" />
+					</Switch.Behaviors>
+				</Switch>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

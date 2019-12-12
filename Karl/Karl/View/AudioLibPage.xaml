@@ -3,22 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-			<StackLayout>
-				<ListView ItemsSource="{Binding Songs}"
-					ItemTapped="SongTapped"/>
-			</StackLayout>
-			<StackLayout Orientation="Vertical">
-				<Button Text="Sort after Title"
+		<StackLayout>
+			<Button Text="Add Song"
+					Command="{Binding AddSongCommand}"/>
+			<SearchBar>
+				<SearchBar.Behaviors>
+					<b:EventToCommandBehavior EventName="SearchButtonPressed"
+					Command="{Binding SearchCommand}"
+					CommandParameter="SearchBar.Text" />
+				</SearchBar.Behaviors>
+			</SearchBar>
+			<ListView ItemsSource="{Binding Songs}">
+				<ListView.Behaviors>
+					<b:EventToCommandBehavior EventName="ItemTapped"
+					Command="{Binding PlaySongCommand}"
+					CommandParameter="ListView.SelectedItem" />
+				</ListView.Behaviors>
+			</ListView>
+			<Button Text="Sort after Title"
 					Command="{Binding TitleSortCommand}"/>
-				<Button Text="Sort after Artist"
+			<Button Text="Sort after Artist"
 					Command="{Binding ArtistSortCommand}"/>
-				<Button Text="Sort after BPM-Value"
+			<Button Text="Sort after BPM-Value"
 					Command="{Binding BPMSortCommand}"/>
-			</StackLayout>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

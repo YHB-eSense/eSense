@@ -26,7 +26,7 @@ namespace Karl.View
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			SettingsPageVM.GetLanguages();
+			SettingsPageVM.RefreshLanguages();
 			SettingsPageVM.GetSelectedLanguage();
 			SettingsPageVM.GetDeviceName();
 		}

@@ -12,20 +12,12 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		private AudioPlayerPage AudioPlayerPage;
-		private AudioLibPage AudioLibPage;
-		private ConnectionPage ConnectionPage;
-		private ModesPage ModesPage;
-		private SettingsPage SettingsPage;
+		private Image iconOn;
+		private Image iconOff;
 		private string deviceName;
 		private string stepsAmount;
+		private Boolean connectBoolean;
 		private Image icon;
-		public ICommand AudioPlayerPageCommand;
-		public ICommand AudioLibPageCommand;
-		public ICommand ConnectionPageCommand;
-		public ICommand ModesPageCommand;
-		public ICommand SettingsPageCommand;
-		public INavigation Navigation;
 
 		public string DeviceName
 		{
@@ -59,6 +51,29 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public Boolean ConnectBoolean
+		{
+			get
+			{
+				return connectBoolean;
+			}
+			set
+			{
+				if (connectBoolean != value)
+				{
+					connectBoolean = value;
+					if (ConnectBoolean)
+					{
+						Icon = iconOn;
+					}
+					else
+					{
+						Icon = iconOff;
+					}
+				}
+			}
+		}
+
 		public Image Icon
 		{
 			get
@@ -69,54 +84,59 @@ namespace Karl.ViewModel
 			{
 				if (icon != value)
 				{
-					icon = value;
+					Icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
 		}
 
-		public MainPageVM(AppLogic appLogic, AudioPlayerPage audioPlayerPage, AudioLibPage audioLibPage, ConnectionPage connectionPage,
-			ModesPage modesPage, SettingsPage settingsPage)
+		public ICommand AudioPlayerPageCommand { get; }
+		public ICommand AudioLibPageCommand { get; }
+		public ICommand ConnectionPageCommand { get; }
+		public ICommand ModesPageCommand { get; }
+		public ICommand SettingsPageCommand { get; }
+
+		public MainPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
-			AudioPlayerPage = audioPlayerPage;
-			AudioLibPage = audioLibPage;
-			ConnectionPage = connectionPage;
-			ModesPage = modesPage;
-			SettingsPage = settingsPage;
-			AudioPlayerPageCommand = new Command<INavigation>(GotoAudioPlayerPage);
-			AudioLibPageCommand = new Command<INavigation>(GotoAudioLibPage);
-			ConnectionPageCommand = new Command<INavigation>(GotoConnectionPage);
-			ModesPageCommand = new Command<INavigation>(GotoModesPage);
-			SettingsPageCommand = new Command<INavigation>(GotoSettingsPage);
+			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
+			AudioLibPageCommand = new Command(GotoAudioLibPage);
+			ConnectionPageCommand = new Command(GotoConnectionPage);
+			ModesPageCommand = new Command(GotoModesPage);
+			SettingsPageCommand = new Command(GotoSettingsPage);
+			ConnectBoolean = false;
 		}
 
-		private void GotoAudioPlayerPage(INavigation navigation)
+		public void GotoAudioPlayerPage()
 		{
-			navigation.PushAsync(AudioPlayerPage);
+			NavigationHandler.GotoAudioPlayerPage();
 		}
 
-		private void GotoAudioLibPage(INavigation navigation)
+		public void GotoAudioLibPage()
 		{
-			navigation.PushAsync(AudioLibPage);
+			NavigationHandler.GotoAudioLibPage();
 		}
 
-		private void GotoConnectionPage(INavigation navigation)
+		public void GotoConnectionPage()
 		{
-			//if(AppLogic.Connected) {AppLogic.Disconnect}
-			//else {
-			navigation.PushAsync(ConnectionPage);
-			//}
+			if(ConnectBoolean)
+			{
+				//AppLogic disconnect
+			}
+			else
+			{
+				NavigationHandler.GotoConnectionPage();
+			}
 		}
 
-		private void GotoModesPage(INavigation navigation)
+		public void GotoModesPage()
 		{
-			navigation.PushAsync(ModesPage);
+			NavigationHandler.GotoModesPage();
 		}
 
-		private void GotoSettingsPage(INavigation navigation)
+		public void GotoSettingsPage()
 		{
-			navigation.PushAsync(SettingsPage);
+			NavigationHandler.GotoSettingsPage();
 		}
 
 		public void GetDeviceName()
@@ -135,7 +155,9 @@ namespace Karl.ViewModel
 
 		public void GetConnectBoolean()
 		{
+			Boolean connectBoolean = false;
 			//AppLogic
+			ConnectBoolean = connectBoolean;
 		}
 
 		//Eventhandling

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,7 +17,7 @@ namespace Karl.ViewModel
 		public ICommand MoveInSongCommand;
 		private Boolean pausePlayBoolean;
 
-
+		/** True = Playing False=Pausing **/
 		public Boolean PausePlayBoolean
 		{
 			get
@@ -35,9 +33,6 @@ namespace Karl.ViewModel
 				}
 			}
 		}
-
-
-
 
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{

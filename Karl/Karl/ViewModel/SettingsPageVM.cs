@@ -13,11 +13,13 @@ namespace Karl.ViewModel
 	{
 		private AppLogic AppLogic;
 		public ICommand ChangeDeviceNameCommand;
+		public ICommand ChangeLanguageCommand;
 		public ICommand ResetStepsCommand;
 		private ObservableCollection<string> languages;
 		private string selectedLanguage;
 		private string deviceName;
 
+		/**List contains all available languages*/
 		public ObservableCollection<string> Languages
 		{
 			get
@@ -34,6 +36,7 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/**Contains the language of the app**/
 		public string SelectedLanguage
 		{
 			get
@@ -51,6 +54,7 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/**Contains name of the connected Device**/
 		public string DeviceName
 		{
 			get
@@ -71,6 +75,7 @@ namespace Karl.ViewModel
 		{
 			AppLogic = appLogic;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
+			ChangeLanguageCommand = new Command<String>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);
 		}
 
@@ -89,7 +94,8 @@ namespace Karl.ViewModel
 			//AppLogic
 		}
 
-		public void GetLanguages()
+		/**Gets Languages from Model and refreshs the Listview afterwards**/
+		public void RefreshLanguages()
 		{
 			ObservableCollection<string> languages = new ObservableCollection<string>();
 			/*

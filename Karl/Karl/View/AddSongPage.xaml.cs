@@ -1,3 +1,4 @@
+using Karl.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,18 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Karl.ViewModel;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ModesPage : ContentPage
+	public partial class AddSongPage : ContentPage
 	{
-		private ModesPageVM ModesPageVM;
-
-		public ModesPage(ModesPageVM modesPageVM)
+		private AddSongPageVM AddSongPageVM;
+		public AddSongPage(AddSongPageVM addSongPageVM)
 		{
 			InitializeComponent();
-			ModesPageVM = modesPageVM;
+			AddSongPageVM = addSongPageVM;
+			BindingContext = AddSongPageVM;
 		}
 
 	}

@@ -28,9 +28,5 @@ namespace Karl.View
 			ConnectionPageVM.RefreshDevices();
 		}
 
-		private void DeviceNameTapped(object sender, ItemTappedEventArgs e)
-		{
-			ConnectionPageVM.ConnectToDeviceCommand.Execute(sender);
-		}
 	}
 }
