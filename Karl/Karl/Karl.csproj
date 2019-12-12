@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eSenseCommnLib\eSenseCommnLib.csproj" />
+    <ProjectReference Include="..\EarableLibrary\EarableLibrary.csproj" />
     <ProjectReference Include="..\StepDetectionLibrary\StepDetectionLibrary.csproj" />
     <EmbeddedResource Update="View\AddSongPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
