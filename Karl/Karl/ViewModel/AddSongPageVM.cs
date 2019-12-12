@@ -27,7 +27,7 @@ namespace Karl.ViewModel
 
 		private void AddSong()
 		{
-			AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
+			//AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
 			//AppLogic
 			NavigationHandler.GoBack();
 		}
