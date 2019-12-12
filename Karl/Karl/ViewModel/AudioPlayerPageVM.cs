@@ -9,11 +9,11 @@ namespace Karl.ViewModel
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		//private Image IconPlay;
-		//private Image IconPause;
+		private Image IconPlay;
+		private Image IconPause;
 		private AudioTrack AudioTrack;
 		private Boolean pausePlayBoolean;
-		//private Image icon;
+		private Image icon;
 
 		/** True = Playing False=Pausing **/
 		public Boolean PausePlayBoolean
@@ -31,7 +31,7 @@ namespace Karl.ViewModel
 				}
 			}
 		}
-		/*
+
 		public Image Icon
 		{
 			get
@@ -42,12 +42,11 @@ namespace Karl.ViewModel
 			{
 				if (icon != value)
 				{
-					Icon = value;
+					icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
 		}
-		*/
 
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
@@ -64,9 +63,9 @@ namespace Karl.ViewModel
 			ChangeVolumeCommand = new Command<int>(ChangeVolume);
 			MoveInSongCommand = new Command<double>(MoveInSong);
 			//Icon = new Image();
-			//IconPlay = new Image(); //fileLocation
+			IconPlay = new Image(); //fileLocation
 			//IconPlay.Source = ImageSource.FromFile("");
-			//IconPause = new Image(); //fileLocation
+			IconPause = new Image(); //fileLocation
 			PausePlayBoolean = false;
 		}
 
@@ -76,13 +75,13 @@ namespace Karl.ViewModel
 			{
 				//AudioLogic
 				PausePlayBoolean = !PausePlayBoolean;
-				//Icon = IconPlay;
+				Icon = IconPlay;
 			}
 			else
 			{
 				//AudioLogic
 				PausePlayBoolean = !PausePlayBoolean;
-				//Icon = IconPause;
+				Icon = IconPause;
 			}
 		}
 

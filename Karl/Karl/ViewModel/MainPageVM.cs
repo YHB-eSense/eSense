@@ -12,12 +12,12 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		//private Image IconOn;
-		//private Image IconOff;
+		private Image IconOn;
+		private Image IconOff;
 		private string deviceName;
 		private string stepsAmount;
 		private Boolean connectBoolean;
-		//private Image icon;
+		private Image icon;
 
 		public string DeviceName
 		{
@@ -64,16 +64,16 @@ namespace Karl.ViewModel
 					connectBoolean = value;
 					if (ConnectBoolean)
 					{
-						//Icon = IconOn;
+						Icon = IconOn;
 					}
 					else
 					{
-						//Icon = IconOff;
+						Icon = IconOff;
 					}
 				}
 			}
 		}
-		/*
+
 		public Image Icon
 		{
 			get
@@ -84,12 +84,11 @@ namespace Karl.ViewModel
 			{
 				if (icon != value)
 				{
-					Icon = value;
+					icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
 		}
-		*/
 
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
@@ -105,8 +104,8 @@ namespace Karl.ViewModel
 			ConnectionPageCommand = new Command(GotoConnectionPage);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
-			//IconOn = new Image(); //fileLocation
-			//IconOff = new Image(); //fileLocation
+			IconOn = new Image(); //fileLocation
+			IconOff = new Image(); //fileLocation
 			ConnectBoolean = false;
 		}
 
