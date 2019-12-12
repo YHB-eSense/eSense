@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
-namespace Karl.LibraryIdeas
+namespace eSenseCommnLib
 {
-	interface IEarable
+	public interface IEarable
 	{
 		string Name { get; set; }
 

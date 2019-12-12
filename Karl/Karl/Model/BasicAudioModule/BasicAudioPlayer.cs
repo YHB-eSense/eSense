@@ -4,29 +4,55 @@ using System.Text;
 
 namespace Karl.Model
 {
-	sealed class BasicAudioPlayer : IAudioPlayer
+	public partial class AudioPlayer
 	{
-		private static BasicAudioPlayer singletonBasicAudioPlayer;
-
-		public static BasicAudioPlayer SingletonBasicAudioPlayer
+		internal void UseBasicAudioPlayer()
 		{
-			get
-			{
-				if (singletonBasicAudioPlayer == null)
-				{
-					singletonBasicAudioPlayer = new BasicAudioPlayer();
-					return singletonBasicAudioPlayer;
-				}
-				else
-				{
-					return singletonBasicAudioPlayer;
-				}
-			}
+			audioPlayerImp = BasicAudioPlayer.SingletonBasicAudioPlayer;
 		}
-
-		private BasicAudioPlayer()
+		private sealed class BasicAudioPlayer : IAudioPlayer
 		{
+			public static BasicAudioPlayer SingletonBasicAudioPlayer
+			{
+				get
+				{
+					if (SingletonBasicAudioPlayer == null)
+					{
+						SingletonBasicAudioPlayer = new BasicAudioPlayer();
+						return SingletonBasicAudioPlayer;
+					}
+					else
+					{
+						return SingletonBasicAudioPlayer;
+					}
+				}
+				set => SingletonBasicAudioPlayer = value;
+			}
 
+			private BasicAudioPlayer()
+			{
+				//todo
+			}
+
+			public void PauseTrack()
+			{
+				throw new NotImplementedException();//todo
+			}
+
+			public void PlayTrack()
+			{
+				throw new NotImplementedException();//todo
+			}
+
+			public void NextTrack()
+			{
+				throw new NotImplementedException();//todo
+			}
+
+			public void PrevTrack()
+			{
+				throw new NotImplementedException();//todo
+			}
 		}
 	}
 }

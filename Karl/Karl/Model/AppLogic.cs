@@ -11,7 +11,7 @@ namespace Karl.Model
 		private AudioPlayer AudioPlayer { get; }
 		private SettingsHandler SettingsHandler { get; }
 		private ModeHandler ModeHandler { get; }
-		private ConnectionHandler connection;
+		private ConnectionHandler Connection;
 		public BluetoothDevice CurrentDevice { get; }
 		public int Steps { get; }
 		public bool Connected { get; }
@@ -22,16 +22,21 @@ namespace Karl.Model
 			AudioPlayer = new AudioPlayer(AudioLib);
 			SettingsHandler = new SettingsHandler(AudioLib, AudioPlayer);
 			ModeHandler = new ModeHandler(AudioPlayer);
-			connection = new ConnectionHandler();
+			Connection = new ConnectionHandler();
 		}
 
 		public List<BluetoothDevice> SearchDevices()
 		{
 			//todo
-			return null;
+			return Connection.SearchDevices();
 		}
 
-		public void ConnectDevice()
+		public void ConnectDevice(BluetoothDevice device)
+		{
+			//todo
+			Connection.ConnectDevice(device);
+		}
+		public void DisconnectDevice()
 		{
 			//todo
 		}

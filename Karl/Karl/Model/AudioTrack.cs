@@ -5,16 +5,36 @@ using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	public class AudioTrack
+	public partial class AudioTrack
 	{
 		private IAudioTrack audioTrack;
+		public double Duration
+		{
+			get
+			{
+				//todo
+				return 0;
+			}
+		}
+		public Image Cover
+		{
+			get
+			{
+				//todo
+				return null;
+			}
+		}
+		public double CurrentPosition
+		{
+			get
+			{
+				//todo
+				return 0;
+			}
+		}
 		public string Title { get; set; }
 		public string Artist { get; set; }
 		public int BPM { get; set; }
-		public double Duration { get; set; }
-		public Image Cover { get; set; }
-		public double CurrentPosition { get; set; }
-		public string FileLocation { get; set; }
 
 		public AudioTrack(string title, string artist, int bpm, string fileLocation)
 		{
@@ -30,5 +50,12 @@ namespace Karl.Model
 	internal interface IAudioTrack
 	{
 
+		private interface IAudioTrack
+		{
+			double Duration { get; }
+			Image Cover { get; }
+			double CurrentPosition { get; }
+			//todo
+		}
 	}
 }

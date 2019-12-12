@@ -4,23 +4,40 @@ using System.Text;
 
 namespace Karl.Model
 {
-	internal class ConfigFile
+	class ConfigFile
 	{
-		private static ConfigFile singletonConfigFile = null;
-		public static ConfigFile SingletonConfigFile { get
+		internal Nullable<Language> Language
+		{
+			get
 			{
-				if (singletonConfigFile == null)
+				//todo
+				return null;
+			}
+			set
+			{
+				//todo
+			}
+		}
+		internal String AudioLibImp { get; set; }//todo
+		internal static ConfigFile SingletonConfigFile
+		{
+			get
+			{
+				if (SingletonConfigFile == null)
 				{
-					singletonConfigFile = new ConfigFile();
-					return singletonConfigFile;
-				} else
+					SingletonConfigFile = new ConfigFile();
+					return SingletonConfigFile;
+				}
+				else
 				{
-					return singletonConfigFile;
+					return SingletonConfigFile;
 				}
 			}
+			set => SingletonConfigFile = value;
 		}
 
 		private ConfigFile() { }
 
+		
 	}
 }

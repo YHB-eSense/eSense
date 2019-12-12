@@ -1,6 +1,6 @@
 using System;
 
-namespace Karl.LibraryIdeas
+namespace eSenseCommnLib
 {
 
 	public interface ISensor
