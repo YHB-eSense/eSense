@@ -10,8 +10,34 @@ namespace Karl.Model
 	public partial class AudioLib
 	{
 		//todo
+		/// <summary>
+		/// This is the queue of next songs.
+		/// </summary>
+		public List<AudioTrack> Queue
+		{
+			get
+			{
+				return null; //todo
+			}
+			set
+			{
+				//todo Add song to queue
+			}
+		}
+		/// <summary>
+		/// The Tracks already played before.
+		/// </summary>
+		public List<AudioTrack> PlayedTracks
+		{
+			get
+			{
+				return null;//todo
+			}
+		}
+
 		//The actual implementation.
 		private IAudioLib lib;
+
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
@@ -31,22 +57,32 @@ namespace Karl.Model
 		{
 			//todo
 		}
+		/// <summary>
+		/// This skips the current Song and makes the next Song in the queue the current Song.
+		/// </summary>
+		public void NextSong()
+		{
+			//todo
+		}
+		/// <summary>
+		/// This makes the previous Song the current Song.
+		/// </summary>
+		public void PrevSong()
+		{
+			//todo
+		}
 
 		private interface IAudioLib
 		{
 			IList<AudioTrack> AudioTracks { get; }
+			IList<AudioTrack> Queue { get; set; }
+			IList<AudioTrack> PlayedSongs { get; }
 			void AddTrack();
+			void NextSong();
+			void PrevSong();
+
 			//todo
 		}
 
 	}
-
-	/*internal interface IAudioLib
-	{
-		IList<AudioTrack> AudioTracks { get; }
-			void AddTrack();
-			//todo
-		
-	}*/
-
 }

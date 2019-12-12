@@ -24,6 +24,10 @@ namespace Karl.Model
 		/// </summary>
 		public bool Paused { get; set; }
 		/// <summary>
+		/// This String helps Indentify a song.
+		/// </summary>
+		internal String Indetifier { get; } //todo
+		/// <summary>
 		/// Constructor for the Audioplayer. Only to be used in AppLogic.
 		/// </summary>
 		/// <param name="audioLib"></param>

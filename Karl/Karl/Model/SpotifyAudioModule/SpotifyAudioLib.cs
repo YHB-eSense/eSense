@@ -6,28 +6,15 @@ namespace Karl.Model
 {
 	public partial class AudioLib
 	{
-		protected void UseBasicAudioLib()
+		public void UseSpotifyAudioLib(String PlaylistID)
 		{
-			lib = BasicAudioLib.SingletonBasicAudioLib;
+			//todo
 		}
-		sealed private class BasicAudioLib : IAudioLib
+		private sealed class SpotifyAudioLib : IAudioLib
 		{
-			private static BasicAudioLib _singletonBasicAudioLib;
-			public static BasicAudioLib SingletonBasicAudioLib
+			public SpotifyAudioLib(String PlaylistID)
 			{
-				get
-				{
-					if (_singletonBasicAudioLib == null)
-					{
-						_singletonBasicAudioLib = new BasicAudioLib();
-						return _singletonBasicAudioLib;
-					}
-					else
-					{
-						return _singletonBasicAudioLib;
-					}
-				}
-				private set => _singletonBasicAudioLib = value;
+				//todo
 			}
 
 			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo
@@ -35,11 +22,6 @@ namespace Karl.Model
 			public IList<AudioTrack> Queue { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 			public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-			private BasicAudioLib()
-			{
-				//todo
-			}
 
 			public void AddTrack()
 			{
