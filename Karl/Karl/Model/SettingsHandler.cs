@@ -23,7 +23,8 @@ namespace Karl.Model
 		/// <summary>
 		/// The Name of the currently connected Device.
 		/// </summary>
-		public String DeviceName { get
+		public String DeviceName {
+			get
 			{
 				//todo
 				return null;
@@ -31,7 +32,8 @@ namespace Karl.Model
 			set
 			{
 				//todo
-			} }
+			}
+		}
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler. Only used by AppLogic
 		/// </summary>

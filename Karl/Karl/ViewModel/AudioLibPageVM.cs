@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
-	public class AudioLibPageVM
+	public class AudioLibPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
 		private ObservableCollection<AudioTrack> songs;
@@ -71,7 +71,7 @@ namespace Karl.ViewModel
 		private void PlaySong(AudioTrack audioTrack)
 		{
 			//Applogic
-			NavigationHandler.GoBack();
+			NavigationHandler.GotoAudioPlayerPage();
 		}
 
 		private void AddSong()
@@ -89,7 +89,7 @@ namespace Karl.ViewModel
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
 			//AppLogic
-			//songs.Add("TNT");
+			//songs.Add(new AudioTrack("TNT", "ACDC", 130));
 			Songs = songs;
 		}
 

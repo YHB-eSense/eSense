@@ -3,63 +3,65 @@
   <Class Name="Karl.View.AudioLibPage">
     <Position X="0.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\AudioLibPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.View.AudioPlayerPage">
     <Position X="2.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAICAEAEAAAAAAAAAAgAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\AudioPlayerPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.View.ConnectionPage">
     <Position X="4.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>View\ConnectionPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.View.MainPage">
     <Position X="6.75" Y="1.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAABAABAAAgAAIAAAAAAADAAAAACAAMAg=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>View\MainPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.View.ModesPage">
     <Position X="8.75" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\ModesPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.View.SettingsPage">
     <Position X="10.75" Y="2.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAASAAAAAAAAAAAAAgAAAAAAIA=</HashCode>
+      <HashCode>AAAAQAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\SettingsPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.ViewModel.AudioLibPageVM">
-    <Position X="0.75" Y="5.75" Width="1.5" />
+    <Position X="0.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <HashCode>AAAIgAQQAAAAgAQAIAAEAIAEgEAAAABCAgAEAAAACEA=</HashCode>
       <FileName>ViewModel\AudioLibPageVM.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Karl.ViewModel.AudioPlayerPageVM">
     <Position X="2.5" Y="5.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>ACAgAQAIAAAAAAAAAAAIAAAAAAAAAAAAgAAAQAAAAAA=</HashCode>
+      <HashCode>ACUAAAAIAAAAAAAEIAAIAQAAwCQQCABAAgAAAAAQQBA=</HashCode>
       <FileName>ViewModel\AudioPlayerPageVM.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Karl.ViewModel.ConnectionPageVM">
     <Position X="4.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAwABAAEAAIAAAQAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAQBAIAAAAAAAwABAAEBAIAAAAAAAAAA=</HashCode>
       <FileName>ViewModel\ConnectionPageVM.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.1" />
@@ -67,7 +69,7 @@
   <Class Name="Karl.ViewModel.MainPageVM">
     <Position X="6.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAIAAIAAAAgAAEAAAABAAIQAAAAAA=</HashCode>
+      <HashCode>AAwAIIAAAAAAAAgBIAAIAAAAgAAEAABADAgNQoAAAAI=</HashCode>
       <FileName>ViewModel\MainPageVM.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.1" />
@@ -75,16 +77,18 @@
   <Class Name="Karl.ViewModel.ModesPageVM">
     <Position X="8.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>BQAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAQIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAIAQAAAAIwAAAAEBAAAAAAAACAAA=</HashCode>
       <FileName>ViewModel\ModesPageVM.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Karl.ViewModel.SettingsPageVM">
     <Position X="10.75" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAACAAAAAQAAABAA=</HashCode>
+      <HashCode>CAgCAAAECAAAAAgAIIAIAAAAgAAAAAFABIAIQgAAAIA=</HashCode>
       <FileName>ViewModel\SettingsPageVM.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Karl.App">
     <Position X="5" Y="0.5" Width="1.5" />
@@ -94,9 +98,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Karl.Model.AppLogic">
-    <Position X="6.5" Y="9.5" Width="1.5" />
+    <Position X="13.25" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAABBAAAIAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AQABIAAIAACAQAEAAAgAAAAAQAAAAAAAACAAAAAAAEA=</HashCode>
       <FileName>Model\AppLogic.cs</FileName>
     </TypeIdentifier>
   </Class>

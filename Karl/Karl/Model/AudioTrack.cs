@@ -20,7 +20,7 @@ namespace Karl.Model
 			get
 			{
 				//todo
-				return 0;
+				return audioTrack.Duration;
 			}
 		}
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Karl.Model
 			get
 			{
 				//todo
-				return null;
+				return audioTrack.Cover;
 			}
 		}
 		/// <summary>
@@ -42,7 +42,7 @@ namespace Karl.Model
 			get
 			{
 				//todo
-				return 0;
+				return audioTrack.CurrentPosition;
 			}
 		}
 		/// <summary>
@@ -52,7 +52,7 @@ namespace Karl.Model
 		{
 			get
 			{
-				return ""; //todo
+				return audioTrack.Title; //todo
 			}
 			//set yes no?
 		}
@@ -63,7 +63,7 @@ namespace Karl.Model
 		{
 			get
 			{
-				return "";
+				return audioTrack.Artist;
 			}
 			//set yes no?
 		}
@@ -74,7 +74,7 @@ namespace Karl.Model
 		{
 			get
 			{
-				return 0; //todo
+				return audioTrack.BPM; //todo
 			}
 			//set yes no?
 		}
@@ -97,6 +97,9 @@ namespace Karl.Model
 			double Duration { get; }
 			Image Cover { get; }
 			double CurrentPosition { get; }
+			string Title { get; }
+			string Artist { get; }
+			int BPM { get; }
 			//todo
 		}
 

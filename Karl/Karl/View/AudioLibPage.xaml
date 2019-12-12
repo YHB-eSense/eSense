@@ -20,13 +20,13 @@
 			<ListView ItemsSource="{Binding Songs}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<TextCell Text="{Binding Title}" />
+						<TextCell Text="{Binding Title} {Binding Artist} {Binding BPM}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Behaviors>
 					<b:EventToCommandBehavior EventName="ItemSelected"
 					Command="{Binding PlaySongCommand}"
-					CommandParameter="ListView.SelectedItem" />
+					CommandParameter="{Binding SelectedItem}" />
 				</ListView.Behaviors>
 			</ListView>
 			<Button Text="Sort after Title"
