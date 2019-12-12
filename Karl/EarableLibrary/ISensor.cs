@@ -1,6 +1,6 @@
 using System;
 
-namespace eSenseCommnLib
+namespace EarableLibrary
 {
 
 	public interface ISensor

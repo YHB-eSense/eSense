@@ -2,17 +2,9 @@ using System;
 
 namespace StepDetectionLibrary
 {
-	public class Inputstream : ISubject
+	public class Inputstream
 
 	{
-		public void AddListener()
-		{
-			throw new NotImplementedException();
-		}
 
-		public void PushInfo()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

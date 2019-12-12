@@ -4,27 +4,40 @@ using System.Text;
 
 namespace StepDetectionLibrary
 {
-	public class Output
+	public struct Output
 	{
+		private double freq;
+		//private int stepcount?
+
+		public Output(double freq)
+		{
+			this.freq = freq;
+		}
+
+		public double Frequency
+		{ get{ return this.freq; } }
 
 	}
 	public class OutputManager : IObservable<Output>
 	{
+		private static OutputManager _singletonOutputManager;
+	
+
 		public static OutputManager SingletonOutputManager
 		{
 			get
 			{
-				if (SingletonOutputManager == null)
+				if (_singletonOutputManager == null)
 				{
-					SingletonOutputManager = new OutputManager();
-					return SingletonOutputManager;
+					_singletonOutputManager = new OutputManager();
+					return _singletonOutputManager;
 				}
 				else
 				{
-					return SingletonOutputManager;
+					return _singletonOutputManager;
 				}
 			}
-			private set => SingletonOutputManager = value;
+			private set => _singletonOutputManager = value;
 		}
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{

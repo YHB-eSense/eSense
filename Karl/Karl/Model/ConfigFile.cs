@@ -19,21 +19,22 @@ namespace Karl.Model
 			}
 		}
 		internal String AudioLibImp { get; set; }//todo
+		private static ConfigFile singletonConfigFile;
 		internal static ConfigFile SingletonConfigFile
 		{
 			get
 			{
-				if (SingletonConfigFile == null)
+				if (singletonConfigFile == null)
 				{
-					SingletonConfigFile = new ConfigFile();
-					return SingletonConfigFile;
+					singletonConfigFile = new ConfigFile();
+					return singletonConfigFile;
 				}
 				else
 				{
-					return SingletonConfigFile;
+					return singletonConfigFile;
 				}
 			}
-			set => SingletonConfigFile = value;
+			set => singletonConfigFile = value;
 		}
 
 		private ConfigFile() { }

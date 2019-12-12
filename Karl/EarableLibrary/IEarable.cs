@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace eSenseCommnLib
+namespace EarableLibrary
 {
 	public interface IEarable
 	{

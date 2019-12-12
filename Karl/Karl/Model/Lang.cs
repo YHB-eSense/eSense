@@ -13,21 +13,22 @@ namespace Karl.Model
 
 	class LangManager : IObservable<Lang>
 	{
+		private static LangManager _singletonLangManager;
 		public static LangManager SingletonLangManager
 		{
 			get
 			{
-				if (SingletonLangManager == null)
+				if (_singletonLangManager == null)
 				{
-					SingletonLangManager = new LangManager();
-					return SingletonLangManager;
+					_singletonLangManager = new LangManager();
+					return _singletonLangManager;
 				}
 				else
 				{
-					return SingletonLangManager;
+					return _singletonLangManager;
 				}
 			}
-			private set => SingletonLangManager = value;
+			private set => _singletonLangManager = value;
 		}
 
 		private LangManager()

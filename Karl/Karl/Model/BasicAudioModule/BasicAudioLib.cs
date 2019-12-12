@@ -12,21 +12,22 @@ namespace Karl.Model
 		}
 		sealed private class BasicAudioLib : IAudioLib
 		{
+			private static BasicAudioLib _singletonBasicAudioLib;
 			public static BasicAudioLib SingletonBasicAudioLib
 			{
 				get
 				{
-					if (SingletonBasicAudioLib == null)
+					if (_singletonBasicAudioLib == null)
 					{
-						SingletonBasicAudioLib = new BasicAudioLib();
-						return SingletonBasicAudioLib;
+						_singletonBasicAudioLib = new BasicAudioLib();
+						return _singletonBasicAudioLib;
 					}
 					else
 					{
-						return SingletonBasicAudioLib;
+						return _singletonBasicAudioLib;
 					}
 				}
-				private set => SingletonBasicAudioLib = value;
+				private set => _singletonBasicAudioLib = value;
 			}
 
 			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo
