@@ -41,7 +41,7 @@ namespace Karl.ViewModel
 
 		public void RefreshDevices()
 		{
-			ObservableCollection<BluetoothDevice> devices = new ObservableCollection<BluetoothDevice>();
+			//ObservableCollection<BluetoothDevice> devices = new ObservableCollection<BluetoothDevice>();
 			/*
 			string[] devices = appLogic.
 			for(int i = 0; i < devices.Length; i++)
@@ -49,9 +49,9 @@ namespace Karl.ViewModel
 				deviceList.Add(devices[i]);
 			}
 			*/
-			devices.Add(new BluetoothDevice("Ear1"));
-			devices.Add(new BluetoothDevice("Ear2"));
-			Devices = devices;
+			//devices.Add(new BluetoothDevice("Ear1"));
+			//devices.Add(new BluetoothDevice("Ear2"));
+			//Devices = devices;
 		}
 
 		private void ConnectToDevice(BluetoothDevice bluetoothDevice)
