@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Karl.Model
 {
+	/// <summary>
+	/// The Motivation Mode.
+	/// </summary>
 	class MotivateMode : Mode
 	{
 

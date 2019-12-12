@@ -4,8 +4,15 @@ using System.Text;
 
 namespace Karl.Model
 {
+	/// <summary>
+	/// This represents the config File. This file will also be present on your devices storage.
+	/// It will load and store changes to the Settings.
+	/// </summary>
 	class ConfigFile
 	{
+		/// <summary>
+		/// The Language used
+		/// </summary>
 		internal Nullable<Language> Language
 		{
 			get
@@ -18,27 +25,30 @@ namespace Karl.Model
 				//todo
 			}
 		}
-		internal String AudioLibImp { get; set; }//todo
-		private static ConfigFile singletonConfigFile;
+		/// <summary>
+		/// The AudioModule used.
+		/// </summary>
+		internal String AudioModule { get; set; }//todo
+
+		private static ConfigFile _singletonConfigFile;
 		internal static ConfigFile SingletonConfigFile
 		{
 			get
 			{
-				if (singletonConfigFile == null)
+				if (_singletonConfigFile == null)
 				{
-					singletonConfigFile = new ConfigFile();
-					return singletonConfigFile;
+					_singletonConfigFile = new ConfigFile();
+					return _singletonConfigFile;
 				}
 				else
 				{
-					return singletonConfigFile;
+					return _singletonConfigFile;
 				}
 			}
-			set => singletonConfigFile = value;
+			set => _singletonConfigFile = value;
 		}
 
 		private ConfigFile() { }
-
 		
 	}
 }

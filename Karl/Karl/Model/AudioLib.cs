@@ -24,7 +24,9 @@ namespace Karl.Model
 		{
 			return lib.AudioTracks; //todo
 		}
-
+		/// <summary>
+		/// Add a new Track to the current Library
+		/// </summary>
 		public void AddTrack()
 		{
 			//todo

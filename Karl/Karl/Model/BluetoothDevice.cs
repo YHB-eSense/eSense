@@ -5,6 +5,9 @@ using EarableLibrary;
 
 namespace Karl.Model
 {
+	/// <summary>
+	/// This is a general Bluetooth Device. You can get it's name.
+	/// </summary>
 	public class BluetoothDevice
 	{
 		private IEarable _earable;

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Karl.Model
 {
+	/// <summary>
+	/// The Autostop Mode.
+	/// </summary>
 	internal class AutostopMode : Mode
 	{
 		internal AutostopMode()
