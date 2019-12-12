@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using eSenseCommnLib;
+using EarableLibrary;
 
 namespace Karl.Model
 {
