@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public class ModeHandler
+	public class ModeHandler 
 	{
 		private AudioPlayer audioPlayer;
 		public List<Mode> Modes { get; }

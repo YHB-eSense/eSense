@@ -4,7 +4,26 @@ using System.Text;
 
 namespace Karl.Model
 {
-	class AutostopMode : Mode
+	internal class AutostopMode : Mode
 	{
-	}
+		internal AutostopMode()
+		{
+			//todo
+		}
+
+		public override void Activate()
+		{
+			throw new NotImplementedException();//todo
+		}
+
+		public override void Deactivate()
+		{
+			throw new NotImplementedException();//todo
+		}
+
+		protected override String UpdateName(Lang value)
+		{
+			throw new NotImplementedException();//todo
+		}
+	} 
 }
