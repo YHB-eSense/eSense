@@ -17,7 +17,7 @@
 				<ListView.Behaviors>
 					<b:EventToCommandBehavior EventName="ItemSelected"
 					Command="{Binding ConnectToDeviceCommand}"
-					CommandParameter="ListView.ItemSource" />
+					CommandParameter="{Binding SelectedItem}" />
 				</ListView.Behaviors>
 			</ListView>
 			<Button Text="Refresh"

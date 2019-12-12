@@ -19,6 +19,13 @@ namespace Karl.View
 		{
 			InitializeComponent();
 			ModesPageVM = modesPageVM;
+			BindingContext = ModesPageVM;
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			ModesPageVM.GetModes();
 		}
 
 	}

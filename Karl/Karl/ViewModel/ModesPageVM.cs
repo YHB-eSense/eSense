@@ -3,14 +3,14 @@ using Xamarin.Forms;
 using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Karl.ViewModel
 {
 	public class ModesPageVM : INotifyPropertyChanged
 	{
 		private AppLogic AppLogic;
-		public ICommand MotivationModeCommand;
-		public ICommand AutostopModeCommand;
+		public ICommand ActivateModeCommand;
 		private ObservableCollection<Mode> modes;
 
 		public ObservableCollection<Mode> Modes
@@ -30,24 +30,19 @@ namespace Karl.ViewModel
 		public ModesPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
-			MotivationModeCommand = new Command<bool>(MotivationMode);
-			AutostopModeCommand = new Command<bool>(AutostopMode);
+			ActivateModeCommand = new Command<Mode>(ActivateMode);
+			Modes = new ObservableCollection<Mode>();
 		}
 
-		public void MotivationMode(bool value)
+		public void ActivateMode(Mode mode)
 		{
 			//AppLogic
 		}
-
-
-		public void AutostopMode(bool value)
+		
+		public void GetModes()
 		{
-			//AppLogic
-		}
-
-		private void GetModes()
-		{
-			//AppLogic
+			Modes = new ObservableCollection<Mode>(AppLogic.ModeHandler.Modes);
+			foreach (var data in Modes) Debug.WriteLine(data.Name);
 		}
 
 		//Eventhandling
