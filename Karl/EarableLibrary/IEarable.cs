@@ -13,10 +13,10 @@ namespace EarableLibrary
 
 		List<ISensor> Sensors { get; }
 
-		bool Connect();
+		System.Threading.Tasks.Task<bool> ConnectAsync();
+
+		System.Threading.Tasks.Task<bool> DisconnectAsync();
 
 		bool IsConnected();
-
-		bool Disconnect();
 	}
 }
