@@ -13,6 +13,9 @@ namespace Karl.ViewModel
 		public ICommand ActivateModeCommand;
 		private ObservableCollection<Mode> modes;
 
+		/// <summary>
+		/// Contains all available modes of the App
+		/// </summary>
 		public ObservableCollection<Mode> Modes
 		{
 			get
@@ -27,6 +30,10 @@ namespace Karl.ViewModel
 		}
 
 
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public ModesPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
@@ -34,15 +41,21 @@ namespace Karl.ViewModel
 			Modes = new ObservableCollection<Mode>();
 		}
 
+		/// <summary>
+		/// Actives the Mode "mode"
+		/// </summary>
+		/// <param name="mode">Activated Mode</param>
 		public void ActivateMode(Mode mode)
 		{
 			//AppLogic
 		}
-		
+
+		/// <summary>
+		/// Loads Modes from App Logic
+		/// </summary>
 		public void GetModes()
 		{
 			Modes = new ObservableCollection<Mode>(AppLogic.ModeHandler.Modes);
-			foreach (var data in Modes) Debug.WriteLine(data.Name);
 		}
 
 		//Eventhandling
