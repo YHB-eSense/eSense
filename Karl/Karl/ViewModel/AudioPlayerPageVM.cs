@@ -15,7 +15,10 @@ namespace Karl.ViewModel
 		private Boolean pausePlayBoolean;
 		//private Image icon;
 
-		/** True = Playing False=Pausing **/
+
+		/// <summary>
+		/// Safes the state of the active Audio Track(True = Playing False=Pausing)
+		/// </summary>
 		public Boolean PausePlayBoolean
 		{
 			get
@@ -24,7 +27,7 @@ namespace Karl.ViewModel
 			}
 			set
 			{
-				if(value =! pausePlayBoolean)
+				if (value = !pausePlayBoolean)
 				{
 					pausePlayBoolean = value;
 					OnPropertyChanged("PausePlayBoolean");
@@ -48,12 +51,20 @@ namespace Karl.ViewModel
 			}
 		}
 		*/
+
+		/**
+		 * Commands were called from Elements in AudioPlayerPage
+		 * **/
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
 		public ICommand PlayNextCommand { get; }
 		public ICommand ChangeVolumeCommand { get; }
 		public ICommand MoveInSongCommand { get; }
 
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
@@ -69,6 +80,10 @@ namespace Karl.ViewModel
 			PausePlayBoolean = false;
 		}
 
+		/// <summary>
+		/// Continues/Stops Song in App Logic and changes icon
+		/// from Play to Pause/ Pause to Play
+		/// </summary>
 		public void PausePlay()
 		{
 			if (PausePlayBoolean)
@@ -85,6 +100,9 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Plays previous Song in App Logic
+		/// </summary>
 		public void PlayPrev()
 		{
 			//AudioLogic
@@ -93,6 +111,9 @@ namespace Karl.ViewModel
 			OnPropertyChanged("AudioTrack.Cover");
 		}
 
+		/// <summary>
+		/// Plays next Song in App Logic
+		/// </summary>
 		public void PlayNext()
 		{
 			//AudioLogic
@@ -101,28 +122,43 @@ namespace Karl.ViewModel
 			OnPropertyChanged("AudioTrack.Cover");
 		}
 
+		/// <summary>
+		/// Changes Volume in App Logic
+		/// </summary>
 		public void ChangeVolume(int volume)
 		{
 			//AudioLogic	//TODO
 		}
 
+		/// <summary>
+		/// Changes the position in Song
+		/// </summary>
+		/// <param name="time">New Time in Song</param>
 		public void MoveInSong(double time)
 		{
 			//AudioLogic	//TODO
 		}
 
+		/// <summary>
+		/// App Logic load an Audio Track
+		/// </summary>
 		public void GetAudioTrack()
 		{
 			//stattdessen audioTrack von AppLogic holen
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
 		public void GetPausePlayBoolean()
 		{
 			Boolean pausePlayBoolean = false;
 			//AppLogic
 			PausePlayBoolean = pausePlayBoolean;
 		}
-
+		/// <summary>
+		/// ?
+		/// </summary>
 		public void GetVolume()
 		{
 			//AppLogic

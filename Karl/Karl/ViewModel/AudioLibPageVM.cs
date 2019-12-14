@@ -28,6 +28,9 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/**
+		 Commands were called from Elements in AudioLibPage
+		**/
 		public ICommand TitleSortCommand { get; }
 		public ICommand ArtistSortCommand { get; }
 		public ICommand BPMSortCommand { get; }
@@ -35,6 +38,10 @@ namespace Karl.ViewModel
 		public ICommand AddSongCommand { get; }
 		public ICommand SearchCommand { get; }
 
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioLibPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
@@ -47,6 +54,9 @@ namespace Karl.ViewModel
 			SearchCommand = new Command<string>(SearchSong);
 		}
 
+		/// <summary>
+		/// Sorts Titles by Name
+		/// </summary>
 		private void TitleSort()
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
@@ -54,6 +64,9 @@ namespace Karl.ViewModel
 			Songs = songs;
 		}
 
+		/// <summary>
+		/// Sorts Titles by Artist
+		/// </summary>
 		private void ArtistSort()
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
@@ -61,6 +74,9 @@ namespace Karl.ViewModel
 			Songs = songs;
 		}
 
+		/// <summary>
+		/// Sorts Titles by BPM
+		/// </summary>
 		private void BPMSort()
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
@@ -68,23 +84,38 @@ namespace Karl.ViewModel
 			Songs = songs;
 		}
 
+		/// <summary>
+		/// Starts Playing song "audioTrack" in App Logic 
+		/// </summary>
+		/// <param name="audioTrack">Name of started song</param>
 		private void PlaySong(AudioTrack audioTrack)
 		{
 			//Applogic
 			NavigationHandler.GotoAudioPlayerPage();
 		}
 
+		/// <summary>
+		/// Navigates to AddSongPage
+		/// </summary>
 		private void AddSong()
 		{
 			NavigationHandler.GotoAddSongPage();
 		}
 
-		private void SearchSong(string text)
+		/// <summary>
+		/// Refreshs Listview so it only shows song which
+		/// contain "title" in their song title
+		/// </summary>
+		/// <param name="title"></param>
+		private void SearchSong(string title)
 		{
-			Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(text));
+			Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(title));
 			//reset
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
 		public void GetSongs()
 		{
 			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();

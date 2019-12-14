@@ -15,9 +15,17 @@ namespace Karl.ViewModel
 		private AppLogic AppLogic;
 		public ObservableCollection<IEarable> Devices { get; }
 
+		/**
+		 Commands were called from Elements in Connection Page
+		**/
 		public ICommand RefreshDevicesCommand { get; }
 		public ICommand ConnectToDeviceCommand { get; }
 
+
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public ConnectionPageVM(AppLogic appLogic)
 		{
 			AppLogic = appLogic;
@@ -26,6 +34,9 @@ namespace Karl.ViewModel
 			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);
 		}
 
+		/// <summary>
+		/// Loads names from found Bluetooth Devices
+		/// </summary>
 		public void RefreshDevices()
 		{
 			Devices.Clear();
@@ -37,6 +48,10 @@ namespace Karl.ViewModel
 			};
 		}
 
+		/// <summary>
+		/// Connects to the device "IEarable"
+		/// </summary>
+		/// <param name="IEarable">Connect Device</param>
 		private void ConnectToDevice(IEarable IEarable)
 		{
 			//AppLogic
