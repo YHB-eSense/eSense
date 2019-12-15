@@ -12,18 +12,18 @@ namespace Karl.ViewModel
 {
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
-		private ObservableCollection<AudioTrack> songs;
+		private AppLogic _appLogic;
+		private ObservableCollection<AudioTrack> _songs;
 
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get
 			{
-				return songs;
+				return _songs;
 			}
 			set
 			{
-				songs = value;
+				_songs = value;
 				OnPropertyChanged("Songs");
 			}
 		}
@@ -37,7 +37,7 @@ namespace Karl.ViewModel
 
 		public AudioLibPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			Songs = new ObservableCollection<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);

@@ -11,25 +11,25 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
-		//private Image IconOn;
-		//private Image IconOff;
-		private string deviceName;
-		private string stepsAmount;
-		private Boolean connectBoolean;
-		//private Image icon;
+		private AppLogic _appLogic;
+		//private Image _iconOn;
+		//private Image _iconOff;
+		private string _deviceName;
+		private string _stepsAmount;
+		private Boolean _connectBoolean;
+		//private Image _icon;
 
 		public string DeviceName
 		{
 			get
 			{
-				return deviceName;
+				return _deviceName;
 			}
 			set
 			{
-				if (deviceName != value)
+				if (_deviceName != value)
 				{
-					deviceName = value;
+					_deviceName = value;
 					OnPropertyChanged("DeviceName");
 				}
 			}
@@ -39,13 +39,13 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return stepsAmount;
+				return _stepsAmount;
 			}
 			set
 			{
-				if (stepsAmount != value)
+				if (_stepsAmount != value)
 				{
-					stepsAmount = value;
+					_stepsAmount = value;
 					OnPropertyChanged("StepsAmount");
 				}
 			}
@@ -55,20 +55,20 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return connectBoolean;
+				return _connectBoolean;
 			}
 			set
 			{
-				if (connectBoolean != value)
+				if (_connectBoolean != value)
 				{
-					connectBoolean = value;
+					_connectBoolean = value;
 					if (ConnectBoolean)
 					{
-						//Icon = IconOn;
+						//Icon = _iconOn;
 					}
 					else
 					{
-						//Icon = IconOff;
+						//Icon = _iconOff;
 					}
 				}
 			}
@@ -78,13 +78,13 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return icon;
+				return _icon;
 			}
 			set
 			{
-				if (icon != value)
+				if (_icon != value)
 				{
-					icon = value;
+					_icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
@@ -98,7 +98,7 @@ namespace Karl.ViewModel
 
 		public MainPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			ConnectionPageCommand = new Command(GotoConnectionPage);

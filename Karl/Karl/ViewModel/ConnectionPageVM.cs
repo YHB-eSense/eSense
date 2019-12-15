@@ -12,7 +12,7 @@ namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
+		private AppLogic _appLogic;
 		public ObservableCollection<IEarable> Devices { get; }
 
 		public ICommand RefreshDevicesCommand { get; }
@@ -20,7 +20,7 @@ namespace Karl.ViewModel
 
 		public ConnectionPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			Devices = new ObservableCollection<IEarable>();
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);
