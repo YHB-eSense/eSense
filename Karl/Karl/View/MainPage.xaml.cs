@@ -12,20 +12,20 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : ContentPage
 	{
-		private MainPageVM MainPageVM;
+		private MainPageVM _mainPageVM;
 
 		public MainPage(MainPageVM mainPageVM)
 		{
 			InitializeComponent();
-			MainPageVM = mainPageVM;
-			BindingContext = MainPageVM;
+			_mainPageVM = mainPageVM;
+			BindingContext = _mainPageVM;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			MainPageVM.GetDeviceName();
-			MainPageVM.GetStepsAmount();
+			_mainPageVM.GetDeviceName();
+			_mainPageVM.GetStepsAmount();
 		}
 		
 	}

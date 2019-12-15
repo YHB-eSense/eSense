@@ -13,19 +13,19 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ModesPage : ContentPage
 	{
-		private ModesPageVM ModesPageVM;
+		private ModesPageVM _modesPageVM;
 
 		public ModesPage(ModesPageVM modesPageVM)
 		{
 			InitializeComponent();
-			ModesPageVM = modesPageVM;
-			BindingContext = ModesPageVM;
+			_modesPageVM = modesPageVM;
+			BindingContext = _modesPageVM;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			ModesPageVM.GetModes();
+			_modesPageVM.GetModes();
 		}
 
 	}

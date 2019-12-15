@@ -8,6 +8,7 @@
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
 		<StackLayout>
+			<!--
 			<StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" >
 				<Button Text="AudioPlayer" 
 					HorizontalOptions="CenterAndExpand"
@@ -44,7 +45,19 @@
 					HorizontalOptions="CenterAndExpand"
 					Command="{Binding SettingsPageCommand}"/>
 			</StackLayout>
-			
+			-->
+			<StackLayout.GestureRecognizers>
+				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Up" Command="{Binding AudioPlayerPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}"/>
+			</StackLayout.GestureRecognizers>
+			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+				<Button Text="Connect"
+					ImageSource="{Binding Icon}"
+					HorizontalOptions="CenterAndExpand"
+					Command="{Binding ConnectionPageCommand}"/>
+			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
