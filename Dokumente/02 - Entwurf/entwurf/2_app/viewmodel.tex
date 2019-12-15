@@ -1,7 +1,60 @@
 \documentclass[../entwurf.tex]{subfiles}
+
 \begin{document}
 
+\newcommand{\attr}[1]{\item \textit{#1}}
+
 \subsection{ViewModel}
-...
+\subsubsection{MainPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
+\subsubsection{AddSongPage}
+\paragraph{Attribute}
+\begin{itemize}
+	\attr{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
+	\attr{public string NewSongTitle} Hier wird der vom Nutzer eingegebene Titel eines neu hinzugefügten Lieds gespeichert.
+	\attr{public string NewSongArtist} Hier wird der vom Nutzer eingegebene Künstlername eines neu hinzugefügten Lieds gespeichert.
+	\attr{public string NewSongBPM} Hier wird der vom Nutzer eingegebene BPM-Wert eines neu hinzugefügten Lieds gespeichert.
+	\attr{public string NewSongFileLocation} Hier wird der vom Nutzer spezifizierte Pfad eines neu hinzugefügten Lieds gespeichert.
+	\attr{public ICommand AddSongCommand} Dieser Command führt die private Methode \textit{AddSong()} aus.
+	\attr{public ICommand PickFileCommand} Dieser Command führt die private Methode \textit{PickFile()} aus.
+\end{itemize}
+\paragraph{Methoden}
+\begin{itemize}
+	\attr{public AddSongPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \textit{\_applogic}, \textit{AddSongCommand} und \textit{PickFileCommand}.
+\end{itemize}
+\subsubsection{AudioLibPage}
+\begin{itemize}
+	\attr{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
+	\attr{private ObservableCollection<AudioTrack> \_songs} 
+	\attr{public ObservableCollection<AudioTrack> Songs} 
+	\attr{public ICommand TitleSortCommand} 
+	\attr{public ICommand ArtistSortCommand} 
+	\attr{public ICommand BPMSortCommand}
+	\attr{public ICommand PlaySongCommand} 
+	\attr{public ICommand AddSongCommand}
+	\attr{public ICommand SearchCommand}
+	\attr{public event PropertyChangedEventHandler PropertyChanged}
+\end{itemize}
+\paragraph{Methoden}
+\begin{itemize}
+	\attr{public AudioLibPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \textit{\_applogic}, \textit{Songs} und die Commands.
+	\attr{public void GetSongs()}
+\end{itemize}
+\subsubsection{AudioPlayerPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
+\subsubsection{ConnectionPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
+\subsubsection{MainPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
+\subsubsection{ModesPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
+\subsubsection{SettingsPage}
+\paragraph{Attribute}
+\paragraph{Methoden}
 
 \end{document}
