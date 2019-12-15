@@ -8,13 +8,12 @@ namespace Karl.ViewModel
 {
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
-		//private Image IconPlay;
-		//private Image IconPause;
-		private AudioTrack AudioTrack;
-		private Boolean pausePlayBoolean;
-		//private Image icon;
-
+		private AppLogic _appLogic;
+		//private Image _iconPlay;
+		//private Image _iconPause;
+		private AudioTrack _audioTrack;
+		private Boolean _pausePlayBoolean;
+		//private Image _icon;
 
 		/// <summary>
 		/// Safes the state of the active Audio Track(True = Playing False=Pausing)
@@ -23,13 +22,13 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return pausePlayBoolean;
+				return _pausePlayBoolean;
 			}
 			set
 			{
-				if (value = !pausePlayBoolean)
+				if(value != _pausePlayBoolean)
 				{
-					pausePlayBoolean = value;
+					_pausePlayBoolean = value;
 					OnPropertyChanged("PausePlayBoolean");
 				}
 			}
@@ -39,13 +38,13 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return icon;
+				return _icon;
 			}
 			set
 			{
-				if (icon != value)
+				if (_icon != value)
 				{
-					icon = value;
+					_icon = value;
 					OnPropertyChanged("Icon");
 				}
 			}
@@ -67,7 +66,7 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioPlayerPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);

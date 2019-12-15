@@ -13,12 +13,12 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddSongPage : ContentPage
 	{
-		private AddSongPageVM AddSongPageVM;
+		private AddSongPageVM _addSongPageVM;
 		public AddSongPage(AddSongPageVM addSongPageVM)
 		{
 			InitializeComponent();
-			AddSongPageVM = addSongPageVM;
-			BindingContext = AddSongPageVM;
+			_addSongPageVM = addSongPageVM;
+			BindingContext = _addSongPageVM;
 		}
 
 	}

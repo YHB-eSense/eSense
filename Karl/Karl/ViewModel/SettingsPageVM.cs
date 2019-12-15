@@ -7,17 +7,14 @@ using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace Karl.ViewModel 
+namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
-		public ICommand ChangeDeviceNameCommand;
-		public ICommand ChangeLanguageCommand;
-		public ICommand ResetStepsCommand;
-		private ObservableCollection<string> languages;
-		private string selectedLanguage;
-		private string deviceName;
+		private AppLogic _appLogic;
+		private ObservableCollection<string> _languages;
+		private string _selectedLanguage;
+		private string _deviceName;
 
 		/// <summary>
 		/// List contains all available languages
@@ -26,13 +23,13 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return languages;
+				return _languages;
 			}
 			set
 			{
-				if (languages != value)
+				if (_languages != value)
 				{
-					languages = value;
+					_languages = value;
 					OnPropertyChanged("Languages");
 				}
 			}
@@ -45,14 +42,14 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return selectedLanguage;
+				return _selectedLanguage;
 			}
 			set
 			{
-				if (selectedLanguage != value)
+				if (_selectedLanguage != value)
 				{
-					selectedLanguage = value;
-					ChangeLanguage(selectedLanguage);
+					_selectedLanguage = value;
+					ChangeLanguage(_selectedLanguage);
 					OnPropertyChanged("SelectedLanguage");
 				}
 			}
@@ -65,18 +62,22 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return deviceName;
+				return _deviceName;
 			}
 			set
 			{
-				if (deviceName != value)
+				if (_deviceName != value)
 				{
-					deviceName = value;
+					_deviceName = value;
 					OnPropertyChanged("DeviceName");
 				}
 			}
 		}
 
+
+		public ICommand ChangeDeviceNameCommand { get; }
+		public ICommand ChangeLanguageCommand { get; }
+		public ICommand ResetStepsCommand { get; }
 
 		/// <summary>
 		/// Initializises App Logic and all available Commands
@@ -84,7 +85,7 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public SettingsPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
 			ChangeLanguageCommand = new Command<String>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);

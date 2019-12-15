@@ -13,19 +13,19 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ConnectionPage : ContentPage
 	{
-		private ConnectionPageVM ConnectionPageVM;
+		private ConnectionPageVM _connectionPageVM;
 
 		public ConnectionPage(ConnectionPageVM connectionPageVM)
 		{
 			InitializeComponent();
-			ConnectionPageVM = connectionPageVM;
-			BindingContext = ConnectionPageVM;
+			_connectionPageVM = connectionPageVM;
+			BindingContext = _connectionPageVM;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			ConnectionPageVM.RefreshDevices();
+			_connectionPageVM.RefreshDevices();
 		}
 
 	}

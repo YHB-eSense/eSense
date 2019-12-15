@@ -14,21 +14,21 @@ namespace Karl.View
 	public partial class SettingsPage : ContentPage
 	{
 
-		private SettingsPageVM SettingsPageVM;
+		private SettingsPageVM _settingsPageVM;
 
 		public SettingsPage(SettingsPageVM settingsPageVM)
 		{
 			InitializeComponent();
-			SettingsPageVM = settingsPageVM;
-			BindingContext = SettingsPageVM;
+			_settingsPageVM = settingsPageVM;
+			BindingContext = _settingsPageVM;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			SettingsPageVM.RefreshLanguages();
-			SettingsPageVM.GetSelectedLanguage();
-			SettingsPageVM.GetDeviceName();
+			_settingsPageVM.RefreshLanguages();
+			_settingsPageVM.GetSelectedLanguage();
+			_settingsPageVM.GetDeviceName();
 		}
 
 	}

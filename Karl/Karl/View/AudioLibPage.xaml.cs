@@ -13,19 +13,19 @@ namespace Karl.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AudioLibPage : ContentPage
 	{
-		private AudioLibPageVM AudioLibPageVM;
+		private AudioLibPageVM _audioLibPageVM;
 
 		public AudioLibPage(AudioLibPageVM audioLibPageVM)
 		{
 			InitializeComponent();
-			AudioLibPageVM = audioLibPageVM;
-			BindingContext = AudioLibPageVM;
+			_audioLibPageVM = audioLibPageVM;
+			BindingContext = _audioLibPageVM;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			AudioLibPageVM.GetSongs();
+			_audioLibPageVM.GetSongs();
 		}
 
 	}

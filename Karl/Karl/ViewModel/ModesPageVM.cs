@@ -9,9 +9,8 @@ namespace Karl.ViewModel
 {
 	public class ModesPageVM : INotifyPropertyChanged
 	{
-		private AppLogic AppLogic;
-		public ICommand ActivateModeCommand;
-		private ObservableCollection<Mode> modes;
+		private AppLogic _appLogic;
+		private ObservableCollection<Mode> _modes;
 
 		/// <summary>
 		/// Contains all available modes of the App
@@ -20,15 +19,16 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return modes;
+				return _modes;
 			}
 			set
 			{
-				modes = value;
+				_modes = value;
 				OnPropertyChanged("Modes");
 			}
 		}
 
+		public ICommand ActivateModeCommand { get; }
 
 		/// <summary>
 		/// Initializises App Logic and all available Commands
@@ -36,7 +36,7 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public ModesPageVM(AppLogic appLogic)
 		{
-			AppLogic = appLogic;
+			_appLogic = appLogic;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
 			Modes = new ObservableCollection<Mode>();
 		}
@@ -55,7 +55,8 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void GetModes()
 		{
-			Modes = new ObservableCollection<Mode>(AppLogic.ModeHandler.Modes);
+			Modes = new ObservableCollection<Mode>(_appLogic.ModeHandler.Modes);
+			foreach (var data in Modes) Debug.WriteLine(data.Name);
 		}
 
 		//Eventhandling
