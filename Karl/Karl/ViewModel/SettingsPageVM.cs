@@ -16,7 +16,9 @@ namespace Karl.ViewModel
 		private string _selectedLanguage;
 		private string _deviceName;
 
-		/**List contains all available languages*/
+		/// <summary>
+		/// List contains all available languages
+		/// </summary>
 		public ObservableCollection<string> Languages
 		{
 			get
@@ -33,7 +35,9 @@ namespace Karl.ViewModel
 			}
 		}
 
-		/**Contains the language of the app**/
+		/// <summary>
+		/// Contains the language of the app
+		/// </summary>
 		public string SelectedLanguage
 		{
 			get
@@ -51,7 +55,9 @@ namespace Karl.ViewModel
 			}
 		}
 
-		/**Contains name of the connected Device**/
+		/// <summary>
+		/// Contains name of the connected Device
+		/// </summary>
 		public string DeviceName
 		{
 			get
@@ -68,9 +74,15 @@ namespace Karl.ViewModel
 			}
 		}
 
+
 		public ICommand ChangeDeviceNameCommand { get; }
 		public ICommand ChangeLanguageCommand { get; }
 		public ICommand ResetStepsCommand { get; }
+
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 
 		public SettingsPageVM(AppLogic appLogic)
 		{
@@ -95,7 +107,9 @@ namespace Karl.ViewModel
 			//AppLogic
 		}
 
-		/**Gets Languages from Model and refreshs the Listview afterwards**/
+		/// <summary>
+		/// Gets Languages from Model and refreshs the Listview afterwards
+		/// </summary>
 		public void RefreshLanguages()
 		{
 			ObservableCollection<string> languages = new ObservableCollection<string>();

@@ -15,9 +15,18 @@ namespace Karl.ViewModel
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
 		public string NewSongFileLocation { get; set; }
+
+		/**
+		 Commands were called from Elements in AudioLibPage
+		**/
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }
 
+
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public AddSongPageVM(AppLogic appLogic)
 		{
 			_appLogic = appLogic;
@@ -25,6 +34,9 @@ namespace Karl.ViewModel
 			PickFileCommand = new Command(PickFile);
 		}
 
+		/// <summary>
+		/// Adds song to AudioLib through App Logic
+		/// </summary>
 		private void AddSong()
 		{
 			//AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
@@ -32,6 +44,9 @@ namespace Karl.ViewModel
 			NavigationHandler.GoBack();
 		}
 
+		/// <summary>
+		/// Opens File Choosing Dialog
+		/// </summary>
 		private async void PickFile()
 		{
 			var file = await CrossFilePicker.Current.PickFile();

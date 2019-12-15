@@ -90,12 +90,21 @@ namespace Karl.ViewModel
 			}
 		}
 		*/
+
+		/**
+		 Commands were called from Elements in Connection Page
+		**/
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
 		public ICommand ConnectionPageCommand { get; }
 		public ICommand ModesPageCommand { get; }
 		public ICommand SettingsPageCommand { get; }
 
+
+		/// <summary>
+		/// Initializises App Logic and all available Commands
+		/// </summary>
+		/// <param name="appLogic"> For needed functions in Model</param>
 		public MainPageVM(AppLogic appLogic)
 		{
 			_appLogic = appLogic;
