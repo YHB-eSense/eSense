@@ -14,6 +14,12 @@ namespace Karl.Model
 			public Image Cover => throw new NotImplementedException(); //todo
 
 			public double CurrentPosition => throw new NotImplementedException(); //todo
+
+			public string Title => throw new NotImplementedException();
+
+			public string Artist => throw new NotImplementedException();
+
+			public int BPM => throw new NotImplementedException();
 		}
 	}
 }
