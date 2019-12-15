@@ -33,8 +33,9 @@ namespace Karl.ViewModel
 			handler.EarableDiscovered += (s, e) =>
 			{
 				Devices.Add(e.Earable);
-				OnPropertyChanged("devices");
+				OnPropertyChanged("Devices");
 			};
+			handler.StartScanning();
 		}
 
 		private void ConnectToDevice(IEarable IEarable)
