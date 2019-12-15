@@ -52,7 +52,7 @@
 
 
 % Praeambel bekommt Kapitel 0
-\setcounter{section}{-1}
+%\setcounter{section}{-1}
 
 
 % Nützliche Befehle für alle Kapitel
@@ -61,8 +61,11 @@
 
 \begin{document}
 	\subfile{0_praeambel/praeambel.tex}
-	\subfile{1_aufbau/aufbau.tex}
-	\subfile{2_klassenbeschreibung/klassenbeschreibung.tex}
-	\subfile{3_ablaeufe/ablaeufe.tex}
-	\subfile{4_entwurfsdaten/entwurfsdaten.tex}
+	\section{Bibliotheken}
+	\subfile{1_libraries/earable.tex}
+	\subfile{1_libraries/step_recognition.tex}
+	\section{Anwendung}
+	\subfile{2_app/view.tex}
+	\subfile{2_app/viewmodel.tex}
+	\subfile{2_app/model.tex}
 \end{document}
