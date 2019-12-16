@@ -10,6 +10,8 @@
 
 \begin{itemize}
 	\attr{private MainPageVM \_mainPageVM} ViewModel der MainPage
+	\attr{private StackLayout.GestureRecognizers \_mainNavigationGestureRecognizers} Ist für die Navigation von der MainPage aus zuständig
+	\attr{private Button \_connectToDevice} Beim Drücken startet die Suche nach verfügbaren Bluetooth Geräten
 \end{itemize}
 
 \paragraph{Methoden}
@@ -23,6 +25,8 @@
 \paragraph{Attribute}
 \begin{itemize}
 	\attr{private ConnectionPageVM \_connectionPageVM} ViewModel der ConnectionPage
+	\attr{private ListView \_availableDevicesListView} Zeigt verfügbare eSense Earables an
+	\attr{private Button \_refreshDevicesButton} Durch Drücken aktualisiert sich die Liste der verfügbaren eSense Earables
 \end{itemize}
 
 \paragraph{Methoden}
@@ -36,6 +40,11 @@
 \paragraph{Attribute}
 \begin{itemize}
 	\attr{private AddSongPageVM \_addSongPageVM} ViewModel der AddSongPage
+	\attr{private Entry \_songTitleEntry} Eingabefeld für den Namen des neuen Titel
+	\attr{private Entry \_songArtistEntry} Eingabefeld für den Künstler des neuen Titel
+	\attr{private Entry \_songBPMEntry} Eingabefeld für die BPM des neuen Titel
+	\attr{private Button \_pickFileButton} Durch Drücken öffnet sich eine Menü in dem der User einen Song aus seinem Dateiverzeichnis auswählen kann
+	\attr{private Button \_addSongButton} Durch Drücken wird der eingelesene Titel der Audiobibliothek hinzugefügt 	
 \end{itemize}
 
 \paragraph{Methoden}
@@ -49,6 +58,12 @@
 \paragraph{Attribute}
 \begin{itemize}
 	\attr{private AudioLibPageVM \_audioLibPageVM} ViewModel der AudioLibPage
+	\attr{private Button \_addSongButton} Durch Drücken wird zur AddSongPage gewechselt
+	\attr{private SearchBar \_searchForSongSearchBar} Bei Texteingabe der ListView aktualisiert und es werden nur noch Songs angezeigt, die das eingegebene Wort enthalten
+	\attr{private ListView \_songsOfLibListView} Zeigt die verfügbaren Lieder in der Audiobibliothek an
+	\attr{private Button \_sortByNameButton} Sortiert die Elemente des \_songsOfLibListView alphabetisch nach Name
+	\attr{private Button \_sortByArtistButton} Sortiert die Elemente des \_songsOfLibListView nach alphabetisch nach Künstler
+	\attr{private Button \_sortByBPMButton} Sortiert die Elemente des \_songsOfLibListView nach Wert der BPM (aufsteigend)
 \end{itemize}
 
 \paragraph{Methoden}
@@ -62,6 +77,13 @@
 \paragraph{Attribute}
 \begin{itemize}
 	\attr{private AudioPlayerPageVM \_audioPlayerPageVM} ViewModel der AudioPlayerPage
+	\attr{private Image \_songCoverImage} Zeigt das Cover des abzuspielenden Lieds an
+	\attr{private Slider \_songTimeSlider} Zeigt die Position im abzuspielenden Lied an
+	\attr{private Button \_previousSongButton} Durch Drücken wird das vorherige Lied abgespielt
+	\attr{private Button \_previousSongButton} Durch Drücken wird das vorherige Lied abgespielt
+	\attr{private Button \_playPauseSongButton} Durch Drücken wird das aktuell geladene Lied pausiert/abgespielt
+	\attr{private Button \_nextSongButton} Durch Drücken wird das nächste Lied abgespielt	
+	\attr{private Slider \_songVolumeSlider} Zeigt die Lautstärke des abzuspielenden Lied an
 \end{itemize}
 
 \paragraph{Methoden}
@@ -76,6 +98,7 @@
 \paragraph{Attribute}
 \begin{itemize}
 	\attr{private ModesPageVM \_modesPageVM} ViewModel der ModesPage
+	\attr{private ListView \_modesListView} Zeigt alle verfügbaren Modi an. Die hinzufügbaren ListCells bestehen aus dem Namen des Modus und einem Switch mit dem man den Modus aktivieren kann
 \end{itemize}
 
 \paragraph{Methoden}
@@ -90,6 +113,10 @@
 
 \begin{itemize}
 	\attr{private SettingsPageVM \_settingsPageVM} ViewModel der SettingsPage
+	\attr{private Entry \_deviceNameEntry} Eingabefeld für den Gerätenamen
+	\attr{private Label \_selectLanguageLabel} Zeigt den Text "Select Language" (in der gewählten Sprache) an
+	\attr{private Picker \_languageSelectionPicker} Picker für Sprachauswahl
+	\attr{private Button \_resetStepsButton} Durch Drücken wird die auf der MainPage anzeigte Schrittzahl auf 0 zurückgesetzt
 \end{itemize}
 
 \paragraph{Methoden}
