@@ -7,14 +7,13 @@
 Stellt Interaktionsmöglichkeiten mit der unterliegenden Bluetooth-Schnittstelle bereit.
 \paragraph{Attribute}
 \begin{itemize}
-	\i{public event EventHandler EarableDiscovered} Erteilt jedes Mal eine Benachrichtigung, wenn bei aktiver Suche ein kompatibles Bluetooth-Gerät gefunden wurde.
+	\i{public event EventHandler EarableDiscovered} Erteilt jedes Mal eine Benachrichtigung, wenn bei aktiver Suche ein kompatibles Bluetooth-Gerät gefunden wurde.\footnotemark[1]
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
 	\i{public void StartScanning()} Startet die Suche nach Bluetooth-Geräten, falls nicht bereits aktiv.
 	\i{public void StopScanning()} Beendet die Suche nach Bluetooth-Geräten, falls aktiv.
 \end{itemize}
-
 
 \subsubsection{IEarable}
 Interface, welches ein Earable-Gerät repräsentiert.
@@ -31,5 +30,38 @@ Interface, welches ein Earable-Gerät repräsentiert.
 	\i{System.Threading.Tasks.Task<bool> DisconnectAsync()} Trennt die aktuelle Verbindung asynchron. Gibt \code{false} zurück, falls keine Verbindung besteht.
 	\i{bool IsConnected()} Gibt einen Wahrheitswert zurück, der angibt, ob aktuell eine Verbindung besteht.
 \end{itemize}
+
+\subsubsection{IEarable}
+Allgemeine Schnittstelle für Earable-Geräte.
+\paragraph{Attribute}
+\begin{itemize}
+	\i{string Name} Ermöglicht zugriff auf den vergebenen Geräte-Namen.
+	\i{Guid Id} Die Bluetooth-Adresse des Geräts.\footnotemark[1]
+	\i{IAudioStream AudioStream} Zugehöriges AudioStream-Objekt.\footnotemark[1]
+	\i{ReadOnlyCollection$<$ISensor$>$ sensors} Liste aller verfügbaren Sensoren.\footnotemark[1]
+\end{itemize}
+\paragraph{Methoden}
+\begin{itemize}
+	\i{System.Threading.Tasks.Task<bool> ConnectAsync()} Versucht asynchron eine Verbindung aufzubauen, sofern diese nicht bereits besteht.
+	\i{System.Threading.Tasks.Task<bool> DisconnectAsync()} Trennt die aktuelle Verbindung asynchron. Gibt \code{false} zurück, falls keine Verbindung besteht.
+	\i{bool IsConnected()} Gibt einen Wahrheitswert zurück, der angibt, ob aktuell eine Verbindung besteht.
+\end{itemize}
+
+\subsubsection{ISensor}
+Allgemeine Schnittstelle für Sensoren.
+\paragraph{Attribute}
+\begin{itemize}
+	\i{event EventHandler ValueChanged} Erteilt Benachrichtigungen im Falle einer Messwertaktualisierung.\footnotemark[1]
+\end{itemize}
+
+\subsubsection{IAudioStream}
+Schnittstelle für einen Audio-Ausgabe-Stream.
+\paragraph{Methoden}
+\begin{itemize}
+	\i{bool open()} Öffnet den Stream.
+	\i{bool close()} Schließt den Stream.
+	\i{void write(byte[] data)} Hängt Audiodaten an den Buffer des AudioStreams an.
+\end{itemize}
+
 \footnotetext[1]{Nur Lesezugriff}
 \end{document}
