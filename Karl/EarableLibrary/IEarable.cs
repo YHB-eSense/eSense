@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EarableLibrary
 {
@@ -11,7 +11,7 @@ namespace EarableLibrary
 
 		IAudioStream AudioStream { get; }
 
-		List<ISensor> Sensors { get; }
+		ReadOnlyCollection<ISensor> Sensors { get; }
 
 		System.Threading.Tasks.Task<bool> ConnectAsync();
 
