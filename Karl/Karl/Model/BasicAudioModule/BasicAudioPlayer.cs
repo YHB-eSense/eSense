@@ -4,56 +4,55 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public partial class AudioPlayer
+	
+	sealed class BasicAudioPlayer : IAudioPlayerImpl
 	{
-		internal void UseBasicAudioPlayer()
+		private static BasicAudioPlayer _singletonBasicAudioPlayer;
+		public static BasicAudioPlayer SingletonBasicAudioPlayer
 		{
-			audioPlayerImp = BasicAudioPlayer.SingletonBasicAudioPlayer;
-		}
-		private sealed class BasicAudioPlayer : IAudioPlayer
-		{
-			private static BasicAudioPlayer _singletonBasicAudioPlayer;
-			public static BasicAudioPlayer SingletonBasicAudioPlayer
+			get
 			{
-				get
+				if (_singletonBasicAudioPlayer == null)
 				{
-					if (_singletonBasicAudioPlayer == null)
-					{
-						_singletonBasicAudioPlayer = new BasicAudioPlayer();
-						return _singletonBasicAudioPlayer;
-					}
-					else
-					{
-						return _singletonBasicAudioPlayer;
-					}
+					_singletonBasicAudioPlayer = new BasicAudioPlayer();
+					return _singletonBasicAudioPlayer;
 				}
-				set => _singletonBasicAudioPlayer = value;
+				else
+				{
+					return _singletonBasicAudioPlayer;
+				}
 			}
+		}
 
-			private BasicAudioPlayer()
-			{
-				//todo
-			}
+		private BasicAudioPlayer()
+		{
+			//todo
+		}
 
-			public void PauseTrack()
-			{
-				throw new NotImplementedException();//todo
-			}
+		public void PauseTrack()
+		{
+			throw new NotImplementedException();//todo
+		}
 
-			public void PlayTrack()
-			{
-				throw new NotImplementedException();//todo
-			}
+		public void PlayTrack()
+		{
+			throw new NotImplementedException();//todo
+		}
 
-			public void NextTrack()
-			{
-				throw new NotImplementedException();//todo
-			}
+		public void NextTrack()
+		{
+			throw new NotImplementedException();//todo
+		}
 
-			public void PrevTrack()
-			{
-				throw new NotImplementedException();//todo
-			}
+		public void PrevTrack()
+		{
+			throw new NotImplementedException();//todo
+		}
+
+		public double CurrentSongPos()
+		{
+			throw new NotImplementedException();
 		}
 	}
+	
 }

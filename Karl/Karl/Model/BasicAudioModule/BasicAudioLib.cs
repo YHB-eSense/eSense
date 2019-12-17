@@ -4,57 +4,47 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public partial class AudioLib
+
+	sealed class BasicAudioLib : IAudioLibImpl
 	{
-		protected void UseBasicAudioLib()
+		private static BasicAudioLib _singletonBasicAudioLib;
+		public static BasicAudioLib SingletonBasicAudioLib
 		{
-			lib = BasicAudioLib.SingletonBasicAudioLib;
-		}
-		sealed private class BasicAudioLib : IAudioLib
-		{
-			private static BasicAudioLib _singletonBasicAudioLib;
-			public static BasicAudioLib SingletonBasicAudioLib
+			get
 			{
-				get
+				if (_singletonBasicAudioLib == null)
 				{
-					if (_singletonBasicAudioLib == null)
-					{
-						_singletonBasicAudioLib = new BasicAudioLib();
-						return _singletonBasicAudioLib;
-					}
-					else
-					{
-						return _singletonBasicAudioLib;
-					}
+					_singletonBasicAudioLib = new BasicAudioLib();
+					return _singletonBasicAudioLib;
 				}
-				private set => _singletonBasicAudioLib = value;
+				else
+				{
+					return _singletonBasicAudioLib;
+				}
 			}
+			private set => _singletonBasicAudioLib = value;
+		}
 
-			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo
+		public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
 
-			public IList<AudioTrack> Queue { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-			public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
+		public IList<AudioTrack> AllAudioTracks => throw new NotImplementedException();
 
-			private BasicAudioLib()
-			{
-				//todo
-			}
+		public void AddTrack()
+		{
+			throw new NotImplementedException();
+		}
 
-			public void AddTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
+		public void NextTrack()
+		{
+			throw new NotImplementedException();
+		}
 
-			public void NextSong()
-			{
-				throw new NotImplementedException();
-			}
-
-			public void PrevSong()
-			{
-				throw new NotImplementedException();
-			}
+		public void PrevSong()
+		{
+			throw new NotImplementedException();
 		}
 	}
+	
 }

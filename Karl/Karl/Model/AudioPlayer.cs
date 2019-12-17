@@ -7,10 +7,28 @@ namespace Karl.Model
 	/// <summary>
 	/// This is the Wrapper class for AudioPlayer. The implementation can change freely.
 	/// </summary>
-	public partial class AudioPlayer
+	public class AudioPlayer
 	{
 		private AudioLib audioLib;
-		private IAudioPlayer audioPlayerImp;
+		private IAudioPlayerImpl audioPlayerImp;
+
+		private AudioPlayer _singletonAudioPlayer;
+		/// <summary>
+		/// This is a Singleton that enables using the AudioPlayer Model.
+		/// </summary>
+		public AudioPlayer SingletonAudioPlayer
+		{
+			get
+			{
+				if (_singletonAudioPlayer == null)
+				{
+					_singletonAudioPlayer = new AudioPlayer();
+					audioLib = AudioLib.SingletonAudioLib;
+				}
+				return _singletonAudioPlayer;
+			}
+		}
+		
 		/// <summary>
 		/// The current system volume.
 		/// </summary>
@@ -27,14 +45,6 @@ namespace Karl.Model
 		/// This String helps Indentify a song.
 		/// </summary>
 		internal String Indetifier { get; } //todo
-		/// <summary>
-		/// Constructor for the Audioplayer. Only to be used in AppLogic.
-		/// </summary>
-		/// <param name="audioLib"></param>
-		internal AudioPlayer(AudioLib audioLib)
-		{
-			this.audioLib = audioLib;
-		}
 		/// <summary>
 		/// Pause playback.
 		/// </summary>
@@ -64,17 +74,17 @@ namespace Karl.Model
 			audioPlayerImp.PrevTrack();
 		}
 
-		private interface IAudioPlayer
-		{
-			void PauseTrack();
-			void PlayTrack();
-			void NextTrack();
-			void PrevTrack();
-		}
+		
 	}
-
-	/*internal interface IAudioPlayer
+	interface IAudioPlayerImpl
 	{
-
-	}*/
+		void PauseTrack();
+		void PlayTrack();
+		void NextTrack();
+		void PrevTrack();
+		/// <summary>
+		/// The current position in Song.
+		/// </summary>
+		double CurrentSongPos();
+	}
 }

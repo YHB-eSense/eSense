@@ -4,29 +4,32 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public partial class AudioPlayer
+	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
-		private sealed class SpotifyAudioPlayer : IAudioPlayer
+		public double CurrentSongPos()
 		{
-			public void NextTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
+			throw new NotImplementedException();
+		}
 
-			public void PauseTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
+		public void NextTrack()
+		{
+			throw new NotImplementedException(); //todo
+		}
 
-			public void PlayTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
+		public void PauseTrack()
+		{
+			throw new NotImplementedException(); //todo
+		}
 
-			public void PrevTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
+		public void PlayTrack()
+		{
+			throw new NotImplementedException(); //todo
+		}
+
+		public void PrevTrack()
+		{
+			throw new NotImplementedException(); //todo
 		}
 	}
+	
 }
