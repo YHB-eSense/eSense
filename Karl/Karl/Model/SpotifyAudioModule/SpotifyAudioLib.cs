@@ -4,39 +4,51 @@ using System.Text;
 
 namespace Karl.Model
 {
-	public partial class AudioLib
+	sealed class SpotifyAudioLib : IAudioLibImpl
 	{
-		public void UseSpotifyAudioLib(String PlaylistID)
+		private static SpotifyAudioLib _singletonSpotifyAudioLib;
+		public static SpotifyAudioLib SingletonSpotifyAudioLib
+		{
+			get
+			{
+				if (_singletonSpotifyAudioLib == null)
+				{
+					_singletonSpotifyAudioLib = new SpotifyAudioLib();
+					return _singletonSpotifyAudioLib;
+				}
+				else
+				{
+					return _singletonSpotifyAudioLib;
+				}
+			}
+			private set => _singletonSpotifyAudioLib = value;
+		}
+
+		public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
+
+		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public IList<AudioTrack> AllAudioTracks => throw new NotImplementedException();
+
+		private SpotifyAudioLib()
 		{
 			//todo
 		}
-		private sealed class SpotifyAudioLib : IAudioLib
+
+		public void AddTrack()
 		{
-			public SpotifyAudioLib(String PlaylistID)
-			{
-				//todo
-			}
+			throw new NotImplementedException();
+		}
 
-			public IList<AudioTrack> AudioTracks => throw new NotImplementedException(); //todo
+		public void NextTrack()
+		{
+			throw new NotImplementedException();
+		}
 
-			public IList<AudioTrack> Queue { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-			public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-			public void AddTrack()
-			{
-				throw new NotImplementedException(); //todo
-			}
-
-			public void NextSong()
-			{
-				throw new NotImplementedException();
-			}
-
-			public void PrevSong()
-			{
-				throw new NotImplementedException();
-			}
+		public void PrevSong()
+		{
+			throw new NotImplementedException();
 		}
 	}
+	
 }

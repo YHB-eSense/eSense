@@ -45,7 +45,7 @@ namespace Karl.ViewModel
 		/// Actives the Mode "mode"
 		/// </summary>
 		/// <param name="mode">Activated Mode</param>
-		public void ActivateMode(Mode mode)
+		private void ActivateMode(Mode mode)
 		{
 			//AppLogic
 		}

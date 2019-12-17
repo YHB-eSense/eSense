@@ -12,14 +12,14 @@ namespace Karl.ViewModel
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
 		private AppLogic _appLogic;
-		private ObservableCollection<string> _languages;
-		private string _selectedLanguage;
+		private ObservableCollection<Lang> _languages;
+		private Lang _selectedLanguage;
 		private string _deviceName;
 
 		/// <summary>
 		/// List contains all available languages
 		/// </summary>
-		public ObservableCollection<string> Languages
+		public ObservableCollection<Lang> Languages
 		{
 			get
 			{
@@ -38,7 +38,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Contains the language of the app
 		/// </summary>
-		public string SelectedLanguage
+		public Lang SelectedLanguage
 		{
 			get
 			{
@@ -87,21 +87,21 @@ namespace Karl.ViewModel
 		{
 			_appLogic = appLogic;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
-			ChangeLanguageCommand = new Command<String>(ChangeLanguage);
+			ChangeLanguageCommand = new Command<Lang>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);
 		}
 
-		public void ChangeDeviceName(String deviceName)
+		private void ChangeDeviceName(String deviceName)
 		{
 			//AppLogic
 		}
 
-		public void ChangeLanguage(String language)
+		private void ChangeLanguage(Lang language)
 		{
 			//AppLogic
 		}
 
-		public void ResetSteps()
+		private void ResetSteps()
 		{
 			//AppLogic
 		}
@@ -111,7 +111,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshLanguages()
 		{
-			ObservableCollection<string> languages = new ObservableCollection<string>();
+			ObservableCollection<Lang> languages = new ObservableCollection<Lang>();
 			/*
 			string[] languages = appLogic.
 			for(int i = 0; i < devices.Length; i++)
@@ -119,16 +119,16 @@ namespace Karl.ViewModel
 				languagesList.Add(devices[i]);
 			}
 			*/
-			languages.Add("English");
-			languages.Add("Deutsch");
+			//languages.Add("English");
+			//languages.Add("Deutsch");
 			Languages = languages;
 		}
 
 		public void GetSelectedLanguage()
 		{
-			string selectedLanguage = "English";
+			//string selectedLanguage = "English";
 			//AppLogic
-			SelectedLanguage = selectedLanguage;
+			//SelectedLanguage = selectedLanguage;
 		}
 
 		public void GetDeviceName()

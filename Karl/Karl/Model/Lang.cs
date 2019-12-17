@@ -10,11 +10,13 @@ namespace Karl.Model
 	public class Lang
 	{
 
-		public String AUTOSTOP_MODE = "Autostop Mode";
-		public String MOTIVATE_MODE = "Motivation Mode";
+		public String get(String tag)
+		{
+			//todo
+			return "";
+		}
 		
 		//todo
-
 
 	}
 	/// <summary>

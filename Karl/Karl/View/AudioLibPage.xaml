@@ -13,7 +13,7 @@
 			<SearchBar>
 				<SearchBar.Behaviors>
 					<b:EventToCommandBehavior EventName="SearchButtonPressed"
-					Command="{Binding SearchCommand}"
+					Command="{Binding SearchSongCommand}"
 					CommandParameter="SearchBar.Text" />
 				</SearchBar.Behaviors>
 			</SearchBar>

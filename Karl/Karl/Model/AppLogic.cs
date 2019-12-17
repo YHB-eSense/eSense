@@ -48,8 +48,8 @@ namespace Karl.Model
 		/// </summary>
 		public AppLogic()
 		{
-			AudioLib = new AudioLib();
-			AudioPlayer = new AudioPlayer(AudioLib);
+			AudioLib = AudioLib.SingletonAudioLib;
+			AudioPlayer = AudioPlayer.SingletonAudioPlayer;
 			SettingsHandler = new SettingsHandler(AudioLib, AudioPlayer);
 			ModeHandler = new ModeHandler(AudioPlayer);
 			Connection = new ConnectionHandler();

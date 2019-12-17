@@ -12,7 +12,7 @@
 			<Slider x:Name="TimeSlider"
 					Minimum="0"
 					Maximum="{Binding AudioTrack.Duration}"
-					Value="{Binding AudioTrack.CurrentPosition}"
+					Value="{Binding CurrentPosition}"
 					HorizontalOptions="FillAndExpand"
 					MaximumTrackColor="Black">
 				<Slider.Behaviors>
@@ -37,6 +37,7 @@
 			<Slider	x:Name="VolumeSlider"
 					Minimum="0"
 					Maximum="100"
+					Value="{Binding Volume}"
 					HorizontalOptions="FillAndExpand"
 					MaximumTrackColor="Black">
 				<Slider.Behaviors>

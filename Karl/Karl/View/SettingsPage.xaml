@@ -14,7 +14,7 @@
 				Command="{Binding ChangeDeviceNameCommand}"
 				CommandParameter="{Binding Source={x:Reference DeviceNameEntry}, Path=Text}"/>
 			<Label Text="Select Language"/>
-			<Picker ItemsSource="{Binding Languages}"
+			<Picker ItemsSource="{Binding Languages.Name}"
 				SelectedItem="{Binding SelectedLanguage}">
 				<Picker.Behaviors>
 					<b:EventToCommandBehavior EventName="SelectedIndexChanged"
