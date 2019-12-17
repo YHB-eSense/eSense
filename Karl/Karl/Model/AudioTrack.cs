@@ -8,10 +8,10 @@ namespace Karl.Model
 	/// <summary>
 	/// This is a general Audiotrack. It could have any Implementation.
 	/// </summary>
-	public partial class AudioTrack
+	public class AudioTrack
 	{
 		//The actual implementation.
-		private IAudioTrack audioTrack;
+		private IAudioTrackImpl audioTrack;
 		/// <summary>
 		/// The duration of the song.
 		/// </summary>
@@ -32,17 +32,6 @@ namespace Karl.Model
 			{
 				//todo
 				return null;
-			}
-		}
-		/// <summary>
-		/// The current position in Song.
-		/// </summary>
-		public double CurrentPosition
-		{
-			get
-			{
-				//todo
-				return 0;
 			}
 		}
 		/// <summary>
@@ -84,7 +73,7 @@ namespace Karl.Model
 		/// <param name="title">Tracks Name</param>
 		/// <param name="artist">The Tracks artist</param>
 		/// <param name="bpm">The BPM</param>
-		public AudioTrack(string title, string artist, int bpm)
+		AudioTrack(IAudioTrackImpl audioTrackImpl)
 		{
 			//Title = title;
 			//Artist = artist;
@@ -92,13 +81,13 @@ namespace Karl.Model
 			//FileLocation = fileLocation;
 			//Rest aus Metadaten auslesen
 		}
-		private interface IAudioTrack
-		{
-			double Duration { get; }
-			Image Cover { get; }
-			double CurrentPosition { get; }
-			//todo
-		}
 
+	}
+	interface IAudioTrackImpl
+	{
+		double Duration { get; }
+		Image Cover { get; }
+		int BPM { get; set; }
+		//todo
 	}
 }
