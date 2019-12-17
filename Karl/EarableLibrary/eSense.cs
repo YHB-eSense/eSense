@@ -4,12 +4,13 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EarableLibrary
 {
-	internal class ESense : IEarable
+	public class ESense : IEarable
 	{
-		private readonly IDevice device;
+		private IDevice device;
 
 		public ESense(IDevice device)
 		{
@@ -22,7 +23,7 @@ namespace EarableLibrary
 
 		public IAudioStream AudioStream => throw new NotImplementedException();
 
-		public List<ISensor> Sensors => throw new NotImplementedException();
+		public ReadOnlyCollection<ISensor> Sensors => throw new NotImplementedException();
 
 		public async System.Threading.Tasks.Task<bool> ConnectAsync()
 		{
