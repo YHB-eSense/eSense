@@ -5,14 +5,14 @@ using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	sealed class BasicAudioTrack : IAudioTrackImpl
+	sealed class BasicAudioTrack : AudioTrack
 	{
-		public double Duration => throw new NotImplementedException(); //todo
+		public override double Duration => throw new NotImplementedException(); //todo
 
-		public Image Cover => throw new NotImplementedException(); //todo
-		public string Title => throw new NotImplementedException();
-		public string Artist => throw new NotImplementedException();
-		public int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override Image Cover => throw new NotImplementedException(); //todo
+		public override string Title => throw new NotImplementedException();
+		public override string Artist => throw new NotImplementedException();
+		public override int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 	
 }
