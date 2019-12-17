@@ -24,7 +24,7 @@ namespace Karl.Model
 			private set => _singletonSpotifyAudioLib = value;
 		}
 
-		public IList<AudioTrack> PlayedSongs => throw new NotImplementedException();
+		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
 
 		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -36,16 +36,6 @@ namespace Karl.Model
 		}
 
 		public void AddTrack()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void NextTrack()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void PrevSong()
 		{
 			throw new NotImplementedException();
 		}

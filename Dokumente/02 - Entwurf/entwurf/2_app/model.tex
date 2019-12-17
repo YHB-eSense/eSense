@@ -1,7 +1,94 @@
 \documentclass[../entwurf.tex]{subfiles}
 \begin{document}
 
-\subsection{Model}
-...
+	\subsection{Model}
+		\subsubsection{Audio Modul}
+			Das Audio-Modul besteht jeweils aus der Audiobibliothek und dem Audioplayer.
+			Bei beiden wird zwischen der Fassade und der Implementierung unterschieden.
+			Dadurch werden Konsistenzprobleme vermieden, da nicht unterschiedliche Teile der App auf unterschiedliche konkrete Implementierungen
+			zugreifen können. Bzw. immer wissen, was die aktuelle Implementierung ist.
+			Zusätzlich gibt es noch die Klasse AudioTrack.
+			\paragraph{Klasse AudioLib:}
+				Die Fassade für den einfachen Zugriff auf das aktuelle Audiomodul.
+				Die Klasse ist desweiteren ein Singleton, da es immer genau eine Fassade gibt.
+				\subparagraph{Attribute}
+					\begin{itemize}
+						\i{private AudioLib \_singletonAudioLib} Dies ist das singleton Attribut.
+						\i{private IAudioLibImpl AudioLibImp} Dies ist die konkrete Implementierung der
+						AudioLib
+					\end{itemize}
+				\subparagraph{Properties}
+					\begin{itemize}
+						\i{public AudioLib SingletonAudioLib} Dies ist die Property die ein Getter für den 
+						Singleton definiert. Daher gibt es kein Setter.
+						\i{public AudioTrack CurrentTrack} Dies ist das momentan ausgewählte Lied. Dieses
+						wird auch im AudioPlayer abgepielt und angezeigt. 
+						\i{public IList<AudioTrack> AudioTracks} Dies ist eine Liste aller Tracks in dieser 
+						Bibliothek. Es gibt keinen Setter da diese von der konkreten Bibliothek verwaltet werden soll.
+					\end{itemize}
+				\subparagraph{Methoden}
+					\begin{itemize}
+						\i{public void AddTrack()} Dies fügt der aktuellen konkreten Bibliothek ein neuen Track hinzu, 
+						falls diese das unterstützt.
+						\i{public void NextSong()} Dies überspringt den aktuellen Song und spielt einen neuen Song ab. 
+						Der aktuelle als erstes Element von PlayedTracks eingefügt.
+						\i{public void PrevSong()} Dies ruft \textit{CurrentTrack = AudioLibImpl.PlayedTracks.Pop()} auf.
+					\end{itemize}
+			\paragraph{Interface IAudioLibImpl:}
+				Dieses Interface stellt eine konkrete Implementierung einer Audio Bibliothek dar.
+				\subparagraph{Properties}
+					\begin{itemize}
+						\i{Stack<AudioTrack> PlayedSongs} Dies ist der Stack der schon gespielten Lieder der Implementierung.
+						Das erste Listenelement ist der zuletzt abgespielte Track. Es gibt keinen Setter. 
+						\i{AudioTrack CurrentTrack} Dies ist der konkrete aktuelle Song.
+						\i{IList<AudioTrack> AllAudioTracks} Das ist die konkrete Liste aller Songs in dieser Audio Bibliothek.
+					\end{itemize}
+				\subparagraph{Methoden}
+					\begin{itemize}
+						\i{void AddTrack()} Dies fügt der konkreten Implementierung der Audio Bibliothek einen neuen Track hinzu, sofern
+						diese das unterstützt.
+					\end{itemize}
+			\paragraph{Class AudioPlayer:}
+				Diese Klasse ist eine Fassade zum einfachen Zugriff auf den aktuellen konkreten AudioPlayer. 
+				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute, 
+				da so Inkonsistenz vermieden werden kann. 
+				\subparagraph{Attribute}
+					\begin{itemize}
+						\i{private AudioLib AudioLib} Dies ist das Singleton Objekt von AudioLib zum einfachen Zugriff.
+					\end{itemize}
+				\subparagraph{Properties}
+					\begin{itemize}
+						\i{public int Volume} Hier wird eine Getter und Setter für die Systemlautstärke definiert.
+						\i{public double CurrentSecInTrack} Hier werden Getter und Setter für die Position im Song definiert.
+						\i{public bool Paused} Hier werden Getter und Setter für den Wahrheitswert, ob das Lied pausiert ist definiert.
+					\end{itemize}
+				\subparagraph{Methoden}
+					\begin{itemize}
+						\i{public void TogglePause()} Diese Methode negiert den Boolen Paused.
+						\i{public void PlayTrack()} Diese Methode startet den Playback des CurrentSong der AudioLib
+						\i{public void NextTrack()} Diese Methode ruft AudioLib.NextTrack() und PlayTrack() auf.
+						\i{public void PrevTrack()} Diese Methode ruft AudioLib.PrevTrack() und PlayTrack() auf.
+					\end{itemize}
+			\paragraph{Interface IAudioPlayerImpl:}
+				Dieses Interface stellt eine konkrete Implementierung des Audio Players dar.
+				\subparagraph{Properties}
+					\begin{itemize}
+						\i{double CurrentSongPos} Dies definiert Getter und Setter für die aktuelle Position im Lied.
+					\end{itemize}
+				\subparagraph{Methoden}
+					\begin{itemize}
+						\i{void TogglePause()} Dies Pausiert den Song/Spielt den Song weiter ab.
+						\i{void PlayTrack()} Dies Spielt den aktuell gewählten Song ab.
+					\end{itemize}
+			\paragraph{Class SpotifyAudioLib : IAudioLibImpl:}
+				Diese Klasse implementiert eine konkrete Audio Bibliothek mit Spotify Integration.
+				Sie hat als Grundlage eine Spotify Playlist.
+				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
+				\subparagraph{Attribute}
+					\begin{itemize}
+						\i{private String PlaylistTag} This String represents the tag the chosen Spotify Playlist has.
+					\end{itemize}
+			
+					
 
 \end{document}

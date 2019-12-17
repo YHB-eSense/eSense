@@ -29,7 +29,7 @@ namespace Karl.Model
 			//todo
 		}
 
-		public void PauseTrack()
+		public void TogglePause()
 		{
 			throw new NotImplementedException();//todo
 		}
@@ -39,20 +39,7 @@ namespace Karl.Model
 			throw new NotImplementedException();//todo
 		}
 
-		public void NextTrack()
-		{
-			throw new NotImplementedException();//todo
-		}
-
-		public void PrevTrack()
-		{
-			throw new NotImplementedException();//todo
-		}
-
-		public double CurrentSongPos()
-		{
-			throw new NotImplementedException();
-		}
+		public double CurrentSongPos { get; set; } //todo
 	}
 	
 }
