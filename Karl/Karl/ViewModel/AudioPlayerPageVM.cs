@@ -13,6 +13,8 @@ namespace Karl.ViewModel
 		//private Image _iconPause;
 		private AudioTrack _audioTrack;
 		private Boolean _pausePlayBoolean;
+		private int _volume;
+		private double _currentPosition;
 		//private Image _icon;
 
 		/// <summary>
@@ -31,6 +33,45 @@ namespace Karl.ViewModel
 					_pausePlayBoolean = value;
 					OnPropertyChanged("PausePlayBoolean");
 				}
+			}
+		}
+
+		public AudioTrack AudioTrack
+		{
+			get
+			{
+				return _audioTrack;
+			}
+			set
+			{
+				_audioTrack = value;
+				OnPropertyChanged("AudioTrack");
+			}
+		}
+
+		public int Volume
+		{
+			get
+			{
+				return _volume;
+			}
+			set
+			{
+				_volume = value;
+				OnPropertyChanged("Volume");
+			}
+		}
+
+		public double CurrentPosition
+		{
+			get
+			{
+				return _currentPosition;
+			}
+			set
+			{
+				_currentPosition = value;
+				OnPropertyChanged("CurrentPosition");
 			}
 		}
 		/*
@@ -72,18 +113,19 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			ChangeVolumeCommand = new Command<int>(ChangeVolume);
 			MoveInSongCommand = new Command<double>(MoveInSong);
+			//_iconPlay = ...
+			//_iconPause = ...
 			//Icon = new Image();
 			//IconPlay = new Image(); //fileLocation
 			//IconPlay.Source = ImageSource.FromFile("");
 			//IconPause = new Image(); //fileLocation
-			PausePlayBoolean = false;
 		}
 
 		/// <summary>
 		/// Continues/Stops Song in App Logic and changes icon
 		/// from Play to Pause/ Pause to Play
 		/// </summary>
-		public void PausePlay()
+		private void PausePlay()
 		{
 			if (PausePlayBoolean)
 			{
@@ -102,7 +144,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Plays previous Song in App Logic
 		/// </summary>
-		public void PlayPrev()
+		private void PlayPrev()
 		{
 			//AudioLogic
 			GetAudioTrack();
@@ -113,7 +155,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Plays next Song in App Logic
 		/// </summary>
-		public void PlayNext()
+		private void PlayNext()
 		{
 			//AudioLogic
 			GetAudioTrack();
@@ -124,7 +166,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Changes Volume in App Logic
 		/// </summary>
-		public void ChangeVolume(int volume)
+		private void ChangeVolume(int volume)
 		{
 			//AudioLogic	//TODO
 		}
@@ -133,7 +175,7 @@ namespace Karl.ViewModel
 		/// Changes the position in Song
 		/// </summary>
 		/// <param name="time">New Time in Song</param>
-		public void MoveInSong(double time)
+		private void MoveInSong(double time)
 		{
 			//AudioLogic	//TODO
 		}

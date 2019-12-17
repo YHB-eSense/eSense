@@ -115,20 +115,19 @@ namespace Karl.ViewModel
 			SettingsPageCommand = new Command(GotoSettingsPage);
 			//IconOn = new Image(); //fileLocation
 			//IconOff = new Image(); //fileLocation
-			ConnectBoolean = false;
 		}
 
-		public void GotoAudioPlayerPage()
+		private void GotoAudioPlayerPage()
 		{
 			NavigationHandler.GotoAudioPlayerPage();
 		}
 
-		public void GotoAudioLibPage()
+		private void GotoAudioLibPage()
 		{
 			NavigationHandler.GotoAudioLibPage();
 		}
 
-		public void GotoConnectionPage()
+		private void GotoConnectionPage()
 		{
 			if(ConnectBoolean)
 			{
@@ -140,12 +139,12 @@ namespace Karl.ViewModel
 			}
 		}
 
-		public void GotoModesPage()
+		private void GotoModesPage()
 		{
 			NavigationHandler.GotoModesPage();
 		}
 
-		public void GotoSettingsPage()
+		private void GotoSettingsPage()
 		{
 			NavigationHandler.GotoSettingsPage();
 		}

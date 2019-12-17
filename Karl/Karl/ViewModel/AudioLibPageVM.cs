@@ -36,7 +36,7 @@ namespace Karl.ViewModel
 		public ICommand BPMSortCommand { get; }
 		public ICommand PlaySongCommand { get; }
 		public ICommand AddSongCommand { get; }
-		public ICommand SearchCommand { get; }
+		public ICommand SearchSongCommand { get; }
 
 		/// <summary>
 		/// Initializises App Logic and all available Commands
@@ -51,7 +51,7 @@ namespace Karl.ViewModel
 			BPMSortCommand = new Command(BPMSort);
 			PlaySongCommand = new Command<AudioTrack>(PlaySong);
 			AddSongCommand = new Command(AddSong);
-			SearchCommand = new Command<string>(SearchSong);
+			SearchSongCommand = new Command<string>(SearchSong);
 		}
 
 		/// <summary>
