@@ -7,49 +7,47 @@ namespace Karl.Model
 	/// <summary>
 	/// This is the wrapper class for the VM to use.
 	/// </summary>
-	public partial class AudioLib
+	public sealed class AudioLib
 	{
-		//todo
-		/// <summary>
-		/// This is the queue of next songs.
-		/// </summary>
-		public List<AudioTrack> Queue
+		private IAudioLibImpl AudioLibImp;
+
+		private static AudioLib _singletonAudioLib;
+		public static AudioLib SingletonAudioLib
 		{
 			get
 			{
-				return null; //todo
+				if (_singletonAudioLib == null)
+				{
+					_singletonAudioLib = new AudioLib();
+					return _singletonAudioLib;
+				}
+				else
+				{
+					return _singletonAudioLib;
+				}
 			}
-			set
-			{
-				//todo Add song to queue
-			}
+			private set => _singletonAudioLib = value;
 		}
+
+		private AudioLib()
+		{
+			_singletonAudioLib = this;
+		}
+
 		/// <summary>
 		/// The Tracks already played before.
 		/// </summary>
-		public List<AudioTrack> PlayedTracks
-		{
-			get
-			{
-				return null;//todo
-			}
-		}
-
-		//The actual implementation.
-		private IAudioLib lib;
+		public List<AudioTrack> PlayedTracks { get; } //todo
 
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
-		public AudioTrack CurrentTrack { get; set; }
+		public AudioTrack CurrentTrack { get; set; } //todo
 		/// <summary>
 		/// The List of all AudioTracks in the Current Library
 		/// </summary>
 		/// <returns></returns>
-		public IList<AudioTrack> GetAudioTracks()
-		{
-			return lib.AudioTracks; //todo
-		}
+		public IList<AudioTrack> GetAudioTracks { get; } //todo
 		/// <summary>
 		/// Add a new Track to the current Library
 		/// </summary>
@@ -72,17 +70,15 @@ namespace Karl.Model
 			//todo
 		}
 
-		private interface IAudioLib
-		{
-			IList<AudioTrack> AudioTracks { get; }
-			IList<AudioTrack> Queue { get; set; }
-			IList<AudioTrack> PlayedSongs { get; }
-			void AddTrack();
-			void NextSong();
-			void PrevSong();
+	}
 
-			//todo
-		}
-
+	internal interface IAudioLibImpl
+	{
+		IList<AudioTrack> PlayedSongs { get; }
+		AudioTrack CurrentTrack { get; set; }
+		IList<AudioTrack> AllAudioTracks { get; }
+		void AddTrack();
+		void NextTrack();
+		void PrevSong();
 	}
 }
