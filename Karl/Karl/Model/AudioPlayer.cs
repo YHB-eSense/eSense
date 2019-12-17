@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// </summary>
 	public class AudioPlayer
 	{
-		private AudioLib audioLib;
+		private AudioLib AudioLib;
 		private IAudioPlayerImpl audioPlayerImp;
 
 		private AudioPlayer _singletonAudioPlayer;
@@ -23,7 +23,7 @@ namespace Karl.Model
 				if (_singletonAudioPlayer == null)
 				{
 					_singletonAudioPlayer = new AudioPlayer();
-					audioLib = AudioLib.SingletonAudioLib;
+					AudioLib = AudioLib.SingletonAudioLib;
 				}
 				return _singletonAudioPlayer;
 			}
@@ -42,15 +42,11 @@ namespace Karl.Model
 		/// </summary>
 		public bool Paused { get; set; }
 		/// <summary>
-		/// This String helps Indentify a song.
-		/// </summary>
-		internal String Indetifier { get; } //todo
-		/// <summary>
 		/// Pause playback.
 		/// </summary>
-		public void PauseTrack()
+		public void TogglePause()
 		{
-			audioPlayerImp.PauseTrack();
+			audioPlayerImp.TogglePause();
 		}
 		/// <summary>
 		/// Start playing the song currently selected int the Library
@@ -64,27 +60,25 @@ namespace Karl.Model
 		/// </summary>
 		public void NextTrack()
 		{
-			audioPlayerImp.NextTrack();
+			AudioLib.NextSong();
 		}
 		/// <summary>
 		/// Go to previous Track.
 		/// </summary>
 		public void PrevTrack()
 		{
-			audioPlayerImp.PrevTrack();
+			AudioLib.PrevSong();
 		}
 
 		
 	}
 	interface IAudioPlayerImpl
 	{
-		void PauseTrack();
+		void TogglePause();
 		void PlayTrack();
-		void NextTrack();
-		void PrevTrack();
 		/// <summary>
 		/// The current position in Song.
 		/// </summary>
-		double CurrentSongPos();
+		double CurrentSongPos { get; set; }
 	}
 }
