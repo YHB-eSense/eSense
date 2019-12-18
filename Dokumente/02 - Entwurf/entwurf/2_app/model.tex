@@ -204,19 +204,23 @@
 					\end{itemize}
 			\subsubsection{public class LangManager : IObservable<Lang>}
 				Der LangManager ist ein Observable nach dem 
-				C# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
+				C\# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
 				Er lädt alle verfügbaren Sprachen aus dem internen Speicher aus .lang Text-Dokumenten.
 				Die Klasse ist implementiert ein Singleton-Muster.
 				\paragraph{Properties:}
 					\begin{itemize}
 						\i{public Lang CurrentLang} Die aktuell gewählte Sprache.
 					\end{itemize}
+			\subsubsection{Lang}
+				\sign{public class Lang}
 			\subsubsection{Language}
 				\sign{struct Language}
 				\paragraph{Properties:}
 					\begin{itemize}
-						\i{public String Name}
+						\i{public String Name} Der Name der Sprache.
+						\i{public String Tag} Der Tag der Sprache um das Dokument zu identifizieren.
 					\end{itemize}
+			
 			
 
 \end{document}
