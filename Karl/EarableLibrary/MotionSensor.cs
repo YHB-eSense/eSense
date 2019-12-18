@@ -4,15 +4,22 @@ using System.Text;
 
 namespace EarableLibrary
 {
+	public struct TripleShort
+	{
+		public short x;
+		public short y;
+		public short z;
+	}
+
 	public class MotionSensorChangedEventArgs : EventArgs
 	{
-		public MotionSensorChangedEventArgs(short[] gyro, short[] acc)
+		public MotionSensorChangedEventArgs(TripleShort gyro, TripleShort acc)
 		{
 			Gyro = gyro;
 			Acc = acc;
 		}
-		public short[] Gyro { get; }
-		public short[] Acc { get; }
+		public TripleShort Gyro { get; }
+		public TripleShort Acc { get; }
 	}
 
 	class MotionSensor : ISensor
