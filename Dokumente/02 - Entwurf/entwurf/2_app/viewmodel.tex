@@ -16,8 +16,8 @@ Diese Klasse enthält die UI-Logik der \code{AddSongsPage}. Sie stellt dieser ö
 	\i{public string NewSongArtist} Hier wird der vom Nutzer eingegebene Künstlername eines neu hinzugefügten Lieds gespeichert.
 	\i{public string NewSongBPM} Hier wird der vom Nutzer eingegebene BPM-Wert eines neu hinzugefügten Lieds gespeichert.
 	\i{public string NewSongFileLocation} Hier wird der vom Nutzer spezifizierte Pfad eines neu hinzugefügten Lieds gespeichert.
-	\i{public ICommand AddSongCommand} Dieser Command führt die private Methode \code{AddSong()} aus.
-	\i{public ICommand PickFileCommand} Dieser Command führt die private Methode \code{PickFile()} aus.
+	\i{public ICommand\footnote{Stammt aus System.Windows.Input} AddSongCommand} Dieser Command führt die private Methode \code{AddSong()} aus. \glsnote{ro}
+	\i{public ICommand PickFileCommand} Dieser Command führt die private Methode \code{PickFile()} aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -33,12 +33,12 @@ Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser ö
 \paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public ObservableCollection<AudioTrack> Songs} Hier werden die Songs gespeichert, die in der View angezeigt werden sollen.
-	\i{public ICommand TitleSortCommand} Dieser Command führt die private Methode \code{TitleSort()} aus.
-	\i{public ICommand ArtistSortCommand} Dieser Command führt die private Methode \code{ArtistSort()} aus.
-	\i{public ICommand BPMSortCommand} Dieser Command führt die private Methode \code{BPMSort()} aus.
-	\i{public ICommand PlaySongCommand} Dieser Command führt die private Methode \code{PlaySong()} mit dem in der View ausgewählten Song als Parameter aus.
-	\i{public ICommand AddSongCommand} Dieser Command führt die private Methode \code{AddSong()} aus.
-	\i{public ICommand SearchSongCommand} Dieser Command führt die private Methode \code{SearchSong()} mit dem in der View eingegeben Text als Parameter aus.
+	\i{public ICommand TitleSortCommand} Dieser Command führt die private Methode \code{TitleSort()} aus. \glsnote{ro}
+	\i{public ICommand ArtistSortCommand} Dieser Command führt die private Methode \code{ArtistSort()} aus. \glsnote{ro}
+	\i{public ICommand BPMSortCommand} Dieser Command führt die private Methode \code{BPMSort()} aus. \glsnote{ro}
+	\i{public ICommand PlaySongCommand} Dieser Command führt die private Methode \code{PlaySong()} mit dem in der View ausgewählten Song als Parameter aus. \glsnote{ro}
+	\i{public ICommand AddSongCommand} Dieser Command führt die private Methode \code{AddSong()} aus. \glsnote{ro}
+	\i{public ICommand SearchSongCommand} Dieser Command führt die private Methode \code{SearchSong()} mit dem in der View eingegeben Text als Parameter aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -60,9 +60,9 @@ Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser
 	\i{public int Volume} Hier wird der Wert der Lautstärke gespeichert.
 	\i{public double CurrentPosition} Hier wird die aktuelle Position im momentan aktiven Song gespeichert.
 	\i{public Image Icon} Je nachdem ob der AudioPlayer aktiv oder pausiert ist, ist hier ein bestimmtes Bild gespeichert.
-	\i{public ICommand PausePlayCommand} Dieser Command führt die private Methode \code{PausePlay()} aus.
-	\i{public ICommand PlayPrevCommand} Dieser Command führt die private Methode \code{PlayPrev()} aus.
-	\i{public ICommand PlayNextCommand} Dieser Command führt die private Methode \code{PlayNext()} aus.
+	\i{public ICommand PausePlayCommand} Dieser Command führt die private Methode \code{PausePlay()} aus. \glsnote{ro}
+	\i{public ICommand PlayPrevCommand} Dieser Command führt die private Methode \code{PlayPrev()} aus. \glsnote{ro}
+	\i{public ICommand PlayNextCommand} Dieser Command führt die private Methode \code{PlayNext()} aus. \glsnote{ro}
 	\i{public ICommand ChangeVolumeCommand} Dieser Command führt die private Methode \code{ChangeVolume()} mit der in der View ausgewählten Lautstärke als Parameter aus.
 	\i{public ICommand MoveInSongCommand} Dieser Command führt die private Methode \code{MoveInSong()} mit der in der View ausgewählten Position als Parameter aus.
 \end{itemize}
@@ -84,8 +84,8 @@ Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser 
 \paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public ObservableCollection<IEarable> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen.
-	\i{public ICommand RefreshDevicesCommand} Dieser Command führt die private Methode \code{RefreshDevices()} aus.
-	\i{public ICommand ConnectToDeviceCommand} Dieser Command führt die private Methode \code{ConnectToDevice()} mit dem in der View ausgewähltem Gerät als Parameter aus.
+	\i{public ICommand RefreshDevicesCommand} Dieser Command führt die private Methode \code{RefreshDevices()} aus. \glsnote{ro}
+	\i{public ICommand ConnectToDeviceCommand} Dieser Command führt die private Methode \code{ConnectToDevice()} mit dem in der View ausgewähltem Gerät als Parameter aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -106,11 +106,11 @@ Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffen
 	\i{public string StepsAmount} Hier wird die Anzahl der Schritte seit dem letzten Reset gespeichert, falls keine Verbindung zu einem Gerät besteht, hat der String den wert null.
 	\i{public Boolean ConnectBoolean} Dieser Boolean gibt an, ob eine Verbindung zu einem Gerät besteht.
 	\i{public Image Icon} Je nachdem ob eine Verbindung zu einem Gerät besteht oder nicht, ist hier ein bestimmtes Bild gespeichert.
-	\i{public ICommand AudioPlayerPageCommand} Dieser Command führt die private Methode \code{GotoAudioPlayerPage()} aus.
-	\i{public ICommand AudioLibPageCommand} Dieser Command führt die private Methode \code{GotoAudioLibPage()} aus.
-	\i{public ICommand ConnectionPageCommand} Dieser Command führt die private Methode \code{GotoConnectionPage()} aus.
-	\i{public ICommand ModesPageCommand} Dieser Command führt die private Methode \code{GotoModesPage()} aus.
-	\i{public ICommand SettingsPageCommand} Dieser Command führt die private Methode \code{GotoSettingsPage()} aus.
+	\i{public ICommand AudioPlayerPageCommand} Dieser Command führt die private Methode \code{GotoAudioPlayerPage()} aus. \glsnote{ro}
+	\i{public ICommand AudioLibPageCommand} Dieser Command führt die private Methode \code{GotoAudioLibPage()} aus. \glsnote{ro}
+	\i{public ICommand ConnectionPageCommand} Dieser Command führt die private Methode \code{GotoConnectionPage()} aus. \glsnote{ro}
+	\i{public ICommand ModesPageCommand} Dieser Command führt die private Methode \code{GotoModesPage()} aus. \glsnote{ro}
+	\i{public ICommand SettingsPageCommand} Dieser Command führt die private Methode \code{GotoSettingsPage()} aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -130,7 +130,7 @@ Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffe
 \paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public ObservableCollection<Mode> Modes} Hier werden die Modi gespeichert, die in der View angezeigt werden sollen.
-	\i{public ICommand ActivateModeCommand} Dieser Command führt die private Methode \code{ActivateMode()} mit dem in der View ausgewählten Modus als Parameter aus.
+	\i{public ICommand ActivateModeCommand} Dieser Command führt die private Methode \code{ActivateMode()} mit dem in der View ausgewählten Modus als Parameter aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -150,9 +150,9 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 	\i{public ObservableCollection<Lang> Languages} Hier werden die Sprachen gespeichert, die in der View angezeigt werden sollen.
 	\i{public Lang SelectedLanguage} Hier wird die Sprache gespeichert, die in der View als ausgewählt angezeigt wird.
 	\i{public string DeviceName} Hier wird der Name des momentan verbundenen Geräts gepeichert der in der View angezeigt wird.
-	\i{public ICommand ChangeDeviceNameCommand} Dieser Command führt die private Methode \code{ChangeDeviceName()} mit dem in der View eingegebenen Text als Parameter aus.
-	\i{public ICommand ChangeLanguageCommand} Dieser Command führt die private Methode \code{ChangeLanguage()} mit der in der View ausgewählten Sprache als Parameter aus.
-	\i{public ICommand ResetStepsCommand} Dieser Command führt die private Methode \code{ResetSteps()} aus.
+	\i{public ICommand ChangeDeviceNameCommand} Dieser Command führt die private Methode \code{ChangeDeviceName()} mit dem in der View eingegebenen Text als Parameter aus. \glsnote{ro}
+	\i{public ICommand ChangeLanguageCommand} Dieser Command führt die private Methode \code{ChangeLanguage()} mit der in der View ausgewählten Sprache als Parameter aus. \glsnote{ro}
+	\i{public ICommand ResetStepsCommand} Dieser Command führt die private Methode \code{ResetSteps()} aus. \glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
@@ -170,7 +170,5 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 	\i{public static async void GotoPage()} TODO
 	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde
 \end{itemize}
-
-\footnotetext[1]{Nach außen hin nur Lesezugriff}
 
 \end{document}
