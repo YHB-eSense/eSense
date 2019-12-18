@@ -19,14 +19,6 @@ namespace Karl.Model
 		public string Name { get; private set; }
 
 		/// <summary>
-		/// For Testing only!!! Will disappear late.
-		/// </summary>
-		/// <param name="name">The name</param>
-		public BluetoothDevice(string name)
-		{
-			Name = name;
-		}
-		/// <summary>
 		/// Connect with this device.
 		/// </summary>
 		public void Connect()

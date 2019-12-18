@@ -5,7 +5,8 @@
 		\subsection{Schnittstelle}
 			Die Schnittstelle zu den ViewModels besteht aus Klassen, die explizit konzipiert sind um die Kommunikation zwischen ViewModels und Model
 			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem Singleton-Muster aufgebaut.
-			\subsubsection{public class AppLogic}
+			\subsubsection{AppLogic}
+				\sign{public class AppLogic}
 				Diese Klasse initialisiert im Konstruktor das Model und verwaltet somit interne Abhängigkeiten im Model. Sie verwaltet gegenüber den
 				ViewModels auch die Verbindung zu den Earables mithilfe der Klasse ConnectionHandler.
 				\paragraph{Attribute:}
@@ -32,7 +33,8 @@
 						\i{public void ConnectDevice(BluetoothDevice device)} Verbindet sich mit einem Bluetooth-Gerät.
 						\i{public void DisconnectDevice()} Trennt die Verbindung zum aktuell verbundenen Bluetooth-Gerät.
 					\end{itemize}
-			\subsubsection{class AudioLib}
+			\subsubsection{AudioLib}
+				\sign{class AudioLib}
 				Die Fassade für den einfachen Zugriff auf das aktuelle Audiomodul.
 				\paragraph{Attribute:}
 					\begin{itemize}
@@ -57,7 +59,8 @@
 						Der aktuelle als erstes Element von PlayedTracks eingefügt.
 						\i{public void PrevSong()} Dies ruft \textit{CurrentTrack = AudioLibImpl.PlayedTracks.Pop()} auf.
 					\end{itemize}
-			\subsubsection{class AudioPlayer}
+			\subsubsection{AudioPlayer}
+				\sign{class AudioPlayer}
 				Diese Klasse ist eine Fassade zum einfachen Zugriff auf den aktuellen konkreten AudioPlayer.
 				\paragraph{Attribute:}
 					\begin{itemize}
@@ -76,7 +79,8 @@
 						\i{public void NextTrack()} Diese Methode ruft AudioLib.NextTrack() und PlayTrack() auf.
 						\i{public void PrevTrack()} Diese Methode ruft AudioLib.PrevTrack() und PlayTrack() auf.
 					\end{itemize}
-			\subsubsection{public class SettingsHandler}
+			\subsubsection{SettingsHandler}
+				\sign{public class SettingsHandler}
 				Diese Klasse ist die Fassade zum Zugriff auf die App-Einstellungen. Sie verwendet dafür die Klasse ConfigFile.
 				\paragraph{Attribute:}
 					\begin{itemize}
@@ -92,7 +96,8 @@
 					\begin{itemize}
 						\i{public void ResetSteps()} Diese Metjode setzt die Anzahl der gezählten Schritte zurück.
 					\end{itemize}
-			\subsubsection{public class ModeHandler}
+			\subsubsection{ModeHandler}
+				\sign{public class ModeHandler}
 				Diese Klasse ist verwaltet die aktivierten und deaktivierten Modi.
 				\paragraph{Properties:}
 					\begin{itemize}
@@ -104,7 +109,8 @@
 			Dadurch werden Konsistenzprobleme vermieden, da nicht unterschiedliche Teile der App auf unterschiedliche konkrete Implementierungen
 			zugreifen können. Bzw. immer wissen, was die aktuelle Implementierung ist.
 			Zusätzlich gibt es noch die Klasse AudioTrack welche einen konkreten AudioTrack zu einer konkreten Implementierung definiert.
-			\subsubsection{interface IAudioLibImpl}
+			\subsubsection{IAudioLibImpl}
+				\sign{interface IAudioLibImpl}
 				Dieses Interface stellt eine konkrete Implementierung einer Audio Bibliothek dar.
 				\paragraph{Properties:}
 					\begin{itemize}
@@ -118,7 +124,8 @@
 						\i{void AddTrack()} Dies fügt der konkreten Implementierung der Audio Bibliothek einen neuen Track hinzu, sofern
 						diese das unterstützt.
 					\end{itemize}
-			\subsubsection{interface IAudioPlayerImpl}
+			\subsubsection{IAudioPlayerImpl}
+				\sign{interface IAudioPlayerImpl}
 				Dieses Interface stellt eine konkrete Implementierung des Audio Players dar.
 				\paragraph{Properties:}
 					\begin{itemize}
@@ -129,7 +136,8 @@
 						\i{void TogglePause()} Dies Pausiert den Song/Spielt den Song weiter ab.
 						\i{void PlayTrack()} Dies Spielt den aktuell gewählten Song ab.
 					\end{itemize}
-			\subsubsection{abstract class AudioTrack}
+			\subsubsection{AudioTrack}
+				\sign{abstract class AudioTrack}
 				Diese Klasse definiert einen Abstrakten AudioTrack.
 				\paragraph{Properties:}
 					Keine der Properties definiert eine set() Methode, da manche AudioLib-Implementierungen (z.B. Spotify) so etwas nicht
@@ -141,18 +149,22 @@
 						\i{public abstract string Artist} Der Name des Künstlers.
 						\i{public abstract int BPM} Der BPM Wert der diesem Song hinterlegt ist.
 					\end{itemize}
-			\subsubsection{sealed class BasicAudioLib : IAudioLibImpl}
+			\subsubsection{BasicAudioLib}
+				\sign{sealed class BasicAudioLib : IAudioLibImpl}
 				Diese Klasse definiert eine Standart Audio Bibliothek. Sie speichert den Ort der Audio Datei und andere Eigenschaften hinterlegter
 				Songs. Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
-			\subsubsection{sealed class BasicAudioPlayer : IAudioPlayerImpl}
+			\subsubsection{BasicAudioPlayer}
+				\sign{sealed class BasicAudioPlayer : IAudioPlayerImpl}
 				Diese Klasse definiert einen simplen Audio Player, welcher Audio Dateien aus dem internen Speicher auslesen und abspielen kann.
-			\subsubsection{sealed class BasicAudioTrack : AudioTrack}
+			\subsubsection{BasicAudioTrack}
+				\sign{sealed class BasicAudioTrack : AudioTrack}
 				Diese Klasse definiert einen AudioTrack zum BasicAudioPlayer und zur BasicAudioLib.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{public String StorageLocation} Dieser String stellt dar, wo im Speicher die zugrundeliegende Audio-Datei liegt.
 					\end{itemize}
-			\subsubsection{sealed class SpotifyAudioLib : IAudioLibImpl}
+			\subsubsection{SpotifyAudioLib}
+				\sign{sealed class SpotifyAudioLib : IAudioLibImpl}
 				Diese Klasse implementiert eine konkrete Audio Bibliothek mit Spotify Integration.
 				Sie hat als Grundlage eine Spotify Playlist. Sie kommuniziert mit der Klasse SpotifyWebAPI.
 				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
@@ -160,21 +172,25 @@
 					\begin{itemize}
 						\i{private String PlaylistTag} Dieser String repräsentiert den Tag der gewählten Spotify Playlist.
 					\end{itemize}
-			\subsubsection{sealed class SpotifyAudioPlayer : IAudioPlayerImpl}
+			\subsubsection{SpotifyAudioPlayer}
+				\sign{sealed class SpotifyAudioPlayer : IAudioPlayerImpl}
 				Dies ist die Implementierung des Audio Player für Spotify. Die Klasse kommuniziert mit der Klasse SpotifyWebAPI.
-			\subsubsection{sealed class SpotifyAudioTrack : AudioTrack}
+			\subsubsection{SpotifyAudioTrack}
+				\sign{sealed class SpotifyAudioTrack : AudioTrack}
 				Diese Klasse definiert einen AudioTrack zum SpotifyAudioPlayer und zur SpotifyAudioLib.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{private String Tag} Dies repräsentiert den Tag des Spotify Track.
 					\end{itemize}
-			\subsubsection{sealed class SpotifyWebAPI}
-				Diese Klasse dient zur Kommunikation mit der Spotify-Web-API. Sie wird die Library
+			\subsubsection{SpotifyWebAPI}
+				\sign{sealed class SpotifyWebAPI}
+				Diese Klasse dient zur Kommunikation mit der Spotify-Web-API. Sie wird die Library 
 				SpotifyAPI-NET\footnote{\see[]{https://github.com/JohnnyCrazy/SpotifyAPI-NET}} verwenden.
 				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
 		\subsection{Modi}
 			Dies sind die verschiedenen Modi, welche aktiv oder inaktiv sein können.
-			\subsubsection{public abstract class Mode}
+			\subsubsection{Mode}
+				\sign{public abstract class Mode}
 				Die abstrakte Klasse Mode definiert einen Generellen Modus und bietet eine Schnittstelle zu den ViewModels.
 				\paragraph{Properties:}
 					\begin{itemize}
@@ -188,13 +204,16 @@
 						\i{protected abstract String UpdateName(Lang value)}  Diese Methode liefert den Namen des Modus zurück. Der Parameter das
 						Objekt aus dem die konkrete Klasse ihren Namen beziehen kann.
 					\end{itemize}
-			\subsubsection{class AutostopMode : Mode}
+			\subsubsection{AutostopMode}
+				\sign{class AutostopMode : Mode}
 				Der konkrete Autostop-Modus.
-			\subsubsection{class MotivateMode : Mode}
+			\subsubsection{MotivateMode}
+				\sign{class MotivateMode : Mode}
 				Der konkrete Motivationsmusik-Modus.
 		\subsection{Einstellungen}
 			Hier sind die Klassen bezüglich der App-Einstellungen und Sprach-Einstellungen.
-			\subsubsection{class ConfigFile}
+			\subsubsection{ConfigFile}
+				\sign{class ConfigFile}
 				Die Klasse ConfigFile liest, schreibt und verwaltet das .config Dokument im Speicher der App.
 				\paragraph{Properties:}
 					\begin{itemize}
@@ -202,8 +221,10 @@
 						\i{String AudioModule} Der Indentifier des aktuell verwendeten Audio Moduls.
 						\i{int TotalSteps} Die Anzahl aller Schritte seit letztem Reset.
 					\end{itemize}
-			\subsubsection{public class LangManager : IObservable<Lang>}
-				Der LangManager ist ein Observable nach dem C\# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
+			\subsubsection{LangManager}
+				\sign{public class LangManager : IObservable<Lang>}
+				Der LangManager ist ein Observable nach dem 
+				C\# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
 				Er lädt alle verfügbaren Sprachen aus dem internen Speicher aus .lang Text-Dokumenten.
 				Die Klasse ist implementiert ein Singleton-Muster.
 				\paragraph{Properties:}
@@ -212,6 +233,11 @@
 					\end{itemize}
 			\subsubsection{Lang}
 				\sign{public class Lang}
+				Die Klasse Lang definiert genau eine Sprache und alle zugehörigen Strings. 
+				\paragraph{Methoden:}
+					\begin{itemize}
+						\i{public String get(String tag)} Der Rückgabe-String ist genau der String der mit dem Parameter-String assoziiert wird.
+					\end{itemize}
 			\subsubsection{Language}
 				\sign{struct Language}
 				\paragraph{Properties:}
@@ -219,11 +245,21 @@
 						\i{public String Name} Der Name der Sprache.
 						\i{public String Tag} Der Tag der Sprache um das Dokument zu identifizieren.
 					\end{itemize}
-<<<<<<< HEAD
-
-
-=======
-
->>>>>>> Add class signatures for EarableLibrary classes
-
+		\subsection{Sonstige}
+			\subsubsection{BluetoothDevice}
+				\sign{public class BluetoothDevice}
+				Ein Adapter zwischen IEarable der EarableLibrary und dem ViewModel.
+				\paragraph{Attribute:}
+					\begin{itemize}
+						\i{private IEarable \_earable} Das zugrundeliegende IEarable Objekt.
+					\end{itemize}
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public string Name} Der Bluetooth-Name des Geräts.
+					\end{itemize}
+				\paragraph{Methoden:}
+					\begin{itemize}
+						\i{public void Connect()} Bluetooth-Verbindung mit diesem Gerät herstellen.
+						\i{public void Disconnect()} Bluetooth-Verbindung mit diesem Gerät trennen.
+					\end{itemize}
 \end{document}
