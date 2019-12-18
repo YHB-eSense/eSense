@@ -11,6 +11,7 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
+		private NavigationHandler _handler;
 		//private Image _iconOn;
 		//private Image _iconOff;
 		private string _deviceName;
@@ -104,8 +105,9 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public MainPageVM()
+		public MainPageVM(NavigationHandler handler)
 		{
+			_handler = handler;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			ConnectionPageCommand = new Command(GotoConnectionPage);
@@ -117,12 +119,12 @@ namespace Karl.ViewModel
 
 		private void GotoAudioPlayerPage()
 		{
-			NavigationHandler.GotoPage("AudioPlayerPage");
+			_handler.GotoPage("AudioPlayerPage");
 		}
 
 		private void GotoAudioLibPage()
 		{
-			NavigationHandler.GotoPage("AudioLibPage");
+			_handler.GotoPage("AudioLibPage");
 		}
 
 		private void GotoConnectionPage()
@@ -133,18 +135,18 @@ namespace Karl.ViewModel
 			}
 			else
 			{
-				NavigationHandler.GotoPage("ConnectionPage");
+				_handler.GotoPage("ConnectionPage");
 			}
 		}
 
 		private void GotoModesPage()
 		{
-			NavigationHandler.GotoPage("ModesPage");
+			_handler.GotoPage("ModesPage");
 		}
 
 		private void GotoSettingsPage()
 		{
-			NavigationHandler.GotoPage("SettingsPage");
+			_handler.GotoPage("SettingsPage");
 		}
 
 		public void GetDeviceName()

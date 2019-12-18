@@ -10,6 +10,7 @@ namespace Karl.ViewModel
 {
 	public class AddSongPageVM
 	{
+		private NavigationHandler _handler;
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
@@ -26,8 +27,9 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public AddSongPageVM()
+		public AddSongPageVM(NavigationHandler handler)
 		{
+			_handler = handler;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 		}
@@ -39,7 +41,7 @@ namespace Karl.ViewModel
 		{
 			//AudioTrack newSong = new AudioTrack(NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM), NewSongFileLocation);
 			//AppLogic
-			NavigationHandler.GoBack();
+			_handler.GoBack();
 		}
 
 		/// <summary>

@@ -12,6 +12,7 @@ namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
+		private NavigationHandler _handler;
 		public ObservableCollection<IEarable> Devices { get; }
 
 		/**
@@ -25,8 +26,9 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public ConnectionPageVM()
+		public ConnectionPageVM(NavigationHandler handler)
 		{
+			_handler = handler;
 			Devices = new ObservableCollection<IEarable>();
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);
@@ -54,7 +56,7 @@ namespace Karl.ViewModel
 		private void ConnectToDevice(IEarable IEarable)
 		{
 			//AppLogic
-			NavigationHandler.GoBack();
+			_handler.GoBack();
 		} 
 
 		//Eventhandling

@@ -53,7 +53,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void GetModes()
 		{
-			Modes = new ObservableCollection<Mode>(_appLogic.ModeHandler.Modes);
+			//Modes = new ObservableCollection<Mode>(_appLogic.ModeHandler.Modes);
 			foreach (var data in Modes) Debug.WriteLine(data.Name);
 		}
 

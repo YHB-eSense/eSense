@@ -6,16 +6,16 @@ using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
-	public static class NavigationHandler
+	public class NavigationHandler
 	{
-		static private ContentPage[] _pages;
+		private ContentPage[] _pages;
 
-		public static void SetPages(ContentPage[] pages)
+		public void SetPages(ContentPage[] pages)
 		{
 			_pages = pages;
 		}
 
-		public static async void GotoPage(String name)
+		public async void GotoPage(String name)
 		{
 			for (int i = 0; i < _pages.Length; i++)
 			{
@@ -29,7 +29,7 @@ namespace Karl.ViewModel
 			
 		}
 
-		public static async void GoBack()
+		public async void GoBack()
 		{
 			await Application.Current.MainPage.Navigation.PopAsync();
 		}
