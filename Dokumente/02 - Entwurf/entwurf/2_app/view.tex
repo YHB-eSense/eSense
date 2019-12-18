@@ -2,8 +2,9 @@
 \begin{document}
 
 \subsection{View}
+In dem View Namespace sind die .xaml Dateien, die die UI-Elemente enthalten und die .cs mit dem Code-Behind des Layouts. Der Wert der UI-Elemente ist mittels Databindig mit dem ViewModel der entsprechenden ViewPage verbunden. Durch Drücken auf die UI-Elemente wird ein Command im ViewModel der zugehörigen ViewPage ausgeführt. 
 \subsubsection{MainPage}
-
+Die MainPage ist die Seite, die direkt beim Start der App angezeigt wird. Bei nicht verbunden Earables wird dem Benutzer ein graues Bluetooth Logo angezeigt. Durch Drücken auf dieses wird zur ConnectionPage gewechselt. Dort kann sich der User mit den Earables verbinden. Bei verbunden Earables wird dem Benutzer ein blaues Bluetooth Logo und darunter die Schritte angezeigt. Durch Drücken auf das blaue Bluetooth Logo wird die Verbindung zu den Earables getrennt. 
 \paragraph{Attribute}
 
 \begin{itemize}
@@ -18,11 +19,11 @@
 \end{itemize}
 
 \subsubsection{ConnectionPage}
-
+Auf der ConnectionPage wird eine Liste mit den verfügbaren Earables angezeigt und ein Button zum aktualisieren der verfügbaren Geräte angezeigt. 
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private ConnectionPageVM \_connectionPageVM} ViewModel der ConnectionPage
-	\i{private ListView \_availableDevicesListView} Zeigt verfügbare eSense Earables an
+	\i{private ListView \_availableDevicesListView} Zeigt verfügbare eSense Earables an. Durch Drücken auf ein Element aus der Liste wird sich dem dem ausgewählten Earables verbunden. 
 	\i{private Button \_refreshDevicesButton} Durch Drücken aktualisiert sich die Liste der verfügbaren eSense Earables
 \end{itemize}
 
@@ -33,7 +34,7 @@
 \end{itemize}
 
 \subsubsection{AddSongPage}
-
+Zeigt ein Menü zum hinzufügen eines neuen Songs an.  
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AddSongPageVM \_addSongPageVM} ViewModel der AddSongPage
@@ -51,7 +52,7 @@
 \end{itemize}
 
 \subsubsection{AudioLibPage}
-
+Zeigt die abspielbaren Titel in der AudioLibrary an.
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AudioLibPageVM \_audioLibPageVM} ViewModel der AudioLibPage
@@ -70,7 +71,7 @@
 \end{itemize}
 
 \subsubsection{AudioPlayerPage}
-
+Zeigt einen Audioplayer an.
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AudioPlayerPageVM \_audioPlayerPageVM} ViewModel der AudioPlayerPage
@@ -91,7 +92,7 @@
 \end{itemize}
 
 \subsubsection{ModesPage}
-
+Zeigt ein Menü zum aktivieren/deaktivieren aller Modi an.
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private ModesPageVM \_modesPageVM} ViewModel der ModesPage
@@ -106,6 +107,7 @@
 \end{itemize}
 
 \subsubsection{SettingsPage}
+Zeigt ein Menü zum Verändern der Einstellungen der App an.
 \paragraph{Attribute}
 
 \begin{itemize}
