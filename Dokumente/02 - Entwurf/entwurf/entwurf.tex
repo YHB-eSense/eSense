@@ -14,7 +14,7 @@
 \usepackage{parallel,enumitem}
 % Sektionen konfigurierbar machen
 \usepackage{titlesec}
-%Spitze Klammern
+% Spitze Klammern
 \usepackage{textcomp}
 %Line breaks bei \code
 \usepackage[htt]{hyphenat}
@@ -63,6 +63,8 @@
 \newcommand{\see}[1]{\\Siehe: \url{#1}}
 \newcommand{\code}[1]{\texttt{#1}}
 \renewcommand{\i}[1]{\item \code{#1}}
+\newcommand{\note}[1]{\textsuperscript{\hyperlink{note-#1}{#1}}}
+\newcommand{\explainnote}[2]{\let\thefootnote\relax\footnote{\hypertarget{note-#1}{#1: #2}}}
 
 
 \begin{document}
