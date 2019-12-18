@@ -3,12 +3,13 @@
 \begin{document}
 
 \section{ViewModel}
+\includegraphics[scale=0.3]{../graphics/uml_diagramme/ViewModelDiagram.png}
 \subsection{AddSongPageVM}
 \begin{minipage}{0.45\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AddSongPageVM.png}
 \end{minipage}
 \begin{minipage}{0.55\textwidth}
-Diese Klasse enthält die UI-Logik der \code{AddSongsPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AddSongsPage} und dem Model zu dienen.
+Diese Klasse enthält die UI-Logik der \code{AddSongPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AddSongPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Attribute \& Properties}
 \begin{itemize}
@@ -172,9 +173,9 @@ Diese Klasse ermöglicht den verschiedenen Klassen der Viewmodels die Ansicht de
 \paragraph{Attribute \& Properties}
 \paragraph{Methoden}
 \begin{itemize}
-	\i{public static void SetPages(ContentPage[] pages)} Diese Methode speichert das übergebene Array in der Klasse ab.
-	\i{public static async void GotoPage(String name)} Diese Methode ändert die Ansicht der View auf die Page deren Namen dem übergebenen String entspricht.
-	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde.
+	\i{public void SetPages(ContentPage[] pages)} Diese Methode speichert das übergebene Array in der Klasse ab.
+	\i{public async void GotoPage(String name)} Diese Methode ändert die Ansicht der View auf die Page deren Namen dem übergebenen String entspricht.
+	\i{public async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde.
 \end{itemize}
 
 \end{document}
