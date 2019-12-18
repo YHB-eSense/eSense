@@ -3,13 +3,9 @@
 \begin{document}
 
 \subsection{ViewModel}
-\subsubsection{MainPage}
-\paragraph{Attribute}
-\paragraph{Methoden}
-\subsubsection{AddSongPage}
+\subsubsection{AddSongPageVM}
 \paragraph{Attribute}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
 	\i{public string NewSongTitle} Hier wird der vom Nutzer eingegebene Titel eines neu hinzugefügten Lieds gespeichert.
 	\i{public string NewSongArtist} Hier wird der vom Nutzer eingegebene Künstlername eines neu hinzugefügten Lieds gespeichert.
 	\i{public string NewSongBPM} Hier wird der vom Nutzer eingegebene BPM-Wert eines neu hinzugefügten Lieds gespeichert.
@@ -21,11 +17,9 @@
 \begin{itemize}
 	\i{public AddSongPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \code{\_applogic}, \code{AddSongCommand} und \code{PickFileCommand}.
 \end{itemize}
-\subsubsection{AudioLibPage}
+\subsubsection{AudioLibPageVM}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
-	\i{private ObservableCollection<AudioTrack> \_songs} Hier werden die Songs gespeichert, die in der View angezeigt werden sollen.
-	\i{public ObservableCollection<AudioTrack> Songs} Eine Property, mit der auf \code{\_songs} zugegriffen werden kann und beim setzen ein Event aufruft.
+	\i{public ObservableCollection<AudioTrack> Songs} Hier werden die Songs gespeichert, die in der View angezeigt werden sollen.
 	\i{public ICommand TitleSortCommand} Dieser Command führt die private Methode \code{TitleSort()} aus.
 	\i{public ICommand ArtistSortCommand} Dieser Command führt die private Methode \code{ArtistSort()} aus.
 	\i{public ICommand BPMSortCommand} Dieser Command führt die private Methode \code{BPMSort()} aus.
@@ -39,22 +33,14 @@
 	\i{public void GetSongs()} Diese Methode ruft die Songs ab, die im Model gespeichert sind und weist sie der Property \code{Songs} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{AudioPlayerPage}
+\subsubsection{AudioPlayerPageVM}
 \paragraph{Attribute}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
-	\i{private Image \_iconPlay} Hier wird das Icon des PausePlayButtons der View gespeichert, das in der View angezeigt werden soll falls der AudioPlayer pausiert ist.
-	\i{private Image \_iconPause} Hier wird das Icon des PausePlayButtons der View gespeichert, das in der View angezeigt werden soll falls der AudioPlayer aktiv ist.
-	\i{private AudioTrack \_audioTrack} Hier wird der momentan im Model geladene Song gespeichert.
-	\i{private Boolean \_pausePlayBoolean} Dieser Boolean gibt an, ob der AudioPlayer momentan aktiv oder pausiert ist.
-	\i{private int \_volume} Hier wird der Wert der Lautstärke gespeichert.
-	\i{private double \_currentPosition} Hier wird die aktuelle Position im momentan aktiven Song gespeichert.
-	\i{private Image \_icon} Je nachdem ob der AudioPlayer aktiv oder pausiert ist, ist diesem Image \code{\_iconPause} oder \code{\_iconPlay} zugewiesen.
-	\i{public Boolean PausePlayBoolean} Eine Property, mit der auf \code{\_pausePlayBoolean} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public AudioTrack AudioTrack} Eine Property, mit der auf \code{\_audioTrack} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public int Volume} Eine Property, mit der auf \code{\_volume} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public double CurrentPosition} Eine Property, mit der auf \code{\_currentPosition} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public Image Icon} Eine Property, mit der auf \code{\_icon} zugegriffen werden kann und beim setzen ein Event aufruft.
+	\i{public Boolean PausePlayBoolean} Dieser Boolean gibt an, ob der AudioPlayer momentan aktiv oder pausiert ist.
+	\i{public AudioTrack AudioTrack} Hier wird der momentan im Model geladene Song gespeichert.
+	\i{public int Volume} Hier wird der Wert der Lautstärke gespeichert.
+	\i{public double CurrentPosition} Hier wird die aktuelle Position im momentan aktiven Song gespeichert.
+	\i{public Image Icon} Je nachdem ob der AudioPlayer aktiv oder pausiert ist, ist hier ein bestimmtes Bild gespeichert.
 	\i{public ICommand PausePlayCommand} Dieser Command führt die private Methode \code{PausePlay()} aus.
 	\i{public ICommand PlayPrevCommand} Dieser Command führt die private Methode \code{PlayPrev()} aus.
 	\i{public ICommand PlayNextCommand} Dieser Command führt die private Methode \code{PlayNext()} aus.
@@ -69,10 +55,9 @@
 	\i{public void GetVolume()} Diese Methode ruft im Model ab, ob der Audioplayer aktiv oder pausiert werden soll und weist den Boolean der Property \code{PausePlayBoolean} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{ConnectionPage}
+\subsubsection{ConnectionPageVM}
 \paragraph{Attribute}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
 	\i{public ObservableCollection<IEarable> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen.
 	\i{public ICommand RefreshDevicesCommand} Dieser Command führt die private Methode \code{RefreshDevices()} aus.
 	\i{public ICommand ConnectToDeviceCommand} Dieser Command führt die private Methode \code{ConnectToDevice()} mit dem in der View ausgewähltem Gerät als Parameter aus.
@@ -83,10 +68,9 @@
 	\i{public void RefreshDevices()} Diese Methode ruft den im Model momentan erkannten Geräte ab und fügt sie der Property \code{Devices} hinzu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{MainPage}
+\subsubsection{MainPageVM}
 \paragraph{Attribute}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
 	\i{private Image \_iconOn} Hier wird das Icon der View gespeichert, das in der View angezeigt werden soll falls eine Verbindung zu einem Gerät besteht.
 	\i{private Image \_iconOff} Hier wird das Icon der View gespeichert, das in der View angezeigt werden soll falls keine Verbindung zu einem Gerät besteht.
 	\i{private string \_deviceName} Hier wird der Name des momentan verbundenen Geräts gespeichert, falls keine Verbindung besteht, hat der String den wert null.
@@ -111,7 +95,7 @@
 	\i{public void GetConnectBoolean()} Diese Methode ruft im Model ab, ob momentan eine Verbindung zu einem Gerät besteht und weist den Boolean der Property \code{ConnectBoolean} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{ModesPage}
+\subsubsection{ModesPageVM}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
@@ -121,11 +105,11 @@
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
-	\i{public ModesPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \code{\_applogic}, \code{Modes} und \code{ActivateModeCommand}.
+	\i{public ModesPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \code{\_applogic} und die Commands.
 	\i{public void GetModes()} Diese Methode ruft die im Model vorhandenen Modi ab und weist sie der Property \code{Modes} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{SettingsPage}
+\subsubsection{SettingsPageVM}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
@@ -170,5 +154,7 @@
 	\i{public static async void GotoMainPage()} Diese Methode ändert die Ansicht der View auf die \code{\_mainPage}.
 	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde, jedoch nur falls die Ansicht nicht \code{\_mainPage} entspricht.
 \end{itemize}
+
+\footnotetext[1]{Nach außen hin nur Lesezugriff}
 
 \end{document}
