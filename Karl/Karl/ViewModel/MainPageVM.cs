@@ -11,7 +11,6 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private AppLogic _appLogic;
 		//private Image _iconOn;
 		//private Image _iconOff;
 		private string _deviceName;
@@ -105,9 +104,8 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public MainPageVM(AppLogic appLogic)
+		public MainPageVM()
 		{
-			_appLogic = appLogic;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			ConnectionPageCommand = new Command(GotoConnectionPage);

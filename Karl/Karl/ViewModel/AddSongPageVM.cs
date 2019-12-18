@@ -10,7 +10,6 @@ namespace Karl.ViewModel
 {
 	public class AddSongPageVM
 	{
-		private AppLogic _appLogic;
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
@@ -27,9 +26,8 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public AddSongPageVM(AppLogic appLogic)
+		public AddSongPageVM()
 		{
-			_appLogic = appLogic;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 		}

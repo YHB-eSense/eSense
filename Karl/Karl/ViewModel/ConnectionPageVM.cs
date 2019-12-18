@@ -12,7 +12,6 @@ namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
-		private AppLogic _appLogic;
 		public ObservableCollection<IEarable> Devices { get; }
 
 		/**
@@ -26,9 +25,8 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public ConnectionPageVM(AppLogic appLogic)
+		public ConnectionPageVM()
 		{
-			_appLogic = appLogic;
 			Devices = new ObservableCollection<IEarable>();
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);

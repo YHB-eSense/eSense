@@ -11,7 +11,6 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private AppLogic _appLogic;
 		private ObservableCollection<Lang> _languages;
 		private Lang _selectedLanguage;
 		private string _deviceName;
@@ -83,9 +82,8 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public SettingsPageVM(AppLogic appLogic)
+		public SettingsPageVM()
 		{
-			_appLogic = appLogic;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
 			ChangeLanguageCommand = new Command<Lang>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);

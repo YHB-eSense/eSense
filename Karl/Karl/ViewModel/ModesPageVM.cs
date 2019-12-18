@@ -9,7 +9,6 @@ namespace Karl.ViewModel
 {
 	public class ModesPageVM : INotifyPropertyChanged
 	{
-		private AppLogic _appLogic;
 		private ObservableCollection<Mode> _modes;
 
 		/// <summary>
@@ -34,9 +33,8 @@ namespace Karl.ViewModel
 		/// Initializises App Logic and all available Commands
 		/// </summary>
 		/// <param name="appLogic"> For needed functions in Model</param>
-		public ModesPageVM(AppLogic appLogic)
+		public ModesPageVM()
 		{
-			_appLogic = appLogic;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
 			Modes = new ObservableCollection<Mode>();
 		}
