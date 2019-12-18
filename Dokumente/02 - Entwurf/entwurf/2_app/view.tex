@@ -1,9 +1,9 @@
 \documentclass[../entwurf.tex]{subfiles}
 \begin{document}
 
-\subsection{View}
+\section{View}
 In dem View Namespace sind die .xaml Dateien, die die UI-Elemente enthalten und die .cs mit dem Code-Behind des Layouts. Der Wert der UI-Elemente ist mittels Databindig mit dem ViewModel der entsprechenden ViewPage verbunden. Durch Drücken auf die UI-Elemente wird ein Command im ViewModel der zugehörigen ViewPage ausgeführt. 
-\subsubsection{MainPage}
+\subsection{MainPage}
 Die MainPage ist die Seite, die direkt beim Start der App angezeigt wird. Bei nicht verbunden Earables wird dem Benutzer ein graues Bluetooth Logo angezeigt. Durch Drücken auf dieses wird zur ConnectionPage gewechselt. Dort kann sich der User mit den Earables verbinden. Bei verbunden Earables wird dem Benutzer ein blaues Bluetooth Logo und darunter die Schritte angezeigt. Durch Drücken auf das blaue Bluetooth Logo wird die Verbindung zu den Earables getrennt. 
 \paragraph{Attribute}
 
@@ -18,7 +18,7 @@ Die MainPage ist die Seite, die direkt beim Start der App angezeigt wird. Bei ni
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{ConnectionPage}
+\section{ConnectionPage}
 Auf der ConnectionPage wird eine Liste mit den verfügbaren Earables angezeigt und ein Button zum aktualisieren der verfügbaren Geräte angezeigt. 
 \paragraph{Attribute}
 \begin{itemize}
@@ -33,7 +33,7 @@ Auf der ConnectionPage wird eine Liste mit den verfügbaren Earables angezeigt u
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{AddSongPage}
+\section{AddSongPage}
 Zeigt ein Menü zum hinzufügen eines neuen Songs an.  
 \paragraph{Attribute}
 \begin{itemize}
@@ -51,7 +51,7 @@ Zeigt ein Menü zum hinzufügen eines neuen Songs an.
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{AudioLibPage}
+\section{AudioLibPage}
 Zeigt die abspielbaren Titel in der AudioLibrary an.
 \paragraph{Attribute}
 \begin{itemize}
@@ -70,7 +70,7 @@ Zeigt die abspielbaren Titel in der AudioLibrary an.
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{AudioPlayerPage}
+\section{AudioPlayerPage}
 Zeigt einen Audioplayer an.
 \paragraph{Attribute}
 \begin{itemize}
@@ -91,7 +91,7 @@ Zeigt einen Audioplayer an.
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{ModesPage}
+\section{ModesPage}
 Zeigt ein Menü zum aktivieren/deaktivieren aller Modi an.
 \paragraph{Attribute}
 \begin{itemize}
@@ -106,7 +106,7 @@ Zeigt ein Menü zum aktivieren/deaktivieren aller Modi an.
 	\i{protected override void OnAppearing()} Verhalten der Seite unmittelbar bevor sie angezeigt wird
 \end{itemize}
 
-\subsubsection{SettingsPage}
+\section{SettingsPage}
 Zeigt ein Menü zum Verändern der Einstellungen der App an.
 \paragraph{Attribute}
 
