@@ -24,6 +24,11 @@ namespace Karl.Model
 			private set => _singletonSpotifyAudioLib = value;
 		}
 
+		/// <summary>
+		/// This is the tag of the Spotify Playlist this Lib is based on.
+		/// </summary>
+		private String PlaylistTag;
+
 		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
 
 		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

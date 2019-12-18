@@ -15,20 +15,44 @@ namespace Karl.Model
 		/// This is the AudioLib Wrapper. Use only this.
 		/// If the used Audiomodule is changed, the implementation will be changed without the interface changing.
 		/// </summary>
-		public AudioLib AudioLib { get; private set; }
+		public AudioLib AudioLib
+		{
+			get
+			{
+				return AudioLib.SingletonAudioLib;
+			}
+		}
 		/// <summary>
 		///This is the AudioPlayer Wrapper.Use only this.
 		/// If the used Audiomodule is changed, the implementation will be changed without the interface changing.
 		/// </summary>
-		public AudioPlayer AudioPlayer { get; private set; }
+		public AudioPlayer AudioPlayer
+		{
+			get
+			{
+				return AudioPlayer.SingletonAudioPlayer;
+			}
+		}
 		/// <summary>
 		/// This is the SettingsHandler. It manages the app settings.
 		/// </summary>
-		public SettingsHandler SettingsHandler { get; private set; }
+		public SettingsHandler SettingsHandler
+		{
+			get
+			{
+				return SettingsHandler.SingletonSettingsHandler;
+			}
+		}
 		/// <summary>
 		/// This is the Mode Handler. It will give you a List of available modes.
 		/// </summary>
-		public ModeHandler ModeHandler { get; private set; }
+		public ModeHandler ModeHandler
+		{
+			get
+			{
+				return ModeHandler.SingletonModeHandler;
+			}
+		}
 		//This handles the connection to the earables.
 		private ConnectionHandler Connection;
 		/// <summary>
@@ -48,10 +72,6 @@ namespace Karl.Model
 		/// </summary>
 		public AppLogic()
 		{
-			AudioLib = AudioLib.SingletonAudioLib;
-			AudioPlayer = AudioPlayer.SingletonAudioPlayer;
-			SettingsHandler = new SettingsHandler(AudioLib, AudioPlayer);
-			ModeHandler = new ModeHandler(AudioPlayer);
 			Connection = new ConnectionHandler();
 		}
 		/// <summary>

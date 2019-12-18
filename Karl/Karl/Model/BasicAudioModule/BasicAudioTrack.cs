@@ -7,6 +7,10 @@ namespace Karl.Model
 {
 	sealed class BasicAudioTrack : AudioTrack
 	{
+		/// <summary>
+		/// This is where the Audio File this Track is based on is stored.
+		/// </summary>
+		public String StorageLocation;
 		public override double Duration => throw new NotImplementedException(); //todo
 
 		public override Image Cover => throw new NotImplementedException(); //todo

@@ -12,21 +12,25 @@ namespace Karl.Model
 		private AudioLib AudioLib;
 		private IAudioPlayerImpl audioPlayerImp;
 
-		private AudioPlayer _singletonAudioPlayer;
+		private static  AudioPlayer _singletonAudioPlayer;
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
 		/// </summary>
-		public AudioPlayer SingletonAudioPlayer
+		public static AudioPlayer SingletonAudioPlayer
 		{
 			get
 			{
 				if (_singletonAudioPlayer == null)
 				{
 					_singletonAudioPlayer = new AudioPlayer();
-					AudioLib = AudioLib.SingletonAudioLib;
 				}
 				return _singletonAudioPlayer;
 			}
+		}
+
+		private AudioPlayer()
+		{
+			this.AudioLib = AudioLib.SingletonAudioLib;
 		}
 		
 		/// <summary>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
@@ -13,9 +14,9 @@ namespace EarableLibrary
 
 		ReadOnlyCollection<ISensor> Sensors { get; }
 
-		System.Threading.Tasks.Task<bool> ConnectAsync();
+		Task<bool> ConnectAsync();
 
-		System.Threading.Tasks.Task<bool> DisconnectAsync();
+		Task<bool> DisconnectAsync();
 
 		bool IsConnected();
 	}
