@@ -31,7 +31,9 @@ namespace Karl
 			AddSongPage addSongPage = new AddSongPage(addSongPageVM);
 			MainPage mainPage = new MainPage(mainPageVM);
 
-			NavigationHandler.SetPages(audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, addSongPage, mainPage);
+			ContentPage[] pages = { audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, addSongPage, mainPage };
+
+			NavigationHandler.SetPages(pages);
 
 			MainPage = new NavigationPage(mainPage);
         }

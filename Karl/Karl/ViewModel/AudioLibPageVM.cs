@@ -91,7 +91,7 @@ namespace Karl.ViewModel
 		private void PlaySong(AudioTrack audioTrack)
 		{
 			//Applogic
-			NavigationHandler.GotoAudioPlayerPage();
+			NavigationHandler.GotoPage("AudioPlayerPage");
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void AddSong()
 		{
-			NavigationHandler.GotoAddSongPage();
+			NavigationHandler.GotoPage("AddSongPage");
 		}
 
 		/// <summary>

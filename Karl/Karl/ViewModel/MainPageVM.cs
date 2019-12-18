@@ -119,12 +119,12 @@ namespace Karl.ViewModel
 
 		private void GotoAudioPlayerPage()
 		{
-			NavigationHandler.GotoAudioPlayerPage();
+			NavigationHandler.GotoPage("AudioPlayerPage");
 		}
 
 		private void GotoAudioLibPage()
 		{
-			NavigationHandler.GotoAudioLibPage();
+			NavigationHandler.GotoPage("AudioLibPage");
 		}
 
 		private void GotoConnectionPage()
@@ -135,18 +135,18 @@ namespace Karl.ViewModel
 			}
 			else
 			{
-				NavigationHandler.GotoConnectionPage();
+				NavigationHandler.GotoPage("ConnectionPage");
 			}
 		}
 
 		private void GotoModesPage()
 		{
-			NavigationHandler.GotoModesPage();
+			NavigationHandler.GotoPage("ModesPage");
 		}
 
 		private void GotoSettingsPage()
 		{
-			NavigationHandler.GotoSettingsPage();
+			NavigationHandler.GotoPage("SettingsPage");
 		}
 
 		public void GetDeviceName()

@@ -163,12 +163,18 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
 \subsection{NavigationHandler}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/NavigationHandler.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse ermöglicht den verschiedenen Klassen der Viewmodels die Ansicht der App auf andere ContentPages der View zu ändern.
+\end{minipage}
 \paragraph{Attribute \& Properties}
 \paragraph{Methoden}
 \begin{itemize}
-	\i{public SettingsPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert alle Attribute.
-	\i{public static async void GotoPage()} TODO
-	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde
+	\i{public static void SetPages(ContentPage[] pages)} Diese Methode speichert das übergebene Array in der Klasse ab.
+	\i{public static async void GotoPage(String name)} Diese Methode ändert die Ansicht der View auf die Page deren Namen dem übergebenen String entspricht.
+	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde.
 \end{itemize}
 
 \end{document}
