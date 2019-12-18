@@ -193,6 +193,30 @@
 			\subsubsection{class MotivateMode : Mode}
 				Der konkrete Motivationsmusik-Modus.
 		\subsection{Einstellungen}
-					
+			Hier sind die Klassen bezüglich der App-Einstellungen und Sprach-Einstellungen.
+			\subsubsection{class ConfigFile}
+				Die Klasse ConfigFile liest, schreibt und verwaltet das .config Dokument im Speicher der App.
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public Nullable<Language> Language} Die verwendete Sprache. Nullable, falls die Sprache nicht gelesen werden kann.
+						\i{String AudioModule} Der Indentifier des aktuell verwendeten Audio Moduls.
+						\i{int TotalSteps} Die Anzahl aller Schritte seit letztem Reset.
+					\end{itemize}
+			\subsubsection{public class LangManager : IObservable<Lang>}
+				Der LangManager ist ein Observable nach dem 
+				C# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
+				Er lädt alle verfügbaren Sprachen aus dem internen Speicher aus .lang Text-Dokumenten.
+				Die Klasse ist implementiert ein Singleton-Muster.
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public Lang CurrentLang} Die aktuell gewählte Sprache.
+					\end{itemize}
+			\subsubsection{Language}
+				\sign{struct Language}
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public String Name}
+					\end{itemize}
+			
 
 \end{document}
