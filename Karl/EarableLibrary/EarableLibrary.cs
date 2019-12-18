@@ -6,11 +6,11 @@ using Xamarin.Forms;
 
 namespace EarableLibrary
 {
-	public class EarableConnectionHandler
+	public class EarableLibrary
 	{
 		public event EventHandler<EarableEventArgs> EarableDiscovered;
 
-		public EarableConnectionHandler()
+		public EarableLibrary()
 		{
 			CrossBluetoothLE.Current.Adapter.DeviceDiscovered += DeviceDiscovered;
 		}
