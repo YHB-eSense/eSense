@@ -13,7 +13,7 @@ namespace Karl.Model
 		public String get(String tag)
 		{
 			//todo
-			return "";
+			return tag;
 		}
 		
 		//todo

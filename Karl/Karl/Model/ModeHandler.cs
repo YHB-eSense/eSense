@@ -9,6 +9,18 @@ namespace Karl.Model
 	/// </summary>
 	public class ModeHandler 
 	{
+		private static ModeHandler _singletonModeHandler;
+		public static ModeHandler SingletonModeHandler
+		{
+			get
+			{
+				if (_singletonModeHandler == null)
+				{
+					_singletonModeHandler = new ModeHandler();
+				}
+				return _singletonModeHandler;
+			}
+		}
 		private AudioPlayer _audioPlayer;
 		/// <summary>
 		/// All registered modes.
@@ -19,9 +31,9 @@ namespace Karl.Model
 		/// Constructor of the mode handler.
 		/// </summary>
 		/// <param name="audioPlayer">The audioplayer that is the modes do stuff on.</param>
-		internal ModeHandler(AudioPlayer audioPlayer)
+		private ModeHandler()
 		{
-			this._audioPlayer = audioPlayer;
+			this._audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			Modes = new List<Mode>();
 			Modes.Add(new AutostopMode());
 			Modes.Add(new MotivateMode());

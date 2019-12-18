@@ -22,7 +22,7 @@ namespace Karl.Model
 
 		protected override String UpdateName(Lang value)
 		{
-			return value.MOTIVATE_MODE;//todo
+			return value.get("mode_motivate");//todo
 		}
 	}
 }

@@ -7,9 +7,9 @@ namespace Karl.Model
 	/// <summary>
 	/// The Autostop Mode.
 	/// </summary>
-	internal class AutostopMode : Mode
+	class AutostopMode : Mode
 	{
-		internal AutostopMode()
+		AutostopMode()
 		{
 			//todo
 		}
@@ -26,7 +26,7 @@ namespace Karl.Model
 
 		protected override String UpdateName(Lang value)
 		{
-			return value.AUTOSTOP_MODE;//todo
+			return value.get("mode_autostop");//todo
 		}
 	} 
 }
