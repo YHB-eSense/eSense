@@ -13,6 +13,7 @@ namespace Karl.ViewModel
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
+		private ConnectionHandler _connectionHandler;
 		public ObservableCollection<IEarable> Devices { get; }
 
 		/**
@@ -29,6 +30,7 @@ namespace Karl.ViewModel
 		public ConnectionPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_connectionHandler = new ConnectionHandler();
 			Devices = new ObservableCollection<IEarable>();
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);

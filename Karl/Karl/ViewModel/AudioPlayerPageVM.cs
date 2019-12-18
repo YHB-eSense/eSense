@@ -8,6 +8,8 @@ namespace Karl.ViewModel
 {
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
+		private AudioPlayer _audioPlayer;
+		private AudioLib _audioLib;
 		//private Image _iconPlay;
 		//private Image _iconPause;
 		private AudioTrack _audioTrack;
@@ -106,6 +108,8 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioPlayerPageVM()
 		{
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_audioLib = AudioLib.SingletonAudioLib;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);

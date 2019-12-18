@@ -11,6 +11,7 @@ namespace Karl.ViewModel
 	public class AddSongPageVM
 	{
 		private NavigationHandler _handler;
+		private AudioLib _audioLib;
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
@@ -30,6 +31,7 @@ namespace Karl.ViewModel
 		public AddSongPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_audioLib = AudioLib.SingletonAudioLib;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 		}

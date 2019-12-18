@@ -13,6 +13,7 @@ namespace Karl.ViewModel
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
+		private AudioLib _audioLib;
 		private ObservableCollection<AudioTrack> _songs;
 
 		public ObservableCollection<AudioTrack> Songs
@@ -44,7 +45,8 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioLibPageVM(NavigationHandler handler)
 		{
-			_handler = handler
+			_handler = handler;
+			_audioLib = AudioLib.SingletonAudioLib;
 			Songs = new ObservableCollection<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);
