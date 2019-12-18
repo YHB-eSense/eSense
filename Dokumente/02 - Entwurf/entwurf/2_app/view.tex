@@ -5,6 +5,11 @@
 In dem View Namespace sind die .xaml Dateien, die die UI-Elemente enthalten und die .cs mit dem Code-Behind des Layouts. Der Wert der UI-Elemente ist mittels Databindig mit dem ViewModel der entsprechenden ViewPage verbunden. Durch Drücken auf die UI-Elemente wird ein Command im ViewModel der zugehörigen ViewPage ausgeführt. 
 \subsection{MainPage}
 Die MainPage ist die Seite, die direkt beim Start der App angezeigt wird. Bei nicht verbunden Earables wird dem Benutzer ein graues Bluetooth Logo angezeigt. Durch Drücken auf dieses wird zur ConnectionPage gewechselt. Dort kann sich der User mit den Earables verbinden. Bei verbunden Earables wird dem Benutzer ein blaues Bluetooth Logo und darunter die Schritte angezeigt. Durch Drücken auf das blaue Bluetooth Logo wird die Verbindung zu den Earables getrennt. 
+
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/MainPage.png}
+\end{center}
+
 \paragraph{Attribute}
 
 \begin{itemize}
@@ -20,6 +25,9 @@ Die MainPage ist die Seite, die direkt beim Start der App angezeigt wird. Bei ni
 
 \subsection{ConnectionPage}
 Auf der ConnectionPage wird eine Liste mit den verfügbaren Earables angezeigt und ein Button zum aktualisieren der verfügbaren Geräte angezeigt. 
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/ConnectionPage.png}
+\end{center}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private ConnectionPageVM \_connectionPageVM} ViewModel der ConnectionPage
@@ -35,6 +43,9 @@ Auf der ConnectionPage wird eine Liste mit den verfügbaren Earables angezeigt u
 
 \subsection{AddSongPage}
 Zeigt ein Menü zum hinzufügen eines neuen Songs an.  
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/AddSongPage.png}
+\end{center}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AddSongPageVM \_addSongPageVM} ViewModel der AddSongPage
@@ -53,6 +64,9 @@ Zeigt ein Menü zum hinzufügen eines neuen Songs an.
 
 \subsection{AudioLibPage}
 Zeigt die abspielbaren Titel in der AudioLibrary an.
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/AudioLibPage.png}
+\end{center}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AudioLibPageVM \_audioLibPageVM} ViewModel der AudioLibPage
@@ -72,12 +86,14 @@ Zeigt die abspielbaren Titel in der AudioLibrary an.
 
 \subsection{AudioPlayerPage}
 Zeigt einen Audioplayer an.
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/AudioPlayerPage.png}
+\end{center}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private AudioPlayerPageVM \_audioPlayerPageVM} ViewModel der AudioPlayerPage
 	\i{private Image \_songCoverImage} Zeigt das Cover des abzuspielenden Lieds an
 	\i{private Slider \_songTimeSlider} Zeigt die Position im abzuspielenden Lied an
-	\i{private Button \_previousSongButton} Durch Drücken wird das vorherige Lied abgespielt
 	\i{private Button \_previousSongButton} Durch Drücken wird das vorherige Lied abgespielt
 	\i{private Button \_playPauseSongButton} Durch Drücken wird das aktuell geladene Lied pausiert/abgespielt
 	\i{private Button \_nextSongButton} Durch Drücken wird das nächste Lied abgespielt
@@ -93,6 +109,9 @@ Zeigt einen Audioplayer an.
 
 \subsection{ModesPage}
 Zeigt ein Menü zum aktivieren/deaktivieren aller Modi an.
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/ModesPage.png}
+\end{center}
 \paragraph{Attribute}
 \begin{itemize}
 	\i{private ModesPageVM \_modesPageVM} ViewModel der ModesPage
@@ -108,6 +127,9 @@ Zeigt ein Menü zum aktivieren/deaktivieren aller Modi an.
 
 \subsection{SettingsPage}
 Zeigt ein Menü zum Verändern der Einstellungen der App an.
+\begin{center}
+	\includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/View/SettingsPage.png}
+\end{center}
 \paragraph{Attribute}
 
 \begin{itemize}

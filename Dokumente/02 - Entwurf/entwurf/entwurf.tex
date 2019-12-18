@@ -16,8 +16,6 @@
 \usepackage{textcomp}
 % Line Breaks bei \code
 \usepackage[htt]{hyphenat}
-%include graphics
-\usepackage{graphicx}
 % Page Breaks nach \part
 \usepackage{etoolbox}
 % Glossar
@@ -38,6 +36,9 @@
 
 % Jeden Part auf neuer Seite beginnen
 \preto{\part}{\clearpage}
+
+% Abstand zwischen Paragraphen
+% \setlength{\parskip}{\baselineskip}
 
 % Titel, Author, etc.
 \title{PSE Entwurfsdokument YHB eSense}
@@ -64,6 +65,7 @@
 % Nützliche Befehle für alle Kapitel
 \newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\sign}[1]{\paragraph{Signatur}{\code{#1}}\par}
 \renewcommand{\i}[1]{\item \code{#1}}
 \newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
 

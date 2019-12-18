@@ -3,21 +3,21 @@
 
 	\section{Model}
 		\subsection{Schnittstelle}
-			Die Schnittstelle zu den ViewModels besteht aus Klassen, die explizit konzipiert sind um die Kommunikation zwischen ViewModels und Model 
+			Die Schnittstelle zu den ViewModels besteht aus Klassen, die explizit konzipiert sind um die Kommunikation zwischen ViewModels und Model
 			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem Singleton-Muster aufgebaut.
 			\subsubsection{public class AppLogic}
 				Diese Klasse initialisiert im Konstruktor das Model und verwaltet somit interne Abhängigkeiten im Model. Sie verwaltet gegenüber den
 				ViewModels auch die Verbindung zu den Earables mithilfe der Klasse ConnectionHandler.
 				\paragraph{Attribute:}
 					\begin{itemize}
-						\i{private ConnectionHandler Connection} Das ConnectionHandler Objekt welches die Libraries 
+						\i{private ConnectionHandler Connection} Das ConnectionHandler Objekt welches die Libraries
 						(und damit die Verbindung zu den Earables.) verwaltet.
 					\end{itemize}
 				\paragraph{Properties:}
 					\begin{itemize}
 						\i{public AudioLib AudioLib} Das Singleton-Objekt der Schnittstellen-Klasse AudioLib. Definiert keinen Setter.
 						\i{public AudioPlayer AudioPlayer} Das Singleton-Objekt der Schnittstellen-Klasse AudioPlayer. Definiert keinen Setter.
-						\i{public SettingsHandler SettingsHandler} Das Singleton-Objekt der SchnittstellenKlasse SettingsHandler. 
+						\i{public SettingsHandler SettingsHandler} Das Singleton-Objekt der SchnittstellenKlasse SettingsHandler.
 						Definiert keinen Setter.
 						\i{public ModeHandler ModeHandler} Das Singleton-Objekt der Schnittstellen-Klasse ModeHandler. Definiert keinen Setter.
 						\i{public BluetoothDevice CurrentDevice} Das aktuell verbundene eSense Gerät. Definiert keinen Setter, da dieses nur vom Model
@@ -42,18 +42,18 @@
 					\end{itemize}
 				\paragraph{Properties:}
 					\begin{itemize}
-						\i{public AudioLib SingletonAudioLib} Dies ist die Property die ein Getter für den 
+						\i{public AudioLib SingletonAudioLib} Dies ist die Property die ein Getter für den
 						Singleton definiert. Daher gibt es kein Setter.
 						\i{public AudioTrack CurrentTrack} Dies ist das momentan ausgewählte Lied. Dieses
-						wird auch im AudioPlayer abgepielt und angezeigt. 
-						\i{public IList<AudioTrack> AudioTracks} Dies ist eine Liste aller Tracks in dieser 
+						wird auch im AudioPlayer abgepielt und angezeigt.
+						\i{public IList<AudioTrack> AudioTracks} Dies ist eine Liste aller Tracks in dieser
 						Bibliothek. Es gibt keinen Setter da diese von der konkreten Bibliothek verwaltet werden soll.
 					\end{itemize}
 				\paragraph{Methoden:}
 					\begin{itemize}
-						\i{public void AddTrack()} Dies fügt der aktuellen konkreten Bibliothek ein neuen Track hinzu, 
+						\i{public void AddTrack()} Dies fügt der aktuellen konkreten Bibliothek ein neuen Track hinzu,
 						falls diese das unterstützt.
-						\i{public void NextSong()} Dies überspringt den aktuellen Song und spielt einen neuen Song ab. 
+						\i{public void NextSong()} Dies überspringt den aktuellen Song und spielt einen neuen Song ab.
 						Der aktuelle als erstes Element von PlayedTracks eingefügt.
 						\i{public void PrevSong()} Dies ruft \textit{CurrentTrack = AudioLibImpl.PlayedTracks.Pop()} auf.
 					\end{itemize}
@@ -109,7 +109,7 @@
 				\paragraph{Properties:}
 					\begin{itemize}
 						\i{Stack<AudioTrack> PlayedSongs} Dies ist der Stack der schon gespielten Lieder der Implementierung.
-						Das erste Listenelement ist der zuletzt abgespielte Track. Es gibt keinen Setter. 
+						Das erste Listenelement ist der zuletzt abgespielte Track. Es gibt keinen Setter.
 						\i{AudioTrack CurrentTrack} Dies ist der konkrete aktuelle Song.
 						\i{IList<AudioTrack> AllAudioTracks} Das ist die konkrete Liste aller Songs in dieser Audio Bibliothek.
 					\end{itemize}
@@ -132,7 +132,7 @@
 			\subsubsection{abstract class AudioTrack}
 				Diese Klasse definiert einen Abstrakten AudioTrack.
 				\paragraph{Properties:}
-					Keine der Properties definiert eine set() Methode, da manche AudioLib-Implementierungen (z.B. Spotify) so etwas nicht 
+					Keine der Properties definiert eine set() Methode, da manche AudioLib-Implementierungen (z.B. Spotify) so etwas nicht
 					unterstützen. Neben BPM kann die Schnittstelle für weitere Eigenschaften des Songs erweitert werden.
 					\begin{itemize}
 						\i{public abstract double Duration} Die Dauer des Tracks.
@@ -142,7 +142,7 @@
 						\i{public abstract int BPM} Der BPM Wert der diesem Song hinterlegt ist.
 					\end{itemize}
 			\subsubsection{sealed class BasicAudioLib : IAudioLibImpl}
-				Diese Klasse definiert eine Standart Audio Bibliothek. Sie speichert den Ort der Audio Datei und andere Eigenschaften hinterlegter 
+				Diese Klasse definiert eine Standart Audio Bibliothek. Sie speichert den Ort der Audio Datei und andere Eigenschaften hinterlegter
 				Songs. Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
 			\subsubsection{sealed class BasicAudioPlayer : IAudioPlayerImpl}
 				Diese Klasse definiert einen simplen Audio Player, welcher Audio Dateien aus dem internen Speicher auslesen und abspielen kann.
@@ -169,8 +169,8 @@
 						\i{private String Tag} Dies repräsentiert den Tag des Spotify Track.
 					\end{itemize}
 			\subsubsection{sealed class SpotifyWebAPI}
-				Diese Klasse dient zur Kommunikation mit der Spotify-Web-API. Sie wird die Library 
-				SpotifyAPI-NET\footnote{\see[]{https://github.com/JohnnyCrazy/SpotifyAPI-NET}} verwenden. 
+				Diese Klasse dient zur Kommunikation mit der Spotify-Web-API. Sie wird die Library
+				SpotifyAPI-NET\footnote{\see[]{https://github.com/JohnnyCrazy/SpotifyAPI-NET}} verwenden.
 				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
 		\subsection{Modi}
 			Dies sind die verschiedenen Modi, welche aktiv oder inaktiv sein können.
@@ -185,7 +185,7 @@
 						\i{protected Mode()} Da die Klasse abstrakt ist, ist der Konstruktor protected. Er updated den Namen des Modus.
 						\i{public abstract void Activate()} Diese Methode aktiviert diesen Modus.
 						\i{public abstract void Deactivate()} Diese Methode deaktiviert diesen Modus.
-						\i{protected abstract String UpdateName(Lang value)}  Diese Methode liefert den Namen des Modus zurück. Der Parameter das 
+						\i{protected abstract String UpdateName(Lang value)}  Diese Methode liefert den Namen des Modus zurück. Der Parameter das
 						Objekt aus dem die konkrete Klasse ihren Namen beziehen kann.
 					\end{itemize}
 			\subsubsection{class AutostopMode : Mode}
@@ -193,6 +193,37 @@
 			\subsubsection{class MotivateMode : Mode}
 				Der konkrete Motivationsmusik-Modus.
 		\subsection{Einstellungen}
-					
+			Hier sind die Klassen bezüglich der App-Einstellungen und Sprach-Einstellungen.
+			\subsubsection{class ConfigFile}
+				Die Klasse ConfigFile liest, schreibt und verwaltet das .config Dokument im Speicher der App.
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public Nullable<Language> Language} Die verwendete Sprache. Nullable, falls die Sprache nicht gelesen werden kann.
+						\i{String AudioModule} Der Indentifier des aktuell verwendeten Audio Moduls.
+						\i{int TotalSteps} Die Anzahl aller Schritte seit letztem Reset.
+					\end{itemize}
+			\subsubsection{public class LangManager : IObservable<Lang>}
+				Der LangManager ist ein Observable nach dem C\# Observable Pattern\footnote{\see[]{https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8}}
+				Er lädt alle verfügbaren Sprachen aus dem internen Speicher aus .lang Text-Dokumenten.
+				Die Klasse ist implementiert ein Singleton-Muster.
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public Lang CurrentLang} Die aktuell gewählte Sprache.
+					\end{itemize}
+			\subsubsection{Lang}
+				\sign{public class Lang}
+			\subsubsection{Language}
+				\sign{struct Language}
+				\paragraph{Properties:}
+					\begin{itemize}
+						\i{public String Name} Der Name der Sprache.
+						\i{public String Tag} Der Tag der Sprache um das Dokument zu identifizieren.
+					\end{itemize}
+<<<<<<< HEAD
+
+
+=======
+
+>>>>>>> Add class signatures for EarableLibrary classes
 
 \end{document}
