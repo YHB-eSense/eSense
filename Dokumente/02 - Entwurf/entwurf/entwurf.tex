@@ -60,7 +60,7 @@
 
 
 % Nützliche Befehle für alle Kapitel
-\newcommand{\see}[1]{\\Siehe: \url{#1}}
+\newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
 \newcommand{\code}[1]{\texttt{#1}}
 \renewcommand{\i}[1]{\item \code{#1}}
 \newcommand{\note}[1]{\textsuperscript{\hyperlink{note-#1}{#1}}}
@@ -69,10 +69,10 @@
 
 \begin{document}
 	\subfile{0_praeambel/praeambel.tex}
-	\section{Bibliotheken}
+	\part*{Bibliotheken}
 	\subfile{1_libraries/earable.tex}
 	\subfile{1_libraries/step_recognition.tex}
-	\section{Anwendung}
+	\part*{Anwendung}
 	\subfile{2_app/view.tex}
 	\subfile{2_app/viewmodel.tex}
 	\subfile{2_app/model.tex}

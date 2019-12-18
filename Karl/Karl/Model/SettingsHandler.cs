@@ -9,6 +9,19 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
+		private static SettingsHandler _singletonSettingsHandler;
+		public static SettingsHandler SingletonSettingsHandler
+		{
+			get
+			{
+				if (_singletonSettingsHandler == null)
+				{
+					_singletonSettingsHandler = new SettingsHandler();
+				}
+				return _singletonSettingsHandler;
+			}
+		}
+
 		private AudioLib audioLib;
 		private AudioPlayer audioPlayer;
 		private ConfigFile configFile;
@@ -39,10 +52,10 @@ namespace Karl.Model
 		/// </summary>
 		/// <param name="audioLib">The Settings Handler chooses the implementation of this.</param>
 		/// <param name="audioPlayer">The Settings Handler chooses the implementation of this.</param>
-		internal SettingsHandler(AudioLib audioLib, AudioPlayer audioPlayer)
+		private SettingsHandler()
 		{
-			this.audioLib = audioLib;
-			this.audioPlayer = audioPlayer;
+			this.audioLib = AudioLib.SingletonAudioLib;
+			this.audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			configFile = ConfigFile.SingletonConfigFile;
 		}
 		/// <summary>
