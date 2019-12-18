@@ -24,7 +24,7 @@ namespace Karl.Model
 
 		private AudioLib audioLib;
 		private AudioPlayer audioPlayer;
-		private ConfigFile configFile;
+		private ConfigFile ConfigFile;
 		/// <summary>
 		/// The List of registered Languages.
 		/// </summary>
@@ -56,7 +56,7 @@ namespace Karl.Model
 		{
 			this.audioLib = AudioLib.SingletonAudioLib;
 			this.audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			configFile = ConfigFile.SingletonConfigFile;
+			ConfigFile = ConfigFile.SingletonConfigFile;
 		}
 		/// <summary>
 		/// Reset the Step counter.

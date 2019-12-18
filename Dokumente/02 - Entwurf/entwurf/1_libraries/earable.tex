@@ -1,9 +1,9 @@
 \documentclass[../entwurf.tex]{subfiles}
 \begin{document}
 
-\subsection{Earable-Library}
+\section{Earable-Library}
 
-\subsubsection{ConnectionHandler}
+\subsection{ConnectionHandler}
 Stellt Interaktionsmöglichkeiten mit der unterliegenden Bluetooth-Schnittstelle bereit.
 \paragraph{Events}
 \begin{itemize}
@@ -15,7 +15,7 @@ Stellt Interaktionsmöglichkeiten mit der unterliegenden Bluetooth-Schnittstelle
 	\i{public void StopScanning()} Beendet die Suche nach Bluetooth-Geräten, falls aktiv.
 \end{itemize}
 
-\subsubsection{IEarable}
+\subsection{IEarable}
 Allgemeine Schnittstelle für Earable-Geräte.
 \paragraph{Attribute}
 \begin{itemize}
@@ -31,7 +31,7 @@ Allgemeine Schnittstelle für Earable-Geräte.
 	\i{bool IsConnected()} Gibt einen Wahrheitswert zurück, der angibt, ob aktuell eine Verbindung besteht.
 \end{itemize}
 
-\subsubsection{ISensor}
+\subsection{ISensor}
 Allgemeine Schnittstelle für Sensoren.
 \paragraph{Events}
 \begin{itemize}
@@ -43,7 +43,7 @@ Allgemeine Schnittstelle für Sensoren.
 	\i{PushButton} Repräsentiert den im Earable verbauten Zwei-Zustands-Knopf.
 \end{itemize}
 
-\subsubsection{IAudioStream}
+\subsection{IAudioStream}
 Schnittstelle für einen Audio-Ausgabe-Stream.
 \paragraph{Methoden}
 \begin{itemize}
