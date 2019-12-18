@@ -13,7 +13,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The Language used
 		/// </summary>
-		internal Nullable<Language> Language
+		public Nullable<Language> Language
 		{
 			get
 			{
@@ -28,9 +28,13 @@ namespace Karl.Model
 		/// <summary>
 		/// The AudioModule used.
 		/// </summary>
-		internal String AudioModule { get; set; }//todo
+		String AudioModule { get; set; }//todo
+		/// <summary>
+		/// The total steps in the .config file.
+		/// </summary>
+		int TotalSteps { get; set; } //todo
 
-		private static ConfigFile _singletonConfigFile;
+		/*private static ConfigFile _singletonConfigFile;
 		internal static ConfigFile SingletonConfigFile
 		{
 			get
@@ -48,7 +52,7 @@ namespace Karl.Model
 			set => _singletonConfigFile = value;
 		}
 
-		private ConfigFile() { }
+		private ConfigFile() { }*/
 		
 	}
 }

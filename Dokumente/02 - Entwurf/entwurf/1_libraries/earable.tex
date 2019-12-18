@@ -3,14 +3,15 @@
 
 \section{Earable-Library}
 
-\subsection{ConnectionHandler}
-Stellt Interaktionsmöglichkeiten mit der unterliegenden Bluetooth-Schnittstelle bereit.
+\subsection{EarableLibrary}
+Stellt Interaktionsmöglichkeiten mit über Bluetooth verfügbaren Earable-Geräten bereit.
 \paragraph{Events}
 \begin{itemize}
 	\i{public event EventHandler EarableDiscovered} Erteilt jedes Mal eine Benachrichtigung, wenn bei aktiver Suche ein kompatibles Bluetooth-Gerät gefunden wurde.
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
+	\i{public EarableLibrary()} Legt eine neue EarableLibrary-Instanz an.
 	\i{public void StartScanning()} Startet die Suche nach Bluetooth-Geräten, falls nicht bereits aktiv.
 	\i{public void StopScanning()} Beendet die Suche nach Bluetooth-Geräten, falls aktiv.
 \end{itemize}
@@ -22,7 +23,7 @@ Allgemeine Schnittstelle für Earable-Geräte.
 	\i{string Name} Ermöglicht zugriff auf den vergebenen Geräte-Namen.
 	\i{Guid Id} Die Bluetooth-Adresse des Geräts.\glsnote{ro}
 	\i{IAudioStream AudioStream} Zugehöriges AudioStream-Objekt.\glsnote{ro}
-	\i{ReadOnlyCollection\footnote{System.Collections.ObjectModel}<ISensor> sensors} Liste aller verfügbaren Sensoren.\glsnote{ro}
+	\i{ReadOnlyCollection\footnote{System.Collections.ObjectModel.ReadOnlyCollection}<ISensor> sensors} Liste aller verfügbaren Sensoren.\glsnote{ro}
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}

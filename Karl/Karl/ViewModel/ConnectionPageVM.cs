@@ -40,7 +40,7 @@ namespace Karl.ViewModel
 		public void RefreshDevices()
 		{
 			Devices.Clear();
-			EarableConnectionHandler handler = new EarableConnectionHandler();
+			EarableLibrary.EarableLibrary handler = new EarableLibrary.EarableLibrary();
 			handler.EarableDiscovered += (s, e) =>
 			{
 				Devices.Add(e.Earable);

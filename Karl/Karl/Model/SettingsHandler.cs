@@ -56,7 +56,7 @@ namespace Karl.Model
 		{
 			this.audioLib = AudioLib.SingletonAudioLib;
 			this.audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			ConfigFile = ConfigFile.SingletonConfigFile;
+			ConfigFile = new ConfigFile();
 		}
 		/// <summary>
 		/// Reset the Step counter.
