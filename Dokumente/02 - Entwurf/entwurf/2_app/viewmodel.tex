@@ -2,9 +2,15 @@
 
 \begin{document}
 
-\subsection{ViewModel}
-\subsubsection{AddSongPageVM}
-\paragraph{Attribute}
+\section{ViewModel}
+\subsection{AddSongPageVM}
+\begin{minipage}{0.45\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/AddSongPageVM.png}
+\end{minipage}
+\begin{minipage}{0.55\textwidth}
+Diese Klasse enthält die UI-Logik der \code{AddSongsPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AddSongsPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public string NewSongTitle} Hier wird der vom Nutzer eingegebene Titel eines neu hinzugefügten Lieds gespeichert.
 	\i{public string NewSongArtist} Hier wird der vom Nutzer eingegebene Künstlername eines neu hinzugefügten Lieds gespeichert.
@@ -17,7 +23,14 @@
 \begin{itemize}
 	\i{public AddSongPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert die Objekte \code{\_applogic}, \code{AddSongCommand} und \code{PickFileCommand}.
 \end{itemize}
-\subsubsection{AudioLibPageVM}
+\subsection{AudioLibPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/AudioLibPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioLibPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public ObservableCollection<AudioTrack> Songs} Hier werden die Songs gespeichert, die in der View angezeigt werden sollen.
 	\i{public ICommand TitleSortCommand} Dieser Command führt die private Methode \code{TitleSort()} aus.
@@ -33,8 +46,14 @@
 	\i{public void GetSongs()} Diese Methode ruft die Songs ab, die im Model gespeichert sind und weist sie der Property \code{Songs} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{AudioPlayerPageVM}
-\paragraph{Attribute}
+\subsection{AudioPlayerPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/AudioPlayerPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioPlayerPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public Boolean PausePlayBoolean} Dieser Boolean gibt an, ob der AudioPlayer momentan aktiv oder pausiert ist.
 	\i{public AudioTrack AudioTrack} Hier wird der momentan im Model geladene Song gespeichert.
@@ -55,8 +74,14 @@
 	\i{public void GetVolume()} Diese Methode ruft im Model ab, ob der Audioplayer aktiv oder pausiert werden soll und weist den Boolean der Property \code{PausePlayBoolean} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{ConnectionPageVM}
-\paragraph{Attribute}
+\subsection{ConnectionPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/ConnectionPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ConnectionPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
 	\i{public ObservableCollection<IEarable> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen.
 	\i{public ICommand RefreshDevicesCommand} Dieser Command führt die private Methode \code{RefreshDevices()} aus.
@@ -68,19 +93,19 @@
 	\i{public void RefreshDevices()} Diese Methode ruft den im Model momentan erkannten Geräte ab und fügt sie der Property \code{Devices} hinzu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{MainPageVM}
-\paragraph{Attribute}
+\subsection{MainPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/MainPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{MainPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
-	\i{private Image \_iconOn} Hier wird das Icon der View gespeichert, das in der View angezeigt werden soll falls eine Verbindung zu einem Gerät besteht.
-	\i{private Image \_iconOff} Hier wird das Icon der View gespeichert, das in der View angezeigt werden soll falls keine Verbindung zu einem Gerät besteht.
-	\i{private string \_deviceName} Hier wird der Name des momentan verbundenen Geräts gespeichert, falls keine Verbindung besteht, hat der String den wert null.
-	\i{private string \_stepsAmount} Hier wird die Anzahl der Schritte seit dem letzten Reset gespeichert, falls keine Verbindung zu einem Gerät besteht, hat der String den wert null.
-	\i{private int \_connectBoolean} Dieser Boolean gibt an, ob eine Verbindung zu einem Gerät besteht.
-	\i{private Image \_icon} Je nachdem ob eine Verbindung zu einem Gerät besteht oder nicht, ist diesem Image \code{\_iconOn} oder \code{\_iconOff} zugewiesen.
-	\i{public string DeviceName} Eine Property, mit der auf \code{\_deviceName} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public string StepsAmount} Eine Property, mit der auf \code{\_stepsAmount} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public Boolean ConnectBoolean} Eine Property, mit der auf \code{\_connectBoolean} zugegriffen werden kann und beim setzen ein Event aufruft.
-	\i{public Image Icon} Eine Property, mit der auf \code{\_icon} zugegriffen werden kann und beim setzen ein Event aufruft.
+	\i{public string DeviceName} Hier wird der Name des momentan verbundenen Geräts gespeichert, falls keine Verbindung besteht, hat der String den wert null.
+	\i{public string StepsAmount} Hier wird die Anzahl der Schritte seit dem letzten Reset gespeichert, falls keine Verbindung zu einem Gerät besteht, hat der String den wert null.
+	\i{public Boolean ConnectBoolean} Dieser Boolean gibt an, ob eine Verbindung zu einem Gerät besteht.
+	\i{public Image Icon} Je nachdem ob eine Verbindung zu einem Gerät besteht oder nicht, ist hier ein bestimmtes Bild gespeichert.
 	\i{public ICommand AudioPlayerPageCommand} Dieser Command führt die private Methode \code{GotoAudioPlayerPage()} aus.
 	\i{public ICommand AudioLibPageCommand} Dieser Command führt die private Methode \code{GotoAudioLibPage()} aus.
 	\i{public ICommand ConnectionPageCommand} Dieser Command führt die private Methode \code{GotoConnectionPage()} aus.
@@ -95,12 +120,16 @@
 	\i{public void GetConnectBoolean()} Diese Methode ruft im Model ab, ob momentan eine Verbindung zu einem Gerät besteht und weist den Boolean der Property \code{ConnectBoolean} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{ModesPageVM}
-\paragraph{Attribute}
+\subsection{ModesPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/ModesPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ModesPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
 \begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
-	\i{private ObservableCollection<Mode> \_modes} Hier werden die Modi gespeichert, die in der View angezeigt werden sollen.
-	\i{public ObservableCollection<Mode> Modes} Eine Property, mit der auf \code{\_modes} zugegriffen werden kann und beim setzen ein Event aufruft.
+	\i{public ObservableCollection<Mode> Modes} Hier werden die Modi gespeichert, die in der View angezeigt werden sollen.
 	\i{public ICommand ActivateModeCommand} Dieser Command führt die private Methode \code{ActivateMode()} mit dem in der View ausgewählten Modus als Parameter aus.
 \end{itemize}
 \paragraph{Methoden}
@@ -109,16 +138,18 @@
 	\i{public void GetModes()} Diese Methode ruft die im Model vorhandenen Modi ab und weist sie der Property \code{Modes} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{SettingsPageVM}
-\paragraph{Attribute}
-\begin{itemize}
-	\i{private AppLogic \_appLogic} Dieses Objekt wird genutzt um auf das Model zuzugreifen.
-	\i{private ObservableCollection<Lang> \_languages} Hier werden die Sprachen gespeichert, die in der View angezeigt werden sollen.
-	\i{private Lang \_selectedLanguage} Hier wird die Sprache gespeichert, die in der View als ausgewählt angezeigt wird.
-	\i{private string \_deviceName} Hier wird der Name des momentan verbundenen Geräts gepeichert der in der View angezeigt wird.
-	\i{public ObservableCollection<Lang> Languages} Eine Property, mit der auf \code{\_languages} zugegriffen werden kann und beim Setzen ein Event aufruft.
-	\i{public Lang SelectedLanguage} Eine Property, mit der auf \code{\_selectedLanguage} zugegriffen werden kann und beim Setzen ein Event aufruft.
-	\i{public string DeviceName} Eine Property, mit der auf \code{\_deviceName} zugegriffen werden kann und beim Setzen ein Event aufruft.
+\subsection{SettingsPageVM}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[scale=0.75]{../graphics/vm_klassen/SettingsPageVM.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{SettingsPage} und dem Model zu dienen.
+\end{minipage}
+\paragraph{Attribute \& Properties}
+\begin{itemize} 
+	\i{public ObservableCollection<Lang> Languages} Hier werden die Sprachen gespeichert, die in der View angezeigt werden sollen.
+	\i{public Lang SelectedLanguage} Hier wird die Sprache gespeichert, die in der View als ausgewählt angezeigt wird.
+	\i{public string DeviceName} Hier wird der Name des momentan verbundenen Geräts gepeichert der in der View angezeigt wird.
 	\i{public ICommand ChangeDeviceNameCommand} Dieser Command führt die private Methode \code{ChangeDeviceName()} mit dem in der View eingegebenen Text als Parameter aus.
 	\i{public ICommand ChangeLanguageCommand} Dieser Command führt die private Methode \code{ChangeLanguage()} mit der in der View ausgewählten Sprache als Parameter aus.
 	\i{public ICommand ResetStepsCommand} Dieser Command führt die private Methode \code{ResetSteps()} aus.
@@ -131,28 +162,13 @@
 	\i{public void GetDeviceName()} Diese Methode ruft den Namen des momentan verbundenen Gerätes im Model ab und weist ihn der Property \code{DeviceName} zu.
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieses Event wird genutzt um der View mitzuteilen, dass sich eine Property geändert hat.
 \end{itemize}
-\subsubsection{NavigationHandler}
-\paragraph{Attribute}
-\begin{itemize}
-	\i{static private AudioPlayerPage \_audioPlayerPage}
-	\i{static private AudioLibPage \_audioLibPage}
-	\i{static private ConnectionPage \_connectionPage}
-	\i{static private ModesPage \_modesPage}
-	\i{static private SettingsPage \_settingsPage}
-	\i{static private AddSongPage \_addSongPage}
-	\i{static private MainPage \_mainPage}
-\end{itemize}
+\subsection{NavigationHandler}
+\paragraph{Attribute \& Properties}
 \paragraph{Methoden}
 \begin{itemize}
 	\i{public SettingsPageVM(AppLogic appLogic)} Der Konstruktor der Klasse initialisiert alle Attribute.
-	\i{public static async void GotoAudioPlayerPage()} Diese Methode ändert die Ansicht der View auf die \code{\_audioPlayerPage}.
-	\i{public static async void GotoAudioLibPage()} Diese Methode ändert die Ansicht der View auf die \code{\_audioLibPage}.
-	\i{public static async void GotoConnectionPage()} Diese Methode ändert die Ansicht der View auf die \code{\_connectionPage}.
-	\i{public static async void GotoModesPage()} Diese Methode ändert die Ansicht der View auf die \code{\_modesPage}.
-	\i{public static async void GotoSettingsPage()} Diese Methode ändert die Ansicht der View auf die \code{\_settingsPage}.
-	\i{public static async void GotoAddSongPage()} Diese Methode ändert die Ansicht der View auf die \code{\_addSongPage}.
-	\i{public static async void GotoMainPage()} Diese Methode ändert die Ansicht der View auf die \code{\_mainPage}.
-	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde, jedoch nur falls die Ansicht nicht \code{\_mainPage} entspricht.
+	\i{public static async void GotoPage()} TODO
+	\i{public static async void GoBack()} Diese Methode ändert die Ansicht der View auf die Page die zuvor angezeigt wurde
 \end{itemize}
 
 \footnotetext[1]{Nach außen hin nur Lesezugriff}
