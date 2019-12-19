@@ -12,6 +12,8 @@ namespace Karl.ViewModel
 	public class MainPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
+		private ConnectivityHandler _connectivityHandler;
+		private SettingsHandler _settingsHandler;
 		private Image _iconOn;
 		private Image _iconOff;
 		private string _deviceName;
@@ -108,6 +110,8 @@ namespace Karl.ViewModel
 		public MainPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			ConnectionPageCommand = new Command(GotoConnectionPage);

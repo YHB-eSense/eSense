@@ -12,7 +12,8 @@ namespace Karl.ViewModel
 	public class ConnectionPageVM
 	{
 		private NavigationHandler _handler;
-		public ObservableCollection<BluetoothDevice> Devices { get => ConnectivityHandler.SingletonConnectivityHandler.FoundDevices; } 
+		private ConnectivityHandler _connectivityHandler;
+		public ObservableCollection<BluetoothDevice> Devices { get => _connectivityHandler.FoundDevices; } 
 
 		/**
 		 Commands were called from Elements in Connection Page
@@ -28,6 +29,7 @@ namespace Karl.ViewModel
 		public ConnectionPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<BluetoothDevice>(ConnectToDevice);
 		}

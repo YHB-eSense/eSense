@@ -9,6 +9,7 @@ namespace Karl.ViewModel
 {
 	public class ModesPageVM
 	{
+		private ModeHandler _modeHandler;
 		/// <summary>
 		/// Contains all available modes of the App
 		/// </summary>
@@ -22,6 +23,7 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public ModesPageVM()
 		{
+			_modeHandler = ModeHandler.SingletonModeHandler;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
 			Modes = new ObservableCollection<Mode>();
 		}
