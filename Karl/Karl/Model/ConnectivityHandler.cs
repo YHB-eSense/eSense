@@ -28,6 +28,7 @@ namespace Karl.Model
 		private IEarable Earable;
 		public BluetoothDevice CurrentDevice { get; private set; }
 		public bool Connected { get; }
+		public ObservableCollection<BluetoothDevice> FoundDevices { get; private set; } //todo
 
 		private ConnectivityHandler()
 		{
@@ -38,10 +39,9 @@ namespace Karl.Model
 		/// Search for Bluetooth Devices.
 		/// </summary>
 		/// <returns>List of Bluetooth Devices</returns>
-		public ObservableCollection<BluetoothDevice> SearchDevices()
+		public void SearchDevices()
 		{
 			//todo
-			return null;
 		}
 
 		/*
