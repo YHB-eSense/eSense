@@ -10,6 +10,7 @@ namespace StepDetectionLibrary
 	/// </summary>
 	class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>
 	{
+		private List<IObserver<Output>> observers;
 		/// <summary>
 		/// method if provider finished sending data
 		/// </summary>

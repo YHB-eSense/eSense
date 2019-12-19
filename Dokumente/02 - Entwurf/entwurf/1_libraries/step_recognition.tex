@@ -1,7 +1,61 @@
 \documentclass[../entwurf.tex]{subfiles}
 \begin{document}
 
-\section{StepRecognition-Library}
-...
+\section{StepDetection-Library}
+    \subsection{Input}
+        \sign{public class Input : IObservable<AccGyroData>}
+        Nimmt Beschleuninigunsdaten entgegen und gibt diese an Beobachter als struct AccGyroData weiter.
+        \paragraph{Methoden}
+        \begin{itemize}
+            \i{public IDisposable Subscribe(IObserver<AccGyroData> observer)} Fügt neue Beobachter hinzu.
+            \i{public void Update(AccGyroData data)} Pusht Daten zu den Beobachtern.
+            \i{public void ValueChanged(object sender, EventArgs args)} Nimmt Beschleuninigunsdaten entgegen.
+        \end{itemize}
 
+
+    \subsection{AccGyroData}
+        \sign{public struct AccGyroData}
+        Enthält Beschleuninigunsdaten.
+        \paragraph{Properties:}
+        \begin{itemize}
+            \i{public short[] xacc} Beschleuninigunsdaten x-Achse.
+            \i{public short[] yacc} Beschleuninigunsdaten y-Achse.
+            \i{public short[] zacc} Beschleuninigunsdaten z-Achse.
+            \i{public short[] xgyro} Beschleuninigunsdaten x-Drehung.
+            \i{public short[] ygyro} Beschleuninigunsdaten y-Drehung.
+            \i{public short[] zgyro} Beschleuninigunsdaten z-Drehung.
+        \end{itemize}
+
+    \subsection{StepDetectionAlg}
+        \sign{class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>}
+        Erhält struct AccGyroData von Input und berechnet anhand der Daten Schrittfrequenz und Anzahl der Schritte
+        \paragraph{Properties:}
+        \begin{itemize}
+            \i{private List<IObserver<Output>> observers} Liste mit Beobachtern.
+        \end{itemize}
+    
+        \paragraph{Methoden}
+        \begin{itemize}
+            \i{public void OnCompleted()} Wenn Subjekt fertig mit der Datenübertragung ist.
+            \i{public void OnError(Exception error)} Wenn Subject einen Fehler erfährt.
+            \i{public void OnNext(AccGyroData value)} Enthält Daten von Subjekt.
+            \i{public IDisposable Subscribe(IObserver<Output> observer)} Fügt neue Beobachter hinzu.
+            \i{public void Update(Output output)} Pusht Daten zu Beobachtern.
+            \i{private void StepDetecAlg(AccGyroData data)} Berechnet Schrittfrequenz und Anzahl der Schritte.
+        \end{itemize}
+    
+    \subsection{Output}
+        \sign{public struct Output}
+        \paragraph{Properties:}
+        \begin{itemize}
+            \i{private double freq} Schrittfrequenz. %public getter?
+            \i{private int stepcount} Anzahl der Schritte.
+        \end{itemize}
+        \paragraph{Methoden}
+        \begin{itemize}
+            \i{public Output(double freq, int stepcount)} Konstruktor für Output.
+        \end{itemize}
+
+
+                        
 \end{document}

@@ -2,7 +2,6 @@ using System;
 
 namespace StepDetectionLibrary
 {
-	//todo how to input data
 
 	/// <summary>
 	/// struct with accerleration and gyro data for all 3 axes
@@ -22,6 +21,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
+		private List<IObserver<Output>> observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
@@ -36,6 +36,16 @@ namespace StepDetectionLibrary
 		/// </summary>
 		/// <param name="data">new accleration + gyro data</param>
 		public void Update(AccGyroData data)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// method to get data from sensors
+		/// </summary>
+		/// <param name="sender">sender object</param>
+		/// <param name="args">parameter</param>
+		public void ValueChanged(object sender, EventArgs args)
 		{
 			throw new NotImplementedException();
 		}
