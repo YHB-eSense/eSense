@@ -72,27 +72,29 @@
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries
-\IfFileExists{5_glossar/glossar_definitionen.tex}
+\IfFileExists{6_glossar/glossar_definitionen.tex}
 {
-	\input{5_glossar/glossar_definitionen.tex}
+	\input{6_glossar/glossar_definitionen.tex}
 }
 {
-	\input{../5_glossar/glossar_definitionen.tex}
+	\input{../6_glossar/glossar_definitionen.tex}
 }
 
 \begin{document}
 	\subfile{0_praeambel/praeambel.tex}
-	\part{Bibliotheken}
-	\subfile{1_libraries/earable.tex}
-	\subfile{1_libraries/step_recognition.tex}
-	\part{Anwendung}
-	\subfile{2_app/view.tex}
-	\subfile{2_app/viewmodel.tex}
-	\subfile{2_app/model.tex}
-	\part{Abläufe}
-	\subfile{3_ablaeufe/ablaeufe.tex}
 	\part{Aufbau}
-	\subfile{4_aufbau/aufbau.tex}
+	\subfile{1_aufbau/aufbau.tex}
+	\part{Bibliotheken}
+	\subfile{2_libraries/earable.tex}
+	\subfile{2_libraries/step_recognition.tex}
+	\part{Anwendung}
+	\subfile{3_app/view.tex}
+	\subfile{3_app/viewmodel.tex}
+	\subfile{3_app/model.tex}
+	\part{Abläufe}
+	\subfile{4_ablaeufe/ablaeufe.tex}
+	\part{Anhang}
+	\subfile{5_anhang/anhang.tex}
 	\part{Glossar}
-	\subfile{5_glossar/glossar.tex}
+	\subfile{6_glossar/glossar.tex}
 \end{document}
