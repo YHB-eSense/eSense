@@ -3,13 +3,14 @@
 \begin{document}
 
 \section{ViewModel}
-\includegraphics[scale=0.44,angle=90,origin=c]{../graphics/uml_diagramme/ViewModelDiagram.png}
+\includegraphics[scale=0.4]{../graphics/uml_diagramme/ViewModel.png}
+\newpage
 \subsection{AddSongPageVM}
+\sign{public class AddSongPageVM}
 \begin{minipage}{0.45\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AddSongPageVM.png}
 \end{minipage}
 \begin{minipage}{0.55\textwidth}
-\code{public class AddSongPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AddSongPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AddSongPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -26,11 +27,11 @@ Diese Klasse enthält die UI-Logik der \code{AddSongPage}. Sie stellt dieser öf
 	\i{public AddSongPageVM(NavigationHandler handler)} Der Konstruktor der Klasse initialisiert die Commands.
 \end{itemize}
 \subsection{AudioLibPageVM}
+\sign{public class AudioLibPageVM}
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AudioLibPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class AudioLibPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioLibPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -49,11 +50,11 @@ Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser ö
 	\i{public void GetSongs()} Diese Methode ruft die Songs ab, die im Model gespeichert sind und weist sie der Property \code{Songs} zu.
 \end{itemize}
 \subsection{AudioPlayerPageVM}
+\sign{public class AudioPlayerPageVM} 
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AudioPlayerPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class AudioPlayerPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioPlayerPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -81,11 +82,11 @@ Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{ConnectionPageVM}
+\sign{public class ConnectionPageVM}
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/ConnectionPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class ConnectionPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ConnectionPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -100,11 +101,11 @@ Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser 
 	\i{public void RefreshDevices()} Diese Methode ruft die im Model momentan erkannten Geräte ab und fügt sie der Property \code{Devices} hinzu.
 \end{itemize}
 \subsection{MainPageVM}
+\sign{public class MainPageVM} 
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/MainPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class MainPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{MainPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -131,11 +132,11 @@ Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffen
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser 	Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{ModesPageVM}
+\sign{public class ModesPageVM} 
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/ModesPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class ModesPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ModesPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -149,11 +150,11 @@ Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffe
 	\i{public void GetModes()} Diese Methode ruft die im Model vorhandenen Modi ab und weist sie der Property \code{Modes} zu.
 \end{itemize}
 \subsection{SettingsPageVM}
+\sign{public class SettingsPageVM} 
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/SettingsPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\code{public class SettingsPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{SettingsPage} und dem Model zu dienen.
 \end{minipage}
 \paragraph{Properties}
@@ -177,11 +178,11 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{NavigationHandler}
+\sign{public class NavigationHandler}
 \begin{minipage}{0.45\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/NavigationHandler.png}
 \end{minipage}
 \begin{minipage}{0.55\textwidth}
-\code{public class NavigationHandler} \newline
 Diese Klasse ermöglicht den verschiedenen Klassen der ViewModels die Ansicht der App auf andere ContentPages der View zu ändern.
 \end{minipage}
 \paragraph{Methoden}
