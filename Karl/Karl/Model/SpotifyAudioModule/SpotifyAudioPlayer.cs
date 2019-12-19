@@ -8,6 +8,12 @@ namespace Karl.Model
 	{
 		public double CurrentSongPos { get; set; } //todo
 
+		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
+
+		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public Queue<AudioTrack> Queue => throw new NotImplementedException();
+
 		public void TogglePause()
 		{
 			throw new NotImplementedException(); //todo

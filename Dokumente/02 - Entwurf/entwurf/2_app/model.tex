@@ -4,34 +4,24 @@
 	\section{Model}
 		\subsection{Schnittstelle}
 			Die Schnittstelle zu den ViewModels besteht aus Klassen, die explizit konzipiert sind um die Kommunikation zwischen ViewModels und Model
-			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem Singleton-Muster aufgebaut.
-			\subsubsection{AppLogic}
-				\sign{public class AppLogic}
-				Diese Klasse initialisiert im Konstruktor das Model und verwaltet somit interne Abhängigkeiten im Model. Sie verwaltet gegenüber den
-				ViewModels auch die Verbindung zu den Earables mithilfe der Klasse ConnectionHandler.
+			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem 
+			Singleton-Muster\footnote{\see[Muster 2:]{https://csharpindepth.com/Articles/Singleton}} aufgebaut.
+			\subsubsection{ConnectivityHandler}
+				\sign{public class ConnectivityHandler}
+				Diese Klasse sucht nach Bluetooth Geräten, mit denen man sich verbinden kann.
 				\paragraph{Attribute:}
 					\begin{itemize}
-						\i{private ConnectionHandler Connection} Das ConnectionHandler Objekt welches die Libraries
-						(und damit die Verbindung zu den Earables.) verwaltet.
+						\i{private IEarable Earable} Die Schnittstelle zur EarablesLibrary.
 					\end{itemize}
 				\paragraph{Properties:}
 					\begin{itemize}
-						\i{public AudioLib AudioLib} Das Singleton-Objekt der Schnittstellen-Klasse AudioLib. Definiert keinen Setter.
-						\i{public AudioPlayer AudioPlayer} Das Singleton-Objekt der Schnittstellen-Klasse AudioPlayer. Definiert keinen Setter.
-						\i{public SettingsHandler SettingsHandler} Das Singleton-Objekt der SchnittstellenKlasse SettingsHandler.
-						Definiert keinen Setter.
-						\i{public ModeHandler ModeHandler} Das Singleton-Objekt der Schnittstellen-Klasse ModeHandler. Definiert keinen Setter.
 						\i{public BluetoothDevice CurrentDevice} Das aktuell verbundene eSense Gerät. Definiert keinen Setter, da dieses nur vom Model
 						verwaltet werden soll.
-						\i{public int Steps} Die in allen Sessions seit dem letzten reset gelaufenen Schritte. Definiert keinen Setter.
 						\i{public bool Connected} Boolscher Wert, ob earables verbunden sind. Definiert keinen Setter.
 					\end{itemize}
 				\paragraph{Methoden:}
 					\begin{itemize}
-						\i{public AppLogic()} Der Konstruktor initialisiert einen ConnectionHandler.
-						\i{public List<BluetoothDevice> SearchDevices()} Gibt eine Liste von gefundenen Bluetooth-Geräten zurück.
-						\i{public void ConnectDevice(BluetoothDevice device)} Verbindet sich mit einem Bluetooth-Gerät.
-						\i{public void DisconnectDevice()} Trennt die Verbindung zum aktuell verbundenen Bluetooth-Gerät.
+						\i{public List<BluetoothDevice> SearchDevices()} Sucht nach Bluetooth Geräten in der Nähe.
 					\end{itemize}
 			\subsubsection{AudioLib}
 				\sign{class AudioLib}
@@ -91,6 +81,7 @@
 						\i{public List<Language> Languages} Die Liste aller registrierten Sprach-Dokumente. Definiert keinen Setter.
 						\i{public Language CurrentLang} Die aktuell ausgewählte Sprache.
 						\i{public String DeviceName} Der Name des verbundenen Bluetooth Gerät.
+						\i{public int Steps} Die in allen Sessions seit dem letzten reset gelaufenen Schritte. Definiert keinen Setter.
 					\end{itemize}
 				\paragraph{Methoden:}
 					\begin{itemize}

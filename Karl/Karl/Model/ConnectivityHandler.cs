@@ -26,6 +26,7 @@ namespace Karl.Model
 
 		private IEarable Earable;
 		public BluetoothDevice CurrentDevice { get; private set; }
+		public bool Connected { get; }
 
 		private ConnectivityHandler()
 		{
