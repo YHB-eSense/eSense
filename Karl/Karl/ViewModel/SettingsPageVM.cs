@@ -11,28 +11,13 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private ObservableCollection<Lang> _languages;
 		private Lang _selectedLanguage;
 		private string _deviceName;
 
 		/// <summary>
 		/// List contains all available languages
 		/// </summary>
-		public ObservableCollection<Lang> Languages
-		{
-			get
-			{
-				return _languages;
-			}
-			set
-			{
-				if (_languages != value)
-				{
-					_languages = value;
-					OnPropertyChanged("Languages");
-				}
-			}
-		}
+		public ObservableCollection<Lang> Languages;
 
 		/// <summary>
 		/// Contains the language of the app

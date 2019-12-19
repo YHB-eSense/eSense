@@ -10,24 +10,12 @@ using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
-	public class AudioLibPageVM : INotifyPropertyChanged
+	public class AudioLibPageVM
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
-		private ObservableCollection<AudioTrack> _songs;
 
-		public ObservableCollection<AudioTrack> Songs
-		{
-			get
-			{
-				return _songs;
-			}
-			set
-			{
-				_songs = value;
-				OnPropertyChanged("Songs");
-			}
-		}
+		public ObservableCollection<AudioTrack> Songs;
 
 		/**
 		 Commands were called from Elements in AudioLibPage
@@ -126,16 +114,5 @@ namespace Karl.ViewModel
 			Songs = songs;
 		}
 
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
 	}
 }

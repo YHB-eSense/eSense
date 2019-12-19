@@ -9,7 +9,7 @@ using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	public class ConnectionPageVM : INotifyPropertyChanged
+	public class ConnectionPageVM
 	{
 		private NavigationHandler _handler;
 		public ObservableCollection<BluetoothDevice> Devices { get => ConnectivityHandler.SingletonConnectivityHandler.FoundDevices; } 
@@ -49,17 +49,5 @@ namespace Karl.ViewModel
 			//AppLogic
 			_handler.GoBack();
 		} 
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
 	}
 }

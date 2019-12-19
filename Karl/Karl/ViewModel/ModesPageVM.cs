@@ -7,25 +7,12 @@ using System.Diagnostics;
 
 namespace Karl.ViewModel
 {
-	public class ModesPageVM : INotifyPropertyChanged
+	public class ModesPageVM
 	{
-		private ObservableCollection<Mode> _modes;
-
 		/// <summary>
 		/// Contains all available modes of the App
 		/// </summary>
-		public ObservableCollection<Mode> Modes
-		{
-			get
-			{
-				return _modes;
-			}
-			set
-			{
-				_modes = value;
-				OnPropertyChanged("Modes");
-			}
-		}
+		public ObservableCollection<Mode> Modes;
 
 		public ICommand ActivateModeCommand { get; }
 
@@ -55,18 +42,6 @@ namespace Karl.ViewModel
 		{
 			//Modes = new ObservableCollection<Mode>(_appLogic.ModeHandler.Modes);
 			foreach (var data in Modes) Debug.WriteLine(data.Name);
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }
