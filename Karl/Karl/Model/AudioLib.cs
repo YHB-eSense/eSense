@@ -39,10 +39,10 @@ namespace Karl.Model
 		/// </summary>
 		/// <returns></returns>
 		public IList<AudioTrack> AudioTracks { get; } //todo
-		/// <summary>
-		/// Add a new Track to the current Library
-		/// </summary>
-		public void AddTrack()
+													  /// <summary>
+													  /// Add a new Track to the current Library
+													  /// </summary>
+		public void AddTrack(String Indentifier, String Name, String Artist, int BPM)
 		{
 			//todo
 		}
