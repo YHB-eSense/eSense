@@ -73,14 +73,14 @@ namespace Karl.Model
 		/// </summary>
 		public void NextTrack()
 		{
-			AudioLib.NextSong();
+			//todo
 		}
 		/// <summary>
 		/// Go to previous Track.
 		/// </summary>
 		public void PrevTrack()
 		{
-			AudioLib.PrevSong();
+			//todo
 		}
 		/// <summary>
 		/// Adds a1 to queue.

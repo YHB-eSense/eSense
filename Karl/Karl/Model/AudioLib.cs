@@ -46,20 +46,6 @@ namespace Karl.Model
 		{
 			//todo
 		}
-		/// <summary>
-		/// This skips the current Song and makes the next Song in the queue the current Song.
-		/// </summary>
-		public void NextSong()
-		{
-			//todo
-		}
-		/// <summary>
-		/// This makes the previous Song the current Song.
-		/// </summary>
-		public void PrevSong()
-		{
-			//todo
-		}
 
 	}
 
