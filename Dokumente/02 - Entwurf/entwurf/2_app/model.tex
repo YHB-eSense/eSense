@@ -2,10 +2,15 @@
 \begin{document}
 
 	\section{Model}
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/uml_diagramme/Model.png}
+		\newpage
+		Im UML Diagramm sind hier die Orangenen Klassen, die Schnittstellenklassen, also Fassaden zum einfachen 
+		Zugriff auf bestimmte zusammenhängende Teile des Models. Auch die gelb eingefärbten Klassen sind Klassen zur 
+		u.A. externen Kommunikation. Die Blau eingefärbten Klassen arbeiten im Hintergrund.
 		\subsection{Schnittstelle}
 			Die Schnittstelle zu den ViewModels besteht aus Klassen, die explizit konzipiert sind um die Kommunikation zwischen ViewModels und Model
 			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem 
-			Singleton-Muster\footnote{\see[Muster 2:]{https://csharpindepth.com/Articles/Singleton}} aufgebaut.
+			Singleton-Muster\footnote{\see[Muster 2: ]{https://csharpindepth.com/Articles/Singleton}} aufgebaut.
 			\subsubsection{ConnectivityHandler}
 				\sign{public class ConnectivityHandler}
 				Diese Klasse sucht nach Bluetooth Geräten, mit denen man sich verbinden kann.
@@ -21,7 +26,7 @@
 					\end{itemize}
 				\paragraph{Methoden:}
 					\begin{itemize}
-						\i{public List<BluetoothDevice> SearchDevices()} Sucht nach Bluetooth Geräten in der Nähe.
+						\i{public ObservableCollection<BluetoothDevice> SearchDevices()} Sucht nach Bluetooth Geräten in der Nähe.
 					\end{itemize}
 			\subsubsection{AudioLib}
 				\sign{class AudioLib}

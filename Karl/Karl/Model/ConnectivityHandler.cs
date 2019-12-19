@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EarableLibrary;
+using System.Collections.ObjectModel;
 
 namespace Karl.Model
 {
@@ -37,7 +38,7 @@ namespace Karl.Model
 		/// Search for Bluetooth Devices.
 		/// </summary>
 		/// <returns>List of Bluetooth Devices</returns>
-		public List<BluetoothDevice> SearchDevices()
+		public ObservableCollection<BluetoothDevice> SearchDevices()
 		{
 			//todo
 			return null;
