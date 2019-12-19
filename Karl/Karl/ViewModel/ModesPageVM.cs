@@ -12,7 +12,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Contains all available modes of the App
 		/// </summary>
-		public ObservableCollection<Mode> Modes;
+		public ObservableCollection<Mode> Modes { get; set; }
 
 		public ICommand ActivateModeCommand { get; }
 
