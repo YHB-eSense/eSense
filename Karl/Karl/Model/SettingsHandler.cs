@@ -48,6 +48,10 @@ namespace Karl.Model
 			}
 		}
 		/// <summary>
+		/// The total Steps done.
+		/// </summary>
+		public int Steps { get; }
+		/// <summary>
 		/// The Constructor that builds a new SettingsHandler. Only used by AppLogic
 		/// </summary>
 		/// <param name="audioLib">The Settings Handler chooses the implementation of this.</param>
