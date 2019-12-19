@@ -3,8 +3,8 @@ using System;
 namespace EarableLibrary
 {
 
-	public interface ISensor
+	public interface ISensor<T>
 	{
-		event EventHandler ValueChanged;
+		event EventHandler<T> ValueChanged;
 	}
 }
