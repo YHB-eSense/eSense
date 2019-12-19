@@ -11,18 +11,18 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private Lang _selectedLanguage;
+		private Language _selectedLanguage;
 		private string _deviceName;
 
 		/// <summary>
 		/// List contains all available languages
 		/// </summary>
-		public ObservableCollection<Lang> Languages { get; set; }
+		public ObservableCollection<Language> Languages { get; set; }
 
 		/// <summary>
 		/// Contains the language of the app
 		/// </summary>
-		public Lang SelectedLanguage
+		public Language SelectedLanguage
 		{
 			get
 			{
@@ -30,7 +30,7 @@ namespace Karl.ViewModel
 			}
 			set
 			{
-				if (_selectedLanguage != value)
+				if (!_selectedLanguage.Equals(value))
 				{
 					_selectedLanguage = value;
 					ChangeLanguage(_selectedLanguage);
@@ -70,7 +70,7 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
-			ChangeLanguageCommand = new Command<Lang>(ChangeLanguage);
+			ChangeLanguageCommand = new Command<Language>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);
 		}
 
@@ -79,7 +79,7 @@ namespace Karl.ViewModel
 			//AppLogic
 		}
 
-		private void ChangeLanguage(Lang language)
+		private void ChangeLanguage(Language language)
 		{
 			//AppLogic
 		}
@@ -94,7 +94,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshLanguages()
 		{
-			ObservableCollection<Lang> languages = new ObservableCollection<Lang>();
+			ObservableCollection<Language> languages = new ObservableCollection<Language>();
 			/*
 			string[] languages = appLogic.
 			for(int i = 0; i < devices.Length; i++)

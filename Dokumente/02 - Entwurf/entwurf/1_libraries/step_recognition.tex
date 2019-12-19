@@ -44,12 +44,33 @@
             \i{private void StepDetecAlg(AccGyroData data)} Berechnet Schrittfrequenz und Anzahl der Schritte.
         \end{itemize}
     
+    \subsection{Outputmanager}
+        \sign{public class OutputManager : IObservable<Output>, IObserver<Output>}
+        Gibt die berechneten Schrittdaten an Anwender weiter.
+        \paragraph{Properties:}
+        \begin{itemize}
+            \i{private static OutputManager singletonOutputManager} Enthält ein OutputManager-Objekt um das Singleton Entwurfsmuster zu implementieren.
+            \i{private List<IObserver<Output>> observers} Liste der Beobachter.
+            \i{public static OutputManager SingletonOutputManager} \glsnote{ro}
+        \end{itemize}
+        \paragraph{Methoden}
+        \begin{itemize}
+            \i{public void OnCompleted()} Wenn Subjekt fertig mit der Datenübertragung ist.
+            \i{public void OnError(Exception error)} Wenn Subject einen Fehler erfährt.
+            \i{public void OnNext(AccGyroData value)} Enthält Daten von Subjekt.
+            \i{public IDisposable Subscribe(IObserver<Output> observer)} Fügt neue Beobachter hinzu.
+            \i{public void Update(Output output)} Pusht Daten zu Beobachtern.
+        \end{itemize}
+    
+
     \subsection{Output}
         \sign{public struct Output}
         \paragraph{Properties:}
         \begin{itemize}
-            \i{private double freq} Schrittfrequenz. %public getter?
+            \i{private double freq} Schrittfrequenz.
             \i{private int stepcount} Anzahl der Schritte.
+            \i{public double Frequency} \glsnote{ro}
+            \i{public int StepCount} \glsnote{ro}
         \end{itemize}
         \paragraph{Methoden}
         \begin{itemize}
