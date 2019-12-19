@@ -82,12 +82,21 @@ namespace Karl.Model
 		{
 			AudioLib.PrevSong();
 		}
+		/// <summary>
+		/// Adds a1 to queue.
+		/// </summary>
+		/// <param name="audioTrack">a1</param>
+		public void AddToQueue(AudioTrack audioTrack)
+		{
+			//todo
+		}
 
 		
 	}
 	interface IAudioPlayerImpl
 	{
 		Stack<AudioTrack> PlayedSongs { get; }
+		Queue<AudioTrack> Queue { get; }
 		AudioTrack CurrentTrack { get; set; }
 		void TogglePause();
 		void PlayTrack();

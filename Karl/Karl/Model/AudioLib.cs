@@ -35,15 +35,6 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The Tracks already played before.
-		/// </summary>
-		public Stack<AudioTrack> PlayedTracks { get; } //todo
-
-		/// <summary>
-		/// The Track that is currently chosen.
-		/// </summary>
-		public AudioTrack CurrentTrack { get; set; } //todo
-		/// <summary>
 		/// The List of all AudioTracks in the Current Library
 		/// </summary>
 		/// <returns></returns>
@@ -74,8 +65,6 @@ namespace Karl.Model
 
 	internal interface IAudioLibImpl
 	{
-		Stack<AudioTrack> PlayedSongs { get; }
-		AudioTrack CurrentTrack { get; set; }
 		IList<AudioTrack> AllAudioTracks { get; }
 		void AddTrack();
 	}
