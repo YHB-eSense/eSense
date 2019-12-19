@@ -48,7 +48,8 @@
 					\end{itemize}
 				\paragraph{Methoden:}
 					\begin{itemize}
-						\i{public void AddTrack()} Dies fügt der aktuellen konkreten Bibliothek ein neuen Track hinzu,
+						\i{public void AddTrack(String Indentifier, String Name, String Artist, int BPM)} 
+						Dies fügt der aktuellen konkreten Bibliothek ein neuen Track hinzu,
 						falls diese das unterstützt.
 						\i{public void NextSong()} Dies überspringt den aktuellen Song und spielt einen neuen Song ab.
 						Der aktuelle als erstes Element von PlayedTracks eingefügt.
@@ -100,6 +101,7 @@
 						\i{public List<Mode> Modes} Dies ist die Liste aller beim ModeHandler registrierten Modi.
 					\end{itemize}
 		\subsection{Audio Modul}
+			\includegraphics[scale=0.3]{../graphics/uml_diagramme/AudioModule.png}\\
 			Das Audio-Modul besteht jeweils aus der Audiobibliothek und dem Audioplayer.
 			Bei beiden wird zwischen der Fassade (in der Schnittstelle) und der Implementierung (hier) unterschieden.
 			Dadurch werden Konsistenzprobleme vermieden, da nicht unterschiedliche Teile der App auf unterschiedliche konkrete Implementierungen
