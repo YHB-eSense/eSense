@@ -9,9 +9,10 @@
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AddSongPageVM.png}
 \end{minipage}
 \begin{minipage}{0.55\textwidth}
+\code{public class AddSongPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AddSongPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AddSongPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public string NewSongTitle} Hier wird der vom Nutzer eingegebene Titel eines Songs, der neu hinzugefügt werden soll, gespeichert.
 	\i{public string NewSongArtist} Hier wird der vom Nutzer eingegebene Künstlername eines Songs, der neu hinzugefügt werden soll, gespeichert.
@@ -29,9 +30,10 @@ Diese Klasse enthält die UI-Logik der \code{AddSongPage}. Sie stellt dieser öf
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AudioLibPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class AudioLibPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioLibPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public ObservableCollection<AudioTrack> Songs} Hier werden die Songs gespeichert, die in der View angezeigt werden sollen.
 	\i{public ICommand TitleSortCommand} Dieser Command sortiert \code{Songs} alphabetisch nach Titel über private Methoden. \glsnote{ro}
@@ -51,9 +53,10 @@ Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser ö
 \includegraphics[scale=0.75]{../graphics/vm_klassen/AudioPlayerPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class AudioPlayerPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{AudioPlayerPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public Boolean PausePlayBoolean} Dieser Boolean gibt an, ob der AudioPlayer im Model momentan aktiv oder pausiert ist.
 	\i{public AudioTrack AudioTrack} Hier wird der momentan im Model geladene Song gespeichert.
@@ -72,6 +75,9 @@ Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser
 	\i{public void GetAudioTrack()} Diese Methode ruft den im Model momentan geladenen Song ab und weist sie der Property \code{Songs} zu.
 	\i{public void GetPausePlayBoolean()} Diese Methode ruft im Model ab, ob der Audioplayer aktiv oder pausiert werden soll und weist den Boolean der Property \code{PausePlayBoolean} zu.
 	\i{public void GetVolume()} Diese Methode ruft im Model ab, ob der Audioplayer aktiv oder pausiert werden soll und weist den Boolean der Property \code{PausePlayBoolean} zu.
+\end{itemize}
+\paragraph{Events}
+\begin{itemize}
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{ConnectionPageVM}
@@ -79,9 +85,10 @@ Diese Klasse enthält die UI-Logik der \code{AudioPlayerPage}. Sie stellt dieser
 \includegraphics[scale=0.75]{../graphics/vm_klassen/ConnectionPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class ConnectionPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ConnectionPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public ObservableCollection<BluetoothDevice> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen. \glsnote{ro}
 	\i{public ICommand RefreshDevicesCommand} Dieser Command aktualisiert über private Methoden \code{Devices} mit den Geräten die im Model gefunden werden. \glsnote{ro}
@@ -97,9 +104,10 @@ Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser 
 \includegraphics[scale=0.75]{../graphics/vm_klassen/MainPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class MainPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{MainPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public string DeviceName} Hier wird der Name des momentan verbundenen Geräts gespeichert, falls keine Verbindung besteht, hat der String den wert null.
 	\i{public string StepsAmount} Hier wird die Anzahl der Schritte seit dem letzten Reset gespeichert, falls keine Verbindung zu einem Gerät besteht, hat der String den wert null.
@@ -117,16 +125,20 @@ Diese Klasse enthält die UI-Logik der \code{MainPage}. Sie stellt dieser öffen
 	\i{public void GetDeviceName()} Diese Methode ruft den Namen des momentan verbundenen Gerätes im Model ab und weist sie der Property \code{DeviceName} zu.
 	\i{public void GetStepsAmount()} Diese Methode ruft im Model ab, wie viele Schritte seit dem letztem Reset gemacht wurden und weist den Wert der Property \code{StepsAmount} zu.
 	\i{public void GetConnectBoolean()} Diese Methode ruft im Model ab, ob momentan eine Verbindung zu einem Gerät besteht und weist den Boolean der Property \code{ConnectBoolean} zu.
-	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
+\end{itemize}
+\paragraph{Events}
+\begin{itemize}
+	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser 	Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{ModesPageVM}
 \begin{minipage}{0.5\textwidth}
 \includegraphics[scale=0.75]{../graphics/vm_klassen/ModesPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class ModesPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{ModesPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize}
 	\i{public ObservableCollection<Mode> Modes} Hier werden die Modi gespeichert, die in der View angezeigt werden sollen.
 	\i{public ICommand ActivateModeCommand} Dieser Command aktiviert über private Methoden im Model den in der View ausgewählten Modus. \glsnote{ro}
@@ -141,12 +153,13 @@ Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffe
 \includegraphics[scale=0.75]{../graphics/vm_klassen/SettingsPageVM.png}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
+\code{public class SettingsPageVM} \newline
 Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser öffentliche Eigenschaften und Commands zur Verfügung, welche dort an Steuerelemente gebunden sind, um als Bindeglied zwischen der \code{SettingsPage} und dem Model zu dienen.
 \end{minipage}
-\paragraph{Attribute \& Properties}
+\paragraph{Properties}
 \begin{itemize} 
-	\i{public ObservableCollection<Lang> Languages} Hier werden die Sprachen gespeichert, die in der View angezeigt werden sollen.
-	\i{public Lang SelectedLanguage} Hier wird die Sprache gespeichert, die in der View als ausgewählt angezeigt wird.
+	\i{public ObservableCollection<Language> Languages} Hier werden die Sprachen gespeichert, die in der View angezeigt werden sollen.
+	\i{public Language SelectedLanguage} Hier wird die Sprache gespeichert, die in der View als ausgewählt angezeigt wird.
 	\i{public string DeviceName} Hier wird der Name des momentan verbundenen Geräts gepeichert der in der View angezeigt wird.
 	\i{public ICommand ChangeDeviceNameCommand} Dieser Command setzt über private Methoden im Model den Namen des Geräts auf den in der View eingegebenen Text. \glsnote{ro}
 	\i{public ICommand ChangeLanguageCommand} Dieser Command ändert über private Methoden im Model die Sprache auf die in der View ausgewählten Sprache. \glsnote{ro}
@@ -158,6 +171,9 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 	\i{public void RefreshLanguages()} Diese Methode ruft die im Model vorhandenen Sprachen ab und weist sie der Property \code{Languages} zu.
 	\i{public void GetSelectedLanguage()} Diese Methode ruft die im Model ausgewählte Sprache ab und weist sie der Property \code{SelectedLanguage} zu.
 	\i{public void GetDeviceName()} Diese Methode ruft den Namen des momentan verbundenen Gerätes im Model ab und weist ihn der Property \code{DeviceName} zu.
+\end{itemize}
+\paragraph{Events}
+\begin{itemize}
 	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{NavigationHandler}
@@ -165,9 +181,9 @@ Diese Klasse enthält die UI-Logik der \code{SettingsPage}. Sie stellt dieser ö
 \includegraphics[scale=0.75]{../graphics/vm_klassen/NavigationHandler.png}
 \end{minipage}
 \begin{minipage}{0.55\textwidth}
+\code{public class NavigationHandler} \newline
 Diese Klasse ermöglicht den verschiedenen Klassen der ViewModels die Ansicht der App auf andere ContentPages der View zu ändern.
 \end{minipage}
-\paragraph{Attribute \& Properties}
 \paragraph{Methoden}
 \begin{itemize}
 	\i{public void SetPages(ContentPage[] pages)} Diese Methode speichert das übergebene Array in der Klasse ab.
