@@ -12,8 +12,8 @@ namespace Karl.Model
 	public class ConnectivityHandler
 	{
 
-		private ConnectivityHandler _connectivityHandler;
-		public ConnectivityHandler SingletonConnectivityHandler
+		private static ConnectivityHandler _connectivityHandler;
+		public static ConnectivityHandler SingletonConnectivityHandler
 		{
 			get
 			{

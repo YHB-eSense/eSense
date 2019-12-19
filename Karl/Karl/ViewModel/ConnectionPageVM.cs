@@ -6,15 +6,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.Model;
-using EarableLibrary;
 
 namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
-		private ConnectivityHandler _connectionHandler;
-		public ObservableCollection<IEarable> Devices { get; }
+		public ObservableCollection<BluetoothDevice> Devices { get => ConnectivityHandler.SingletonConnectivityHandler.FoundDevices; } 
 
 		/**
 		 Commands were called from Elements in Connection Page
@@ -30,10 +28,8 @@ namespace Karl.ViewModel
 		public ConnectionPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
-			_connectionHandler = new ConnectivityHandler();
-			Devices = new ObservableCollection<IEarable>();
 			RefreshDevicesCommand = new Command(RefreshDevices);
-			ConnectToDeviceCommand = new Command<IEarable>(ConnectToDevice);
+			ConnectToDeviceCommand = new Command<BluetoothDevice>(ConnectToDevice);
 		}
 
 		/// <summary>
@@ -41,21 +37,14 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshDevices()
 		{
-			Devices.Clear();
-			EarableLibrary.EarableLibrary handler = new EarableLibrary.EarableLibrary();
-			handler.EarableDiscovered += (s, e) =>
-			{
-				Devices.Add(e.Earable);
-				OnPropertyChanged("Devices");
-			};
-			handler.StartScanning();
+			ConnectivityHandler.SingletonConnectivityHandler.SearchDevices();
 		}
 
 		/// <summary>
 		/// Connects to the device "IEarable"
 		/// </summary>
 		/// <param name="IEarable">Connect Device</param>
-		private void ConnectToDevice(IEarable IEarable)
+		private void ConnectToDevice(BluetoothDevice IEarable)
 		{
 			//AppLogic
 			_handler.GoBack();
