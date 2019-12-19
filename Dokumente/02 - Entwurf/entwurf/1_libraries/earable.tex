@@ -22,6 +22,17 @@ Stellt Interaktionsmöglichkeiten mit über Bluetooth verfügbaren Earable-Gerä
 	\i{public void StopScanning()} Beendet die Suche nach Bluetooth-Geräten, falls aktiv.
 \end{itemize}
 
+\subsection{EarableEventArgs}
+\sign{public class EarableEventArgs : EventArgs}
+\begin{center}
+	\includegraphics[scale=0.75]{EarableLibrary/EarableEventArgs.png}
+\end{center}
+Element, welches bei einem \Gls{event} ein \code{IEarable} Objekt als Argument übergeben kann.
+\paragraph{Attribute}
+\begin{itemize}
+	\i{public IEarable Earable} Das vom Event betroffene Earable-Objekt.
+\end{itemize}
+
 \subsection{IEarable}
 \sign{public interface IEarable}
 \begin{center}
