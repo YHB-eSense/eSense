@@ -81,7 +81,7 @@ namespace Karl.Model
 	/// <summary>
 	/// A general struct to indentify a language.
 	/// </summary>
-	struct Language 
+	public struct Language 
 	{
 		public String Name { get; }
 		public String Tag { get; }

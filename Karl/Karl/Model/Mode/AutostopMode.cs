@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// </summary>
 	class AutostopMode : Mode
 	{
-		AutostopMode()
+		public AutostopMode()
 		{
 			//todo
 		}
