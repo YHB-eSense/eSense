@@ -4,10 +4,11 @@
 \section{StepDetection-Library}
     \subsection{Input}
         \sign{public class Input : IObservable<AccGyroData>}
-        Nimmt Beschleuninigunsdaten entgegen und gibt diese an Beobachter als struct AccGyroData weiter.
+        
         \begin{center}
-            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Input.png}
+            \includegraphics[scale=0.75]{../uml_klassen/StepDetectionLib/Input.png}
         \end{center}
+        Nimmt Beschleuninigunsdaten entgegen und gibt diese an Beobachter als struct AccGyroData weiter.
         \paragraph{Methoden}
         \begin{itemize}
             \i{public IDisposable Subscribe(IObserver<AccGyroData> observer)} Fügt neue Beobachter hinzu.
@@ -17,11 +18,15 @@
 
 
     \subsection{AccGyroData}
-        \sign{public struct AccGyroData}
-        Enthält Beschleuninigunsdaten.
-        \begin{center}
-            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/AccGyroData.png}
-        \end{center}
+    \sign{public struct AccGyroData}
+    	
+    	\begin{minipage}{0.4\textwidth}
+    		 \includegraphics[scale=0.75]{../uml_klassen/StepDetectionLib/AccGyroData.png}
+    	\end{minipage}
+    	\begin{minipage}{0.6\textwidth}
+    		
+        	Enthält Beschleuninigunsdaten.
+    	\end{minipage}
         \paragraph{Properties:}
         \begin{itemize}
             \i{public short[] xacc} Beschleuninigunsdaten x-Achse.
@@ -33,11 +38,15 @@
         \end{itemize}
 
     \subsection{StepDetectionAlg}
-        \sign{class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>}
+    \sign{class StepDetectionAlg :IObserver<AccGyroData>, 	IObservable<Output>}
+    	
+    	\begin{minipage}{0.75\textwidth}
+    		 \includegraphics[scale=0.75]{../uml_klassen/StepDetectionLib/StepDetectionAlg.png}
+    	\end{minipage}
+    	\begin{minipage}{0.25\textwidth}
+    		
         Erhält struct AccGyroData von Input und berechnet anhand der Daten Schrittfrequenz und Anzahl der Schritte
-        \begin{center}
-            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/StepDetectionAlg.png}
-        \end{center}
+    	\end{minipage}
         \paragraph{Properties:}
         \begin{itemize}
             \i{private List<IObserver<Output>> observers} Liste mit Beobachtern.
@@ -54,11 +63,14 @@
         \end{itemize}
     
     \subsection{Outputmanager}
-        \sign{public class OutputManager : IObservable<Output>, IObserver<Output>}
+    \sign{public class OutputManager : IObservable<Output>, IObserver<Output>}
+    	\begin{minipage}{0.75\textwidth}
+    		  \includegraphics[scale=0.75]{../uml_klassen/StepDetectionLib/OutputManager.png}
+    	\end{minipage}
+    	\begin{minipage}{0.25\textwidth}	
         Gibt die berechneten Schrittdaten an Anwender weiter.
-        \begin{center}
-            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/OutputManager.png}
-        \end{center}
+    	\end{minipage}
+    	
         \paragraph{Properties:}
         \begin{itemize}
             \i{private static OutputManager singletonOutputManager} Enthält ein OutputManager-Objekt um das Singleton Entwurfsmuster zu implementieren.
@@ -76,11 +88,14 @@
     
 
     \subsection{Output}
-        \sign{public struct Output}
-        Enthält double Schrittfrequenz und int Schrittanzahl und ist das Datenausgabeformat.
-        \begin{center}
-            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Output.png}
-        \end{center}
+    \sign{public struct Output}
+    	\begin{minipage}{0.55\textwidth}
+    		  \includegraphics[scale=0.75]{../uml_klassen/StepDetectionLib/Output.png}
+    	\end{minipage}
+    	\begin{minipage}{0.45\textwidth}
+    		Enthält double Schrittfrequenz und int Schrittanzahl und ist das Datenausgabeformat.
+    	\end{minipage}
+    	
         \paragraph{Properties:}
         \begin{itemize}
             \i{private double freq} Schrittfrequenz.
