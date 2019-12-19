@@ -5,6 +5,9 @@
     \subsection{Input}
         \sign{public class Input : IObservable<AccGyroData>}
         Nimmt Beschleuninigunsdaten entgegen und gibt diese an Beobachter als struct AccGyroData weiter.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Input.png}
+        \end{center}
         \paragraph{Methoden}
         \begin{itemize}
             \i{public IDisposable Subscribe(IObserver<AccGyroData> observer)} Fügt neue Beobachter hinzu.
@@ -16,6 +19,9 @@
     \subsection{AccGyroData}
         \sign{public struct AccGyroData}
         Enthält Beschleuninigunsdaten.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/AccGyroData.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{public short[] xacc} Beschleuninigunsdaten x-Achse.
@@ -29,6 +35,9 @@
     \subsection{StepDetectionAlg}
         \sign{class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>}
         Erhält struct AccGyroData von Input und berechnet anhand der Daten Schrittfrequenz und Anzahl der Schritte
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/StepDetectionAlg.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{private List<IObserver<Output>> observers} Liste mit Beobachtern.
@@ -44,12 +53,40 @@
             \i{private void StepDetecAlg(AccGyroData data)} Berechnet Schrittfrequenz und Anzahl der Schritte.
         \end{itemize}
     
-    \subsection{Output}
-        \sign{public struct Output}
+    \subsection{Outputmanager}
+        \sign{public class OutputManager : IObservable<Output>, IObserver<Output>}
+        Gibt die berechneten Schrittdaten an Anwender weiter.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/OutputManager.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
-            \i{private double freq} Schrittfrequenz. %public getter?
+            \i{private static OutputManager singletonOutputManager} Enthält ein OutputManager-Objekt um das Singleton Entwurfsmuster zu implementieren.
+            \i{private List<IObserver<Output>> observers} Liste der Beobachter.
+            \i{public static OutputManager SingletonOutputManager} \glsnote{ro}
+        \end{itemize}
+        \paragraph{Methoden}
+        \begin{itemize}
+            \i{public void OnCompleted()} Wenn Subjekt fertig mit der Datenübertragung ist.
+            \i{public void OnError(Exception error)} Wenn Subject einen Fehler erfährt.
+            \i{public void OnNext(AccGyroData value)} Enthält Daten von Subjekt.
+            \i{public IDisposable Subscribe(IObserver<Output> observer)} Fügt neue Beobachter hinzu.
+            \i{public void Update(Output output)} Pusht Daten zu Beobachtern.
+        \end{itemize}
+    
+
+    \subsection{Output}
+        \sign{public struct Output}
+        Enthält double Schrittfrequenz und int Schrittanzahl und ist das Datenausgabeformat.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Output.png}
+        \end{center}
+        \paragraph{Properties:}
+        \begin{itemize}
+            \i{private double freq} Schrittfrequenz.
             \i{private int stepcount} Anzahl der Schritte.
+            \i{public double Frequency} \glsnote{ro}
+            \i{public int StepCount} \glsnote{ro}
         \end{itemize}
         \paragraph{Methoden}
         \begin{itemize}
