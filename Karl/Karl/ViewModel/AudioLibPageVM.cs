@@ -15,7 +15,7 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 
-		public ObservableCollection<AudioTrack> Songs;
+		public ObservableCollection<AudioTrack> Songs { get; set; }
 
 		/**
 		 Commands were called from Elements in AudioLibPage

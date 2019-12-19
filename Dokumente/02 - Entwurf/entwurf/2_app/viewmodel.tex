@@ -45,7 +45,6 @@ Diese Klasse enthält die UI-Logik der \code{AudioLibPage}. Sie stellt dieser ö
 \begin{itemize}
 	\i{public AudioLibPageVM(NavigationHandler handler)} Der Konstruktor der Klasse initialisiert die Commands.
 	\i{public void GetSongs()} Diese Methode ruft die Songs ab, die im Model gespeichert sind und weist sie der Property \code{Songs} zu.
-	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{AudioPlayerPageVM}
 \begin{minipage}{0.5\textwidth}
@@ -84,7 +83,7 @@ Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser 
 \end{minipage}
 \paragraph{Attribute \& Properties}
 \begin{itemize}
-	\i{public ObservableCollection<IEarable> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen.
+	\i{public ObservableCollection<BluetoothDevice> Devices} Hier werden die Geräte gepeichert die in der View angezeigt werden sollen. \glsnote{ro}
 	\i{public ICommand RefreshDevicesCommand} Dieser Command aktualisiert über private Methoden \code{Devices} mit den Geräten die im Model gefunden werden. \glsnote{ro}
 	\i{public ICommand ConnectToDeviceCommand} Dieser Command versucht über private Methoden eine Verbindung mit dem in der View ausgewähltem Gerät aufzubauen. \glsnote{ro}
 \end{itemize}
@@ -92,7 +91,6 @@ Diese Klasse enthält die UI-Logik der \code{ConnectionPage}. Sie stellt dieser 
 \begin{itemize}
 	\i{public ConnectionPageVM(NavigationHandler handler)} Der Konstruktor der Klasse initialisiert die Commands.
 	\i{public void RefreshDevices()} Diese Methode ruft die im Model momentan erkannten Geräte ab und fügt sie der Property \code{Devices} hinzu.
-	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{MainPageVM}
 \begin{minipage}{0.5\textwidth}
@@ -137,7 +135,6 @@ Diese Klasse enthält die UI-Logik der \code{ModesPage}. Sie stellt dieser öffe
 \begin{itemize}
 	\i{public ModesPageVM()} Der Konstruktor der Klasse initialisiert die Commands.
 	\i{public void GetModes()} Diese Methode ruft die im Model vorhandenen Modi ab und weist sie der Property \code{Modes} zu.
-	\i{public event PropertyChangedEventHandler PropertyChanged} Dieser Eventhandler ermöglicht Kommunikation mit der View.
 \end{itemize}
 \subsection{SettingsPageVM}
 \begin{minipage}{0.5\textwidth}

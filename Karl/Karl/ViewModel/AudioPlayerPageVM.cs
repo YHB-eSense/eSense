@@ -10,13 +10,13 @@ namespace Karl.ViewModel
 	{
 		private AudioPlayer _audioPlayer;
 		private AudioLib _audioLib;
-		//private Image _iconPlay;
-		//private Image _iconPause;
+		private Image _iconPlay;
+		private Image _iconPause;
 		private AudioTrack _audioTrack;
 		private Boolean _pausePlayBoolean;
 		private int _volume;
 		private double _currentPosition;
-		//private Image _icon;
+		private Image _icon;
 
 		/// <summary>
 		/// Safes the state of the active Audio Track(True = Playing False=Pausing)
@@ -75,7 +75,7 @@ namespace Karl.ViewModel
 				OnPropertyChanged("CurrentPosition");
 			}
 		}
-		/*
+		
 		public Image Icon
 		{
 			get
@@ -91,7 +91,7 @@ namespace Karl.ViewModel
 				}
 			}
 		}
-		*/
+		
 
 		/**
 		 * Commands were called from Elements in AudioPlayerPage

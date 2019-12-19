@@ -17,7 +17,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// List contains all available languages
 		/// </summary>
-		public ObservableCollection<Lang> Languages;
+		public ObservableCollection<Lang> Languages { get; set; }
 
 		/// <summary>
 		/// Contains the language of the app
