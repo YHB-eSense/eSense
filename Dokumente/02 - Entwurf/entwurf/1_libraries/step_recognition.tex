@@ -5,6 +5,9 @@
     \subsection{Input}
         \sign{public class Input : IObservable<AccGyroData>}
         Nimmt Beschleuninigunsdaten entgegen und gibt diese an Beobachter als struct AccGyroData weiter.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Input.png}
+        \end{center}
         \paragraph{Methoden}
         \begin{itemize}
             \i{public IDisposable Subscribe(IObserver<AccGyroData> observer)} Fügt neue Beobachter hinzu.
@@ -16,6 +19,9 @@
     \subsection{AccGyroData}
         \sign{public struct AccGyroData}
         Enthält Beschleuninigunsdaten.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/AccGyroData.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{public short[] xacc} Beschleuninigunsdaten x-Achse.
@@ -29,6 +35,9 @@
     \subsection{StepDetectionAlg}
         \sign{class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>}
         Erhält struct AccGyroData von Input und berechnet anhand der Daten Schrittfrequenz und Anzahl der Schritte
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/StepDetectionAlg.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{private List<IObserver<Output>> observers} Liste mit Beobachtern.
@@ -47,6 +56,9 @@
     \subsection{Outputmanager}
         \sign{public class OutputManager : IObservable<Output>, IObserver<Output>}
         Gibt die berechneten Schrittdaten an Anwender weiter.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/OutputManager.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{private static OutputManager singletonOutputManager} Enthält ein OutputManager-Objekt um das Singleton Entwurfsmuster zu implementieren.
@@ -65,6 +77,10 @@
 
     \subsection{Output}
         \sign{public struct Output}
+        Enthält double Schrittfrequenz und int Schrittanzahl und ist das Datenausgabeformat.
+        \begin{center}
+            \includegraphics[page=1,width=350pt,keepaspectratio]{../uml_klassen/StepDetectionLib/Output.png}
+        \end{center}
         \paragraph{Properties:}
         \begin{itemize}
             \i{private double freq} Schrittfrequenz.
