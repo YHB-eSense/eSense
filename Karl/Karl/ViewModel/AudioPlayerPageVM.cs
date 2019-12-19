@@ -9,7 +9,6 @@ namespace Karl.ViewModel
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
 		private AudioPlayer _audioPlayer;
-		private AudioLib _audioLib;
 		private Image _iconPlay;
 		private Image _iconPause;
 		private AudioTrack _audioTrack;

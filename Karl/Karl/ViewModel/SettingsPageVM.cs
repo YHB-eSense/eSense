@@ -11,6 +11,7 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private Language _selectedLanguage;
 		private string _deviceName;
 
@@ -69,6 +70,7 @@ namespace Karl.ViewModel
 		/// <param name="appLogic"> For needed functions in Model</param>
 		public SettingsPageVM()
 		{
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
 			ChangeLanguageCommand = new Command<Language>(ChangeLanguage);
 			ResetStepsCommand = new Command(ResetSteps);
