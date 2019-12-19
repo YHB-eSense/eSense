@@ -46,7 +46,16 @@ namespace Karl.Model
 		/// </summary>
 		public bool Paused { get; set; }
 		/// <summary>
-		/// Pause playback.
+		/// The Tracks already played before.
+		/// </summary>
+		public Stack<AudioTrack> PlayedTracks { get; } //todo
+
+		/// <summary>
+		/// The Track that is currently chosen.
+		/// </summary>
+		public AudioTrack CurrentTrack { get; set; } //todo
+		/// <summary>
+		/// Pause/continue playback.
 		/// </summary>
 		public void TogglePause()
 		{
@@ -78,6 +87,8 @@ namespace Karl.Model
 	}
 	interface IAudioPlayerImpl
 	{
+		Stack<AudioTrack> PlayedSongs { get; }
+		AudioTrack CurrentTrack { get; set; }
 		void TogglePause();
 		void PlayTrack();
 		/// <summary>

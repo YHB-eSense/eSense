@@ -29,10 +29,6 @@ namespace Karl.Model
 		/// </summary>
 		private String PlaylistTag;
 
-		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
 		public IList<AudioTrack> AllAudioTracks => throw new NotImplementedException();
 
 		private SpotifyAudioLib()
