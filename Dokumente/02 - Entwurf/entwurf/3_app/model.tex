@@ -12,8 +12,13 @@
 			einfach zu gestalten. Alle Klassen der Schittstelle sind nach dem 
 			Singleton-Muster\footnote{\see[Muster 2: ]{https://csharpindepth.com/Articles/Singleton}} aufgebaut.
 			\subsubsection{ConnectivityHandler}
+				\begin{minipage}{0.45\textwidth}
+					\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/m_klassen/ConnectivityHandler.png}
+				\end{minipage}
+				\begin{minipage}{0.55\textwidth}
+					Diese Klasse sucht nach Bluetooth Geräten, mit denen man sich verbinden kann.
+				\end{minipage}
 				\sign{public class ConnectivityHandler}
-				Diese Klasse sucht nach Bluetooth Geräten, mit denen man sich verbinden kann.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{private IEarable Earable} Die Schnittstelle zur EarablesLibrary.
@@ -29,8 +34,13 @@
 						\i{public ObservableCollection<BluetoothDevice> SearchDevices()} Sucht nach Bluetooth Geräten in der Nähe.
 					\end{itemize}
 			\subsubsection{AudioLib}
+				\begin{minipage}{0.45\textwidth}
+					\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/m_klassen/AudioLib.png}
+				\end{minipage}
+				\begin{minipage}{0.55\textwidth}
+					Die Fassade für den einfachen Zugriff auf das aktuelle Audiomodul.
+				\end{minipage}
 				\sign{class AudioLib}
-				Die Fassade für den einfachen Zugriff auf das aktuelle Audiomodul.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{private AudioLib \_singletonAudioLib} Dies ist das singleton Attribut.
@@ -56,8 +66,13 @@
 						\i{public void PrevSong()} Dies ruft \textit{CurrentTrack = AudioLibImpl.PlayedTracks.Pop()} auf.
 					\end{itemize}
 			\subsubsection{AudioPlayer}
+				\begin{minipage}{0.45\textwidth}
+					\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/m_klassen/AudioPlayer.png}
+				\end{minipage}
+				\begin{minipage}{0.55\textwidth}
+					Diese Klasse ist eine Fassade zum einfachen Zugriff auf den aktuellen konkreten AudioPlayer.
+				\end{minipage}
 				\sign{class AudioPlayer}
-				Diese Klasse ist eine Fassade zum einfachen Zugriff auf den aktuellen konkreten AudioPlayer.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{private AudioLib AudioLib} Dies ist das Singleton Objekt von AudioLib zum einfachen Zugriff.
@@ -76,8 +91,13 @@
 						\i{public void PrevTrack()} Diese Methode ruft AudioLib.PrevTrack() und PlayTrack() auf.
 					\end{itemize}
 			\subsubsection{SettingsHandler}
+				\begin{minipage}{0.45\textwidth}
+					\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/m_klassen/SettingsHandler.png}
+				\end{minipage}
+				\begin{minipage}{0.55\textwidth}
+					Diese Klasse ist die Fassade zum Zugriff auf die App-Einstellungen. Sie verwendet dafür die Klasse ConfigFile.
+				\end{minipage}
 				\sign{public class SettingsHandler}
-				Diese Klasse ist die Fassade zum Zugriff auf die App-Einstellungen. Sie verwendet dafür die Klasse ConfigFile.
 				\paragraph{Attribute:}
 					\begin{itemize}
 						\i{private ConfigFile ConfigFile} Das Objekt der Klasse Config-File.
@@ -94,8 +114,13 @@
 						\i{public void ResetSteps()} Diese Metjode setzt die Anzahl der gezählten Schritte zurück.
 					\end{itemize}
 			\subsubsection{ModeHandler}
+				\begin{minipage}{0.45\textwidth}
+					\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/m_klassen/ModeHandler.png}
+				\end{minipage}
+				\begin{minipage}{0.55\textwidth}
+					Diese Klasse ist verwaltet die aktivierten und deaktivierten Modi.
+				\end{minipage}
 				\sign{public class ModeHandler}
-				Diese Klasse ist verwaltet die aktivierten und deaktivierten Modi.
 				\paragraph{Properties:}
 					\begin{itemize}
 						\i{public List<Mode> Modes} Dies ist die Liste aller beim ModeHandler registrierten Modi.
@@ -186,7 +211,12 @@
 				SpotifyAPI-NET\footnote{\see[]{https://github.com/JohnnyCrazy/SpotifyAPI-NET}} verwenden.
 				Sie ist nach dem Singleton Muster aufgebaut und hat die dazugehörigen Properties und Attribute.
 		\subsection{Modi}
-			Dies sind die verschiedenen Modi, welche aktiv oder inaktiv sein können.
+			\begin{minipage}{0.6\textwidth}
+				\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/uml_diagramme/Modi.png}
+			\end{minipage}
+			\begin{minipage}{0.4\textwidth}
+				Dies sind die verschiedenen Modi, welche aktiv oder inaktiv sein können.
+			\end{minipage}
 			\subsubsection{Mode}
 				\sign{public abstract class Mode}
 				Die abstrakte Klasse Mode definiert einen Generellen Modus und bietet eine Schnittstelle zu den ViewModels.
@@ -209,7 +239,12 @@
 				\sign{class MotivateMode : Mode}
 				Der konkrete Motivationsmusik-Modus.
 		\subsection{Einstellungen}
-			Hier sind die Klassen bezüglich der App-Einstellungen und Sprach-Einstellungen.
+			\begin{minipage}{0.6\textwidth}
+				\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{../graphics/uml_diagramme/Settings.png}
+			\end{minipage}
+			\begin{minipage}{0.4\textwidth}
+				Hier sind die Klassen bezüglich der App-Einstellungen und Sprach-Einstellungen.
+			\end{minipage}
 			\subsubsection{ConfigFile}
 				\sign{class ConfigFile}
 				Die Klasse ConfigFile liest, schreibt und verwaltet das .config Dokument im Speicher der App.
