@@ -12,22 +12,26 @@ namespace Karl.ViewModel
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
+
+		/**
+		 Properties binded to View
+		**/
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
 		public string NewSongFileLocation { get; set; }
 
 		/**
-		 Commands were called from Elements in AudioLibPage
+		 Commands binded to View
 		**/
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }
 
 
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands, NavigationHandler and AudioLib of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
+		/// <param name="handler"> For navigation</param>
 		public AddSongPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
@@ -37,17 +41,16 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// Adds song to AudioLib through App Logic
+		/// Adds song to AudioLib of Model
 		/// </summary>
 		private void AddSong()
 		{
-			//AudioLib.addTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
-			//AppLogic
+			_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
 			_handler.GoBack();
 		}
 
 		/// <summary>
-		/// Opens File Choosing Dialog
+		/// Opens a file picker
 		/// </summary>
 		private async void PickFile()
 		{

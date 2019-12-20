@@ -17,9 +17,9 @@ namespace Karl.ViewModel
 		private double _currentPosition;
 		private Image _icon;
 
-		/// <summary>
-		/// Safes the state of the active Audio Track(True = Playing False=Pausing)
-		/// </summary>
+		/**
+		 Properties binded to View
+		**/
 		public Boolean PausePlayBoolean
 		{
 			get
@@ -90,11 +90,11 @@ namespace Karl.ViewModel
 				}
 			}
 		}
-		
+
 
 		/**
-		 * Commands were called from Elements in AudioPlayerPage
-		 * **/
+		 Commands binded to View
+		**/
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
 		public ICommand PlayNextCommand { get; }
@@ -102,13 +102,11 @@ namespace Karl.ViewModel
 		public ICommand MoveInSongCommand { get; }
 
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands, Images and AudioPlayer of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
 		public AudioPlayerPageVM()
 		{
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			_audioLib = AudioLib.SingletonAudioLib;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);
@@ -123,70 +121,63 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// Continues/Stops Song in App Logic and changes icon
-		/// from Play to Pause/ Pause to Play
+		/// Pauses/Plays song in AudioPlayer of Model
 		/// </summary>
 		private void PausePlay()
 		{
 			if (PausePlayBoolean)
 			{
-				//AudioLogic
-				PausePlayBoolean = !PausePlayBoolean;
-				//Icon = IconPlay;
+				//_audioPlayer.TogglePlay();
+				GetPausePlayBoolean();
 			}
 			else
 			{
-				//AudioLogic
-				PausePlayBoolean = !PausePlayBoolean;
-				//Icon = IconPause;
+				_audioPlayer.TogglePause();
+				GetPausePlayBoolean();
 			}
 		}
 
 		/// <summary>
-		/// Plays previous Song in App Logic
+		/// Plays previous song in AudioPlayer of Model
 		/// </summary>
 		private void PlayPrev()
 		{
-			//AudioLogic
+			_audioPlayer.PrevTrack();
 			GetAudioTrack();
-			OnPropertyChanged("AudioTrack.Duration");
-			OnPropertyChanged("AudioTrack.Cover");
 		}
 
 		/// <summary>
-		/// Plays next Song in App Logic
+		/// Plays next song in AudioPlayer of Model
 		/// </summary>
 		private void PlayNext()
 		{
-			//AudioLogic
+			_audioPlayer.NextTrack();
 			GetAudioTrack();
-			OnPropertyChanged("AudioTrack.Duration");
-			OnPropertyChanged("AudioTrack.Cover");
 		}
 
 		/// <summary>
-		/// Changes Volume in App Logic
+		/// Changes Volume in AudioPlayer of Model
 		/// </summary>
 		private void ChangeVolume(int volume)
 		{
-			//AudioLogic	//TODO
+			_audioPlayer.Volume = volume;
 		}
 
 		/// <summary>
-		/// Changes the position in Song
+		/// Changes the position in song
 		/// </summary>
-		/// <param name="time">New Time in Song</param>
+		/// <param name="time">New position in song</param>
 		private void MoveInSong(double time)
 		{
-			//AudioLogic	//TODO
+			_audioPlayer.CurrentSecInTrack = time;
 		}
 
 		/// <summary>
-		/// App Logic load an Audio Track
+		/// Retrieves active AudioTrack from AudioPlayer in Model
 		/// </summary>
 		public void GetAudioTrack()
 		{
-			//stattdessen audioTrack von AppLogic holen
+			AudioTrack = _audioPlayer.CurrentTrack;
 		}
 
 		/// <summary>
@@ -194,16 +185,23 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void GetPausePlayBoolean()
 		{
-			Boolean pausePlayBoolean = false;
-			//AppLogic
-			PausePlayBoolean = pausePlayBoolean;
+			PausePlayBoolean = _audioPlayer.Paused;
+			if (PausePlayBoolean)
+			{
+				Icon = _iconPlay;
+			}
+			else
+			{
+				Icon = _iconPause;
+			}
 		}
+
 		/// <summary>
 		/// ?
 		/// </summary>
 		public void GetVolume()
 		{
-			//AppLogic
+			Volume = _audioPlayer.Volume;
 		}
 
 		//Eventhandling

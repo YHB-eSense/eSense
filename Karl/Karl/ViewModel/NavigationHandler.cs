@@ -8,25 +8,16 @@ namespace Karl.ViewModel
 {
 	public class NavigationHandler
 	{
-		private ContentPage[] _pages;
+		public ContentPage[] _pages { get; set; }
 
 		public void SetPages(ContentPage[] pages)
 		{
 			_pages = pages;
 		}
 
-		public async void GotoPage(String name)
+		public async void GotoPage(ContentPage page)
 		{
-			for (int i = 0; i < _pages.Length; i++)
-			{
-				if (_pages[i].GetType().Name == name)
-				{
-					await Application.Current.MainPage.Navigation.PushAsync(_pages[i]);
-					return;
-				}
-			}
-			throw new Exception("Page not found!");
-			
+			await Application.Current.MainPage.Navigation.PushAsync(page);
 		}
 
 		public async void GoBack()

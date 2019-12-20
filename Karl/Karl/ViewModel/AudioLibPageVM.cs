@@ -14,11 +14,15 @@ namespace Karl.ViewModel
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
+		private AudioPlayer _audioPlayer;
 
+		/**
+		 Properties binded to View
+		**/
 		public ObservableCollection<AudioTrack> Songs { get; set; }
 
 		/**
-		 Commands were called from Elements in AudioLibPage
+		 Commands binded to View
 		**/
 		public ICommand TitleSortCommand { get; }
 		public ICommand ArtistSortCommand { get; }
@@ -28,13 +32,14 @@ namespace Karl.ViewModel
 		public ICommand SearchSongCommand { get; }
 
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands, NavigationHandler and AudioLib, AudioPlayer of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
+		/// <param name="handler"> For navigation</param>
 		public AudioLibPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
 			_audioLib = AudioLib.SingletonAudioLib;
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			Songs = new ObservableCollection<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);
@@ -75,13 +80,14 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// Starts Playing song "audioTrack" in App Logic 
+		/// Jumps to AudioPlayer in Model
 		/// </summary>
 		/// <param name="audioTrack">Name of started song</param>
 		private void PlaySong(AudioTrack audioTrack)
 		{
-			//Applogic
-			_handler.GotoPage("AudioPlayerPage");
+			_audioPlayer.CurrentTrack = audioTrack;
+			_handler.GotoPage(_handler._pages[0]);
+			_audioPlayer.PlayTrack();
 		}
 
 		/// <summary>
@@ -89,12 +95,11 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void AddSong()
 		{
-			_handler.GotoPage("AddSongPage");
+			_handler.GotoPage(_handler._pages[5]);
 		}
 
 		/// <summary>
-		/// Refreshs Listview so it only shows song which
-		/// contain "title" in their song title
+		/// Sets Songs to only contain AudiotTracks with title in their Title property
 		/// </summary>
 		/// <param name="title"></param>
 		private void SearchSong(string title)
@@ -104,14 +109,11 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// ?
+		/// Retrieves Songs from AudioLib in Model
 		/// </summary>
 		public void GetSongs()
 		{
-			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
-			//AppLogic
-			//songs.Add(new AudioTrack("TNT", "ACDC", 130));
-			Songs = songs;
+			Songs = (ObservableCollection<AudioTrack>) _audioLib.AudioTracks;
 		}
 
 	}
