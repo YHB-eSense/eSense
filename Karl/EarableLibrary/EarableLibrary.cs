@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace EarableLibrary
 {
-	public class EarableLibrary
+	public class EarableLibrary : IEarableScanner
 	{
 		public event EventHandler<EarableEventArgs> EarableDiscovered;
 
@@ -34,18 +34,6 @@ namespace EarableLibrary
 		public void StopScanning()
 		{
 			CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
-		}
-	}
-
-
-	public class EarableEventArgs : System.EventArgs
-	{
-
-		public IEarable Earable;
-
-		public EarableEventArgs(IEarable earable)
-		{
-			Earable = earable;
 		}
 	}
 }

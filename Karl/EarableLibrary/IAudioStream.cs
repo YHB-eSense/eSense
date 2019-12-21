@@ -2,10 +2,10 @@ namespace EarableLibrary
 {
 	public interface IAudioStream
 	{
-		bool open();
+		bool Open();
 		
-		bool close();
+		bool Close();
 		
-		void write(byte[] data);
+		void Write(byte[] data);
 	}
 }
