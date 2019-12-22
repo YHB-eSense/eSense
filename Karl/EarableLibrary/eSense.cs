@@ -23,7 +23,7 @@ namespace EarableLibrary
 
 		public IAudioStream AudioStream => throw new NotImplementedException();
 
-		public ReadOnlyCollection<ISensor> Sensors => throw new NotImplementedException();
+		//public ReadOnlyCollection<ISensor<T>> Sensors => throw new NotImplementedException();
 
 		public async System.Threading.Tasks.Task<bool> ConnectAsync()
 		{

@@ -21,7 +21,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
-		private List<IObserver<Output>> observers;
+		private System.Collections.Generic.List<IObserver<Output>> observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>

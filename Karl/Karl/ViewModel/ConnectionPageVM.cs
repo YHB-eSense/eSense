@@ -29,7 +29,7 @@ namespace Karl.ViewModel
 		public ConnectionPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
-			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<BluetoothDevice>(ConnectToDevice);
 		}

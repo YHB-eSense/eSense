@@ -16,7 +16,8 @@ namespace Karl.Model
 		public override Image Cover => throw new NotImplementedException(); //todo
 		public override string Title => throw new NotImplementedException();
 		public override string Artist => throw new NotImplementedException();
-		public override int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override int BPM { get => throw new NotImplementedException(); //set => throw new NotImplementedException();
+		}
 	}
 	
 }
