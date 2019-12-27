@@ -14,7 +14,7 @@ namespace Karl.ViewModel
 		private AudioLib _audioLib;
 
 		/**
-		 Properties binded to View
+		 Properties binded to AddSongsPage of View
 		**/
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
@@ -22,7 +22,7 @@ namespace Karl.ViewModel
 		public string NewSongFileLocation { get; set; }
 
 		/**
-		 Commands binded to View
+		 Commands binded to AddSongsPage of View
 		**/
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }

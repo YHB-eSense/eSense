@@ -9,16 +9,16 @@ namespace Karl.ViewModel
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
 		private AudioPlayer _audioPlayer;
-		private Image _iconPlay;
-		private Image _iconPause;
+		private string _iconPlay;
+		private string _iconPause;
 		private AudioTrack _audioTrack;
 		private Boolean _pausePlayBoolean;
 		private int _volume;
 		private double _currentPosition;
-		private Image _icon;
+		private string _icon;
 
 		/**
-		 Properties binded to View
+		 Properties binded to AudioPlayerPage of View
 		**/
 		public Boolean PausePlayBoolean
 		{
@@ -75,7 +75,7 @@ namespace Karl.ViewModel
 			}
 		}
 		
-		public Image Icon
+		public string Icon
 		{
 			get
 			{
@@ -91,9 +91,26 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public string TimePlayed
+		{
+			get
+			{
+				return "00:00";
+				//return Convert.ToString(_audioPlayer.CurrentSecInTrack);
+			}
+		}
+
+		public string TimeLeft
+		{
+			get
+			{
+				return "-03:00";
+				//return Convert.ToString(_audioTrack.Duration - _audioPlayer.CurrentSecInTrack); 
+			}
+		}
 
 		/**
-		 Commands binded to View
+		 Commands binded to AudioPlayerPage of View
 		**/
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
@@ -112,12 +129,9 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			ChangeVolumeCommand = new Command<int>(ChangeVolume);
 			MoveInSongCommand = new Command<double>(MoveInSong);
-			//_iconPlay = ...
-			//_iconPause = ...
-			//Icon = new Image();
-			//IconPlay = new Image(); //fileLocation
-			//IconPlay.Source = ImageSource.FromFile("");
-			//IconPause = new Image(); //fileLocation
+			_iconPlay = "play.png";
+			_iconPause = "pause.png";
+			Icon = _iconPlay;
 		}
 
 		/// <summary>

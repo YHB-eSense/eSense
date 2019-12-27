@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage">
     <ContentPage.Content>
-		<StackLayout>
+		<StackLayout Spacing="30">
 			<Button Text="Add Song"
 					Command="{Binding AddSongCommand}"/>
 			<SearchBar>

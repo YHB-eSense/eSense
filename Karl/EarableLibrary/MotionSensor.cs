@@ -22,6 +22,7 @@ namespace EarableLibrary
 		public TripleShort Acc { get; }
 	}
 
+	/*
 	public class MotionSensor : ISensor<MotionSensorChangedEventArgs>
 	{
 		public event EventHandler<MotionSensorChangedEventArgs> ValueChanged;
@@ -31,4 +32,5 @@ namespace EarableLibrary
 			ValueChanged?.Invoke(this, e);
 		}
 	}
+	*/
 }

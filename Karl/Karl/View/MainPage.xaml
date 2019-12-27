@@ -8,44 +8,6 @@
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
 		<StackLayout>
-			<!--
-			<StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" >
-				<Button Text="AudioPlayer" 
-					HorizontalOptions="CenterAndExpand"
-					Command="{Binding AudioPlayerPageCommand}"/>
-			</StackLayout>
-			
-			<StackLayout Orientation="Horizontal">
-				<Label Text="{Binding StepsAmount}"
-					x:Name="Steps"
-					HorizontalOptions="CenterAndExpand"/>
-			</StackLayout>
-			
-			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-				<Button Text="AudioLibrary" 
-					HorizontalOptions="StartAndExpand"
-					Command="{Binding AudioLibPageCommand}"/>
-				<Button Text="Connect"
-					ImageSource="{Binding Icon}"
-					HorizontalOptions="CenterAndExpand"
-					Command="{Binding ConnectionPageCommand}"/>
-				<Button Text="ModeManager"
-					HorizontalOptions="EndAndExpand"
-					Command="{Binding ModesPageCommand}"/>
-			</StackLayout>
-
-			<StackLayout Orientation="Horizontal">
-				<Label Text="{Binding DeviceName}"
-					x:Name="Device"
-					HorizontalOptions="CenterAndExpand"/>
-			</StackLayout>
-			
-			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
-				<Button Text="Settings" 
-					HorizontalOptions="CenterAndExpand"
-					Command="{Binding SettingsPageCommand}"/>
-			</StackLayout>
-			-->
 			<StackLayout.GestureRecognizers>
 				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}"/>
 				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}"/>
@@ -53,8 +15,10 @@
 				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}"/>
 			</StackLayout.GestureRecognizers>
 			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-				<Button Text="Connect"
-					ImageSource="{Binding Icon}"
+				<ImageButton Source="{Binding Icon}"
+					BackgroundColor="Transparent"
+					WidthRequest="200"
+					HeightRequest="200"
 					HorizontalOptions="CenterAndExpand"
 					Command="{Binding ConnectionPageCommand}"/>
 			</StackLayout>

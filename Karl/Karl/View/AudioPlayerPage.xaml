@@ -7,45 +7,74 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
-		<StackLayout Margin="20" Orientation="Vertical" VerticalOptions="Center">
+		<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Spacing="30">
+			
 			<Image Source="{Binding AudioTrack.Cover}"/>
-			<Slider x:Name="TimeSlider"
-					Minimum="0"
-					Maximum="{Binding AudioTrack.Duration}"
-					Value="{Binding CurrentPosition}"
-					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black">
-				<Slider.Behaviors>
-					<b:EventToCommandBehavior EventName="ValueChanged"
-					Command="{Binding MoveInSongCommand}"
-					CommandParameter="Slider.Value" />
-				</Slider.Behaviors>
-			</Slider>
-			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				<Button Text="PS"
-						HorizontalOptions="Center"
+			<BoxView Color="SkyBlue"
+					WidthRequest="300"
+					HeightRequest="300"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"/>
+
+			<StackLayout Orientation="Horizontal" Margin="50,0,50,0">
+				<Label Text="{Binding TimePlayed}"/>
+				<Slider Minimum="0"
+						Maximum="{Binding AudioTrack.Duration}"
+						ThumbColor="SkyBlue"
+						Value="{Binding CurrentPosition}"
+						HorizontalOptions="FillAndExpand"
+						MinimumTrackColor="SkyBlue"
+						MaximumTrackColor="Gray">
+					<Slider.Behaviors>
+						<b:EventToCommandBehavior EventName="ValueChanged"
+						Command="{Binding MoveInSongCommand}"
+						CommandParameter="Slider.Value" />
+					</Slider.Behaviors>
+				</Slider>
+				<Label Text="{Binding TimeLeft}"/>
+			</StackLayout>
+			
+			<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="30">
+				<ImageButton Source="backward.png"
+						BackgroundColor="Transparent"
+						WidthRequest="75"
+						HeightRequest="75"
 						Command="{Binding PlayPrevCommand}"/>
-				<Button Text="PP"
-						ImageSource="{Binding Icon}"
-						HorizontalOptions="Center"
+				<ImageButton Source="{Binding Icon}"
+						BackgroundColor="Transparent"
+						WidthRequest="100"
+						HeightRequest="100"
 						Command="{Binding PausePlayCommand}"
 						CommandParameter="{Binding PausePlayBoolean}"/>
-				<Button Text="NS"
-						HorizontalOptions="Center"
+				<ImageButton Source="forward.png"
+						BackgroundColor="Transparent"
+						WidthRequest="75"
+						HeightRequest="75"
 						Command="{Binding PlayNextCommand}"/>
 			</StackLayout>
-			<Slider	x:Name="VolumeSlider"
-					Minimum="0"
-					Maximum="100"
-					Value="{Binding Volume}"
-					HorizontalOptions="FillAndExpand"
-					MaximumTrackColor="Black">
-				<Slider.Behaviors>
-					<b:EventToCommandBehavior EventName="ValueChanged"
-					Command="{Binding ChangeVolumeCommand}"
-					CommandParameter="Slider.Value" />
-				</Slider.Behaviors>
-			</Slider>
+
+			<StackLayout Orientation="Horizontal" Margin="50,0,50,0">
+				<Image Source="volume_off"
+					   WidthRequest="20"
+					   HeightRequest="20"/>
+				<Slider	Minimum="0"
+						Maximum="100"
+						ThumbColor="SkyBlue"
+						Value="{Binding Volume}"
+						HorizontalOptions="FillAndExpand"
+						MinimumTrackColor="SkyBlue"
+						MaximumTrackColor="Gray">
+					<Slider.Behaviors>
+						<b:EventToCommandBehavior EventName="ValueChanged"
+						Command="{Binding ChangeVolumeCommand}"
+						CommandParameter="Slider.Value" />
+					</Slider.Behaviors>
+				</Slider>
+				<Image Source="volume_on"
+					   WidthRequest="20"
+					   HeightRequest="20"/>
+			</StackLayout>
+			
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

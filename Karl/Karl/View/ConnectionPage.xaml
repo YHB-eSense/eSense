@@ -20,8 +20,12 @@
 					CommandParameter="{Binding SelectedItem}" />
 				</ListView.Behaviors>
 			</ListView>
-			<Button Text="Refresh"
-					Command="{Binding RefreshDevicesCommand}"/>
+			<ImageButton Source="refresh.png"
+						 Margin="0,0,0,30"
+						 BackgroundColor="Transparent"
+						 WidthRequest="75"
+						 HeightRequest="75"
+						 Command="{Binding RefreshDevicesCommand}"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

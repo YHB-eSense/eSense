@@ -14,12 +14,12 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
 		private SettingsHandler _settingsHandler;
-		private Image _iconOn;
-		private Image _iconOff;
+		private string _iconOn;
+		private string _iconOff;
 		private string _deviceName;
 		private string _stepsAmount;
 		private Boolean _connectBoolean;
-		private Image _icon;
+		private string _icon;
 
 		public string DeviceName
 		{
@@ -76,7 +76,7 @@ namespace Karl.ViewModel
 			}
 		}
 		
-		public Image Icon
+		public string Icon
 		{
 			get
 			{
@@ -117,8 +117,9 @@ namespace Karl.ViewModel
 			ConnectionPageCommand = new Command(GotoConnectionPage);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
-			//IconOn = new Image(); //fileLocation
-			//IconOff = new Image(); //fileLocation
+			_iconOn = "bluetooth_on.png";
+			_iconOff = "bluetooth_off.png";
+			Icon = _iconOn;
 		}
 
 		private void GotoAudioPlayerPage()

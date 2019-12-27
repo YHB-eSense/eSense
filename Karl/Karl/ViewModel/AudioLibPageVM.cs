@@ -17,12 +17,12 @@ namespace Karl.ViewModel
 		private AudioPlayer _audioPlayer;
 
 		/**
-		 Properties binded to View
+		 Properties binded to AudioLibPage of View
 		**/
 		public ObservableCollection<AudioTrack> Songs { get; set; }
 
 		/**
-		 Commands binded to View
+		 Commands binded to AudioLibPage of View
 		**/
 		public ICommand TitleSortCommand { get; }
 		public ICommand ArtistSortCommand { get; }
@@ -99,7 +99,7 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// Sets Songs to only contain AudiotTracks with title in their Title property
+		/// Sets Songs to only contain AudioTracks with title in their Title property
 		/// </summary>
 		/// <param name="title"></param>
 		private void SearchSong(string title)

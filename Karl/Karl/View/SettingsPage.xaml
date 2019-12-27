@@ -7,7 +7,7 @@
 			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage">
     <ContentPage.Content>
-		<StackLayout>
+		<StackLayout Spacing="30">
 			<Entry Text="{Binding DeviceName}"
 				x:Name="DeviceNameEntry"/>
 			<Button Text="Change Device Name"
