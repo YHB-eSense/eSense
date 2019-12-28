@@ -15,14 +15,11 @@ namespace Karl.ViewModel
 		private Language _selectedLanguage;
 		private string _deviceName;
 
-		/// <summary>
-		/// List contains all available languages
-		/// </summary>
+		/**
+		 Properties binded to SettingsPage of View
+		**/
 		public ObservableCollection<Language> Languages { get; set; }
 
-		/// <summary>
-		/// Contains the language of the app
-		/// </summary>
 		public Language SelectedLanguage
 		{
 			get
@@ -40,9 +37,6 @@ namespace Karl.ViewModel
 			}
 		}
 
-		/// <summary>
-		/// Contains name of the connected Device
-		/// </summary>
 		public string DeviceName
 		{
 			get
@@ -59,15 +53,16 @@ namespace Karl.ViewModel
 			}
 		}
 
-
+		/**
+		 Commands binded to SettingsPage of View
+		**/
 		public ICommand ChangeDeviceNameCommand { get; }
 		public ICommand ChangeLanguageCommand { get; }
 		public ICommand ResetStepsCommand { get; }
 
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands and SettingsHandler of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
@@ -78,49 +73,32 @@ namespace Karl.ViewModel
 
 		private void ChangeDeviceName(String deviceName)
 		{
-			//AppLogic
+			_settingsHandler.DeviceName = deviceName;
 		}
 
 		private void ChangeLanguage(Language language)
 		{
-			//AppLogic
+			_settingsHandler.CurrentLang = language;
 		}
 
 		private void ResetSteps()
 		{
-			//AppLogic
+			_settingsHandler.ResetSteps();
 		}
 
-		/// <summary>
-		/// Gets Languages from Model and refreshs the Listview afterwards
-		/// </summary>
 		public void RefreshLanguages()
 		{
-			ObservableCollection<Language> languages = new ObservableCollection<Language>();
-			/*
-			string[] languages = appLogic.
-			for(int i = 0; i < devices.Length; i++)
-			{
-				languagesList.Add(devices[i]);
-			}
-			*/
-			//languages.Add("English");
-			//languages.Add("Deutsch");
-			Languages = languages;
+			Languages = (ObservableCollection<Language>) _settingsHandler.Languages;
 		}
 
 		public void GetSelectedLanguage()
 		{
-			//string selectedLanguage = "English";
-			//AppLogic
-			//SelectedLanguage = selectedLanguage;
+			SelectedLanguage = _settingsHandler.CurrentLang;
 		}
 
 		public void GetDeviceName()
 		{
-			string deviceName = "Earables";
-			//AppLogic
-			DeviceName = deviceName;
+			DeviceName = _settingsHandler.DeviceName;
 		}
 
 		//Eventhandling

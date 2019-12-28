@@ -21,6 +21,9 @@ namespace Karl.ViewModel
 		private Boolean _connectBoolean;
 		private string _icon;
 
+		/**
+		 Properties binded to MainPage of View
+		**/
 		public string DeviceName
 		{
 			get
@@ -66,11 +69,11 @@ namespace Karl.ViewModel
 					_connectBoolean = value;
 					if (ConnectBoolean)
 					{
-						//Icon = _iconOn;
+						Icon = _iconOn;
 					}
 					else
 					{
-						//Icon = _iconOff;
+						Icon = _iconOff;
 					}
 				}
 			}
@@ -91,10 +94,9 @@ namespace Karl.ViewModel
 				}
 			}
 		}
-		
 
 		/**
-		 Commands were called from Elements in Connection Page
+		 Commands binded to MainPage of View
 		**/
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
@@ -102,11 +104,10 @@ namespace Karl.ViewModel
 		public ICommand ModesPageCommand { get; }
 		public ICommand SettingsPageCommand { get; }
 
-
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands, NavigationHandler and ConnectivityHandler, SettingsHandler of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
+		/// <param name="handler">For navigation</param>
 		public MainPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
@@ -136,7 +137,7 @@ namespace Karl.ViewModel
 		{
 			if(ConnectBoolean)
 			{
-				//AppLogic disconnect
+				_connectivityHandler.Disconnect();
 			}
 			else
 			{
@@ -156,23 +157,17 @@ namespace Karl.ViewModel
 
 		public void GetDeviceName()
 		{
-			string deviceName = "";
-			//AppLogic
-			DeviceName = deviceName;
+			//DeviceName = _connectivityHandler.CurrentDevice.Name;
 		}
 
 		public void GetStepsAmount()
 		{
-			string stepsAmount = "";
-			//AppLogic
-			StepsAmount = stepsAmount;
+			//StepsAmount = Convert.ToString(_settingsHandler.Steps);
 		}
 
 		public void GetConnectBoolean()
 		{
-			Boolean connectBoolean = false;
-			//AppLogic
-			ConnectBoolean = connectBoolean;
+			//ConnectBoolean = _connectivityHandler.Connected;
 		}
 
 		//Eventhandling

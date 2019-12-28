@@ -19,7 +19,7 @@ namespace Karl.Model
 			//todo
 		}
 
-		public void AddTrack()
+		public void AddTrack(String indentifier, String name, String artist, int bpm)
 		{
 			throw new NotImplementedException();
 		}

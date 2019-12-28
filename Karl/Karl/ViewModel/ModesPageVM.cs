@@ -10,17 +10,21 @@ namespace Karl.ViewModel
 	public class ModesPageVM
 	{
 		private ModeHandler _modeHandler;
-		/// <summary>
-		/// Contains all available modes of the App
-		/// </summary>
+
+		/**
+		 Properties binded to ModesPage of View
+		**/
 		public ObservableCollection<Mode> Modes { get; set; }
 
+		/**
+		 Commands binded to ModesPage of View
+		**/
 		public ICommand ActivateModeCommand { get; }
 
 		/// <summary>
-		/// Initializises App Logic and all available Commands
+		/// Initializises Commands, NavigationHandler and ModeHandler of Model
 		/// </summary>
-		/// <param name="appLogic"> For needed functions in Model</param>
+		/// <param name="handler">For navigation</param>
 		public ModesPageVM()
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
@@ -29,21 +33,25 @@ namespace Karl.ViewModel
 		}
 
 		/// <summary>
-		/// Actives the Mode "mode"
+		/// Actives mode
 		/// </summary>
-		/// <param name="mode">Activated Mode</param>
+		/// <param name="mode">Mode to be activated</param>
 		private void ActivateMode(Mode mode)
 		{
-			//AppLogic
+			mode.Activate();
 		}
 
 		/// <summary>
-		/// Loads Modes from App Logic
+		/// Loads Modes
 		/// </summary>
 		public void GetModes()
 		{
-			//Modes = new ObservableCollection<Mode>(_appLogic.ModeHandler.Modes);
-			foreach (var data in Modes) Debug.WriteLine(data.Name);
+			ObservableCollection<Mode> modes = new ObservableCollection<Mode>();
+			foreach (Mode mode in _modeHandler.Modes)
+			{
+				modes.Add(mode);
+			}
+			Modes = modes;
 		}
 	}
 }

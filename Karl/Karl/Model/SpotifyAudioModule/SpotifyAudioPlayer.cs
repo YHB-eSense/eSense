@@ -19,7 +19,7 @@ namespace Karl.Model
 			throw new NotImplementedException(); //todo
 		}
 
-		public void PlayTrack()
+		public void PlayTrack(AudioTrack track)
 		{
 			throw new NotImplementedException(); //todo
 		}

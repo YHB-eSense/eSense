@@ -139,6 +139,8 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void PausePlay()
 		{
+			_audioPlayer.TogglePause();
+			/*
 			if (PausePlayBoolean)
 			{
 				//_audioPlayer.TogglePlay();
@@ -149,6 +151,7 @@ namespace Karl.ViewModel
 				_audioPlayer.TogglePause();
 				GetPausePlayBoolean();
 			}
+			*/
 		}
 
 		/// <summary>

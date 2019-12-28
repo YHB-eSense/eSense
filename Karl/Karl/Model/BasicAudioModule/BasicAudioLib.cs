@@ -8,9 +8,16 @@ namespace Karl.Model
 	sealed class BasicAudioLib : IAudioLibImpl
 	{
 
-		public IList<AudioTrack> AllAudioTracks => throw new NotImplementedException();
+		public IList<AudioTrack> AllAudioTracks { get; }
 
-		public void AddTrack()
+		public BasicAudioLib()
+		{
+			//testing
+			AllAudioTracks = new List<AudioTrack>();
+			AllAudioTracks.Add(new BasicAudioTrack("tnt.mp3", "TNT"));
+		}
+
+		public void AddTrack(String Indentifier, String Name, String Artist, int BPM)
 		{
 			throw new NotImplementedException();
 		}

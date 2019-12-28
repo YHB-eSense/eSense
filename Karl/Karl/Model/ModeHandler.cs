@@ -25,7 +25,7 @@ namespace Karl.Model
 		/// <summary>
 		/// All registered modes.
 		/// </summary>
-		public List<Mode> Modes { get; private set; }
+		public IList<Mode> Modes { get; private set; }
 
 		/// <summary>
 		/// Constructor of the mode handler.

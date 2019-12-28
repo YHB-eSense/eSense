@@ -11,11 +11,11 @@ namespace Karl.Model
 		/// This is the Spotify Tag of this Song.
 		/// </summary>
 		private String Tag;
-		public override double Duration => throw new NotImplementedException();//todo
-		public override string Title => throw new NotImplementedException();
-
-		public override string Artist => throw new NotImplementedException();
-		public override Image Cover => throw new NotImplementedException();//todo
-		public override int BPM { get => throw new NotImplementedException(); }
+		public override TimeSpan Duration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override string Title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override string Artist { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override Image Cover { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override string StorageLocation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

@@ -10,7 +10,7 @@ namespace Karl.Model
 	public class AudioPlayer
 	{
 		private AudioLib AudioLib;
-		private IAudioPlayerImpl audioPlayerImp;
+		private IAudioPlayerImpl _audioPlayerImp;
 
 		private static  AudioPlayer _singletonAudioPlayer;
 		/// <summary>
@@ -30,7 +30,9 @@ namespace Karl.Model
 
 		private AudioPlayer()
 		{
-			this.AudioLib = AudioLib.SingletonAudioLib;
+			AudioLib = AudioLib.SingletonAudioLib;
+			//testing BasicAudioPlayer
+			_audioPlayerImp = new BasicAudioPlayer();
 		}
 		
 		/// <summary>
@@ -53,20 +55,29 @@ namespace Karl.Model
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
-		public AudioTrack CurrentTrack { get; set; } //todo
+		public AudioTrack CurrentTrack {
+			get
+			{
+				return _audioPlayerImp.CurrentTrack;
+			}
+			set
+			{
+				_audioPlayerImp.CurrentTrack = value;
+			}
+		} 
 		/// <summary>
 		/// Pause/continue playback.
 		/// </summary>
 		public void TogglePause()
 		{
-			audioPlayerImp.TogglePause();
+			_audioPlayerImp.TogglePause();
 		}
 		/// <summary>
-		/// Start playing the song currently selected int the Library
+		/// Start playing the song currently selected in the Library
 		/// </summary>
-		public void PlayTrack()
+		public void PlayTrack(AudioTrack track)
 		{
-			audioPlayerImp.PlayTrack();
+			_audioPlayerImp.PlayTrack(track);
 		}
 		/// <summary>
 		/// Skip current Track.
@@ -99,7 +110,7 @@ namespace Karl.Model
 		Queue<AudioTrack> Queue { get; }
 		AudioTrack CurrentTrack { get; set; }
 		void TogglePause();
-		void PlayTrack();
+		void PlayTrack(AudioTrack track);
 		/// <summary>
 		/// The current position in Song.
 		/// </summary>

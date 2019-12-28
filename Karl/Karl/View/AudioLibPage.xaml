@@ -20,7 +20,7 @@
 			<ListView ItemsSource="{Binding Songs}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<TextCell Text="{Binding Title} {Binding Artist} {Binding BPM}" />
+						<TextCell Text="{Binding Title}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Behaviors>

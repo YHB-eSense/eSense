@@ -10,16 +10,22 @@ using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
-	public class AudioLibPageVM
+	public class AudioLibPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
+		private ObservableCollection<AudioTrack> _songs;
 
 		/**
 		 Properties binded to AudioLibPage of View
 		**/
-		public ObservableCollection<AudioTrack> Songs { get; set; }
+		public ObservableCollection<AudioTrack> Songs
+		{
+			get { return _songs; }
+			set { _songs = value;
+				OnPropertyChanged("Songs"); }
+		}
 
 		/**
 		 Commands binded to AudioLibPage of View
@@ -34,7 +40,7 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and AudioLib, AudioPlayer of Model
 		/// </summary>
-		/// <param name="handler"> For navigation</param>
+		/// <param name="handler">For navigation</param>
 		public AudioLibPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
@@ -85,9 +91,9 @@ namespace Karl.ViewModel
 		/// <param name="audioTrack">Name of started song</param>
 		private void PlaySong(AudioTrack audioTrack)
 		{
-			_audioPlayer.CurrentTrack = audioTrack;
+			//_audioPlayer.CurrentTrack = new BasicAudioTrack("tnt.mp3", "TNT"); ;
 			_handler.GotoPage(_handler._pages[0]);
-			_audioPlayer.PlayTrack();
+			_audioPlayer.PlayTrack(audioTrack);
 		}
 
 		/// <summary>
@@ -104,7 +110,7 @@ namespace Karl.ViewModel
 		/// <param name="title"></param>
 		private void SearchSong(string title)
 		{
-			Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(title));
+			//Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(title));
 			//reset
 		}
 
@@ -113,8 +119,25 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void GetSongs()
 		{
-			Songs = (ObservableCollection<AudioTrack>) _audioLib.AudioTracks;
+			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
+			foreach(AudioTrack audioTrack in _audioLib.AudioTracks)
+			{
+				songs.Add(audioTrack);
+			}
+			Songs = songs;
+			
 		}
 
+		//Eventhandling
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
 	}
 }

@@ -10,27 +10,27 @@ namespace Karl.Model
 	/// </summary>
 	public abstract class AudioTrack
 	{
+		public abstract String StorageLocation { get; set; }
 		/// <summary>
 		/// The duration of the song.
 		/// </summary>
-		public abstract double Duration { get; }
-		
+		public abstract TimeSpan Duration { get; set; }
 		/// <summary>
 		/// The cover of the single or album.
 		/// </summary>
-		public abstract Image Cover { get; }
+		public abstract Image Cover { get; set; }
 		/// <summary>
 		/// The Song Title.
 		/// </summary>
-		public abstract string Title { get; }
+		public abstract string Title { get; set; }
 		/// <summary>
 		/// The Songs Artist.
 		/// </summary>
-		public abstract string Artist { get; }
+		public abstract string Artist { get; set; }
 		/// <summary>
 		/// The BPM of this Song.
 		/// </summary>
-		public abstract int BPM { get; }
+		public abstract int BPM { get; set; }
 
 	}
 }

@@ -28,11 +28,11 @@ namespace Karl.Model
 		/// <summary>
 		/// The List of registered Languages.
 		/// </summary>
-		public List<Language> Languages { get; }
+		public IList<Language> Languages { get; }
 		/// <summary>
 		/// The currently selected Language.
 		/// </summary>
-		public Language CurrentLang { get; }
+		public Language CurrentLang { get; set; }
 		/// <summary>
 		/// The Name of the currently connected Device.
 		/// </summary>

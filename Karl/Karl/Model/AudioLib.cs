@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// </summary>
 	public sealed class AudioLib
 	{
-		private IAudioLibImpl AudioLibImp;
+		private IAudioLibImpl _audioLibImp;
 
 		private static AudioLib _singletonAudioLib;
 		public static AudioLib SingletonAudioLib
@@ -32,19 +32,22 @@ namespace Karl.Model
 		private AudioLib()
 		{
 			_singletonAudioLib = this;
+			//testing BasicAudioLib
+			_audioLibImp = new BasicAudioLib();
 		}
 
 		/// <summary>
 		/// The List of all AudioTracks in the Current Library
 		/// </summary>
 		/// <returns></returns>
-		public IList<AudioTrack> AudioTracks { get; } //todo
-													  /// <summary>
-													  /// Add a new Track to the current Library
-													  /// </summary>
-		public void AddTrack(String Indentifier, String Name, String Artist, int BPM)
+		public IList<AudioTrack> AudioTracks { get { return _audioLibImp.AllAudioTracks; } } //todo
+
+		/// <summary>
+		/// Add a new Track to the current Library
+		/// </summary>
+		public void AddTrack(String indentifier, String name, String artist, int bpm)
 		{
-			//todo
+			_audioLibImp.AddTrack(indentifier, name, artist, bpm);
 		}
 
 	}
@@ -52,6 +55,6 @@ namespace Karl.Model
 	internal interface IAudioLibImpl
 	{
 		IList<AudioTrack> AllAudioTracks { get; }
-		void AddTrack();
+		void AddTrack(String indentifier, String name, String artist, int bpm);
 	}
 }

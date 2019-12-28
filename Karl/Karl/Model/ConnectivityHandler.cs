@@ -44,7 +44,6 @@ namespace Karl.Model
 			//todo
 		}
 
-		/*
 		/// <summary>
 		/// Connect to the Device given as a parameter.
 		/// </summary>
@@ -53,6 +52,12 @@ namespace Karl.Model
 		{
 			//todo
 		}
+
+		public void Disconnect()
+		{
+			//todo
+		}
+
 		/// <summary>
 		/// Set a new Device name.
 		/// </summary>
@@ -61,7 +66,6 @@ namespace Karl.Model
 		{
 			//todo
 		}
-		*/
 
 	}
 }
