@@ -6,7 +6,7 @@ namespace Karl.Model
 {
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
-		public double CurrentSongPos { get; set; } //todo
+		public TimeSpan CurrentSongPos { get; set; } //todo
 
 		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
 

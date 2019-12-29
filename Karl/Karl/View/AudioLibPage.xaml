@@ -10,23 +10,25 @@
 		<StackLayout Spacing="30">
 			<Button Text="Add Song"
 					Command="{Binding AddSongCommand}"/>
-			<SearchBar>
+			<SearchBar x:Name="searchBar"
+					SearchCommand="{Binding SearchSongCommand}"
+					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
 				<SearchBar.Behaviors>
-					<b:EventToCommandBehavior EventName="SearchButtonPressed"
+					<b:EventToCommandBehavior EventName="TextChanged"
 					Command="{Binding SearchSongCommand}"
-					CommandParameter="SearchBar.Text" />
+					CommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
 				</SearchBar.Behaviors>
 			</SearchBar>
-			<ListView ItemsSource="{Binding Songs}">
+			<ListView ItemsSource="{Binding Songs}"
+					  SelectedItem="{Binding SelectedSong}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Title}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Behaviors>
-					<b:EventToCommandBehavior EventName="ItemSelected"
-					Command="{Binding PlaySongCommand}"
-					CommandParameter="{Binding SelectedItem}" />
+					<b:EventToCommandBehavior EventName="ItemTapped"
+					Command="{Binding PlaySongCommand}"/>
 				</ListView.Behaviors>
 			</ListView>
 			<Button Text="Sort after Title"

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Karl.Model
@@ -10,8 +11,8 @@ namespace Karl.Model
 	public sealed class AudioLib
 	{
 		private IAudioLibImpl _audioLibImp;
-
 		private static AudioLib _singletonAudioLib;
+
 		public static AudioLib SingletonAudioLib
 		{
 			get
@@ -40,7 +41,11 @@ namespace Karl.Model
 		/// The List of all AudioTracks in the Current Library
 		/// </summary>
 		/// <returns></returns>
-		public IList<AudioTrack> AudioTracks { get { return _audioLibImp.AllAudioTracks; } } //todo
+		public ObservableCollection<AudioTrack> AudioTracks
+		{
+			get { return _audioLibImp.AllAudioTracks; }
+			set { _audioLibImp.AllAudioTracks = value; }
+		} 
 
 		/// <summary>
 		/// Add a new Track to the current Library
@@ -54,7 +59,7 @@ namespace Karl.Model
 
 	internal interface IAudioLibImpl
 	{
-		IList<AudioTrack> AllAudioTracks { get; }
+		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
 		void AddTrack(String indentifier, String name, String artist, int bpm);
 	}
 }

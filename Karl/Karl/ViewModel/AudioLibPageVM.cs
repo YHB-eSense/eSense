@@ -15,17 +15,18 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
-		private ObservableCollection<AudioTrack> _songs;
+		private ObservableCollection<AudioTrack> _oldSongs;
 
 		/**
 		 Properties binded to AudioLibPage of View
 		**/
 		public ObservableCollection<AudioTrack> Songs
 		{
-			get { return _songs; }
-			set { _songs = value;
-				OnPropertyChanged("Songs"); }
+			get { return _audioLib.AudioTracks; }
+			set { _audioLib.AudioTracks = value; OnPropertyChanged("Songs");}
 		}
+
+		public AudioTrack SelectedSong { get; set; }
 
 		/**
 		 Commands binded to AudioLibPage of View
@@ -46,11 +47,11 @@ namespace Karl.ViewModel
 			_handler = handler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			Songs = new ObservableCollection<AudioTrack>();
+			_oldSongs = null;
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);
 			BPMSortCommand = new Command(BPMSort);
-			PlaySongCommand = new Command<AudioTrack>(PlaySong);
+			PlaySongCommand = new Command(PlaySong);
 			AddSongCommand = new Command(AddSong);
 			SearchSongCommand = new Command<string>(SearchSong);
 		}
@@ -60,9 +61,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void TitleSort()
 		{
-			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
-			//sort
-			Songs = songs;
+			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Title));
 		}
 
 		/// <summary>
@@ -70,9 +69,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void ArtistSort()
 		{
-			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
-			//sort
-			Songs = songs;
+			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Artist));
 		}
 
 		/// <summary>
@@ -80,20 +77,21 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void BPMSort()
 		{
-			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
-			//sort
-			Songs = songs;
+			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.BPM));
 		}
 
 		/// <summary>
 		/// Jumps to AudioPlayer in Model
 		/// </summary>
 		/// <param name="audioTrack">Name of started song</param>
-		private void PlaySong(AudioTrack audioTrack)
+		private void PlaySong()
 		{
-			//_audioPlayer.CurrentTrack = new BasicAudioTrack("tnt.mp3", "TNT"); ;
 			_handler.GotoPage(_handler._pages[0]);
-			_audioPlayer.PlayTrack(audioTrack);
+			if (SelectedSong != _audioPlayer.CurrentTrack)
+			{
+				_audioPlayer.PlayTrack(SelectedSong);
+			}
+			
 		}
 
 		/// <summary>
@@ -110,22 +108,19 @@ namespace Karl.ViewModel
 		/// <param name="title"></param>
 		private void SearchSong(string title)
 		{
-			//Songs = (ObservableCollection<AudioTrack>) Songs.Where(song => song.Title.Contains(title));
-			//reset
-		}
-
-		/// <summary>
-		/// Retrieves Songs from AudioLib in Model
-		/// </summary>
-		public void GetSongs()
-		{
-			ObservableCollection<AudioTrack> songs = new ObservableCollection<AudioTrack>();
-			foreach(AudioTrack audioTrack in _audioLib.AudioTracks)
+			if (_oldSongs == null)
 			{
-				songs.Add(audioTrack);
+				_oldSongs = new ObservableCollection<AudioTrack>(Songs);
 			}
-			Songs = songs;
-			
+			if (title == null || title == "")
+			{
+				Songs = new ObservableCollection<AudioTrack>(_oldSongs);
+				_oldSongs = null;
+			}
+			else
+			{
+				Songs = new ObservableCollection<AudioTrack>(Songs.Where(song => song.Title.Contains(title)));
+			}
 		}
 
 		//Eventhandling
@@ -139,5 +134,6 @@ namespace Karl.ViewModel
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+
 	}
 }

@@ -44,7 +44,7 @@ namespace Karl.Model
 			_audioPlayer.Play();
 		}
 
-		public double CurrentSongPos { get; set; } //todo
+		public TimeSpan CurrentSongPos { get; set; } //todo
 
 		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
 

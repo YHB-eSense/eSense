@@ -42,7 +42,11 @@ namespace Karl.Model
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
-		public double CurrentSecInTrack { get; set; } //todo updating it
+		public TimeSpan CurrentSecInTrack
+		{
+			get { return _audioPlayerImp.CurrentSongPos; }
+			set { _audioPlayerImp.CurrentSongPos = value; }
+		} //todo updating it
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
@@ -55,21 +59,17 @@ namespace Karl.Model
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
-		public AudioTrack CurrentTrack {
-			get
-			{
-				return _audioPlayerImp.CurrentTrack;
-			}
-			set
-			{
-				_audioPlayerImp.CurrentTrack = value;
-			}
-		} 
+		public AudioTrack CurrentTrack
+		{
+			get { return _audioPlayerImp.CurrentTrack; }
+			set{ _audioPlayerImp.CurrentTrack = value; }
+		}
 		/// <summary>
 		/// Pause/continue playback.
 		/// </summary>
 		public void TogglePause()
 		{
+			Paused = !Paused;
 			_audioPlayerImp.TogglePause();
 		}
 		/// <summary>
@@ -77,6 +77,7 @@ namespace Karl.Model
 		/// </summary>
 		public void PlayTrack(AudioTrack track)
 		{
+			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
 		}
 		/// <summary>
@@ -114,6 +115,6 @@ namespace Karl.Model
 		/// <summary>
 		/// The current position in Song.
 		/// </summary>
-		double CurrentSongPos { get; set; }
+		TimeSpan CurrentSongPos { get; set; }
 	}
 }

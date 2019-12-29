@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="sw.mp3" />
     <None Remove="tnt.mp3" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="sw.mp3" />
     <EmbeddedResource Include="tnt.mp3" />
   </ItemGroup>
 

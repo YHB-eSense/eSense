@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Karl.Model
@@ -12,7 +13,7 @@ namespace Karl.Model
 		/// </summary>
 		private String PlaylistTag;
 
-		public IList<AudioTrack> AllAudioTracks => throw new NotImplementedException();
+		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
 
 		private SpotifyAudioLib()
 		{
