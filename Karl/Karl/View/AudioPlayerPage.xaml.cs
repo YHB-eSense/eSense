@@ -22,5 +22,11 @@ namespace Karl.View
 			BindingContext = _audioPlayerPageVM;
 		}
 
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			_audioPlayerPageVM.RefreshPage();
+		}
+
 	}
 }

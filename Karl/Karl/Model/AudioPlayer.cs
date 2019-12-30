@@ -33,6 +33,7 @@ namespace Karl.Model
 			AudioLib = AudioLib.SingletonAudioLib;
 			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
+			Volume = 0;
 		}
 		
 		/// <summary>
@@ -42,7 +43,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
-		public TimeSpan CurrentSecInTrack
+		public double CurrentSecInTrack
 		{
 			get { return _audioPlayerImp.CurrentSongPos; }
 			set { _audioPlayerImp.CurrentSongPos = value; }
@@ -115,6 +116,6 @@ namespace Karl.Model
 		/// <summary>
 		/// The current position in Song.
 		/// </summary>
-		TimeSpan CurrentSongPos { get; set; }
+		double CurrentSongPos { get; set; }
 	}
 }

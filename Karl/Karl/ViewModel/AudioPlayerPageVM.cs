@@ -16,16 +16,9 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to AudioPlayerPage of View
 		**/
-		public bool PausePlayBoolean
-		{
-			get { return _audioPlayer.Paused; }
-			set { _audioPlayer.Paused = value; OnPropertyChanged("PausePlayBoolean"); }
-		}
-
 		public AudioTrack AudioTrack
 		{
 			get { return _audioPlayer.CurrentTrack; }
-			set { _audioPlayer.CurrentTrack = value; OnPropertyChanged("AudioTrack"); }
 		}
 
 		public int Volume
@@ -34,7 +27,7 @@ namespace Karl.ViewModel
 			set { _audioPlayer.Volume = value; OnPropertyChanged("Volume"); }
 		}
 
-		public TimeSpan CurrentPosition
+		public double CurrentPosition
 		{
 			get { return _audioPlayer.CurrentSecInTrack; }
 			set { _audioPlayer.CurrentSecInTrack = value; OnPropertyChanged("CurrentPosition"); }
@@ -48,13 +41,13 @@ namespace Karl.ViewModel
 
 		public string TimePlayed
 		{
-			get { return "00:00"; //return Convert.ToString(_audioPlayer.CurrentSecInTrack);
+			get { return "0"; //TimeSpan.FromSeconds(CurrentPosition).ToString();
 			}
 		}
 
 		public string TimeLeft
 		{
-			get { return "-03:00"; //return Convert.ToString(_audioTrack.Duration - _audioPlayer.CurrentSecInTrack); 
+			get { return "0"; //TimeSpan.FromSeconds(CurrentPosition - AudioTrack.Duration).ToString();
 			}
 		}
 
@@ -83,13 +76,32 @@ namespace Karl.ViewModel
 			Icon = _iconPause;
 		}
 
+		public void RefreshPage()
+		{
+			if (_audioPlayer.Paused)
+			{
+				Icon = _iconPlay;
+			}
+			else
+			{
+				Icon = _iconPause;
+			}
+			OnPropertyChanged("AudioTrack");
+			/*
+			OnPropertyChanged("TimePlayed");
+			OnPropertyChanged("TimeLeft");
+			OnPropertyChanged("CurrentPosition");
+			OnPropertyChanged("Volume");
+			*/
+		}
+
 		/// <summary>
 		/// Pauses/Plays song in AudioPlayer of Model
 		/// </summary>
 		private void PausePlay()
 		{
 			_audioPlayer.TogglePause();
-			if (PausePlayBoolean)
+			if (_audioPlayer.Paused)
 			{
 				Icon = _iconPlay;
 			}
@@ -105,6 +117,7 @@ namespace Karl.ViewModel
 		private void PlayPrev()
 		{
 			//_audioPlayer.PrevTrack();
+			OnPropertyChanged("AudioTrack");
 		}
 
 		/// <summary>
@@ -113,6 +126,7 @@ namespace Karl.ViewModel
 		private void PlayNext()
 		{
 			//_audioPlayer.NextTrack();
+			OnPropertyChanged("AudioTrack");
 		}
 
 		/// <summary>

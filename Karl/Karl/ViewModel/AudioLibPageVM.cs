@@ -83,7 +83,6 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Jumps to AudioPlayer in Model
 		/// </summary>
-		/// <param name="audioTrack">Name of started song</param>
 		private void PlaySong()
 		{
 			_handler.GotoPage(_handler._pages[0]);

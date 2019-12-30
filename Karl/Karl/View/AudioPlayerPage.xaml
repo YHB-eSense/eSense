@@ -44,8 +44,7 @@
 						BackgroundColor="Transparent"
 						WidthRequest="100"
 						HeightRequest="100"
-						Command="{Binding PausePlayCommand}"
-						CommandParameter="{Binding PausePlayBoolean}"/>
+						Command="{Binding PausePlayCommand}"/>
 				<ImageButton Source="forward.png"
 						BackgroundColor="Transparent"
 						WidthRequest="75"

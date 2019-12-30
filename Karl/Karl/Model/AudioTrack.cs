@@ -14,7 +14,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The duration of the song.
 		/// </summary>
-		public abstract TimeSpan Duration { get; set; }
+		public abstract double Duration { get; set; }
 		/// <summary>
 		/// The cover of the single or album.
 		/// </summary>

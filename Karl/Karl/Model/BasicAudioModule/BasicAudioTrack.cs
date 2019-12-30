@@ -8,7 +8,7 @@ namespace Karl.Model
 	sealed class BasicAudioTrack : AudioTrack
 	{
 		public override String StorageLocation { get; set; }
-		public override TimeSpan Duration { get; set; }
+		public override double Duration { get; set; }
 		public override Image Cover { get; set; }
 		public override string Title { get; set; }
 		public override string Artist { get; set; }
@@ -16,10 +16,11 @@ namespace Karl.Model
 
 		//private File _file;
 
-		public BasicAudioTrack(string storageLocation, string title)
+		public BasicAudioTrack(string storageLocation, string title, double duration)
 		{
 			StorageLocation = storageLocation;
 			Title = title;
+			Duration = duration;
 		}
 
 		public BasicAudioTrack(string storageLocation)
