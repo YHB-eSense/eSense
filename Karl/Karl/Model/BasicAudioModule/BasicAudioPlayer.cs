@@ -12,6 +12,8 @@ namespace Karl.Model
 		private Stream _stream;
 		private ISimpleAudioPlayer _audioPlayer;
 
+		public AudioTrack CurrentTrack { get; set; }
+
 		public double CurrentSongPos
 		{
 			get { return _audioPlayer.CurrentPosition; }
@@ -24,27 +26,13 @@ namespace Karl.Model
 			set { _audioPlayer.Volume = value; }
 		}
 
-		public double Duration
-		{
-			get { return _audioPlayer.Duration; }
-		}
-
 		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-		public AudioTrack CurrentTrack { get; set; }
 
 		public Queue<AudioTrack> Queue => throw new NotImplementedException();
 
 		public BasicAudioPlayer()
 		{
 			_audioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-		}
-
-		private Stream GetStreamFromFile(string filename)
-		{
-			var assembly = typeof(App).Assembly;
-			var stream = assembly.GetManifestResourceStream("Karl." + filename);
-			return stream;
 		}
 
 		public void TogglePause()
@@ -65,6 +53,13 @@ namespace Karl.Model
 			_stream = GetStreamFromFile(CurrentTrack.StorageLocation);
 			_audioPlayer.Load(_stream);
 			_audioPlayer.Play();
+		}
+
+		private Stream GetStreamFromFile(string filename)
+		{
+			var assembly = typeof(App).Assembly;
+			var stream = assembly.GetManifestResourceStream("Karl." + filename);
+			return stream;
 		}
 
 	}

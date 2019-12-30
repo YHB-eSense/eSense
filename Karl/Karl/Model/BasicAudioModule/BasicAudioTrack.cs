@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TagLib;
 using Xamarin.Forms;
 
 namespace Karl.Model
@@ -14,38 +15,57 @@ namespace Karl.Model
 		public override string Artist { get; set; }
 		public override int BPM { get; set; }
 
-		//private File _file;
+		private File _file;
 
 		public BasicAudioTrack(string storageLocation, string title, double duration)
 		{
 			StorageLocation = storageLocation;
+			//_file = File.Create(StorageLocation);
 			Title = title;
 			Duration = duration;
+			Cover = GetCover();
+			Artist = GetArtist();
+			BPM = GetBPM();
+		}
+
+		public BasicAudioTrack(string storageLocation, string title)
+		{
+			StorageLocation = storageLocation;
+			_file = File.Create(StorageLocation);
+			Title = title;
+			Duration = GetDuration();
+			Cover = GetCover();
+			Artist = GetArtist();
+			BPM = GetBPM();
 		}
 
 		public BasicAudioTrack(string storageLocation)
 		{
 			StorageLocation = storageLocation;
-			//_file = File.Create(StorageLocation);
-			//Duration = GetDuration();
-			//Cover = GetCover();
-			//Title = GetTitle();
-			//Artist = GetArtist();
-			//BPM = GetBPM();
+			_file = File.Create(StorageLocation);
+			Duration = GetDuration();
+			Cover = GetCover();
+			Title = GetTitle();
+			Artist = GetArtist();
+			BPM = GetBPM();
+			
 		}
-		/*
-		private TimeSpan GetDuration()
+		
+		private double GetDuration()
 		{
-			if (_file.Properties.Duration != null)
+			
+			if (_file != null && _file.Properties.Duration != null)
 			{
-				return _file.Properties.Duration;
+				return _file.Properties.Duration.TotalSeconds;
 			}
-			return new TimeSpan(0, 0, 0);
+			return 0;
+			
 		}
 
 		private Image GetCover()
 		{
-			if (_file.Tag.Pictures.Length >= 1)
+			
+			if (_file != null && _file.Tag.Pictures.Length >= 1)
 			{
 				Image cover = new Image();
 				var bin = (byte[])(_file.Tag.Pictures[0].Data.Data);
@@ -53,34 +73,40 @@ namespace Karl.Model
 				return cover;
 			}
 			return null;
+				
 		}
 
 		private string GetTitle()
 		{
-			if (_file.Tag.Title != null)
+			
+			if (_file != null && _file.Tag.Title != null)
 			{
 				return _file.Tag.Title;
 			}
 			return null;
+				
 		}
 
 		private string GetArtist()
 		{
-			if (_file.Tag.AlbumArtists.Length >= 1)
+			
+			if (_file != null && _file.Tag.AlbumArtists.Length >= 1)
 			{
 				return _file.Tag.AlbumArtists[0];
 			}
 			return null;
+				
 		}
 
 		private int GetBPM()
 		{
-			if (_file.Tag.BeatsPerMinute != 0)
+		
+			if (_file != null && _file.Tag.BeatsPerMinute != 0)
 			{
 				return (int) _file.Tag.BeatsPerMinute;
 			}
 			return 0;
 		}
-		*/
+
 	}
 }

@@ -29,6 +29,15 @@ namespace Karl.Model
 		}
 
 		/// <summary>
+		/// The Track that is currently chosen.
+		/// </summary>
+		public AudioTrack CurrentTrack
+		{
+			get { return _audioPlayerImp.CurrentTrack; }
+			set { _audioPlayerImp.CurrentTrack = value; }
+		}
+
+		/// <summary>
 		/// The current system volume.
 		/// </summary>
 		public double Volume
@@ -37,10 +46,6 @@ namespace Karl.Model
 			set { _audioPlayerImp.Volume = value; }
 		}
 
-		public double Duration
-		{
-			get { return _audioPlayerImp.Duration; }
-		}
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
@@ -60,14 +65,7 @@ namespace Karl.Model
 		/// </summary>
 		public Stack<AudioTrack> PlayedTracks { get; } //todo
 
-		/// <summary>
-		/// The Track that is currently chosen.
-		/// </summary>
-		public AudioTrack CurrentTrack
-		{
-			get { return _audioPlayerImp.CurrentTrack; }
-			set { _audioPlayerImp.CurrentTrack = value; }
-		}
+		
 
 		private AudioPlayer()
 		{
@@ -127,12 +125,8 @@ namespace Karl.Model
 		Queue<AudioTrack> Queue { get; }
 		AudioTrack CurrentTrack { get; set; }
 		double Volume { get; set; }
-		double Duration { get; }
 		double CurrentSongPos { get; set; }
 		void TogglePause();
 		void PlayTrack(AudioTrack track);
-		/// <summary>
-		/// The current position in Song.
-		/// </summary>
 	}
 }

@@ -15,8 +15,8 @@ namespace Karl.Model
 		{
 			//testing
 			AllAudioTracks = new ObservableCollection<AudioTrack>();
-			AllAudioTracks.Add(new BasicAudioTrack("tnt.mp3", "TNT", 120));
-			AllAudioTracks.Add(new BasicAudioTrack("sw.mp3", "SW", 120));
+			AllAudioTracks.Add(new BasicAudioTrack("tnt.mp3", "TNT", 100));
+			AllAudioTracks.Add(new BasicAudioTrack("sw.mp3", "SW", 100));
 		}
 
 		public void AddTrack(String Indentifier, String Name, String Artist, int BPM)
