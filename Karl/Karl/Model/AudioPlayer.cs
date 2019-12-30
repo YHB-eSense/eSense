@@ -11,8 +11,8 @@ namespace Karl.Model
 	{
 		private AudioLib AudioLib;
 		private IAudioPlayerImpl _audioPlayerImp;
-
 		private static  AudioPlayer _singletonAudioPlayer;
+
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
 		/// </summary>
@@ -28,18 +28,19 @@ namespace Karl.Model
 			}
 		}
 
-		private AudioPlayer()
-		{
-			AudioLib = AudioLib.SingletonAudioLib;
-			//testing BasicAudioPlayer
-			_audioPlayerImp = new BasicAudioPlayer();
-			Volume = 0;
-		}
-		
 		/// <summary>
 		/// The current system volume.
 		/// </summary>
-		public int Volume { get; set; } //todo react to changes from system
+		public double Volume
+		{
+			get { return _audioPlayerImp.Volume; }
+			set { _audioPlayerImp.Volume = value; }
+		}
+
+		public double Duration
+		{
+			get { return _audioPlayerImp.Duration; }
+		}
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
@@ -48,10 +49,12 @@ namespace Karl.Model
 			get { return _audioPlayerImp.CurrentSongPos; }
 			set { _audioPlayerImp.CurrentSongPos = value; }
 		} //todo updating it
+
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
 		public bool Paused { get; set; }
+
 		/// <summary>
 		/// The Tracks already played before.
 		/// </summary>
@@ -63,8 +66,16 @@ namespace Karl.Model
 		public AudioTrack CurrentTrack
 		{
 			get { return _audioPlayerImp.CurrentTrack; }
-			set{ _audioPlayerImp.CurrentTrack = value; }
+			set { _audioPlayerImp.CurrentTrack = value; }
 		}
+
+		private AudioPlayer()
+		{
+			AudioLib = AudioLib.SingletonAudioLib;
+			//testing BasicAudioPlayer
+			_audioPlayerImp = new BasicAudioPlayer();
+		}
+		
 		/// <summary>
 		/// Pause/continue playback.
 		/// </summary>
@@ -73,6 +84,7 @@ namespace Karl.Model
 			Paused = !Paused;
 			_audioPlayerImp.TogglePause();
 		}
+
 		/// <summary>
 		/// Start playing the song currently selected in the Library
 		/// </summary>
@@ -81,6 +93,7 @@ namespace Karl.Model
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
 		}
+
 		/// <summary>
 		/// Skip current Track.
 		/// </summary>
@@ -88,6 +101,7 @@ namespace Karl.Model
 		{
 			//todo
 		}
+
 		/// <summary>
 		/// Go to previous Track.
 		/// </summary>
@@ -95,6 +109,7 @@ namespace Karl.Model
 		{
 			//todo
 		}
+
 		/// <summary>
 		/// Adds a1 to queue.
 		/// </summary>
@@ -111,11 +126,13 @@ namespace Karl.Model
 		Stack<AudioTrack> PlayedSongs { get; }
 		Queue<AudioTrack> Queue { get; }
 		AudioTrack CurrentTrack { get; set; }
+		double Volume { get; set; }
+		double Duration { get; }
+		double CurrentSongPos { get; set; }
 		void TogglePause();
 		void PlayTrack(AudioTrack track);
 		/// <summary>
 		/// The current position in Song.
 		/// </summary>
-		double CurrentSongPos { get; set; }
 	}
 }

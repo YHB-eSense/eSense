@@ -12,6 +12,29 @@ namespace Karl.Model
 		private Stream _stream;
 		private ISimpleAudioPlayer _audioPlayer;
 
+		public double CurrentSongPos
+		{
+			get { return _audioPlayer.CurrentPosition; }
+			set { _audioPlayer.Seek(value); }
+		}
+
+		public double Volume
+		{
+			get { return _audioPlayer.Volume; }
+			set { _audioPlayer.Volume = value; }
+		}
+
+		public double Duration
+		{
+			get { return _audioPlayer.Duration; }
+		}
+
+		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
+
+		public AudioTrack CurrentTrack { get; set; }
+
+		public Queue<AudioTrack> Queue => throw new NotImplementedException();
+
 		public BasicAudioPlayer()
 		{
 			_audioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
@@ -44,13 +67,6 @@ namespace Karl.Model
 			_audioPlayer.Play();
 		}
 
-		public double CurrentSongPos { get { return _audioPlayer.CurrentPosition; } set { _audioPlayer.Seek(value); } }
-
-		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-		public AudioTrack CurrentTrack { get; set; }
-
-		public Queue<AudioTrack> Queue => throw new NotImplementedException();
 	}
 	
 }

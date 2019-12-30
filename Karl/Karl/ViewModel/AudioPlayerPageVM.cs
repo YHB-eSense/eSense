@@ -21,10 +21,15 @@ namespace Karl.ViewModel
 			get { return _audioPlayer.CurrentTrack; }
 		}
 
-		public int Volume
+		public double Duration
 		{
-			get { return _audioPlayer.Volume; }
-			set { _audioPlayer.Volume = value; OnPropertyChanged("Volume"); }
+			get { return _audioPlayer.Duration; }
+		}
+
+		public double Volume
+		{
+			get { return _audioPlayer.Volume * 100; }
+			set { _audioPlayer.Volume = value / 100; OnPropertyChanged("Volume"); }
 		}
 
 		public double CurrentPosition
@@ -41,13 +46,13 @@ namespace Karl.ViewModel
 
 		public string TimePlayed
 		{
-			get { return "0"; //TimeSpan.FromSeconds(CurrentPosition).ToString();
-			}
+			get { return string.Format("{0}:{1:00}", (int)TimeSpan.FromSeconds(CurrentPosition).TotalMinutes, TimeSpan.FromSeconds(CurrentPosition).Seconds); }
 		}
 
 		public string TimeLeft
 		{
-			get { return "0"; //TimeSpan.FromSeconds(CurrentPosition - AudioTrack.Duration).ToString();
+			get {
+				return string.Format("{0}:{1:00}", (int)TimeSpan.FromSeconds(Duration - CurrentPosition).TotalMinutes, TimeSpan.FromSeconds(Duration - CurrentPosition).Seconds);
 			}
 		}
 
@@ -57,8 +62,6 @@ namespace Karl.ViewModel
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
 		public ICommand PlayNextCommand { get; }
-		public ICommand ChangeVolumeCommand { get; }
-		public ICommand MoveInSongCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, Images and AudioPlayer of Model
@@ -69,8 +72,6 @@ namespace Karl.ViewModel
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);
-			ChangeVolumeCommand = new Command<int>(ChangeVolume);
-			MoveInSongCommand = new Command<double>(MoveInSong);
 			_iconPlay = "play.png";
 			_iconPause = "pause.png";
 			Icon = _iconPause;
@@ -86,12 +87,17 @@ namespace Karl.ViewModel
 			{
 				Icon = _iconPause;
 			}
-			OnPropertyChanged("AudioTrack");
-			/*
+			OnPropertyChanged("CurrentPosition");
+			OnPropertyChanged("Duration");
+			OnPropertyChanged("Volume");
 			OnPropertyChanged("TimePlayed");
 			OnPropertyChanged("TimeLeft");
-			OnPropertyChanged("CurrentPosition");
-			OnPropertyChanged("Volume");
+			OnPropertyChanged("AudioTrack");
+			/*
+			
+			
+			
+			
 			*/
 		}
 
@@ -127,23 +133,6 @@ namespace Karl.ViewModel
 		{
 			//_audioPlayer.NextTrack();
 			OnPropertyChanged("AudioTrack");
-		}
-
-		/// <summary>
-		/// Changes Volume in AudioPlayer of Model
-		/// </summary>
-		private void ChangeVolume(int volume)
-		{
-			//_audioPlayer.Volume = volume;
-		}
-
-		/// <summary>
-		/// Changes the position in song
-		/// </summary>
-		/// <param name="time">New position in song</param>
-		private void MoveInSong(double time)
-		{
-			//_audioPlayer.CurrentSecInTrack = time;
 		}
 
 		//Eventhandling

@@ -19,17 +19,12 @@
 			<StackLayout Orientation="Horizontal" Margin="50,0,50,0">
 				<Label Text="{Binding TimePlayed}"/>
 				<Slider Minimum="0"
-						Maximum="{Binding AudioTrack.Duration}"
+						Maximum="{Binding Duration}"
 						ThumbColor="SkyBlue"
 						Value="{Binding CurrentPosition}"
 						HorizontalOptions="FillAndExpand"
 						MinimumTrackColor="SkyBlue"
 						MaximumTrackColor="Gray">
-					<Slider.Behaviors>
-						<b:EventToCommandBehavior EventName="ValueChanged"
-						Command="{Binding MoveInSongCommand}"
-						CommandParameter="Slider.Value" />
-					</Slider.Behaviors>
 				</Slider>
 				<Label Text="{Binding TimeLeft}"/>
 			</StackLayout>
@@ -63,11 +58,6 @@
 						HorizontalOptions="FillAndExpand"
 						MinimumTrackColor="SkyBlue"
 						MaximumTrackColor="Gray">
-					<Slider.Behaviors>
-						<b:EventToCommandBehavior EventName="ValueChanged"
-						Command="{Binding ChangeVolumeCommand}"
-						CommandParameter="Slider.Value" />
-					</Slider.Behaviors>
 				</Slider>
 				<Image Source="volume_on"
 					   WidthRequest="20"
