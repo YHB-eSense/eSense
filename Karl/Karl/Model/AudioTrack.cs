@@ -18,7 +18,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The cover of the single or album.
 		/// </summary>
-		public abstract Image Cover { get; set; }
+		public abstract byte[] Cover { get; set; }
 		/// <summary>
 		/// The Song Title.
 		/// </summary>

@@ -45,7 +45,18 @@ namespace Karl.ViewModel
 		/// </summary>
 		private void AddSong()
 		{
-			_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
+			if (NewSongTitle == null && NewSongArtist == null && NewSongBPM == null)
+			{
+				_audioLib.AddTrack(NewSongFileLocation);
+			}
+			else if (NewSongArtist == null && NewSongBPM == null)
+			{
+				_audioLib.AddTrack(NewSongFileLocation, NewSongTitle);
+			}
+			else
+			{
+				_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
+			}
 			_handler.GoBack();
 		}
 
@@ -57,7 +68,8 @@ namespace Karl.ViewModel
 			var file = await CrossFilePicker.Current.PickFile();
 			if (file != null)
 			{
-				NewSongFileLocation = file.FileName;
+				NewSongFileLocation = file.FilePath;
+				System.Diagnostics.Debug.WriteLine(NewSongFileLocation);
 			}
 		}
 	}

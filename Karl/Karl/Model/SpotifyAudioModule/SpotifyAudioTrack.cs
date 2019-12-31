@@ -14,7 +14,7 @@ namespace Karl.Model
 		public override double Duration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override string Title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override string Artist { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public override Image Cover { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override byte[] Cover { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override string StorageLocation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}

@@ -14,21 +14,6 @@ namespace Karl.Model
 		private static  AudioPlayer _singletonAudioPlayer;
 
 		/// <summary>
-		/// This is a Singleton that enables using the AudioPlayer Model.
-		/// </summary>
-		public static AudioPlayer SingletonAudioPlayer
-		{
-			get
-			{
-				if (_singletonAudioPlayer == null)
-				{
-					_singletonAudioPlayer = new AudioPlayer();
-				}
-				return _singletonAudioPlayer;
-			}
-		}
-
-		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
 		public AudioTrack CurrentTrack
@@ -53,7 +38,7 @@ namespace Karl.Model
 		{
 			get { return _audioPlayerImp.CurrentSongPos; }
 			set { _audioPlayerImp.CurrentSongPos = value; }
-		} //todo updating it
+		} 
 
 		/// <summary>
 		/// Is the track paused?
@@ -65,22 +50,26 @@ namespace Karl.Model
 		/// </summary>
 		public Stack<AudioTrack> PlayedTracks { get; } //todo
 
-		
+		/// <summary>
+		/// This is a Singleton that enables using the AudioPlayer Model.
+		/// </summary>
+		public static AudioPlayer SingletonAudioPlayer
+		{
+			get
+			{
+				if (_singletonAudioPlayer == null) { _singletonAudioPlayer = new AudioPlayer(); }
+				return _singletonAudioPlayer;
+			}
+		}
 
+		/// <summary>
+		/// Private Constructor initializes AudioLib
+		/// </summary>
 		private AudioPlayer()
 		{
 			AudioLib = AudioLib.SingletonAudioLib;
 			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
-		}
-		
-		/// <summary>
-		/// Pause/continue playback.
-		/// </summary>
-		public void TogglePause()
-		{
-			Paused = !Paused;
-			_audioPlayerImp.TogglePause();
 		}
 
 		/// <summary>
@@ -90,6 +79,15 @@ namespace Karl.Model
 		{
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
+		}
+
+		/// <summary>
+		/// Pause/continue playback.
+		/// </summary>
+		public void TogglePause()
+		{
+			Paused = !Paused;
+			_audioPlayerImp.TogglePause();
 		}
 
 		/// <summary>
@@ -117,16 +115,16 @@ namespace Karl.Model
 			//todo
 		}
 
-		
 	}
+
 	interface IAudioPlayerImpl
 	{
-		Stack<AudioTrack> PlayedSongs { get; }
-		Queue<AudioTrack> Queue { get; }
 		AudioTrack CurrentTrack { get; set; }
 		double Volume { get; set; }
 		double CurrentSongPos { get; set; }
-		void TogglePause();
+		Stack<AudioTrack> PlayedSongs { get; }
+		Queue<AudioTrack> Queue { get; }
 		void PlayTrack(AudioTrack track);
+		void TogglePause();
 	}
 }

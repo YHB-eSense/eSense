@@ -59,6 +59,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
+				if (AudioTrack == null) { return ""; }
 				return string.Format("{0}:{1:00}",
 				(int) TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).Seconds);
@@ -76,15 +77,27 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public Image Cover
+		{
+			get
+			{
+				if (AudioTrack == null) { return null; }
+				Image cover = new Image();
+				cover.Source = ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover));
+				return cover;
+			}
+		}
+
 		/**
 		 Commands binded to AudioPlayerPage of View
 		**/
+
 		public ICommand PausePlayCommand { get; }
 		public ICommand PlayPrevCommand { get; }
 		public ICommand PlayNextCommand { get; }
-		public ICommand PositionDragCompletedCommand { get; }
 		public ICommand PositionDragStartedCommand { get; }
-
+		public ICommand PositionDragCompletedCommand { get; }
+		
 		/// <summary>
 		/// Initializises Commands, Images and AudioPlayer of Model
 		/// </summary>
@@ -94,8 +107,8 @@ namespace Karl.ViewModel
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);
-			PositionDragCompletedCommand = new Command(PositionDragCompleted);
 			PositionDragStartedCommand = new Command(PositionDragStarted);
+			PositionDragCompletedCommand = new Command(PositionDragCompleted);
 			_iconPlay = "play.png";
 			_iconPause = "pause.png";
 			Icon = _iconPause;
@@ -106,6 +119,9 @@ namespace Karl.ViewModel
 			_dragValue = 0;
 		}
 
+		/// <summary>
+		/// Refreshes all Properties
+		/// </summary>
 		public void RefreshPage()
 		{
 			if (_audioPlayer.Paused)
@@ -123,10 +139,11 @@ namespace Karl.ViewModel
 			OnPropertyChanged("TimePlayed");
 			OnPropertyChanged("TimeLeft");
 			OnPropertyChanged("AudioTrack");
+			OnPropertyChanged("Cover");
 		}
 
 		/// <summary>
-		/// Pauses/Plays song in AudioPlayer of Model
+		/// Pauses/Plays song in AudioPlayer of Model and updates Icon
 		/// </summary>
 		private void PausePlay()
 		{
@@ -162,14 +179,9 @@ namespace Karl.ViewModel
 			OnPropertyChanged("AudioTrack");
 		}
 
-		private void PositionDragCompleted()
-		{
-			_timer.Start();
-			_audioPlayer.TogglePause();
-			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
-			OnPropertyChanged("CurrentPosition");
-		}
-
+		/// <summary>
+		/// Pauses the AudioPlayer of Model
+		/// </summary>
 		private void PositionDragStarted()
 		{
 			_timer.Stop();
@@ -179,6 +191,21 @@ namespace Karl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Updates CurrentSecInTrack of AudioPlayer of Model and continues playback
+		/// </summary>
+		private void PositionDragCompleted()
+		{
+			_timer.Start();
+			_audioPlayer.TogglePause();
+			if (AudioTrack == null) { return; }
+			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
+			OnPropertyChanged("CurrentPosition");
+		}
+
+		/// <summary>
+		/// Refreshes Properties that change while song is playing
+		/// </summary>
 		private void Tick(object sender, EventArgs e)
 		{
 			OnPropertyChanged("AudioTrack");

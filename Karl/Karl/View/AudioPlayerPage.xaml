@@ -9,12 +9,16 @@
 	<ContentPage.Content>
 		<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Spacing="30">
 			
-			<!-- <Image Source="{Binding AudioTrack.Cover}"/> !-->
-			<BoxView Color="SkyBlue"
+			<Image Source="{Binding Cover}"
 					WidthRequest="300"
 					HeightRequest="300"
 					VerticalOptions="Center"
-					HorizontalOptions="Center"/>
+					HorizontalOptions="Center"/> 
+			<!-- <BoxView Color="SkyBlue"
+					WidthRequest="300"
+					HeightRequest="300"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"/> !-->
 
 			<StackLayout Orientation="Horizontal" Margin="30,0,30,0">
 				<Label Text="{Binding TimePlayed}"/>

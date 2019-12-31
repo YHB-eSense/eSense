@@ -122,6 +122,11 @@ namespace Karl.ViewModel
 			}
 		}
 
+		public void RefreshPage()
+		{
+			OnPropertyChanged("Songs");
+		}
+
 		//Eventhandling
 
 		public event PropertyChangedEventHandler PropertyChanged;
