@@ -90,6 +90,11 @@ namespace Karl.Model
 			_audioPlayerImp.TogglePause();
 		}
 
+		public void TogglePauseWhileChanging()
+		{
+			_audioPlayerImp.TogglePause();
+		}
+
 		/// <summary>
 		/// Skip current Track.
 		/// </summary>

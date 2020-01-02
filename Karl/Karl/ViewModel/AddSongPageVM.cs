@@ -69,7 +69,6 @@ namespace Karl.ViewModel
 			if (file != null)
 			{
 				NewSongFileLocation = file.FilePath;
-				System.Diagnostics.Debug.WriteLine(NewSongFileLocation);
 			}
 		}
 	}

@@ -33,6 +33,7 @@ namespace Karl.Model
 		public BasicAudioPlayer()
 		{
 			_audioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+			_audioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
 		}
 
 		public void PlayTrack(AudioTrack track)
@@ -55,13 +56,19 @@ namespace Karl.Model
 			}
 		}
 
+		private void OnPlaybackEndedEvent(Object source, System.EventArgs e)
+		{
+			TogglePause();
+		}
+
+		/* //For loading an embedded mp3
 		private Stream GetStreamFromFile(string filename)
 		{
 			var assembly = typeof(App).Assembly;
 			var stream = assembly.GetManifestResourceStream("Karl." + filename);
 			return stream;
 		}
-
+		*/
 	}
 	
 }

@@ -89,8 +89,7 @@ namespace Karl.ViewModel
 			if (SelectedSong != _audioPlayer.CurrentTrack)
 			{
 				_audioPlayer.PlayTrack(SelectedSong);
-			}
-			
+			}	
 		}
 
 		/// <summary>
