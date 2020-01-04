@@ -22,15 +22,23 @@ namespace EarableLibrary
 		public TripleShort Acc { get; }
 	}
 
-	/*
 	public class MotionSensor : ISensor<MotionSensorChangedEventArgs>
 	{
 		public event EventHandler<MotionSensorChangedEventArgs> ValueChanged;
+
+		public void StartSampling()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool StopSampling()
+		{
+			throw new NotImplementedException();
+		}
 
 		protected virtual void OnValueChanged(MotionSensorChangedEventArgs e)
 		{
 			ValueChanged?.Invoke(this, e);
 		}
 	}
-	*/
 }

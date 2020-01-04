@@ -61,14 +61,14 @@ Allgemeine Schnittstelle für Earable-Geräte.
 \end{itemize}
 
 \subsection{ISensor}
-\sign{public interface ISensor}
+\sign{public interface ISensor<T>}
 \begin{center}
 	\includegraphics[scale=0.75]{EarableLibrary/ISensor.png}
 \end{center}
 Allgemeine Schnittstelle für Sensoren.
 \paragraph{Events}
 \begin{itemize}
-	\i{event EventHandler ValueChanged} Erteilt Benachrichtigungen im Falle einer Messwertaktualisierung.
+	\i{event EventHandler<T> ValueChanged} Erteilt Benachrichtigungen im Falle einer Messwertaktualisierung. Der Typ des Messwerts wird dabei durch \code{T} festgelegt.
 \end{itemize}
 \paragraph{Methoden}
 \begin{itemize}
