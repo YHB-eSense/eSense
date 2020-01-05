@@ -65,6 +65,10 @@ namespace Karl.Model
 			_audioLibImp.AddTrack(storage, title, artist, bpm);
 		}
 
+		public void DeleteTrack(AudioTrack track)
+		{
+			_audioLibImp.DeleteTrack(track);
+		}
 	}
 
 	internal interface IAudioLibImpl
@@ -73,5 +77,6 @@ namespace Karl.Model
 		void AddTrack(string storage);
 		void AddTrack(string storage, string title);
 		void AddTrack(string storage, string title, string artist, int bpm);
+		void DeleteTrack(AudioTrack track);
 	}
 }

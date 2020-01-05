@@ -23,6 +23,12 @@ namespace Karl.Model
 			//AllAudioTracks.Add(new BasicAudioTrack("sw.mp3", "SW", 100));
 		}
 
+		private async void GetTracks()
+		{
+			var data = await _database.GetTracksAsync();
+			AllAudioTracks = new ObservableCollection<AudioTrack>(data);
+		}
+
 		public async void AddTrack(String storage)
 		{
 			await _database.SaveTrackAsync(new BasicAudioTrack(storage));
@@ -41,10 +47,10 @@ namespace Karl.Model
 			GetTracks();
 		}
 
-		private async void GetTracks()
-		{
-			var data = await _database.GetTracksAsync();
-			AllAudioTracks = new ObservableCollection<AudioTrack>(data);
+		public async void DeleteTrack(AudioTrack track)
+		{	
+			await _database.DeleteTrackAsync(track);
+			GetTracks();
 		}
 	}
 	

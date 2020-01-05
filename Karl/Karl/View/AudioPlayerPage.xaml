@@ -8,18 +8,15 @@
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
 		<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Spacing="30">
-			
-			<Image Source="{Binding Cover}"
-					WidthRequest="300"
-					HeightRequest="300"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"/> 
-			<!-- <BoxView Color="SkyBlue"
-					WidthRequest="300"
-					HeightRequest="300"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"/> !-->
 
+			<Frame 
+				   HeightRequest="250"
+				   WidthRequest="250"
+				   VerticalOptions="Center"
+				   HorizontalOptions="Center">
+				<Image Source="{Binding Cover}"/>
+			</Frame>
+			
 			<StackLayout Orientation="Horizontal" Margin="30,0,30,0">
 				<Label Text="{Binding TimePlayed}"/>
 				<Slider x:Name="slider"
@@ -40,7 +37,7 @@
 				<Label Text="{Binding TimeLeft}"/>
 			</StackLayout>
 			
-			<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="30">
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
 				<ImageButton Source="backward.png"
 						BackgroundColor="Transparent"
 						WidthRequest="75"

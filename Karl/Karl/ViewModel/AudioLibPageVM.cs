@@ -16,6 +16,7 @@ namespace Karl.ViewModel
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
 		private ObservableCollection<AudioTrack> _oldSongs;
+		private List<AudioTrack> _deleteList;
 
 		/**
 		 Properties binded to AudioLibPage of View
@@ -26,8 +27,6 @@ namespace Karl.ViewModel
 			set { _audioLib.AudioTracks = value; OnPropertyChanged("Songs");}
 		}
 
-		public AudioTrack SelectedSong { get; set; }
-
 		/**
 		 Commands binded to AudioLibPage of View
 		**/
@@ -37,6 +36,8 @@ namespace Karl.ViewModel
 		public ICommand PlaySongCommand { get; }
 		public ICommand AddSongCommand { get; }
 		public ICommand SearchSongCommand { get; }
+		public ICommand DeleteSongCommand { get; }
+		public ICommand EditDeleteListCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and AudioLib, AudioPlayer of Model
@@ -48,12 +49,15 @@ namespace Karl.ViewModel
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			_oldSongs = null;
+			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
 			ArtistSortCommand = new Command(ArtistSort);
 			BPMSortCommand = new Command(BPMSort);
-			PlaySongCommand = new Command(PlaySong);
+			PlaySongCommand = new Command<AudioTrack>(PlaySong);
 			AddSongCommand = new Command(AddSong);
 			SearchSongCommand = new Command<string>(SearchSong);
+			DeleteSongCommand = new Command(DeleteSong);
+			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
 		}
 
 		/// <summary>
@@ -83,12 +87,12 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Jumps to AudioPlayer in Model
 		/// </summary>
-		private void PlaySong()
+		private void PlaySong(AudioTrack track)
 		{
 			_handler.GotoPage(_handler._pages[0]);
-			if (SelectedSong != _audioPlayer.CurrentTrack)
+			if (track != _audioPlayer.CurrentTrack)
 			{
-				_audioPlayer.PlayTrack(SelectedSong);
+				_audioPlayer.PlayTrack(track);
 			}	
 		}
 
@@ -98,6 +102,18 @@ namespace Karl.ViewModel
 		private void AddSong()
 		{
 			_handler.GotoPage(_handler._pages[5]);
+		}
+
+		private void EditDeleteList(AudioTrack song)
+		{
+			if (_deleteList.Contains(song))
+			{
+				_deleteList.Remove(song);
+			}
+			else
+			{
+				_deleteList.Add(song);
+			}
 		}
 
 		/// <summary>
@@ -118,6 +134,18 @@ namespace Karl.ViewModel
 			else
 			{
 				Songs = new ObservableCollection<AudioTrack>(Songs.Where(song => song.Title.Contains(title)));
+			}
+		}
+
+		private async void DeleteSong()
+		{
+			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs", "No", "Yes");
+			if (answer) {
+				foreach(AudioTrack song in _deleteList)
+				{
+					_audioLib.DeleteTrack(song);
+				}
+				OnPropertyChanged("Songs");
 			}
 		}
 

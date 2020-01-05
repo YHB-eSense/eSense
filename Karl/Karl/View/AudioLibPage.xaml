@@ -5,38 +5,81 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              mc:Ignorable="d"
-             x:Class="Karl.View.AudioLibPage">
+             x:Class="Karl.View.AudioLibPage"
+			 x:Name="audiolibpage">
+	
     <ContentPage.Content>
-		<StackLayout Spacing="30">
-			<Button Text="Add Song"
-					Command="{Binding AddSongCommand}"/>
-			<SearchBar x:Name="searchBar"
+		<StackLayout Orientation="Vertical">
+
+			<StackLayout Orientation="Horizontal" Spacing="10">
+				<SearchBar x:Name="searchBar"
+						   WidthRequest="250"
 					SearchCommand="{Binding SearchSongCommand}"
 					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
-				<SearchBar.Behaviors>
-					<b:EventToCommandBehavior EventName="TextChanged"
-					Command="{Binding SearchSongCommand}"
-					CommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
-				</SearchBar.Behaviors>
-			</SearchBar>
-			<ListView ItemsSource="{Binding Songs}"
-					  SelectedItem="{Binding SelectedSong}">
+					<SearchBar.Behaviors>
+						<b:EventToCommandBehavior EventName="TextChanged"
+							Command="{Binding SearchSongCommand}"
+							CommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+					</SearchBar.Behaviors>
+				</SearchBar>
+				<ImageButton Source="add.png"
+						BackgroundColor="Transparent"
+						WidthRequest="30"
+						HeightRequest="30"
+						Command="{Binding AddSongCommand}"/>
+				<ImageButton Source="delete.png"
+						BackgroundColor="Transparent"
+						WidthRequest="30"
+						HeightRequest="30"
+						Command="{Binding DeleteSongCommand}"/>
+			</StackLayout>
+
+			<Frame>
+			<ListView x:Name="listView"
+					ItemsSource="{Binding Songs}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<TextCell Text="{Binding Title}" />
+						<ViewCell>
+							<StackLayout Orientation="Horizontal">
+								<StackLayout Orientation="Vertical">
+									<Label Text="{Binding Title}" VerticalOptions="Center"/>
+									<Label Text="{Binding Artist}" VerticalOptions="Center"/>
+									<Label Text="{Binding BPM}" VerticalOptions="Center"/>
+								</StackLayout>
+								<CheckBox Color="SkyBlue"
+										  HorizontalOptions="EndAndExpand">
+									<CheckBox.Behaviors>
+										<b:EventToCommandBehavior EventName="CheckedChanged"
+											Command="{Binding BindingContext.EditDeleteListCommand, Source={x:Reference audiolibpage}}"
+											CommandParameter="{Binding .}"/>
+									</CheckBox.Behaviors>
+								</CheckBox>
+							</StackLayout>
+						</ViewCell>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Behaviors>
 					<b:EventToCommandBehavior EventName="ItemTapped"
-					Command="{Binding PlaySongCommand}"/>
+					Command="{Binding PlaySongCommand}"
+					CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}"/>
 				</ListView.Behaviors>
 			</ListView>
-			<Button Text="Sort after Title"
-					Command="{Binding TitleSortCommand}"/>
-			<Button Text="Sort after Artist"
-					Command="{Binding ArtistSortCommand}"/>
-			<Button Text="Sort after BPM-Value"
-					Command="{Binding BPMSortCommand}"/>
+			</Frame>
+
+			<Frame>
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
+				<Button Text="Sort&#x0a;after&#x0a;Title"
+					Command="{Binding TitleSortCommand}"
+						HorizontalOptions="StartAndExpand"/>
+				<Button Text="Sort&#x0a;after&#x0a;Artist"
+					Command="{Binding ArtistSortCommand}"
+						HorizontalOptions="Center"/>
+				<Button Text="Sort&#x0a;after&#x0a;BPM"
+					Command="{Binding BPMSortCommand}"
+						HorizontalOptions="EndAndExpand"/>
+			</StackLayout>
+			</Frame>
+			
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

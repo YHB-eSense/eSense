@@ -54,7 +54,7 @@ namespace Karl.Data
 			}
 		}
 
-		public Task<int> DeleteTrackAsync(BasicAudioTrack track)
+		public Task<int> DeleteTrackAsync(AudioTrack track)
 		{
 			return _database.DeleteAsync(track);
 		}

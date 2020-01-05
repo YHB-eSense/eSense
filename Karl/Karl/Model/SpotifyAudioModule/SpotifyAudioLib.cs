@@ -39,6 +39,11 @@ namespace Karl.Model
 		{
 			throw new NotImplementedException();
 		}
+
+		public void DeleteTrack(AudioTrack track)
+		{
+			throw new NotImplementedException();
+		}
 	}
 	
 }

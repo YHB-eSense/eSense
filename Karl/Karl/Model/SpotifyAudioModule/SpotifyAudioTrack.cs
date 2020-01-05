@@ -17,5 +17,6 @@ namespace Karl.Model
 		public override byte[] Cover { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override int BPM { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public override string StorageLocation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

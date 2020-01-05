@@ -59,7 +59,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (AudioTrack == null) { return ""; }
+				if (AudioTrack == null) { return "-:--"; }
 				return string.Format("{0}:{1:00}",
 				(int) TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).Seconds);
@@ -70,21 +70,27 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (AudioTrack == null) { return ""; }
+				if (AudioTrack == null) { return "-:--"; }
 				return string.Format("{0}:{1:00}",
 				(int) TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).Seconds);
 			}
 		}
 
-		public Image Cover
+		public string Cover
 		{
 			get
 			{
-				if (AudioTrack == null) { return null; }
-				Image cover = new Image();
-				cover.Source = ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover));
-				return cover;
+				//Image cover = new Image();
+				if (AudioTrack == null)
+				{
+					//cover.Source = "art.png";
+					//return cover;
+					return "art.png";
+				}
+				//cover.Source = ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover));
+				//return cover;
+				return "art.png";
 			}
 		}
 
