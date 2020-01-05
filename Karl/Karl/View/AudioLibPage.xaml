@@ -9,6 +9,98 @@
 			 x:Name="audiolibpage">
 	
     <ContentPage.Content>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="7*"/>
+				<RowDefinition Height="2*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+				<SearchBar x:Name="searchBar"
+					SearchCommand="{Binding SearchSongCommand}"
+					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
+					<SearchBar.Behaviors>
+						<b:EventToCommandBehavior EventName="TextChanged"
+							Command="{Binding SearchSongCommand}"
+							CommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+					</SearchBar.Behaviors>
+				</SearchBar>
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="2">
+				<StackLayout Orientation="Horizontal">
+					<ImageButton Source="add.png"
+						BackgroundColor="Transparent"
+							 Aspect="AspectFit"
+								 HorizontalOptions="StartAndExpand"
+						Command="{Binding AddSongCommand}"/>
+					<ImageButton Source="delete.png"
+						BackgroundColor="Transparent"
+							 Aspect="AspectFit"
+								 HorizontalOptions="EndAndExpand"
+						Command="{Binding DeleteSongCommand}"/>
+				</StackLayout>
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+				<ListView x:Name="listView"
+					ItemsSource="{Binding Songs}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<StackLayout Orientation="Horizontal">
+									<StackLayout Orientation="Vertical" VerticalOptions="Center">
+										<Label Text="{Binding Title}" VerticalOptions="Center"/>
+										<Label Text="{Binding Artist}" VerticalOptions="Center"/>
+										<Label Text="{Binding BPM}" VerticalOptions="Center"/>
+									</StackLayout>
+									<CheckBox Color="SkyBlue"
+										  HorizontalOptions="EndAndExpand">
+										<CheckBox.Behaviors>
+											<b:EventToCommandBehavior EventName="CheckedChanged"
+											Command="{Binding BindingContext.EditDeleteListCommand, Source={x:Reference audiolibpage}}"
+											CommandParameter="{Binding .}"/>
+										</CheckBox.Behaviors>
+									</CheckBox>
+								</StackLayout>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<ListView.Behaviors>
+						<b:EventToCommandBehavior EventName="ItemTapped"
+					Command="{Binding PlaySongCommand}"
+					CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}"/>
+					</ListView.Behaviors>
+				</ListView>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0">
+				<Button Text="Sort&#x0a;after&#x0a;Title"
+					Command="{Binding TitleSortCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="1">
+				<Button Text="Sort&#x0a;after&#x0a;Artist"
+					Command="{Binding ArtistSortCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="2">
+				<Button Text="Sort&#x0a;after&#x0a;BPM"
+					Command="{Binding BPMSortCommand}"/>
+			</Frame>
+
+		</Grid>
+
+
+		
+		<!--
 		<StackLayout Orientation="Vertical">
 
 			<StackLayout Orientation="Horizontal" Spacing="10">
@@ -81,5 +173,6 @@
 			</Frame>
 			
 		</StackLayout>
+		!-->
     </ContentPage.Content>
 </ContentPage>

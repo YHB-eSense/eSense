@@ -15,6 +15,7 @@ namespace Karl.ViewModel
 		private string _icon;
 		private Timer _timer;
 		private double _dragValue;
+		private bool _wasPaused;
 
 		/**
 		 Properties binded to AudioPlayerPage of View
@@ -174,8 +175,8 @@ namespace Karl.ViewModel
 		private void PlayPrev()
 		{
 			if (AudioTrack == null) { return; }
-			//_audioPlayer.PrevTrack();
-			OnPropertyChanged("AudioTrack");
+			_audioPlayer.PrevTrack();
+			RefreshPage();
 		}
 
 		/// <summary>
@@ -184,8 +185,8 @@ namespace Karl.ViewModel
 		private void PlayNext()
 		{
 			if (AudioTrack == null) { return; }
-			//_audioPlayer.NextTrack();
-			OnPropertyChanged("AudioTrack");
+			_audioPlayer.NextTrack();
+			RefreshPage();
 		}
 
 		/// <summary>
@@ -194,8 +195,12 @@ namespace Karl.ViewModel
 		private void PositionDragStarted()
 		{
 			if (AudioTrack == null) { return; }
-			_timer.Stop();
-			if (!_audioPlayer.Paused) { _audioPlayer.TogglePauseWhileChanging(); }
+			if (!_audioPlayer.Paused)
+			{
+				PausePlay();
+				_wasPaused = false;
+			}
+			else { _wasPaused = true; }
 		}
 
 		/// <summary>
@@ -204,8 +209,7 @@ namespace Karl.ViewModel
 		private void PositionDragCompleted()
 		{
 			if (AudioTrack == null) { return; }
-			_timer.Start();
-			if (!_audioPlayer.Paused) { _audioPlayer.TogglePauseWhileChanging(); }
+			if (!_wasPaused) { PausePlay(); }
 			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
 			OnPropertyChanged("CurrentPosition");
 		}
@@ -227,10 +231,7 @@ namespace Karl.ViewModel
 
 		private void OnPropertyChanged(string propertyName)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 	}

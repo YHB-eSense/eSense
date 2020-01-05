@@ -10,49 +10,45 @@ namespace Karl.Model
 	sealed class BasicAudioPlayer : IAudioPlayerImpl
 	{
 		private Stream _stream;
-		private ISimpleAudioPlayer _audioPlayer;
+		private ISimpleAudioPlayer _simpleAudioPlayer;
 
 		public AudioTrack CurrentTrack { get; set; }
 
 		public double Volume
 		{
-			get { return _audioPlayer.Volume; }
-			set { _audioPlayer.Volume = value; }
+			get { return _simpleAudioPlayer.Volume; }
+			set { _simpleAudioPlayer.Volume = value; }
 		}
 
 		public double CurrentSongPos
 		{
-			get { return _audioPlayer.CurrentPosition; }
-			set { _audioPlayer.Seek(value); }
+			get { return _simpleAudioPlayer.CurrentPosition; }
+			set { _simpleAudioPlayer.Seek(value); }
 		}
-
-		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-		public Queue<AudioTrack> Queue => throw new NotImplementedException();
 
 		public BasicAudioPlayer()
 		{
-			_audioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-			_audioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
+			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
 			CurrentTrack = track;
 			_stream = File.OpenRead(CurrentTrack.StorageLocation); //GetStreamFromFile(CurrentTrack.StorageLocation);
-			_audioPlayer.Load(_stream);
-			_audioPlayer.Play();
+			_simpleAudioPlayer.Load(_stream);
+			_simpleAudioPlayer.Play();
 		}
 
 		public void TogglePause()
 		{
-			if (_audioPlayer.IsPlaying)
+			if (_simpleAudioPlayer.IsPlaying)
 			{
-				_audioPlayer.Pause();
+				_simpleAudioPlayer.Pause();
 			}
 			else
 			{
-				_audioPlayer.Play();
+				_simpleAudioPlayer.Play();
 			}
 		}
 

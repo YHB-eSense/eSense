@@ -9,9 +9,10 @@ namespace Karl.Model
 	/// </summary>
 	public class AudioPlayer
 	{
-		private AudioLib AudioLib;
+		private static AudioPlayer _singletonAudioPlayer;
 		private IAudioPlayerImpl _audioPlayerImp;
-		private static  AudioPlayer _singletonAudioPlayer;
+		private Stack<AudioTrack> _songsBefore;
+		private Stack<AudioTrack> _songsAfter;
 
 		/// <summary>
 		/// The Track that is currently chosen.
@@ -46,11 +47,6 @@ namespace Karl.Model
 		public bool Paused { get; set; }
 
 		/// <summary>
-		/// The Tracks already played before.
-		/// </summary>
-		public Stack<AudioTrack> PlayedTracks { get; } //todo
-
-		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
 		/// </summary>
 		public static AudioPlayer SingletonAudioPlayer
@@ -67,9 +63,10 @@ namespace Karl.Model
 		/// </summary>
 		private AudioPlayer()
 		{
-			AudioLib = AudioLib.SingletonAudioLib;
 			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
+			_songsBefore = new Stack<AudioTrack>();
+			_songsAfter = new Stack<AudioTrack>();
 		}
 
 		/// <summary>
@@ -77,6 +74,7 @@ namespace Karl.Model
 		/// </summary>
 		public void PlayTrack(AudioTrack track)
 		{
+			if (CurrentTrack != null) { _songsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
 		}
@@ -90,17 +88,17 @@ namespace Karl.Model
 			_audioPlayerImp.TogglePause();
 		}
 
-		public void TogglePauseWhileChanging()
-		{
-			_audioPlayerImp.TogglePause();
-		}
-
 		/// <summary>
 		/// Skip current Track.
 		/// </summary>
 		public void NextTrack()
 		{
-			//todo
+			if (_songsAfter.Count != 0)
+			{
+				Paused = false;
+				_songsBefore.Push(CurrentTrack);
+				_audioPlayerImp.PlayTrack(_songsAfter.Pop());
+			}
 		}
 
 		/// <summary>
@@ -108,7 +106,12 @@ namespace Karl.Model
 		/// </summary>
 		public void PrevTrack()
 		{
-			//todo
+			if (_songsBefore.Count != 0)
+			{
+				Paused = false;
+				_songsAfter.Push(CurrentTrack);
+				_audioPlayerImp.PlayTrack(_songsBefore.Pop());
+			}
 		}
 
 		/// <summary>
@@ -127,8 +130,6 @@ namespace Karl.Model
 		AudioTrack CurrentTrack { get; set; }
 		double Volume { get; set; }
 		double CurrentSongPos { get; set; }
-		Stack<AudioTrack> PlayedSongs { get; }
-		Queue<AudioTrack> Queue { get; }
 		void PlayTrack(AudioTrack track);
 		void TogglePause();
 	}
