@@ -85,11 +85,8 @@ namespace Karl.Model
 			AvailableLangs = new List<Lang>();
 			//LocalApplicationData
 			string directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
 			//load embedded resource "english.txt"
 			var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Karl.english.txt");
-			string[] names = GetType().GetTypeInfo().Assembly.GetManifestResourceNames();
-			foreach(string name in names) { System.Diagnostics.Debug.WriteLine(name); }
 			var reader = new StreamReader(stream);
 			string english = reader.ReadToEnd();
 
@@ -120,6 +117,8 @@ namespace Karl.Model
 			//for testing
 			CurrentLang = AvailableLangs.First();
 		}
+
+	
 
 	}
 

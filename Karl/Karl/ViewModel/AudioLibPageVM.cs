@@ -18,6 +18,14 @@ namespace Karl.ViewModel
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
 
+		private Color _chosenColor = Color.DeepPink;
+		private Color _titleSortColor = Color.DeepPink;
+		private Color _titleSortTextColor = Color.White;
+		private Color _artistSortColor = Color.Transparent;
+		private Color _artistSortTextColor = Color.Black;
+		private Color _bpmSortColor = Color.Transparent;
+		private Color _bpmSortTextColor = Color.Black;
+
 		/**
 		 Properties binded to AudioLibPage of View
 		**/
@@ -25,6 +33,41 @@ namespace Karl.ViewModel
 		{
 			get => _audioLib.AudioTracks;
 			set { _audioLib.AudioTracks = value; OnPropertyChanged("Songs");}
+		}
+
+		public Color TitleSortColor {
+			get => _titleSortColor;
+			set { _titleSortColor = value; OnPropertyChanged("TitleSortColor"); }
+		}
+
+		public Color TitleSortTextColor
+		{
+			get => _titleSortTextColor;
+			set { _titleSortTextColor = value; OnPropertyChanged("TitleSortTextColor"); }
+		}
+
+		public Color ArtistSortColor
+		{
+			get => _artistSortColor;
+			set { _artistSortColor = value; OnPropertyChanged("ArtistSortColor"); }
+		}
+
+		public Color ArtistSortTextColor
+		{
+			get => _artistSortTextColor;
+			set { _artistSortTextColor = value; OnPropertyChanged("ArtistSortTextColor"); }
+		}
+
+		public Color BPMSortColor
+		{
+			get => _bpmSortColor;
+			set { _bpmSortColor = value; OnPropertyChanged("BPMSortColor"); }
+		}
+
+		public Color BPMSortTextColor
+		{
+			get => _bpmSortTextColor;
+			set { _bpmSortTextColor = value; OnPropertyChanged("BPMSortTextColor"); }
 		}
 
 		/**
@@ -66,6 +109,12 @@ namespace Karl.ViewModel
 		private void TitleSort()
 		{
 			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Title));
+			TitleSortColor = _chosenColor;
+			ArtistSortColor = Color.Transparent;
+			BPMSortColor = Color.Transparent;
+			TitleSortTextColor = Color.White;
+			ArtistSortTextColor = Color.Black;
+			BPMSortTextColor = Color.Black;
 		}
 
 		/// <summary>
@@ -74,6 +123,12 @@ namespace Karl.ViewModel
 		private void ArtistSort()
 		{
 			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Artist));
+			TitleSortColor = Color.Transparent;
+			ArtistSortColor = _chosenColor;
+			BPMSortColor = Color.Transparent;
+			TitleSortTextColor = Color.Black;
+			ArtistSortTextColor = Color.White;
+			BPMSortTextColor = Color.Black;
 		}
 
 		/// <summary>
@@ -82,6 +137,12 @@ namespace Karl.ViewModel
 		private void BPMSort()
 		{
 			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.BPM));
+			TitleSortColor = Color.Transparent;
+			ArtistSortColor = Color.Transparent;
+			BPMSortColor = _chosenColor;
+			TitleSortTextColor = Color.Black;
+			ArtistSortTextColor = Color.Black;
+			BPMSortTextColor = Color.White;
 		}
 
 		/// <summary>

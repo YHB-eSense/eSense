@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
-		private LangManager _langManager;
+		private static LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
 
 		/// <summary>
