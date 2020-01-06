@@ -13,14 +13,13 @@ namespace Karl.ViewModel
 	{
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
-		public ObservableCollection<BluetoothDevice> Devices { get => _connectivityHandler.FoundDevices; }
+		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
 
 		/**
 		 Commands binded to ConnectionPage of View
 		**/
 		public ICommand RefreshDevicesCommand { get; }
 		public ICommand ConnectToDeviceCommand { get; }
-
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ConnectivityHandler of Model
@@ -31,7 +30,7 @@ namespace Karl.ViewModel
 			_handler = handler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			RefreshDevicesCommand = new Command(RefreshDevices);
-			ConnectToDeviceCommand = new Command<BluetoothDevice>(ConnectToDevice);
+			ConnectToDeviceCommand = new Command<EarableHandle>(ConnectToDevice);
 		}
 
 		/// <summary>
@@ -39,14 +38,14 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshDevices()
 		{
-			ConnectivityHandler.SingletonConnectivityHandler.SearchDevices();
+			_connectivityHandler.SearchDevices();
 		}
 
 		/// <summary>
 		/// Connects to device
 		/// </summary>
 		/// <param name="device">Selected device to connect to</param>
-		private void ConnectToDevice(BluetoothDevice device)
+		private void ConnectToDevice(EarableHandle device)
 		{
 			_connectivityHandler.ConnectDevice(device);
 			_handler.GoBack();

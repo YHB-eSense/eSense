@@ -7,25 +7,49 @@
              mc:Ignorable="d"
              x:Class="Karl.View.ConnectionPage">
     <ContentPage.Content>
-		<StackLayout>
-			<ListView ItemsSource="{Binding Devices}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<TextCell Text="{Binding Name}" />
-					</DataTemplate>
-				</ListView.ItemTemplate>
-				<ListView.Behaviors>
-					<b:EventToCommandBehavior EventName="ItemSelected"
-					Command="{Binding ConnectToDeviceCommand}"
-					CommandParameter="{Binding SelectedItem}" />
-				</ListView.Behaviors>
-			</ListView>
-			<ImageButton Source="refresh.png"
-						 Margin="0,0,0,30"
-						 BackgroundColor="Transparent"
-						 WidthRequest="75"
-						 HeightRequest="75"
-						 Command="{Binding RefreshDevicesCommand}"/>
-		</StackLayout>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.ColumnSpan="3">
+				<ListView x:Name="listView"
+					ItemsSource="{Binding Devices}"
+					HasUnevenRows="True">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<TextCell Text="{Binding Name}"/>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<ListView.Behaviors>
+						<b:EventToCommandBehavior EventName="ItemSelected"
+							Command="{Binding ConnectToDeviceCommand}"
+							CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}" />
+					</ListView.Behaviors>
+				</ListView>
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="0">
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="1">
+				<ImageButton Source="refresh.png"
+					BackgroundColor="White"
+					Command="{Binding RefreshDevicesCommand}"/>
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="2">
+			</Frame>
+
+		</Grid>
+		
     </ContentPage.Content>
 </ContentPage>

@@ -16,9 +16,6 @@ namespace Karl.ViewModel
 		private SettingsHandler _settingsHandler;
 		private string _iconOn;
 		private string _iconOff;
-		private string _deviceName;
-		private string _stepsAmount;
-		private Boolean _connectBoolean;
 		private string _icon;
 
 		/**
@@ -28,15 +25,8 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return _deviceName;
-			}
-			set
-			{
-				if (_deviceName != value)
-				{
-					_deviceName = value;
-					OnPropertyChanged("DeviceName");
-				}
+				if (_connectivityHandler.Connected) { return _settingsHandler.DeviceName; }
+				return null;
 			}
 		}
 
@@ -44,47 +34,19 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				return _stepsAmount;
-			}
-			set
-			{
-				if (_stepsAmount != value)
-				{
-					_stepsAmount = value;
-					OnPropertyChanged("StepsAmount");
-				}
+				if (_connectivityHandler.Connected) { return Convert.ToString(_settingsHandler.Steps); }
+				return null;
 			}
 		}
 
-		public Boolean ConnectBoolean
+		public bool ConnectBoolean
 		{
-			get
-			{
-				return _connectBoolean;
-			}
-			set
-			{
-				if (_connectBoolean != value)
-				{
-					_connectBoolean = value;
-					if (ConnectBoolean)
-					{
-						Icon = _iconOn;
-					}
-					else
-					{
-						Icon = _iconOff;
-					}
-				}
-			}
+			get { return _connectivityHandler.Connected; }
 		}
 		
 		public string Icon
 		{
-			get
-			{
-				return _icon;
-			}
+			get{return _icon;}
 			set
 			{
 				if (_icon != value)
@@ -120,7 +82,7 @@ namespace Karl.ViewModel
 			SettingsPageCommand = new Command(GotoSettingsPage);
 			_iconOn = "bluetooth_on.png";
 			_iconOff = "bluetooth_off.png";
-			Icon = _iconOn;
+			Icon = _iconOff;
 		}
 
 		private void GotoAudioPlayerPage()
@@ -135,7 +97,7 @@ namespace Karl.ViewModel
 
 		private void GotoConnectionPage()
 		{
-			if(ConnectBoolean)
+			if(_connectivityHandler.Connected)
 			{
 				_connectivityHandler.Disconnect();
 			}
@@ -155,19 +117,12 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[4]);
 		}
 
-		public void GetDeviceName()
+		public void RefreshPage()
 		{
-			//DeviceName = _connectivityHandler.CurrentDevice.Name;
-		}
-
-		public void GetStepsAmount()
-		{
-			//StepsAmount = Convert.ToString(_settingsHandler.Steps);
-		}
-
-		public void GetConnectBoolean()
-		{
-			//ConnectBoolean = _connectivityHandler.Connected;
+			if (_connectivityHandler.Connected) { Icon = _iconOn; }
+			else { Icon = _iconOff; }
+			OnPropertyChanged("StepsAmount");
+			OnPropertyChanged("DeviceName");
 		}
 
 		//Eventhandling

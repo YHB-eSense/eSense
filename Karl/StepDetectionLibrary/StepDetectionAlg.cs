@@ -8,9 +8,9 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// This class takes the raw gyro and acceleration data form the input, detects steps and then pushes them to the outputmanager
 	/// </summary>
-	class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>
+	class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
-		private List<IObserver<Output>> observers;
+		private List<IObserver<Output>> _observer;
 		/// <summary>
 		/// method if provider finished sending data
 		/// </summary>
@@ -34,34 +34,88 @@ namespace StepDetectionLibrary
 		/// <param name="value">accleration + gyro data</param>
 		public void OnNext(AccGyroData value)
 		{
-			throw new NotImplementedException();
+			Update(StepDetecAlg(value));
 		}
 
 		/// <summary>
-		/// method to add observers to stepdetectionalg
+		/// method to add _observer to stepdetectionalg
 		/// </summary>
 		/// <param name="observer">object that wants to observe stepdetectionalg</param>
 		/// <returns>disposable for unsubscribing</returns>
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
-			throw new NotImplementedException();
+			if (!_observer.Contains(observer))
+				_observer.Add(observer);
+			return new Unsubscriber(_observer, observer);
+
 		}
+
 		/// <summary>
-		/// method to update observers
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<Output>> _observers;
+			private IObserver<Output> _observer;
+
+			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
+		}
+
+		/// <summary>
+		/// method to update _observer
 		/// </summary>
 		/// <param name="output">new data thats been calculated by the algorithm</param>
 		public void Update(Output output)
 		{
-			throw new NotImplementedException();
+			foreach (var observer in _observer)
+			{
+				observer.OnNext(output);
+			}
 		}
 
 		/// <summary>
-		/// method with algorithm to detect steps from acceleration and gyrodata
+		/// method with algorithm to detect steps from acceleration and GyroData
 		/// </summary>
 		/// <param name="data">acceleration and gyro data</param>
-		private void StepDetecAlg(AccGyroData data)
+		private Output StepDetecAlg(AccGyroData data)
 		{
-			throw new NotImplementedException();
+			int length = AccGyroData.DATALENGTH;
+			AccData accdata = data.AccData;
+			const double AVGMAG = 10; // value needs to be tested
+			const double THRESHHOLD = 10; //value needs to be tested
+			int stepcount = 0;
+			Boolean threshhold_passed = false;
+
+			double[] netmag = new double[length];
+			for (int i = 0; i < length; i++)
+			{
+				netmag[i] = Math.Sqrt((accdata.Xacc[i]) * (accdata.Xacc[i]) + (accdata.Yacc[i]) * (accdata.Yacc[i]) + (accdata.Zacc[i]) * (accdata.Zacc[i])) - AVGMAG;
+			}
+
+			for (int i = 0; i < length; i++)
+			{
+				if (netmag[i] > THRESHHOLD)
+				{
+					threshhold_passed = true;
+				} else if (threshhold_passed) {
+					threshhold_passed = false;
+					stepcount++;
+				}
+			}
+
+			Output output = new Output(stepcount/(length/50), stepcount);
+
+			return output;
 		}
 	}
 

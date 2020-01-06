@@ -24,8 +24,7 @@ namespace Karl.View
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			_mainPageVM.GetDeviceName();
-			_mainPageVM.GetStepsAmount();
+			_mainPageVM.RefreshPage();
 		}
 		
 	}

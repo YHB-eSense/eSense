@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace StepDetectionLibrary
 {
@@ -8,8 +9,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct AccGyroData
 	{
-		public AccData accdata;
-		public GyroData gyrodata;
+		public AccData AccData;
+		public GyroData GyroData;
+		public const int DATALENGTH = 250;
 	}
 
 	/// <summary>
@@ -17,9 +19,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct AccData
 	{
-		public short[] xacc;
-		public short[] yacc;
-		public short[] zacc;
+		public double[] Xacc;
+		public double[] Yacc;
+		public double[] Zacc;
 	}
 
 	/// <summary>
@@ -27,9 +29,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct GyroData
 	{
-		public short[] xgyro;
-		public short[] ygyro;
-		public short[] zgyro;
+		public short[] Xgyro;
+		public short[] Ygyro;
+		public short[] Zgyro;
 	}
 
 	/// <summary>
@@ -38,7 +40,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
-		private System.Collections.Generic.List<IObserver<Output>> observers;
+		private List<IObserver<AccGyroData>> _observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
@@ -46,15 +48,44 @@ namespace StepDetectionLibrary
 		/// <returns>disposable for unsubscribing</returns>
 		public IDisposable Subscribe(IObserver<AccGyroData> observer)
 		{
-			throw new NotImplementedException();
+			{
+				if (!_observers.Contains(observer))
+					_observers.Add(observer);
+				return new Unsubscriber(_observers, observer);
+			}
 		}
+
 		/// <summary>
-		/// method to update observers
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<AccGyroData>> _observers;
+			private IObserver<AccGyroData> _observer;
+
+			public Unsubscriber(List<IObserver<AccGyroData>> observers, IObserver<AccGyroData> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
+		}
+
+		/// <summary>
+		/// method to update _observer
 		/// </summary>
 		/// <param name="data">new accleration + gyro data</param>
 		public void Update(AccGyroData data)
 		{
-			throw new NotImplementedException();
+			foreach (var observer in _observers)
+			{
+				observer.OnNext(data);
+			}
 		}
 
 		/// <summary>
@@ -65,6 +96,7 @@ namespace StepDetectionLibrary
 		public void ValueChanged(object sender, EventArgs args)
 		{
 			throw new NotImplementedException();
+			//short to double 
 		}
 	}
 }

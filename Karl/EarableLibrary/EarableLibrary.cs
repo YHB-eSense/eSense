@@ -1,8 +1,5 @@
 using Plugin.BLE;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace EarableLibrary
 {
@@ -22,7 +19,7 @@ namespace EarableLibrary
 			if (valid)
 			{
 				EarableEventArgs args = new EarableEventArgs(device);
-				EarableDiscovered.Invoke(this, args);
+				EarableDiscovered?.Invoke(this, args);
 			}
 		}
 

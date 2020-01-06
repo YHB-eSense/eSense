@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using EarableLibrary;
 using System.Collections.ObjectModel;
 
@@ -25,37 +23,45 @@ namespace Karl.Model
 			}
 		}
 
-		private IEarable Earable;
-		public BluetoothDevice CurrentDevice { get; private set; }
-		public bool Connected { get; }
-		public ObservableCollection<BluetoothDevice> FoundDevices { get; private set; } //todo
+		private readonly IEarableScanner _earableScanner;
+		private IEarable _connectedEarable;
+		public bool Connected { get => EarableConnected(); }
+		public ObservableCollection<EarableHandle> DiscoveredDevices { get; }
 
 		private ConnectivityHandler()
 		{
-			//todo
+			DiscoveredDevices = new ObservableCollection<EarableHandle>();
+			_earableScanner = new EarableLibrary.EarableLibrary();
+			_earableScanner.EarableDiscovered += (s, e) => {
+				DiscoveredDevices.Add(new EarableHandle(e.Earable));
+			};
 		}
 
 		/// <summary>
 		/// Search for Bluetooth Devices.
 		/// </summary>
-		/// <returns>List of Bluetooth Devices</returns>
 		public void SearchDevices()
 		{
-			//todo
+			_earableScanner.StopScanning();
+			DiscoveredDevices.Clear();
+			_earableScanner.StartScanning();
 		}
 
 		/// <summary>
 		/// Connect to the Device given as a parameter.
 		/// </summary>
 		/// <param name="device">Device to connect with.</param>
-		public void ConnectDevice(BluetoothDevice device)
+		public void ConnectDevice(EarableHandle device)
 		{
-			//todo
+			device.handle.ConnectAsync();
+			_connectedEarable = device.handle;
 		}
 
 		public void Disconnect()
 		{
-			//todo
+			if (!EarableConnected()) return;
+			_connectedEarable.DisconnectAsync();
+			_connectedEarable = null;
 		}
 
 		/// <summary>
@@ -64,8 +70,19 @@ namespace Karl.Model
 		/// <param name="name">The new Name.</param>
 		public void SetDeviceName(String name)
 		{
-			//todo
+			if (!EarableConnected()) return;
+			_connectedEarable.Name = name;
 		}
 
+		private bool EarableConnected()
+		{
+			if (_connectedEarable == null) return false;
+			if (!_connectedEarable.IsConnected())
+			{
+				_connectedEarable = null;
+				return false;
+			}
+			return true;
+		}
 	}
 }
