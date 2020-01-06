@@ -26,8 +26,9 @@
 					<Label Text="Language:"
 						   TextColor="Black"
 						   FontSize="Large"/>
-					<Picker ItemsSource="{Binding Languages.Name}"
-						SelectedItem="{Binding SelectedLanguage}">
+					<Picker ItemsSource="{Binding Languages}"
+						SelectedItem="{Binding SelectedLanguage}"
+						ItemDisplayBinding="{Binding Name}">
 					</Picker>
 				</StackLayout>
 			</Frame>

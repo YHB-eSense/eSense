@@ -10,6 +10,7 @@ namespace Karl.Model
 	/// </summary>
 	class ConfigFile
 	{
+		/*
 		/// <summary>
 		/// The Language used
 		/// </summary>
@@ -25,6 +26,7 @@ namespace Karl.Model
 				//todo
 			}
 		}
+		*/
 		/// <summary>
 		/// The AudioModule used.
 		/// </summary>

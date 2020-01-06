@@ -17,9 +17,9 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to SettingsPage of View
 		**/
-		public List<Language> Languages { get => _settingsHandler.Languages; }
+		public List<Lang> Languages { get => _settingsHandler.Languages; }
 
-		public Language SelectedLanguage
+		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
 			set

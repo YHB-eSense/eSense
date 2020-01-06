@@ -9,7 +9,32 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
+		private LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
+
+		/// <summary>
+		/// The List of registered Languages.
+		/// </summary>
+		public List<Lang> Languages { get => _langManager.AvailableLangs; }
+
+		/// <summary>
+		/// The currently selected Language.
+		/// </summary>
+		public Lang CurrentLang {
+			get => _langManager.CurrentLang;
+			set { _langManager.CurrentLang = value; }
+		}
+
+		/// <summary>
+		/// The Name of the currently connected Device.
+		/// </summary>
+		public String DeviceName { get; set; }
+
+		/// <summary>
+		/// The total Steps done.
+		/// </summary>
+		public int Steps { get => 0; }
+
 		public static SettingsHandler SingletonSettingsHandler
 		{
 			get
@@ -22,47 +47,14 @@ namespace Karl.Model
 			}
 		}
 
-		private AudioLib audioLib;
-		private AudioPlayer audioPlayer;
-		private ConfigFile ConfigFile;
 		/// <summary>
-		/// The List of registered Languages.
+		/// The Constructor that builds a new SettingsHandler
 		/// </summary>
-		public List<Language> Languages { get; }
-		/// <summary>
-		/// The currently selected Language.
-		/// </summary>
-		public Language CurrentLang { get; set; }
-		/// <summary>
-		/// The Name of the currently connected Device.
-		/// </summary>
-		public String DeviceName {
-			get
-			{
-				//todo
-				return null;
-			}
-			set
-			{
-				//todo
-			}
-		}
-		/// <summary>
-		/// The total Steps done.
-		/// </summary>
-		public int Steps { get; }
-		/// <summary>
-		/// The Constructor that builds a new SettingsHandler. Only used by AppLogic
-		/// </summary>
-		/// <param name="audioLib">The Settings Handler chooses the implementation of this.</param>
-		/// <param name="audioPlayer">The Settings Handler chooses the implementation of this.</param>
 		private SettingsHandler()
 		{
-			this.audioLib = AudioLib.SingletonAudioLib;
-			this.audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			ConfigFile = new ConfigFile();
-			
+			_langManager = LangManager.SingletonLangManager;
 		}
+
 		/// <summary>
 		/// Reset the Step counter.
 		/// </summary>
