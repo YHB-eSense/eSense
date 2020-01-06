@@ -7,23 +7,52 @@
 			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage">
     <ContentPage.Content>
-		<StackLayout Spacing="30">
-			<Entry Text="{Binding DeviceName}"
-				x:Name="DeviceNameEntry"/>
-			<Button Text="Change Device Name"
-				Command="{Binding ChangeDeviceNameCommand}"
-				CommandParameter="{Binding Source={x:Reference DeviceNameEntry}, Path=Text}"/>
-			<Label Text="Select Language"/>
-			<Picker ItemsSource="{Binding Languages.Name}"
-				SelectedItem="{Binding SelectedLanguage}">
-				<Picker.Behaviors>
-					<b:EventToCommandBehavior EventName="SelectedIndexChanged"
-					Command="{Binding ChangeLanguageCommand}"
-					CommandParameter="Picker.SelectedItem" />
-				</Picker.Behaviors>
-			</Picker>
-			<Button Text="Reset Steps"
-				Command="{Binding ResetStepsCommand}"/>
-		</StackLayout>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+				<StackLayout Orientation="Vertical">
+					<Label Text="Language:"
+						   TextColor="Black"
+						   FontSize="Large"/>
+					<Picker ItemsSource="{Binding Languages.Name}"
+						SelectedItem="{Binding SelectedLanguage}">
+					</Picker>
+				</StackLayout>
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+				<StackLayout Orientation="Vertical">
+					<Label Text="Device Name:"
+						TextColor="Black"
+						FontSize="Large"/>
+					<Entry Text="{Binding DeviceName}"/>
+				</StackLayout>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0">
+				<Button Text="Change Device Name"
+					Command="{Binding ChangeDeviceNameCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="1">
+				<Button Text="Reset Steps"
+					Command="{Binding ResetStepsCommand}"/>
+			</Frame>
+
+		</Grid>
+		
 	</ContentPage.Content>
 </ContentPage>

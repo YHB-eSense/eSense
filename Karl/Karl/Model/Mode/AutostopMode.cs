@@ -26,7 +26,7 @@ namespace Karl.Model
 
 		protected override String UpdateName(Lang value)
 		{
-			return value.get("mode_autostop");//todo
+			return "AutoStopMode"; //value.get("mode_autostop");//todo
 		}
 	} 
 }

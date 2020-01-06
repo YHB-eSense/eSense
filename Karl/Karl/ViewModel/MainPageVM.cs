@@ -41,12 +41,12 @@ namespace Karl.ViewModel
 
 		public bool ConnectBoolean
 		{
-			get { return _connectivityHandler.Connected; }
+			get => _connectivityHandler.Connected; 
 		}
 		
 		public string Icon
 		{
-			get{return _icon;}
+			get => _icon;
 			set
 			{
 				if (_icon != value)
@@ -97,14 +97,8 @@ namespace Karl.ViewModel
 
 		private void GotoConnectionPage()
 		{
-			if(_connectivityHandler.Connected)
-			{
-				_connectivityHandler.Disconnect();
-			}
-			else
-			{
-				_handler.GotoPage(_handler._pages[2]);
-			}
+			if(_connectivityHandler.Connected) { _connectivityHandler.Disconnect(); }
+			else { _handler.GotoPage(_handler._pages[2]); }
 		}
 
 		private void GotoModesPage()
@@ -131,10 +125,7 @@ namespace Karl.ViewModel
 
 		private void OnPropertyChanged(string propertyName)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

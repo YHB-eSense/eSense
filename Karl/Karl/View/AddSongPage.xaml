@@ -22,24 +22,33 @@
 
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.ColumnSpan="2">
-				<Entry Placeholder="Title"
-					Text="{Binding NewSongTitle}"
-					VerticalOptions="Center"/>
+				<StackLayout Orientation="Vertical">
+					<Label Text="Title:"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongTitle}"/>
+				</StackLayout>
 			</Frame>
 
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.ColumnSpan="2">
-				<Entry Placeholder="Artist"
-					Text="{Binding NewSongArtist}"
-					VerticalOptions="Center"/>
+				<StackLayout Orientation="Vertical">
+					<Label Text="Artist:"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongArtist}"/>
+				</StackLayout>
 			</Frame>
 
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.ColumnSpan="2">
-				<Entry Placeholder="BPM"
-					Text="{Binding NewSongBPM}"
-					Keyboard="Numeric"
-					VerticalOptions="Center"/>
+				<StackLayout Orientation="Vertical">
+					<Label Text="BPM:"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongBPM}"
+					Keyboard="Numeric"/>
+				</StackLayout>
 			</Frame>
 
 			<!--Fourth Row-->

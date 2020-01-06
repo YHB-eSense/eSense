@@ -13,18 +13,18 @@ namespace Karl.Model
 	public class Lang
 	{
 		private const string WORD_NOT_FOUND_MESSAGE = "Word not found";
-		private string filePath;
-		private IDictionary <String, String> words;
+		private string _filePath;
+		private IDictionary <String, String> _words;
 
 		/// <summary>
 		/// Sets Path for given Language
 		/// </summary>
 		/// <param name="id">Given Languages id</param>
 		public Lang(string id) {
-			filePath = Path.Combine(Environment.GetFolderPath
+			_filePath = Path.Combine(Environment.GetFolderPath
 				(Environment.SpecialFolder.LocalApplicationData), id + ".txt");
 			//Reads Words from Language from corresponding File
-			string langdata = File.ReadAllText(filePath);
+			string langdata = File.ReadAllText(_filePath);
 
 			string[] langWords = langdata.Split(';');
 			string key;
@@ -36,7 +36,7 @@ namespace Karl.Model
 				string[] word = langWords[i].Split('=');
 				key = word[0];
 				value = word[1];
-				words.Add(key, value);
+				_words.Add(key, value);
 			}
 			
 		}
@@ -48,7 +48,7 @@ namespace Karl.Model
 		/// <returns></returns>
 		public String get(string tag)
 		{
-			return words[tag];
+			return _words[tag];
 		}
 	}
 	/// <summary>

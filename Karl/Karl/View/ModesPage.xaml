@@ -8,32 +8,58 @@
              x:Class="Karl.View.ModesPage">
 
 	<ContentPage.Content>
-		<StackLayout>
-			<ListView ItemsSource="{Binding Modes}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<ViewCell>
-							<StackLayout Orientation="Horizontal">
-								<Label Text="{Binding Name}"
-									FontSize="Large"
-									TextColor="Black"
-									HorizontalOptions="StartAndExpand"
-									VerticalOptions="Center"/>
-								<Switch IsToggled="false" 
-									HorizontalOptions="EndAndExpand"
-									VerticalOptions="Center">
-									<Switch.Behaviors>
-										<b:EventToCommandBehavior EventName="Toggled"
-										Command="{Binding ActivateModeCommand}"
-										CommandParameter="{Binding SelectedItem}" />
-									</Switch.Behaviors>
-								</Switch>
-								<!-- Binding isToggled to Boolean-->
-							</StackLayout>
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</StackLayout>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="5*"/>
+			</Grid.RowDefinitions>
+
+			<!--Second Row-->
+			<Frame Grid.Row="0">
+				<Label Text="Modes:"
+					FontSize="Large"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					TextColor="Black"/>
+			</Frame>
+			
+			<!--Second Row-->
+			<Frame Grid.Row="1">
+				<StackLayout>
+					<ListView ItemsSource="{Binding Modes}"
+						x:Name="listView"
+						HasUnevenRows="true">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<Frame>
+										<StackLayout Orientation="Horizontal">
+											<Label Text="{Binding Name}"
+												FontSize="Large"
+												TextColor="Black"
+												HorizontalOptions="Start"
+												VerticalOptions="Center"/>
+												<Switch IsToggled="false" 
+													HorizontalOptions="EndAndExpand"
+													VerticalOptions="Center">
+												<Switch.Behaviors>
+													<b:EventToCommandBehavior EventName="Toggled"
+														Command="{Binding ActivateModeCommand}"
+														CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}" />
+												</Switch.Behaviors>
+											</Switch>
+										</StackLayout>
+									</Frame>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</StackLayout>
+			</Frame>
+
+		</Grid>
+		
 	</ContentPage.Content>
 </ContentPage>

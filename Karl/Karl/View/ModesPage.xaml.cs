@@ -22,11 +22,5 @@ namespace Karl.View
 			BindingContext = _modesPageVM;
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			_modesPageVM.GetModes();
-		}
-
 	}
 }

@@ -12,44 +12,29 @@ namespace Karl.ViewModel
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
-		private Language _selectedLanguage;
 		private string _deviceName;
 
 		/**
 		 Properties binded to SettingsPage of View
 		**/
-		public ObservableCollection<Language> Languages { get; set; }
+		public List<Language> Languages { get => _settingsHandler.Languages; }
 
 		public Language SelectedLanguage
 		{
-			get
-			{
-				return _selectedLanguage;
-			}
+			get => _settingsHandler.CurrentLang;
 			set
 			{
-				if (!_selectedLanguage.Equals(value))
-				{
-					_selectedLanguage = value;
-					ChangeLanguage(_selectedLanguage);
-					OnPropertyChanged("SelectedLanguage");
-				}
+				_settingsHandler.CurrentLang = value;
+				OnPropertyChanged("SelectedLanguage");
 			}
 		}
 
 		public string DeviceName
 		{
-			get
-			{
-				return _deviceName;
-			}
+			get => _settingsHandler.DeviceName;
 			set
 			{
-				if (_deviceName != value)
-				{
-					_deviceName = value;
-					OnPropertyChanged("DeviceName");
-				}
+				_deviceName = value;
 			}
 		}
 
@@ -57,7 +42,6 @@ namespace Karl.ViewModel
 		 Commands binded to SettingsPage of View
 		**/
 		public ICommand ChangeDeviceNameCommand { get; }
-		public ICommand ChangeLanguageCommand { get; }
 		public ICommand ResetStepsCommand { get; }
 
 		/// <summary>
@@ -66,39 +50,18 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
-			ChangeLanguageCommand = new Command<Language>(ChangeLanguage);
+			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
 		}
 
-		private void ChangeDeviceName(String deviceName)
+		private void ChangeDeviceName()
 		{
-			_settingsHandler.DeviceName = deviceName;
-		}
-
-		private void ChangeLanguage(Language language)
-		{
-			_settingsHandler.CurrentLang = language;
+			_settingsHandler.DeviceName = _deviceName;
 		}
 
 		private void ResetSteps()
 		{
 			_settingsHandler.ResetSteps();
-		}
-
-		public void RefreshLanguages()
-		{
-			Languages = (ObservableCollection<Language>) _settingsHandler.Languages;
-		}
-
-		public void GetSelectedLanguage()
-		{
-			SelectedLanguage = _settingsHandler.CurrentLang;
-		}
-
-		public void GetDeviceName()
-		{
-			DeviceName = _settingsHandler.DeviceName;
 		}
 
 		//Eventhandling
@@ -107,10 +70,7 @@ namespace Karl.ViewModel
 
 		private void OnPropertyChanged(string propertyName)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 	}

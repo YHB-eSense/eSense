@@ -28,6 +28,8 @@
 			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
 				<SearchBar x:Name="searchBar"
 					Placeholder="Title"
+					VerticalOptions="Center"
+					HorizontalOptions="Start"
 					SearchCommand="{Binding SearchSongCommand}"
 					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
 					<SearchBar.Behaviors>

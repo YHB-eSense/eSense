@@ -23,7 +23,7 @@ namespace Karl.ViewModel
 		**/
 		public ObservableCollection<AudioTrack> Songs
 		{
-			get { return _audioLib.AudioTracks; }
+			get => _audioLib.AudioTracks;
 			set { _audioLib.AudioTracks = value; OnPropertyChanged("Songs");}
 		}
 
@@ -90,10 +90,7 @@ namespace Karl.ViewModel
 		private void PlaySong(AudioTrack track)
 		{
 			_handler.GotoPage(_handler._pages[0]);
-			if (track != _audioPlayer.CurrentTrack)
-			{
-				_audioPlayer.PlayTrack(track);
-			}	
+			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
 		}
 
 		/// <summary>
@@ -106,14 +103,8 @@ namespace Karl.ViewModel
 
 		private void EditDeleteList(AudioTrack song)
 		{
-			if (_deleteList.Contains(song))
-			{
-				_deleteList.Remove(song);
-			}
-			else
-			{
-				_deleteList.Add(song);
-			}
+			if (_deleteList.Contains(song)) { _deleteList.Remove(song); }
+			else { _deleteList.Add(song); }
 		}
 
 		/// <summary>
@@ -122,29 +113,20 @@ namespace Karl.ViewModel
 		/// <param name="title"></param>
 		private void SearchSong(string title)
 		{
-			if (_oldSongs == null)
-			{
-				_oldSongs = new ObservableCollection<AudioTrack>(Songs);
-			}
+			if (_oldSongs == null){ _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
 			if (title == null || title == "")
 			{
 				Songs = new ObservableCollection<AudioTrack>(_oldSongs);
 				_oldSongs = null;
 			}
-			else
-			{
-				Songs = new ObservableCollection<AudioTrack>(Songs.Where(song => song.Title.Contains(title)));
-			}
+			else { Songs = new ObservableCollection<AudioTrack>(Songs.Where(song => song.Title.Contains(title))); }
 		}
 
 		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs", "Yes", "No");
+			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs?", "Yes", "No");
 			if (answer) {
-				foreach(AudioTrack song in _deleteList)
-				{
-					_audioLib.DeleteTrack(song);
-				}
+				foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }
 				OnPropertyChanged("Songs");
 			}
 		}

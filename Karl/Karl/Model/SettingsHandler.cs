@@ -28,7 +28,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The List of registered Languages.
 		/// </summary>
-		public IList<Language> Languages { get; }
+		public List<Language> Languages { get; }
 		/// <summary>
 		/// The currently selected Language.
 		/// </summary>

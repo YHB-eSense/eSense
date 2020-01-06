@@ -4,6 +4,7 @@ using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Karl.ViewModel
 {
@@ -14,7 +15,7 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to ModesPage of View
 		**/
-		public ObservableCollection<Mode> Modes { get; set; }
+		public List<Mode> Modes { get => _modeHandler.Modes; }
 
 		/**
 		 Commands binded to ModesPage of View
@@ -24,12 +25,10 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ModeHandler of Model
 		/// </summary>
-		/// <param name="handler">For navigation</param>
 		public ModesPageVM()
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
-			Modes = new ObservableCollection<Mode>();
 		}
 
 		/// <summary>
@@ -41,17 +40,5 @@ namespace Karl.ViewModel
 			mode.Activate();
 		}
 
-		/// <summary>
-		/// Loads Modes
-		/// </summary>
-		public void GetModes()
-		{
-			ObservableCollection<Mode> modes = new ObservableCollection<Mode>();
-			foreach (Mode mode in _modeHandler.Modes)
-			{
-				modes.Add(mode);
-			}
-			Modes = modes;
-		}
 	}
 }

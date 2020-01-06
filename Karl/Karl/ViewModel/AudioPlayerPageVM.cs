@@ -23,12 +23,12 @@ namespace Karl.ViewModel
 
 		public AudioTrack AudioTrack
 		{
-			get { return _audioPlayer.CurrentTrack; }
+			get => _audioPlayer.CurrentTrack; 
 		}
 
 		public double Volume
 		{
-			get { return _audioPlayer.Volume; }
+			get => _audioPlayer.Volume; 
 			set
 			{
 				_audioPlayer.Volume = value;
@@ -48,7 +48,7 @@ namespace Karl.ViewModel
 		
 		public string Icon
 		{
-			get { return _icon; }
+			get => _icon;
 			set
 			{
 				_icon = value;
@@ -131,10 +131,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshPage()
 		{
-			if (_audioPlayer.Paused)
-			{
-				Icon = _iconPlay;
-			}
+			if (_audioPlayer.Paused) { Icon = _iconPlay; }
 			else
 			{
 				_timer.Start();
