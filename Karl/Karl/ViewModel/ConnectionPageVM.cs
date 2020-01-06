@@ -39,7 +39,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public void RefreshDevices()
 		{
-			ConnectivityHandler.SingletonConnectivityHandler.SearchDevices();
+			_connectivityHandler.SearchDevices();
 		}
 
 		/// <summary>
