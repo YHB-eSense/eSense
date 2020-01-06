@@ -7,21 +7,49 @@
              mc:Ignorable="d"
              x:Class="Karl.View.MainPage">
     <ContentPage.Content>
-		<StackLayout>
-			<StackLayout.GestureRecognizers>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="2*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+
+			<Grid.GestureRecognizers>
 				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}"/>
 				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}"/>
 				<SwipeGestureRecognizer Direction="Up" Command="{Binding AudioPlayerPageCommand}"/>
 				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}"/>
-			</StackLayout.GestureRecognizers>
-			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+			</Grid.GestureRecognizers>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="1">
+				<Label Text="{Binding DeviceName}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="1">
 				<ImageButton Source="{Binding Icon}"
-					BackgroundColor="Transparent"
-					WidthRequest="200"
-					HeightRequest="200"
-					HorizontalOptions="CenterAndExpand"
+					BackgroundColor="White"
 					Command="{Binding ConnectionPageCommand}"/>
-			</StackLayout>
-		</StackLayout>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="1">
+				<Label Text="{Binding StepsAmount}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			</Frame>
+			
+		</Grid>
+
 	</ContentPage.Content>
 </ContentPage>
