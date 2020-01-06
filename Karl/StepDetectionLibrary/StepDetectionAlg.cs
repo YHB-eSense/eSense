@@ -8,7 +8,7 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// This class takes the raw gyro and acceleration data form the input, detects steps and then pushes them to the outputmanager
 	/// </summary>
-	class StepDetectionAlg :IObserver<AccGyroData>, IObservable<Output>
+	class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
 		private List<IObserver<Output>> observers;
 		/// <summary>
@@ -34,7 +34,7 @@ namespace StepDetectionLibrary
 		/// <param name="value">accleration + gyro data</param>
 		public void OnNext(AccGyroData value)
 		{
-			throw new NotImplementedException();
+			Update(StepDetecAlg(value));
 		}
 
 		/// <summary>
@@ -44,22 +44,50 @@ namespace StepDetectionLibrary
 		/// <returns>disposable for unsubscribing</returns>
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
-			throw new NotImplementedException();
+			if (!observers.Contains(observer))
+				observers.Add(observer);
+			return new Unsubscriber(observers, observer);
+
 		}
+
+		/// <summary>
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<Output>> _observers;
+			private IObserver<Output> _observer;
+
+			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
+		}
+
 		/// <summary>
 		/// method to update observers
 		/// </summary>
 		/// <param name="output">new data thats been calculated by the algorithm</param>
 		public void Update(Output output)
 		{
-			throw new NotImplementedException();
+			foreach (var observer in observers)
+			{
+				observer.OnNext(output);
+			}
 		}
 
 		/// <summary>
 		/// method with algorithm to detect steps from acceleration and gyrodata
 		/// </summary>
 		/// <param name="data">acceleration and gyro data</param>
-		private void StepDetecAlg(AccGyroData data)
+		private Output StepDetecAlg(AccGyroData data)
 		{
 			throw new NotImplementedException();
 		}
