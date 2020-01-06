@@ -27,7 +27,7 @@ namespace StepDetectionLibrary
 		/// freqency property
 		/// </summary>
 		public double Frequency
-		{ get{ return this.freq; } }
+		{ get { return this.freq; } }
 
 		/// <summary>
 		/// step count property
@@ -86,7 +86,7 @@ namespace StepDetectionLibrary
 		/// <param name="value">accelertion + gyro data</param>
 		public void OnNext(Output value)
 		{
-			throw new NotImplementedException();
+			Update(value);
 		}
 
 		/// <summary>
@@ -96,7 +96,32 @@ namespace StepDetectionLibrary
 		/// <returns>disposable to unsubscribe</returns>
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
-			throw new NotImplementedException(); //todo
+
+			if (!observers.Contains(observer))
+				observers.Add(observer);
+			return new Unsubscriber(observers, observer);
+
+		}
+
+		/// <summary>
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<Output>> _observers;
+			private IObserver<Output> _observer;
+
+			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
 		}
 
 		/// <summary>

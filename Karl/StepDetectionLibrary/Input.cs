@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace StepDetectionLibrary
 {
@@ -38,7 +39,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
-		private System.Collections.Generic.List<IObserver<Output>> observers;
+		private List<IObserver<AccGyroData>> observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
@@ -46,15 +47,44 @@ namespace StepDetectionLibrary
 		/// <returns>disposable for unsubscribing</returns>
 		public IDisposable Subscribe(IObserver<AccGyroData> observer)
 		{
-			throw new NotImplementedException();
+			{
+				if (!observers.Contains(observer))
+					observers.Add(observer);
+				return new Unsubscriber(observers, observer);
+			}
 		}
+
+		/// <summary>
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<AccGyroData>> _observers;
+			private IObserver<AccGyroData> _observer;
+
+			public Unsubscriber(List<IObserver<AccGyroData>> observers, IObserver<AccGyroData> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
+		}
+
 		/// <summary>
 		/// method to update observers
 		/// </summary>
 		/// <param name="data">new accleration + gyro data</param>
 		public void Update(AccGyroData data)
 		{
-			throw new NotImplementedException();
+			foreach (var observer in observers)
+			{
+				observer.OnNext(data);
+			}
 		}
 
 		/// <summary>
