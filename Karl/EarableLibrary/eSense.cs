@@ -2,10 +2,9 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Exceptions;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using Plugin.BLE.Abstractions.Extensions;
+using System;
 
 namespace EarableLibrary
 {
@@ -13,6 +12,8 @@ namespace EarableLibrary
 	{
 		private readonly IDevice _device;
 		private readonly IAudioStream _audioStream;
+
+		private string _name;
 
 		public ESense(IDevice device)
 		{
@@ -23,12 +24,21 @@ namespace EarableLibrary
 		{
 			get
 			{
-				return _device.Name;
+				if (_name == null) return _device.Name;
+				return _name;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				_name = value;
+				//updateCharacteristic();
 			}
+		}
+
+		private async System.Threading.Tasks.Task<ICharacteristic> getCharacteristicAsync(int service, int characteristic)
+		{
+			var s = await _device.GetServiceAsync(GuidExtension.UuidFromPartial(service));
+			if (s == null) return null;
+			return await s.GetCharacteristicAsync(GuidExtension.UuidFromPartial(characteristic));
 		}
 
 		public Guid Id => _device.Id;
@@ -56,11 +66,10 @@ namespace EarableLibrary
 
 		public async System.Threading.Tasks.Task<bool> ValidateServicesAsync()
 		{
-			IReadOnlyList<IService> services = await _device.GetServicesAsync();
-			foreach (IService s in services)
-			{
-				_ = s.Id;
-			}
+			ICharacteristic c;
+			c = await getCharacteristicAsync(0x1800, 0x2A00);
+			if (c != null) _name = c.StringValue;
+			//else return false;
 			return true;
 		}
 

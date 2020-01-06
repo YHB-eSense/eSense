@@ -9,8 +9,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct AccGyroData
 	{
-		public AccData accdata;
-		public GyroData gyrodata;
+		public AccData AccData;
+		public GyroData GyroData;
+		public const int DATALENGTH = 250;
 	}
 
 	/// <summary>
@@ -18,9 +19,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct AccData
 	{
-		public short[] xacc;
-		public short[] yacc;
-		public short[] zacc;
+		public double[] Xacc;
+		public double[] Yacc;
+		public double[] Zacc;
 	}
 
 	/// <summary>
@@ -28,9 +29,9 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct GyroData
 	{
-		public short[] xgyro;
-		public short[] ygyro;
-		public short[] zgyro;
+		public short[] Xgyro;
+		public short[] Ygyro;
+		public short[] Zgyro;
 	}
 
 	/// <summary>
@@ -39,7 +40,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
-		private List<IObserver<AccGyroData>> observers;
+		private List<IObserver<AccGyroData>> _observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
@@ -48,9 +49,9 @@ namespace StepDetectionLibrary
 		public IDisposable Subscribe(IObserver<AccGyroData> observer)
 		{
 			{
-				if (!observers.Contains(observer))
-					observers.Add(observer);
-				return new Unsubscriber(observers, observer);
+				if (!_observers.Contains(observer))
+					_observers.Add(observer);
+				return new Unsubscriber(_observers, observer);
 			}
 		}
 
@@ -76,12 +77,12 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// method to update observers
+		/// method to update _observer
 		/// </summary>
 		/// <param name="data">new accleration + gyro data</param>
 		public void Update(AccGyroData data)
 		{
-			foreach (var observer in observers)
+			foreach (var observer in _observers)
 			{
 				observer.OnNext(data);
 			}
@@ -95,6 +96,7 @@ namespace StepDetectionLibrary
 		public void ValueChanged(object sender, EventArgs args)
 		{
 			throw new NotImplementedException();
+			//short to double 
 		}
 	}
 }

@@ -9,8 +9,8 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct Output
 	{
-		private double freq;
-		private int stepcount;
+		private double _freq;
+		private int _stepcount;
 
 		/// <summary>
 		/// constructor for output
@@ -19,21 +19,21 @@ namespace StepDetectionLibrary
 		/// <param name="stepcount">step count</param>
 		public Output(double freq, int stepcount)
 		{
-			this.freq = freq;
-			this.stepcount = stepcount;
+			this._freq = freq;
+			this._stepcount = stepcount;
 		}
 
 		/// <summary>
 		/// freqency property
 		/// </summary>
 		public double Frequency
-		{ get { return this.freq; } }
+		{ get { return this._freq; } }
 
 		/// <summary>
 		/// step count property
 		/// </summary>
 		public int StepCount
-		{ get { return this.stepcount; } }
+		{ get { return this._stepcount; } }
 
 	}
 	/// <summary>
@@ -42,7 +42,7 @@ namespace StepDetectionLibrary
 	public class OutputManager : IObservable<Output>, IObserver<Output>
 	{
 		private static OutputManager _singletonOutputManager;
-		private List<IObserver<Output>> observers;
+		private List<IObserver<Output>> _observers;
 
 		/// <summary>
 		/// singleton pattern
@@ -90,16 +90,16 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// method to add observers to outputmanager
+		/// method to add _observer to outputmanager
 		/// </summary>
 		/// <param name="observer">object that wants to observe outputmanager</param>
 		/// <returns>disposable to unsubscribe</returns>
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
 
-			if (!observers.Contains(observer))
-				observers.Add(observer);
-			return new Unsubscriber(observers, observer);
+			if (!_observers.Contains(observer))
+				_observers.Add(observer);
+			return new Unsubscriber(_observers, observer);
 
 		}
 
@@ -125,12 +125,12 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// method to update observers with new data
+		/// method to update _observer with new data
 		/// </summary>
 		/// <param name="output">new stepfreq and count data</param>
 		public void Update(Output output)
 		{
-			foreach (var observer in observers)
+			foreach (var observer in _observers)
 			{
 				observer.OnNext(output);
 			}

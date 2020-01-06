@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using EarableLibrary;
 using System.Collections.ObjectModel;
 
@@ -35,7 +33,6 @@ namespace Karl.Model
 			DiscoveredDevices = new ObservableCollection<EarableHandle>();
 			_earableScanner = new EarableLibrary.EarableLibrary();
 			_earableScanner.EarableDiscovered += (s, e) => {
-				
 				DiscoveredDevices.Add(new EarableHandle(e.Earable));
 			};
 		}
@@ -45,6 +42,7 @@ namespace Karl.Model
 		/// </summary>
 		public void SearchDevices()
 		{
+			_earableScanner.StopScanning();
 			DiscoveredDevices.Clear();
 			_earableScanner.StartScanning();
 		}
