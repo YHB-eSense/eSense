@@ -8,13 +8,30 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct AccGyroData
 	{
+		public AccData accdata;
+		public GyroData gyrodata;
+	}
+
+	/// <summary>
+	/// struct with acceleration data for 3 axes
+	/// </summary>
+	public struct AccData
+	{
 		public short[] xacc;
 		public short[] yacc;
 		public short[] zacc;
+	}
+
+	/// <summary>
+	/// struct with gyroscope data for 3 axes
+	/// </summary>
+	public struct GyroData
+	{
 		public short[] xgyro;
 		public short[] ygyro;
 		public short[] zgyro;
 	}
+
 	/// <summary>
 	/// gets data from earables and sends them to stepdetectionalg class
 	/// </summary>
