@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper,titlepage,ngerman]{article}
+
+% UTF-8-Encoding
+\usepackage[utf8]{inputenc}
+% Deutsche Silbentrennung und Beschriftungen
+\usepackage[ngerman]{babel}
+% Links im Dokument
+\usepackage[bookmarks,colorlinks]{hyperref}
+% Kapitel einzeln kompilierbar
+\usepackage{subfiles}
+% Pdfs einbinden
+\usepackage{pdfpages}
+% Glossar
+\usepackage[nonumberlist]{glossaries}
+%Parallel Columns
+\usepackage{parallel,enumitem}
+%Colors
+\usepackage{xcolor}
+%Links to UML-diagrams
+\usepackage{hyperref}
+% Sections konfigurieren
+\usepackage{titlesec}
+
+% Deutsche Anführungszeichen
+\renewcommand{\quote}[1]{\glqq#1\grqq}
+
+% Link-Farben
+\hypersetup
+{
+	linkcolor=gray,
+	urlcolor=blue
+}
+
+% Jede Section auf neuer Seite beginnen
+\newcommand{\sectionbreak}{\clearpage}
+
+% Titel, Author, etc.
+\title{PSE Pflichtenheft YHB eSense}
+\author{Jonas Koch, Maximilian Burzer, Leonardo Weng, \\ Simon Zimmermann, Yunus Demirag}
+\date{November 2019}
+
+% Einstellungen für PDF Datei
+\makeatletter
+\hypersetup
+{
+	pdftitle={\@title},
+	pdfauthor={\@author}
+}
+\makeatother
+
+% Grafiksuchpfade: relativ zur Hauptdatei, relativ zu den jeweiligen Kapiteln
+\graphicspath{{graphics/}{../graphics/}}
+
+
+% Praeambel bekommt Kapitel 0
+\setcounter{section}{-1}
+
+% Definitionen in allen Kapiteln verfügbar machen
+\makenoidxglossaries
+\IfFileExists{9_glossar/glossar_definitionen.tex}
+{
+	\input{9_glossar/glossar_definitionen.tex}
+}
+{
+	\input{../9_glossar/glossar_definitionen.tex}
+}
+
+% Nützliche Befehle für alle Kapitel
+\newcommand{\falink}[1]{\hyperlink{fa#1}{/FA#1/}}
+\newcommand{\pdlink}[1]{\hyperlink{d#1}{/D#1/}}
+\newcommand{\see}[1]{\\Siehe: \url{#1}}
+
+
+\begin{document}
+	\subfile{0_praeambel/praeambel.tex}
+	\subfile{1_zielbestimmung/zielbestimmung.tex}
+	\subfile{2_produkteinsatz/produkteinsatz.tex}
+	\subfile{3_produktumgebung/produktumgebung.tex}
+	\subfile{4_funktionale_anforderungen/funktionale_anforderungen.tex}
+	\subfile{5_produktdaten/produktdaten.tex}
+	\subfile{6_nichtfunktionale_anforderungen/nichtfunktionale_anforderungen.tex}
+	\subfile{7_globale_testfaelle/globale_testfaelle.tex}
+	\subfile{8_systemmodelle/systemmodelle.tex}
+	\subfile{9_glossar/glossar.tex}
+\end{document}

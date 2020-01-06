@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+             mc:Ignorable="d"
+             x:Class="Karl.View.MainPage">
+    <ContentPage.Content>
+		<StackLayout>
+			<StackLayout.GestureRecognizers>
+				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Up" Command="{Binding AudioPlayerPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}"/>
+			</StackLayout.GestureRecognizers>
+			<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+				<ImageButton Source="{Binding Icon}"
+					BackgroundColor="Transparent"
+					WidthRequest="200"
+					HeightRequest="200"
+					HorizontalOptions="CenterAndExpand"
+					Command="{Binding ConnectionPageCommand}"/>
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

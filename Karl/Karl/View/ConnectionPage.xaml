@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Karl.View.ConnectionPage">
+    <ContentPage.Content>
+		<StackLayout>
+			<ListView ItemsSource="{Binding Devices}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextCell Text="{Binding Name}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.Behaviors>
+					<b:EventToCommandBehavior EventName="ItemSelected"
+					Command="{Binding ConnectToDeviceCommand}"
+					CommandParameter="{Binding SelectedItem}" />
+				</ListView.Behaviors>
+			</ListView>
+			<ImageButton Source="refresh.png"
+						 Margin="0,0,0,30"
+						 BackgroundColor="Transparent"
+						 WidthRequest="75"
+						 HeightRequest="75"
+						 Command="{Binding RefreshDevicesCommand}"/>
+		</StackLayout>
+    </ContentPage.Content>
+</ContentPage>

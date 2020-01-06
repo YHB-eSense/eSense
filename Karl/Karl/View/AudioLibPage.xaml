@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             mc:Ignorable="d"
+             x:Class="Karl.View.AudioLibPage"
+			 x:Name="audiolibpage">
+	
+    <ContentPage.Content>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+			
+			<Grid.RowDefinitions>
+				<RowDefinition Height="2*"/>
+				<RowDefinition Height="10*"/>
+				<RowDefinition Height="3*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+				<SearchBar x:Name="searchBar"
+					Placeholder="Title"
+					SearchCommand="{Binding SearchSongCommand}"
+					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
+					<SearchBar.Behaviors>
+						<b:EventToCommandBehavior EventName="TextChanged"
+							Command="{Binding SearchSongCommand}"
+							CommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+					</SearchBar.Behaviors>
+				</SearchBar>
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="2" Padding="10">
+				<ImageButton Source="add.png"
+					Aspect="AspectFit"
+					BackgroundColor="White"
+					Command="{Binding AddSongCommand}"/>
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="3" Padding="10">
+				<ImageButton Source="delete.png"
+					Aspect="AspectFit"
+					BackgroundColor="White"
+					Command="{Binding DeleteSongsCommand}"/>
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+				<ListView x:Name="listView"
+					HasUnevenRows="True"
+					ItemsSource="{Binding Songs}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<Frame>
+									<StackLayout Orientation="Horizontal">
+										<StackLayout Orientation="Vertical" VerticalOptions="Center">
+											<Label Text="{Binding Title}" VerticalOptions="Center"/>
+											<Label Text="{Binding Artist}" VerticalOptions="Center"/>
+											<Label Text="{Binding BPM}" VerticalOptions="Center"/>
+										</StackLayout>
+										<CheckBox Color="SkyBlue"
+										HorizontalOptions="EndAndExpand">
+											<CheckBox.Behaviors>
+												<b:EventToCommandBehavior EventName="CheckedChanged"
+												Command="{Binding BindingContext.EditDeleteListCommand, Source={x:Reference audiolibpage}}"
+												CommandParameter="{Binding .}"/>
+											</CheckBox.Behaviors>
+										</CheckBox>
+									</StackLayout>
+								</Frame>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<ListView.Behaviors>
+						<b:EventToCommandBehavior EventName="ItemTapped"
+							Command="{Binding PlaySongCommand}"
+							CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}"/>
+					</ListView.Behaviors>
+				</ListView>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0">
+				<Button Text="Sort&#x0a;after&#x0a;Title"
+					Command="{Binding TitleSortCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="1">
+				<Button Text="Sort&#x0a;after&#x0a;Artist"
+					Command="{Binding ArtistSortCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
+				<Button Text="Sort&#x0a;after&#x0a;BPM"
+					Command="{Binding BPMSortCommand}"/>
+			</Frame>
+
+		</Grid>
+
+    </ContentPage.Content>
+</ContentPage>
