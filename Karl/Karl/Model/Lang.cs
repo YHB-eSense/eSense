@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Karl.Model
@@ -9,15 +12,44 @@ namespace Karl.Model
 	/// </summary>
 	public class Lang
 	{
+		private const string WORD_NOT_FOUND_MESSAGE = "Word not found";
+		private string filePath;
+		private IDictionary <String, String> words;
 
-		public String get(String tag)
-		{
-			//todo
-			return tag;
+		/// <summary>
+		/// Sets Path for given Language
+		/// </summary>
+		/// <param name="id">Given Languages id</param>
+		public Lang(string id) {
+			filePath = Path.Combine(Environment.GetFolderPath
+				(Environment.SpecialFolder.LocalApplicationData), id + ".txt");
+			//Reads Words from Language from corresponding File
+			string langdata = File.ReadAllText(filePath);
+
+			string[] langWords = langdata.Split(';');
+			string key;
+			string value;
+
+			//Searches in List for matching word
+			for (int i = 0; i < langWords.Length; i++)
+			{
+				string[] word = langWords[i].Split('=');
+				key = word[0];
+				value = word[1];
+				words.Add(key, value);
+			}
+			
 		}
-		
-		//todo
 
+		/// <summary>
+		/// Returns the value of Tag in the chosen Language
+		/// </summary>
+		/// <param name="tag">key to searched values</param>
+		/// <returns></returns>
+		public String get(string tag)
+		{
+			return words[tag];
+		}
 	}
 	/// <summary>
 	/// This Singleton stores loads and changes the current Language.
@@ -26,6 +58,7 @@ namespace Karl.Model
 	public class LangManager : IObservable<Lang>
 	{
 		private static LangManager _singletonLangManager;
+		private Lang[] _availableLangs;
 		/// <summary>
 		/// The singleton object of LangManager.
 		/// </summary>
@@ -46,15 +79,20 @@ namespace Karl.Model
 			private set => _singletonLangManager = value;
 		}
 
-		private LangManager()
+		/// <summary>
+		/// Initializes available languages
+		/// </summary>
+		public LangManager()
 		{
-			CurrentLang = new Lang();//todo
+			
+			//String[] list = curDir.List();
 		}
 
 		/// <summary>
 		/// The Language obj. currently selected.
 		/// </summary>
 		public Lang CurrentLang { get; private set; }
+
 
 		//todo https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8
 		/// <summary>
