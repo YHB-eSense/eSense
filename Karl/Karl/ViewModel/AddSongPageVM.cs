@@ -2,16 +2,19 @@ using Karl.Model;
 using Plugin.FilePicker;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
+using TagLib;
 using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
-	public class AddSongPageVM
+	public class AddSongPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
+		private File _file;
 
 		/**
 		 Properties binded to AddSongsPage of View
@@ -43,20 +46,15 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Adds song to AudioLib of Model
 		/// </summary>
-		private void AddSong()
+		private async void AddSong()
 		{
-			if (NewSongTitle == null && NewSongArtist == null && NewSongBPM == null)
+			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
+				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "")
 			{
-				_audioLib.AddTrack(NewSongFileLocation);
+				await Application.Current.MainPage.DisplayAlert("Alert!", "You need to assign a value to every entry!", "OK");
+				return;
 			}
-			else if (NewSongArtist == null && NewSongBPM == null)
-			{
-				_audioLib.AddTrack(NewSongFileLocation, NewSongTitle);
-			}
-			else
-			{
-				_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
-			}
+			_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
 			_handler.GoBack();
 		}
 
@@ -69,7 +67,52 @@ namespace Karl.ViewModel
 			if (file != null)
 			{
 				NewSongFileLocation = file.FilePath;
+				_file = File.Create(NewSongFileLocation);
+				NewSongTitle = GetTitle();
+				NewSongArtist = GetArtist();
+				NewSongBPM = Convert.ToString(GetBPM());
+				OnPropertyChanged("NewSongTitle");
+				OnPropertyChanged("NewSongArtist");
+				OnPropertyChanged("NewSongBPM");
 			}
 		}
+
+		private string GetTitle()
+		{
+			if (_file != null && _file.Tag.Title != null)
+			{
+				return _file.Tag.Title;
+			}
+			return "Unknown Title";
+		}
+
+		private string GetArtist()
+		{
+			if (_file != null && _file.Tag.AlbumArtists.Length >= 1)
+			{
+				return _file.Tag.AlbumArtists[0];
+			}
+			return "Unknown Artist";
+		}
+
+		private int GetBPM()
+		{
+
+			if (_file != null && _file.Tag.BeatsPerMinute != 0)
+			{
+				return (int)_file.Tag.BeatsPerMinute;
+			}
+			return 0;
+		}
+
+		//Eventhandling
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
 	}
 }

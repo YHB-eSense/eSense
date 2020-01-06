@@ -21,7 +21,6 @@ namespace Karl.ViewModel
 		public ICommand RefreshDevicesCommand { get; }
 		public ICommand ConnectToDeviceCommand { get; }
 
-
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ConnectivityHandler of Model
 		/// </summary>
