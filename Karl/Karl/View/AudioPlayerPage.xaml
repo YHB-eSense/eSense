@@ -7,71 +7,92 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
-		<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Spacing="30">
 
-			<Frame 
-				   HeightRequest="250"
-				   WidthRequest="250"
-				   VerticalOptions="Center"
-				   HorizontalOptions="Center">
-				<Image Source="{Binding Cover}"/>
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5*"/>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="2*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+				<Image Source="{Binding Cover}" Aspect="AspectFit"/>
 			</Frame>
-			
-			<StackLayout Orientation="Horizontal" Margin="30,0,30,0">
-				<Label Text="{Binding TimePlayed}"/>
-				<Slider x:Name="slider"
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
+					<Label Text="{Binding TimePlayed}" VerticalOptions="Center"/>
+					<Slider x:Name="slider"
 						Minimum="0"
 						Maximum="1"
 						ThumbColor="SkyBlue"
 						Value="{Binding CurrentPosition}"
 						HorizontalOptions="FillAndExpand"
 						MinimumTrackColor="SkyBlue"
-						MaximumTrackColor="Gray">
-					<Slider.Behaviors>
-						<b:EventToCommandBehavior EventName="DragCompleted"
-							Command="{Binding PositionDragCompletedCommand}"/>
-						<b:EventToCommandBehavior EventName="DragStarted"
-							Command="{Binding PositionDragStartedCommand}"/>
-					</Slider.Behaviors>
-				</Slider>
-				<Label Text="{Binding TimeLeft}"/>
-			</StackLayout>
-			
-			<StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
-				<ImageButton Source="backward.png"
-						BackgroundColor="Transparent"
-						WidthRequest="75"
-						HeightRequest="75"
-						Command="{Binding PlayPrevCommand}"/>
-				<ImageButton Source="{Binding Icon}"
-						BackgroundColor="Transparent"
-						WidthRequest="100"
-						HeightRequest="100"
-						Command="{Binding PausePlayCommand}"/>
-				<ImageButton Source="forward.png"
-						BackgroundColor="Transparent"
-						WidthRequest="75"
-						HeightRequest="75"
-						Command="{Binding PlayNextCommand}"/>
-			</StackLayout>
+						MaximumTrackColor="Gray"
+						VerticalOptions="Center">
+						<Slider.Behaviors>
+							<b:EventToCommandBehavior EventName="DragCompleted"
+								Command="{Binding PositionDragCompletedCommand}"/>
+							<b:EventToCommandBehavior EventName="DragStarted"
+								Command="{Binding PositionDragStartedCommand}"/>
+						</Slider.Behaviors>
+					</Slider>
+					<Label Text="{Binding TimeLeft}" VerticalOptions="Center"/>
+				</StackLayout>
+			</Frame>
 
-			<StackLayout Orientation="Horizontal" Margin="50,0,50,0">
-				<Image Source="volume_off"
-					   WidthRequest="20"
-					   HeightRequest="20"/>
-				<Slider	Minimum="0"
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0">
+				<ImageButton Source="backward.png"
+					Aspect="AspectFit"
+					BackgroundColor="White"
+					Command="{Binding PlayPrevCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="1" Padding="0">
+				<ImageButton Source="{Binding Icon}"
+					Aspect="AspectFit"
+					BackgroundColor="White"
+					Command="{Binding PausePlayCommand}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="2">
+				<ImageButton Source="forward.png"
+					Aspect="AspectFit"
+					BackgroundColor="White"
+					Command="{Binding PlayNextCommand}"/>
+			</Frame>
+
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
+					<Image Source="volume_off"
+						WidthRequest="20"
+						HeightRequest="20"/>
+					<Slider	Minimum="0"
 						Maximum="1"
 						ThumbColor="SkyBlue"
 						Value="{Binding Volume}"
 						HorizontalOptions="FillAndExpand"
+						VerticalOptions="Center"
 						MinimumTrackColor="SkyBlue"
 						MaximumTrackColor="Gray">
-				</Slider>
-				<Image Source="volume_on"
-					   WidthRequest="20"
-					   HeightRequest="20"/>
-			</StackLayout>
-			
-		</StackLayout>
+					</Slider>
+					<Image Source="volume_on"
+						WidthRequest="20"
+						HeightRequest="20"/>
+				</StackLayout>
+			</Frame>
+
+		</Grid>
+
 	</ContentPage.Content>
 </ContentPage>

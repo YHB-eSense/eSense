@@ -79,7 +79,7 @@ namespace Karl.Model
 			{
 				return _file.Tag.Title;
 			}
-			return null;
+			return "Unknown Title";
 		}
 
 		private string GetArtist()
@@ -88,7 +88,7 @@ namespace Karl.Model
 			{
 				return _file.Tag.AlbumArtists[0];
 			}
-			return null;	
+			return "Unknown Artist";	
 		}
 
 		private int GetBPM()

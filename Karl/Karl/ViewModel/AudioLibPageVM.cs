@@ -36,7 +36,7 @@ namespace Karl.ViewModel
 		public ICommand PlaySongCommand { get; }
 		public ICommand AddSongCommand { get; }
 		public ICommand SearchSongCommand { get; }
-		public ICommand DeleteSongCommand { get; }
+		public ICommand DeleteSongsCommand { get; }
 		public ICommand EditDeleteListCommand { get; }
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Karl.ViewModel
 			PlaySongCommand = new Command<AudioTrack>(PlaySong);
 			AddSongCommand = new Command(AddSong);
 			SearchSongCommand = new Command<string>(SearchSong);
-			DeleteSongCommand = new Command(DeleteSong);
+			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
 		}
 
@@ -137,9 +137,9 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private async void DeleteSong()
+		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs", "No", "Yes");
+			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs", "Yes", "No");
 			if (answer) {
 				foreach(AudioTrack song in _deleteList)
 				{
@@ -160,10 +160,7 @@ namespace Karl.ViewModel
 
 		private void OnPropertyChanged(string propertyName)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 	}
