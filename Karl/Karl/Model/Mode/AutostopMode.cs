@@ -1,3 +1,4 @@
+using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,25 @@ namespace Karl.Model
 	/// </summary>
 	class AutostopMode : Mode
 	{
+		private AudioPlayer _audioPlayer = AudioPlayer.SingletonAudioPlayer;
+		private IDisposable StepDetectionDisposable;
+		private bool _autostopped;
+		bool Autostopped
+		{
+			get => _autostopped;
+			set
+			{
+				if (value)
+				{
+					if (!_audioPlayer.Paused) _audioPlayer.TogglePause();
+				}
+				else
+				{
+					if (_audioPlayer.Paused) _audioPlayer.TogglePause();
+				}
+				_autostopped = value;
+			}
+		}
 		public AutostopMode()
 		{
 			//todo
@@ -16,17 +36,48 @@ namespace Karl.Model
 
 		public override void Activate()
 		{
-			throw new NotImplementedException();//todo
+			_autostopped = false;
+			StepDetectionDisposable = OutputManager.SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
+			//throw new NotImplementedException();//todo
 		}
 
 		public override void Deactivate()
 		{
-			throw new NotImplementedException();//todo
+			StepDetectionDisposable.Dispose();
+			_autostopped = false;
+			//throw new NotImplementedException();//todo
 		}
 
 		protected override String UpdateName(Lang value)
 		{
 			return "AutoStopMode"; //value.get("mode_autostop");//todo
+		}
+
+		private class StepDetectionObserver : IObserver<Output>
+		{
+			AutostopMode parent;
+			public StepDetectionObserver(AutostopMode parent)
+			{
+				this.parent = parent;
+			}
+			public void OnCompleted()
+			{
+				throw new NotImplementedException(); //todo
+			}
+
+			public void OnError(Exception error)
+			{
+				throw new NotImplementedException(); //todo
+			}
+
+			public void OnNext(Output value)
+			{
+				if (value.Frequency == 0)
+				{
+					if (!parent.Autostopped) parent.Autostopped = true;
+				}
+				else if (parent.Autostopped) parent.Autostopped = false;
+			}
 		}
 	} 
 }

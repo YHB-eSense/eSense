@@ -11,8 +11,17 @@ namespace Karl.Model
 	{
 		private static AudioPlayer _singletonAudioPlayer;
 		private IAudioPlayerImpl _audioPlayerImp;
-		private Stack<AudioTrack> _songsBefore;
 		private Stack<AudioTrack> _songsAfter;
+		public Stack<AudioTrack> SongsBefore { get; private set; }
+		public Queue<AudioTrack> SongsQueue { get; private set; }
+
+		public delegate void EventListener();
+
+		public event EventListener NextSongEvent;
+		private void InvokeNextSongEvent()
+		{
+			NextSongEvent?.Invoke();
+		}
 
 		//Eventhandling
 		public event EventHandler AudioChanged;
@@ -75,7 +84,7 @@ namespace Karl.Model
 		{
 			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
-			_songsBefore = new Stack<AudioTrack>();
+			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
 			Paused = true;
 		}
@@ -85,7 +94,7 @@ namespace Karl.Model
 		/// </summary>
 		public void PlayTrack(AudioTrack track)
 		{
-			if (CurrentTrack != null) { _songsBefore.Push(CurrentTrack); }
+			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
 			AudioChanged?.Invoke(this, null);
@@ -108,8 +117,9 @@ namespace Karl.Model
 			if (_songsAfter.Count != 0)
 			{
 				Paused = false;
-				_songsBefore.Push(CurrentTrack);
-				_audioPlayerImp.PlayTrack(_songsAfter.Pop());
+				SongsBefore.Push(CurrentTrack);
+				if (SongsQueue.Count != 0) _audioPlayerImp.PlayTrack(SongsQueue.Dequeue());
+				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
 			}
 		}
 
@@ -118,11 +128,11 @@ namespace Karl.Model
 		/// </summary>
 		public void PrevTrack()
 		{
-			if (_songsBefore.Count != 0)
+			if (SongsBefore.Count != 0)
 			{
 				Paused = false;
 				_songsAfter.Push(CurrentTrack);
-				_audioPlayerImp.PlayTrack(_songsBefore.Pop());
+				_audioPlayerImp.PlayTrack(SongsBefore.Pop());
 			}
 		}
 
@@ -133,6 +143,16 @@ namespace Karl.Model
 		public void AddToQueue(AudioTrack audioTrack)
 		{
 			//todo
+		}
+
+		/// <summary>
+		/// Clears Songs played and queue
+		/// </summary>
+		public void Clear()
+		{
+			SongsBefore.Clear();
+			SongsQueue.Clear();
+			_songsAfter.Clear();
 		}
 
 	}
