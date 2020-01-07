@@ -6,6 +6,8 @@ using Karl.Model;
 using Karl.View;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace Karl.ViewModel
 {
@@ -115,8 +117,13 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[4]);
 		}
 
-		public void RefreshPage()
+		public async void RefreshPage()
 		{
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			if (status != PermissionStatus.Granted)
+			{
+				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+			}
 			if (_connectivityHandler.Connected) { Icon = _iconOn; }
 			else { Icon = _iconOff; }
 			OnPropertyChanged("StepsAmount");
