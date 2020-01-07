@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Karl.ViewModel
 {
@@ -59,6 +60,8 @@ namespace Karl.ViewModel
 		{
 			_settingsHandler.DeviceName = _deviceName;
 		}
+
+	
 
 		private void ResetSteps()
 		{
