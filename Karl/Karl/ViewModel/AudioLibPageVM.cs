@@ -18,8 +18,8 @@ namespace Karl.ViewModel
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
 
-		private Color _chosenColor = Color.DeepPink;
-		private Color _titleSortColor = Color.DeepPink;
+		private Color _chosenColor = Color.SkyBlue;
+		private Color _titleSortColor = Color.SkyBlue;
 		private Color _titleSortTextColor = Color.White;
 		private Color _artistSortColor = Color.Transparent;
 		private Color _artistSortTextColor = Color.Black;

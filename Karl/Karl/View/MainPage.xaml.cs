@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace Karl.View
 {
@@ -21,11 +23,24 @@ namespace Karl.View
 			BindingContext = _mainPageVM;
 		}
 
-		protected override void OnAppearing()
+		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
 			_mainPageVM.RefreshPage();
+			/*
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			if (status != PermissionStatus.Granted)
+			{
+				if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+				{
+					await DisplayAlert("Need location", "Gunna need that location", "OK");
+				}
+
+				var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
+				status = results[Permission.Location];
+			*/
+
 		}
-		
+
 	}
 }
