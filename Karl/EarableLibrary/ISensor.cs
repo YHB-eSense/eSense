@@ -9,6 +9,6 @@ namespace EarableLibrary
 
 		void StartSampling();
 
-		bool StopSampling();
+		void StopSampling();
 	}
 }
