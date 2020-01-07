@@ -12,12 +12,12 @@
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*"/>
-				<RowDefinition Height="2*"/>
+				<RowDefinition Height="4*"/>
 				<RowDefinition Height="1*"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="4*"/>
 				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 
@@ -40,7 +40,7 @@
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="1">
 				<ImageButton Source="{Binding Icon}"
-					BackgroundColor="White"
+					BackgroundColor="Transparent"
 					Command="{Binding ConnectionPageCommand}"/>
 			</Frame>
 
