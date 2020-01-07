@@ -18,14 +18,17 @@
 				<RowDefinition Height="10*"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="8*"/>
+				<ColumnDefinition Width="8*"/>
+				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="0.5*"/>
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" CornerRadius="0"></Frame>
+			<Frame Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="0">
 				<SearchBar x:Name="searchBar"
 					Placeholder="Title"
 					VerticalOptions="Center"
@@ -39,51 +42,49 @@
 					</SearchBar.Behaviors>
 				</SearchBar>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="2" Padding="10">
+			<Frame Grid.Row="0" Grid.Column="3" Padding="10" CornerRadius="0">
 				<ImageButton Source="add.png"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding AddSongCommand}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="3" Padding="10">
+			<Frame Grid.Row="0" Grid.Column="4" Padding="10" CornerRadius="0">
 				<ImageButton Source="delete.png"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding DeleteSongsCommand}"/>
 			</Frame>
+			<Frame Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" CornerRadius="0"></Frame>
 			
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Padding="0" BorderColor="SkyBlue" Margin="8,0,0,0">
+			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
 				<Button Text="Title"
-						CornerRadius="4"
-						TextColor="{Binding TitleSortTextColor}"
-						Command="{Binding TitleSortCommand}"
-						BackgroundColor="{Binding TitleSortColor}"/>
+					TextColor="{Binding TitleSortTextColor}"
+					Command="{Binding TitleSortCommand}"
+					BackgroundColor="{Binding TitleSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="SkyBlue">
+			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
 				<Button Text="Artist"
 					Command="{Binding ArtistSortCommand}"
 					TextColor="{Binding ArtistSortTextColor}"
-						CornerRadius="4"
-						BackgroundColor="{Binding ArtistSortColor}"/>
+					BackgroundColor="{Binding ArtistSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Padding="0" BorderColor="SkyBlue" Margin="0,0,8,0">
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
 				<Button Text="BPM"
-						BackgroundColor="{Binding BPMSortColor}"
-						TextColor="{Binding BPMSortTextColor}"
-						CornerRadius="4"
+					BackgroundColor="{Binding BPMSortColor}"
+					TextColor="{Binding BPMSortTextColor}"
 					Command="{Binding BPMSortCommand}"/>
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" CornerRadius="0">
 				<ListView x:Name="listView"
 					HasUnevenRows="True"
 					ItemsSource="{Binding Songs}">
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>
-								<Frame>
+								<Frame CornerRadius="0">
 									<StackLayout Orientation="Horizontal">
 										<StackLayout Orientation="Vertical" VerticalOptions="Center">
 											<Label Text="{Binding Title}" VerticalOptions="Center"/>
