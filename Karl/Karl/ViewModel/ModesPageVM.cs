@@ -8,13 +8,15 @@ using System.Collections.Generic;
 
 namespace Karl.ViewModel
 {
-	public class ModesPageVM
+	public class ModesPageVM : INotifyPropertyChanged
 	{
 		private ModeHandler _modeHandler;
+		private LangManager _langManager;
 
 		/**
 		 Properties binded to ModesPage of View
 		**/
+		public string ModesLabel { get => _langManager.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 
 		/**
@@ -28,7 +30,13 @@ namespace Karl.ViewModel
 		public ModesPageVM()
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
+			_langManager = LangManager.SingletonLangManager;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
+		}
+
+		public void RefreshPage()
+		{
+			OnPropertyChanged("ModesLabel");
 		}
 
 		/// <summary>
@@ -38,6 +46,15 @@ namespace Karl.ViewModel
 		private void ActivateMode(Mode mode)
 		{
 			mode.Activate();
+		}
+
+		//Eventhandling
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 	}

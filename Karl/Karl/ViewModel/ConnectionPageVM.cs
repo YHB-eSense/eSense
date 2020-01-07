@@ -9,11 +9,14 @@ using Karl.Model;
 
 namespace Karl.ViewModel
 {
-	public class ConnectionPageVM
+	public class ConnectionPageVM : INotifyPropertyChanged
 	{
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
+		private LangManager _langManager;
 		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
+
+		public string DevicesLabel { get => _langManager.CurrentLang.Get("devices"); }
 
 		/**
 		 Commands binded to ConnectionPage of View
@@ -29,14 +32,18 @@ namespace Karl.ViewModel
 		{
 			_handler = handler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			_langManager = LangManager.SingletonLangManager;
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<EarableHandle>(ConnectToDevice);
 		}
 
-		/// <summary>
-		/// Refreshes the search for devices
-		/// </summary>
-		public void RefreshDevices()
+		public void RefreshPage()
+		{
+			OnPropertyChanged("DevicesLabel");
+			RefreshDevices();
+		}
+
+		private void RefreshDevices()
 		{
 			_connectivityHandler.SearchDevices();
 		}
@@ -49,6 +56,15 @@ namespace Karl.ViewModel
 		{
 			_connectivityHandler.ConnectDevice(device);
 			_handler.GoBack();
-		} 
+		}
+
+		//Eventhandling
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 	}
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+			 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:behavior="clr-namespace:PageDialogBehavior.Views.Behaviors;assembly=PageDialogBehavior"
              prism:ViewModelLocator.AutowireViewModel="True"
 			 mc:Ignorable="d"
@@ -25,7 +25,7 @@
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical">
-					<Label Text="Language:"
+					<Label Text="{Binding LanguageLabel}"
 						   TextColor="Black"
 						   FontSize="Large"/>
 					<Picker ItemsSource="{Binding Languages}"
@@ -38,7 +38,7 @@
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical">
-					<Label Text="Device Name:"
+					<Label Text="{Binding DeviceNameLabel}"
 						TextColor="Black"
 						FontSize="Large"/>
 					<Entry Text="{Binding DeviceName}"/>
@@ -48,12 +48,12 @@
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical" Padding="0">
-					<Button Text="Change Device Name"
+					<Button Text="{Binding ChangeDeviceNameLabel}"
 						BackgroundColor="RoyalBlue"
 						TextColor="White"
 					Command="{Binding ChangeDeviceNameCommand}">
 					</Button>
-					<Button Text="Reset Steps"
+					<Button Text="{Binding ResetStepsLabel}"
 						BackgroundColor="SkyBlue"
 						TextColor="White"
 					Command="{Binding ResetStepsCommand}"/>

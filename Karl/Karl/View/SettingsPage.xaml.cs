@@ -23,5 +23,11 @@ namespace Karl.View
 			BindingContext = _settingsPageVM;
 		}
 
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			_settingsPageVM.RefreshPage();
+		}
+
 	}
 }

@@ -18,7 +18,7 @@
 
 			<!--Second Row-->
 			<Frame Grid.Row="0">
-				<Label Text="Modes:"
+				<Label Text="{Binding ModesLabel}"
 					FontSize="Large"
 					HorizontalOptions="Center"
 					VerticalOptions="Center"

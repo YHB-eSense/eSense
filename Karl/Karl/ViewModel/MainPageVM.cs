@@ -14,6 +14,7 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
 		private SettingsHandler _settingsHandler;
+		private LangManager _langManager;
 		private string _iconOn;
 		private string _iconOff;
 		private string _icon;
@@ -21,6 +22,8 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to MainPage of View
 		**/
+		public string StepsLabel { get => _langManager.CurrentLang.Get("steps"); }
+		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
 		public string DeviceName
 		{
 			get
@@ -75,6 +78,7 @@ namespace Karl.ViewModel
 			_handler = handler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_langManager = LangManager.SingletonLangManager;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			ConnectionPageCommand = new Command(GotoConnectionPage);
@@ -117,6 +121,8 @@ namespace Karl.ViewModel
 			else { Icon = _iconOff; }
 			OnPropertyChanged("StepsAmount");
 			OnPropertyChanged("DeviceName");
+			OnPropertyChanged("StepsLabel");
+			OnPropertyChanged("DeviceNameLabel");
 		}
 
 		//Eventhandling

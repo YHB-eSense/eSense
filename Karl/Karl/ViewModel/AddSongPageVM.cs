@@ -14,12 +14,18 @@ namespace Karl.ViewModel
 	{
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
+		private LangManager _langManager;
 		private File _file;
 		private bool _picked;
 
 		/**
 		 Properties binded to AddSongsPage of View
 		**/
+		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
+		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
+		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
+		public string PickFileLabel { get => _langManager.CurrentLang.Get("pick_file"); }
+		public string AddSongLabel { get => _langManager.CurrentLang.Get("add_song"); }
 		public string NewSongTitle { get; set; }
 		public string NewSongArtist { get; set; }
 		public string NewSongBPM { get; set; }
@@ -40,8 +46,18 @@ namespace Karl.ViewModel
 		{
 			_handler = handler;
 			_audioLib = AudioLib.SingletonAudioLib;
+			_langManager = LangManager.SingletonLangManager;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
+		}
+
+		public void RefreshPage()
+		{
+			OnPropertyChanged("TitleLabel");
+			OnPropertyChanged("ArtistLabel");
+			OnPropertyChanged("BPMLabel");
+			OnPropertyChanged("PickFileLabel");
+			OnPropertyChanged("AddSongLabel");
 		}
 
 		/// <summary>
@@ -52,7 +68,8 @@ namespace Karl.ViewModel
 			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
 				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked)
 			{
-				await Application.Current.MainPage.DisplayAlert("Alert!", "You need to assign a value to every entry and pick a file!", "OK");
+				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
+					_langManager.CurrentLang.Get("alert_text"), _langManager.CurrentLang.Get("alert_ok"));
 				return;
 			}
 			_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));

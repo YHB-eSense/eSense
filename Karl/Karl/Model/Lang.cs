@@ -23,16 +23,17 @@ namespace Karl.Model
 			_wordPairs = new Dictionary<string, string>();
 
 			//Reads Words from Language from corresponding File
-			string langdata = File.ReadAllText(filePath);
-			string[] langWords = langdata.Split(';');
+			string[] langWords = File.ReadAllLines(filePath);
 
 			//Searches in List for matching word
 			foreach (string langWord in langWords)
 			{
 				string[] seperated = langWord.Split('=');
-				if(seperated.Length > 1) { _wordPairs.Add(seperated[0], seperated[1]); }
+				if(seperated.Length > 1) { _wordPairs.Add(seperated[0], seperated[1]); System.Diagnostics.Debug.WriteLine(seperated[0] + seperated[1]); }
 			}
-			
+			System.Diagnostics.Debug.WriteLine(_wordPairs.Count);
+			System.Diagnostics.Debug.WriteLine(_wordPairs.ContainsKey("title"));
+
 		}
 
 		/// <summary>

@@ -14,10 +14,15 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private string _deviceName;
+		private LangManager _langManager;
 
 		/**
 		 Properties binded to SettingsPage of View
 		**/
+		public string LanguageLabel { get => _langManager.CurrentLang.Get("language"); }
+		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
+		public string ChangeDeviceNameLabel { get => _langManager.CurrentLang.Get("change_device_name"); }
+		public string ResetStepsLabel { get => _langManager.CurrentLang.Get("reset_steps"); }
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
 
 		public Lang SelectedLanguage
@@ -27,6 +32,7 @@ namespace Karl.ViewModel
 			{
 				_settingsHandler.CurrentLang = value;
 				OnPropertyChanged("SelectedLanguage");
+				RefreshPage();
 			}
 		}
 
@@ -51,17 +57,23 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-
+			_langManager = LangManager.SingletonLangManager;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
+		}
+
+		public void RefreshPage()
+		{
+			OnPropertyChanged("LanguageLabel");
+			OnPropertyChanged("DeviceNameLabel");
+			OnPropertyChanged("ChangeDeviceNameLabel");
+			OnPropertyChanged("ResetStepsLabel");
 		}
 
 		private void ChangeDeviceName()
 		{
 			_settingsHandler.DeviceName = _deviceName;
 		}
-
-	
 
 		private void ResetSteps()
 		{

@@ -23,7 +23,7 @@
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.ColumnSpan="2">
 				<StackLayout Orientation="Vertical">
-					<Label Text="Title:"
+					<Label Text="{Binding TitleLabel}"
 						FontSize="Large"
 						TextColor="Black"/>
 					<Entry Text="{Binding NewSongTitle}"/>
@@ -33,7 +33,7 @@
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.ColumnSpan="2">
 				<StackLayout Orientation="Vertical">
-					<Label Text="Artist:"
+					<Label Text="{Binding ArtistLabel}"
 						FontSize="Large"
 						TextColor="Black"/>
 					<Entry Text="{Binding NewSongArtist}"/>
@@ -43,7 +43,7 @@
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.ColumnSpan="2">
 				<StackLayout Orientation="Vertical">
-					<Label Text="BPM:"
+					<Label Text="{Binding BPMLabel}"
 						FontSize="Large"
 						TextColor="Black"/>
 					<Entry Text="{Binding NewSongBPM}"
@@ -53,11 +53,11 @@
 
 			<!--Fourth Row-->
 			<Frame Grid.Row="3" Grid.Column="0">
-				<Button Text="Pick File"
+				<Button Text="{Binding PickFileLabel}"
 					Command="{Binding PickFileCommand}"/>
 			</Frame>
 			<Frame Grid.Row="3" Grid.Column="1">
-				<Button Text="Add Song"
+				<Button Text="{Binding AddSongLabel}"
 					Command="{Binding AddSongCommand}"/>
 			</Frame>
 

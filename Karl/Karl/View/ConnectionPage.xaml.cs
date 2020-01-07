@@ -25,7 +25,7 @@ namespace Karl.View
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			_connectionPageVM.RefreshDevices();
+			_connectionPageVM.RefreshPage();
 		}
 
 	}

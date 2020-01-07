@@ -15,6 +15,7 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
+		private LangManager _langManager;
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
 
@@ -29,6 +30,9 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to AudioLibPage of View
 		**/
+		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
+		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
+		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
@@ -91,6 +95,7 @@ namespace Karl.ViewModel
 			_handler = handler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_langManager = LangManager.SingletonLangManager;
 			_oldSongs = null;
 			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
@@ -185,7 +190,9 @@ namespace Karl.ViewModel
 
 		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert("Question?", "Are you sure you want to delete the selected Songs?", "Yes", "No");
+			bool answer = await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("question_title"),
+					_langManager.CurrentLang.Get("question_text"), _langManager.CurrentLang.Get("question_no"),
+					_langManager.CurrentLang.Get("question_yes"));
 			if (answer) {
 				foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }
 				OnPropertyChanged("Songs");
@@ -195,6 +202,9 @@ namespace Karl.ViewModel
 		public void RefreshPage()
 		{
 			OnPropertyChanged("Songs");
+			OnPropertyChanged("TitleLabel");
+			OnPropertyChanged("ArtistLabel");
+			OnPropertyChanged("BPMLabel");
 		}
 
 		//Eventhandling

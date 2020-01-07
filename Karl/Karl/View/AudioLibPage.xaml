@@ -30,7 +30,7 @@
 			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" CornerRadius="0"></Frame>
 			<Frame Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="0">
 				<SearchBar x:Name="searchBar"
-					Placeholder="Title"
+					Placeholder="{Binding TitleLabel}"
 					VerticalOptions="Center"
 					HorizontalOptions="Start"
 					SearchCommand="{Binding SearchSongCommand}"
@@ -58,19 +58,19 @@
 			
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
-				<Button Text="Title"
+				<Button Text="{Binding TitleLabel}"
 					TextColor="{Binding TitleSortTextColor}"
 					Command="{Binding TitleSortCommand}"
 					BackgroundColor="{Binding TitleSortColor}"/>
 			</Frame>
 			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
-				<Button Text="Artist"
+				<Button Text="{Binding ArtistLabel}"
 					Command="{Binding ArtistSortCommand}"
 					TextColor="{Binding ArtistSortTextColor}"
 					BackgroundColor="{Binding ArtistSortColor}"/>
 			</Frame>
 			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
-				<Button Text="BPM"
+				<Button Text="{Binding BPMLabel}"
 					BackgroundColor="{Binding BPMSortColor}"
 					TextColor="{Binding BPMSortTextColor}"
 					Command="{Binding BPMSortCommand}"/>
