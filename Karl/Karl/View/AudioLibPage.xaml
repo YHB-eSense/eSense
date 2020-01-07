@@ -55,7 +55,7 @@
 			<!--"Sort&#x0a;after&#x0a;Title"-->
 			<!--"Sort&#x0a;after&#x0a;Artist"-->
 			<!--"Sort&#x0a;after&#x0a;BPM"-->
-			<Frame Grid.Row="1" Grid.Column="0" Padding="0" BorderColor="DeepPink">
+			<Frame Grid.Row="1" Grid.Column="0" Padding="0" BorderColor="DeepPink" Margin="8,0,0,0">
 				<Button Text="Title"
 						CornerRadius="4"
 						TextColor="{Binding TitleSortTextColor}"
@@ -69,7 +69,7 @@
 						CornerRadius="4"
 						BackgroundColor="{Binding ArtistSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Padding="0" BorderColor="DeepPink">
+			<Frame Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Padding="0" BorderColor="DeepPink" Margin="0,0,8,0">
 				<Button Text="BPM"
 						BackgroundColor="{Binding BPMSortColor}"
 						TextColor="{Binding BPMSortTextColor}"
