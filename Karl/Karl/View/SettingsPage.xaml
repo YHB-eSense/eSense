@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:behavior="clr-namespace:PageDialogBehavior.Views.Behaviors;assembly=PageDialogBehavior"
+             prism:ViewModelLocator.AutowireViewModel="True"
 			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage">
     <ContentPage.Content>
@@ -11,9 +13,9 @@
 		<Grid RowSpacing="0" ColumnSpacing="0">
 
 			<Grid.RowDefinitions>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
+				<RowDefinition Height="100"/>
+				<RowDefinition Height="100"/>
+				<RowDefinition Height="30"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>
@@ -21,7 +23,7 @@
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical">
 					<Label Text="Language:"
 						   TextColor="Black"
@@ -34,7 +36,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical">
 					<Label Text="Device Name:"
 						TextColor="Black"
@@ -44,15 +46,19 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0">
-				<Button Text="Change Device Name"
-					Command="{Binding ChangeDeviceNameCommand}"/>
-			</Frame>
-			<Frame Grid.Row="2" Grid.Column="1">
-				<Button Text="Reset Steps"
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+				<StackLayout Orientation="Vertical" Padding="0">
+					<Button Text="Change Device Name"
+						BackgroundColor="RoyalBlue"
+						TextColor="White"
+					Command="{Binding ChangeDeviceNameCommand}">
+					</Button>
+					<Button Text="Reset Steps"
+						BackgroundColor="SkyBlue"
+						TextColor="White"
 					Command="{Binding ResetStepsCommand}"/>
+				</StackLayout>
 			</Frame>
-
 		</Grid>
 		
 	</ContentPage.Content>
