@@ -48,8 +48,13 @@
 						TextColor="Black"/>
 					<Entry Text="{Binding NewSongBPM}"
 					Keyboard="Numeric"/>
+					<Button Text="Get BPM"
+							TextColor="White"
+							Command="{Binding GetBPMCommand}"
+							BackgroundColor="#018786"/>
 				</StackLayout>
 			</Frame>
+			
 
 			<!--Fourth Row-->
 

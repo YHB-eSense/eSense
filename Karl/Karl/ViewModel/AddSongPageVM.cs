@@ -36,6 +36,7 @@ namespace Karl.ViewModel
 		**/
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }
+		public ICommand GetBPMCommand { get; }
 
 
 		/// <summary>
@@ -49,6 +50,15 @@ namespace Karl.ViewModel
 			_langManager = LangManager.SingletonLangManager;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
+			GetBPMCommand = new Command(DetBPM);
+		}
+
+		private void DetBPM()
+		{
+			if (BPMDectetor.DetectBPM(NewSongFileLocation) != 0)
+			{
+				NewSongBPM = BPMDectetor.DetectBPM(NewSongFileLocation).ToString();
+			}
 		}
 
 		public void RefreshPage()
