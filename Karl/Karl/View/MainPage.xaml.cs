@@ -11,11 +11,9 @@ using FormsControls.Base;
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MainPage : ContentPage, IAnimationPage
+	public partial class MainPage : ContentPage
 	{
 		private MainPageVM _mainPageVM;
-
-		public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromRight };
 
 		public MainPage(MainPageVM mainPageVM)
 		{
@@ -30,12 +28,5 @@ namespace Karl.View
 			_mainPageVM.RefreshPage();
 		}
 
-		public void OnAnimationStarted(bool isPopAnimation)
-		{
-		}
-
-		public void OnAnimationFinished(bool isPopAnimation)
-		{
-		}
 	}
 }

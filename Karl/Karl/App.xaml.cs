@@ -36,7 +36,7 @@ namespace Karl
 			handler.SetPages(pages);
 
 			MainPage = new AnimationNavigationPage(mainPage);
-        }
+		}
 
         protected override void OnStart()
         {
