@@ -4,7 +4,6 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:behavior="clr-namespace:PageDialogBehavior.Views.Behaviors;assembly=PageDialogBehavior"
              prism:ViewModelLocator.AutowireViewModel="True"
 			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage">
@@ -13,6 +12,7 @@
 		<Grid RowSpacing="0" ColumnSpacing="0">
 
 			<Grid.RowDefinitions>
+				<RowDefinition Height="100"/>
 				<RowDefinition Height="100"/>
 				<RowDefinition Height="100"/>
 				<RowDefinition Height="30"/>
@@ -38,6 +38,19 @@
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical">
+					<Label Text="{Binding ColorLabel}"
+						   TextColor="Black"
+						   FontSize="Large"/>
+					<Picker ItemsSource="{Binding Colors}"
+						SelectedItem="{Binding CurrentColor}"
+						ItemDisplayBinding="{Binding Name}">
+					</Picker>
+				</StackLayout>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding DeviceNameLabel}"
 						TextColor="Black"
 						FontSize="Large"/>
@@ -45,16 +58,16 @@
 				</StackLayout>
 			</Frame>
 
-			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
 				<StackLayout Orientation="Vertical" Padding="0">
 					<Button Text="{Binding ChangeDeviceNameLabel}"
-						BackgroundColor="RoyalBlue"
+						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
 					Command="{Binding ChangeDeviceNameCommand}">
 					</Button>
 					<Button Text="{Binding ResetStepsLabel}"
-						BackgroundColor="SkyBlue"
+						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
 					Command="{Binding ResetStepsCommand}"/>
 				</StackLayout>

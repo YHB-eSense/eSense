@@ -12,6 +12,7 @@ namespace Karl.ViewModel
 {
 	public class AddSongPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private LangManager _langManager;
@@ -21,6 +22,7 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to AddSongsPage of View
 		**/
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
@@ -45,6 +47,7 @@ namespace Karl.ViewModel
 		public AddSongPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_langManager = LangManager.SingletonLangManager;
 			AddSongCommand = new Command(AddSong);
@@ -58,6 +61,7 @@ namespace Karl.ViewModel
 			OnPropertyChanged("BPMLabel");
 			OnPropertyChanged("PickFileLabel");
 			OnPropertyChanged("AddSongLabel");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		/// <summary>

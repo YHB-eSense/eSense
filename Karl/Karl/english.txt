@@ -18,4 +18,5 @@ alert_title=Alert:
 alert_text=You need to assign a value to every entry and pick a file!
 alert_ok=Ok
 devices=Available Devices:
+color=Color
 

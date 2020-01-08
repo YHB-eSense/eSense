@@ -13,9 +13,9 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
-		private SettingsHandler _settingsHandler;
 		private LangManager _langManager;
 		private string _iconOn;
 		private string _iconOff;
@@ -24,6 +24,7 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to MainPage of View
 		**/
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string StepsLabel { get => _langManager.CurrentLang.Get("steps"); }
 		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
 		public string DeviceName
@@ -130,6 +131,7 @@ namespace Karl.ViewModel
 			OnPropertyChanged("DeviceName");
 			OnPropertyChanged("StepsLabel");
 			OnPropertyChanged("DeviceNameLabel");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		//Eventhandling

@@ -12,6 +12,7 @@ namespace Karl.ViewModel
 {
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
@@ -30,6 +31,7 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to AudioLibPage of View
 		**/
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
@@ -93,6 +95,7 @@ namespace Karl.ViewModel
 		public AudioLibPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			_langManager = LangManager.SingletonLangManager;
@@ -205,6 +208,7 @@ namespace Karl.ViewModel
 			OnPropertyChanged("TitleLabel");
 			OnPropertyChanged("ArtistLabel");
 			OnPropertyChanged("BPMLabel");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		//Eventhandling

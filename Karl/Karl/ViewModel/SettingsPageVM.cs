@@ -20,10 +20,12 @@ namespace Karl.ViewModel
 		 Properties binded to SettingsPage of View
 		**/
 		public string LanguageLabel { get => _langManager.CurrentLang.Get("language"); }
+		public string ColorLabel { get => _langManager.CurrentLang.Get("color"); }
 		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
 		public string ChangeDeviceNameLabel { get => _langManager.CurrentLang.Get("change_device_name"); }
 		public string ResetStepsLabel { get => _langManager.CurrentLang.Get("reset_steps"); }
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
+		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
 
 		public Lang SelectedLanguage
 		{
@@ -33,6 +35,16 @@ namespace Karl.ViewModel
 				_settingsHandler.CurrentLang = value;
 				OnPropertyChanged("SelectedLanguage");
 				RefreshPage();
+			}
+		}
+
+		public CustomColor CurrentColor
+		{
+			get => _settingsHandler.CurrentColor;
+			set
+			{
+				_settingsHandler.CurrentColor = value;
+				OnPropertyChanged("CurrentColor");
 			}
 		}
 
@@ -68,6 +80,8 @@ namespace Karl.ViewModel
 			OnPropertyChanged("DeviceNameLabel");
 			OnPropertyChanged("ChangeDeviceNameLabel");
 			OnPropertyChanged("ResetStepsLabel");
+			OnPropertyChanged("ColorLabel");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		private void ChangeDeviceName()

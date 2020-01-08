@@ -91,7 +91,7 @@
 											<Label Text="{Binding Artist}" VerticalOptions="Center"/>
 											<Label Text="{Binding BPM}" VerticalOptions="Center"/>
 										</StackLayout>
-										<CheckBox Color="SkyBlue"
+										<CheckBox Color="{Binding CurrentColor.Color, Source={x:Reference audiolibpage}}"
 											HorizontalOptions="EndAndExpand">
 											<CheckBox.Behaviors>
 												<b:EventToCommandBehavior EventName="CheckedChanged"

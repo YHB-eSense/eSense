@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -35,6 +36,10 @@ namespace Karl.Model
 		/// </summary>
 		public int Steps { get => 0; }
 
+		public List<CustomColor> Colors { get; }
+
+		public CustomColor CurrentColor { get; set; }
+
 		public static SettingsHandler SingletonSettingsHandler
 		{
 			get
@@ -53,6 +58,10 @@ namespace Karl.Model
 		private SettingsHandler()
 		{
 			_langManager = LangManager.SingletonLangManager;
+			Colors = new List<CustomColor>();
+			Colors.Add(new CustomColor(Color.RoyalBlue, "RoyalBlue"));
+			Colors.Add(new CustomColor(Color.SkyBlue, "SkyBlue"));
+			CurrentColor = Colors[0];
 		}
 
 		/// <summary>
@@ -62,5 +71,17 @@ namespace Karl.Model
 		{
 			//todo
 		}
+	}
+
+	public class CustomColor
+	{
+		public CustomColor(Color color, string name)
+		{
+			Color = color;
+			Name = name;
+		}
+		public string Name { get; }
+
+		public Color Color { get; }
 	}
 }

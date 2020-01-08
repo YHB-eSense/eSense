@@ -5,7 +5,8 @@
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Karl.View.ModesPage">
+             x:Class="Karl.View.ModesPage"
+			 x:Name="modespage">
 
 	<ContentPage.Content>
 
@@ -43,7 +44,8 @@
 												VerticalOptions="Center"/>
 												<Switch IsToggled="false" 
 													HorizontalOptions="EndAndExpand"
-													VerticalOptions="Center">
+													VerticalOptions="Center"
+													OnColor="{Binding CurrentColor.Color, Source={x:Reference modespage}}">
 												<Switch.Behaviors>
 													<b:EventToCommandBehavior EventName="Toggled"
 														Command="{Binding ActivateModeCommand}"

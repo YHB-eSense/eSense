@@ -11,12 +11,14 @@ namespace Karl.ViewModel
 {
 	public class ConnectionPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
 		private LangManager _langManager;
 		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
 
 		public string DevicesLabel { get => _langManager.CurrentLang.Get("devices"); }
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 
 		/**
 		 Commands binded to ConnectionPage of View
@@ -31,6 +33,7 @@ namespace Karl.ViewModel
 		public ConnectionPageVM(NavigationHandler handler)
 		{
 			_handler = handler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_langManager = LangManager.SingletonLangManager;
 			RefreshDevicesCommand = new Command(RefreshDevices);
@@ -40,6 +43,7 @@ namespace Karl.ViewModel
 		public void RefreshPage()
 		{
 			OnPropertyChanged("DevicesLabel");
+			OnPropertyChanged("CurrentColor");
 			RefreshDevices();
 		}
 
