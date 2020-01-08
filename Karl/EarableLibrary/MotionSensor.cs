@@ -14,9 +14,9 @@ namespace EarableLibrary
 		public static TripleShort FromByteArray(byte[] b, int offset=0)
 		{
 			TripleShort t;
-			t.x = (short) (b[0 + offset] << 8 + b[1 + offset]);
-			t.y = (short) (b[1 + offset] << 8 + b[3 + offset]);
-			t.z = (short) (b[2 + offset] << 8 + b[5 + offset]);
+			t.x = (short) ((b[0 + offset] << 8) + b[1 + offset]);
+			t.y = (short) ((b[2 + offset] << 8) + b[3 + offset]);
+			t.z = (short) ((b[4 + offset] << 8) + b[5 + offset]);
 			return t;
 		}
 	}

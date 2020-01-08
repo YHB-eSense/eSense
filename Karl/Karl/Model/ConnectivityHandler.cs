@@ -58,21 +58,19 @@ namespace Karl.Model
 			await device.handle.ConnectAsync();
 
 			var imu = (MotionSensor)device.handle.Sensors[typeof(MotionSensor)];
-			imu.SamplingRate = 1;
-			imu.ValueChanged += (s, e) =>
+			imu.SamplingRate = 10;
+			imu.ValueChanged += (s, args) =>
 			{
-				var c = (MotionArgs)e;
-				Debug.WriteLine("Acc: x{0} y{1} z{2}", c.Acc.x, c.Acc.y, c.Acc.z);
+				Debug.WriteLine("Acc(x,y,z)\t{0}\t{1}\t{2}", args.Acc.x, args.Acc.y, args.Acc.z);
 			};
 			await imu.StartSamplingAsync();
 
 			var button = (PushButton)device.handle.Sensors[typeof(PushButton)];
-			button.ValueChanged += (s, e) =>
+			button.ValueChanged += (s, args) =>
 			{
-				var args = (ButtonArgs)e;
 				Debug.WriteLine("Pushed the button: {0}", args.Pressed);
 			};
-			button.StartSamplingAsync();
+			await button.StartSamplingAsync();
 
 			/*var voltage = (VoltageSensor)device.handle.Sensors[typeof(VoltageSensor)];
 			voltage.ValueChanged += (s, e) =>
