@@ -23,10 +23,10 @@
 			</Grid.ColumnDefinitions>
 
 			<Grid.GestureRecognizers>
-				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}"/>
-				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}"/>
-				<SwipeGestureRecognizer Direction="Up" Command="{Binding AudioPlayerPageCommand}"/>
-				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}"/>
+				<SwipeGestureRecognizer Direction="Left" Command="{Binding AudioLibPageCommand}" Threshold="50"/>
+				<SwipeGestureRecognizer Direction="Right" Command="{Binding ModesPageCommand}" Threshold="50"/>
+				<SwipeGestureRecognizer Direction="Up" Command="{Binding AudioPlayerPageCommand}" Threshold="50"/>
+				<SwipeGestureRecognizer Direction="Down" Command="{Binding SettingsPageCommand}" Threshold="50"/>
 			</Grid.GestureRecognizers>
 
 			<!--First Row-->
