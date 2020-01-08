@@ -24,7 +24,7 @@
 
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-				<Image Source="{Binding Cover}" Aspect="AspectFit"/>
+				<Image Source="{Binding Cover}" Aspect="AspectFit" BackgroundColor="SkyBlue"/>
 			</Frame>
 
 			<!--Second Row-->

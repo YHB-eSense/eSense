@@ -41,7 +41,7 @@
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="1">
 				<ImageButton Source="{Binding Icon}"
-					BackgroundColor="White"
+					BackgroundColor="Transparent"
 					Command="{Binding ConnectionPageCommand}"/>
 			</Frame>
 
