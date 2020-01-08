@@ -16,13 +16,23 @@ namespace EarableLibrary
 
 		private async void DeviceDiscovered(object sender, DeviceEventArgs e)
 		{
-			Debug.WriteLine("Discovered Device");
-			ESense device = new ESense(e.Device);
-			await device.Initialize();
-			if (device.CanConnect())
+			try
 			{
-				EarableEventArgs args = new EarableEventArgs(device);
-				EarableDiscovered?.Invoke(this, args);
+				Debug.WriteLine("Discovered Device '{0}' ({1})", e.Device.Name, e.Device.Id);
+				ESense device = new ESense(e.Device);
+				bool success = await device.ConnectAsync();
+				if (!success) return;
+				await device.Initialize();
+				await device.DisconnectAsync();
+				if (device.IsValid())
+				{
+					EarableEventArgs args = new EarableEventArgs(device);
+					EarableDiscovered?.Invoke(this, args);
+				}
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine("An error occurred after a device has been discovered: " + ex);
 			}
 		}
 

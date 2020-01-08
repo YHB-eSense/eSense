@@ -41,8 +41,8 @@ namespace EarableLibrary
 		{
 			get
 			{
-				if (_name == null) return _device.Name;
-				return _name;
+				//if (_name != null) return _name;
+				return _device.Name;
 			}
 			set
 			{
@@ -55,57 +55,57 @@ namespace EarableLibrary
 
 		public IAudioStream AudioStream => _audioStream;
 
-		public ReadOnlyCollection<ISensor<Object>> Sensors { get; private set; }
+		public ReadOnlyCollection<ISensor> Sensors { get; private set; }
 
-		private async Task<ICharacteristic[]> GetCharacteristicsAsync(int service, params int[] characteristics)
+		private async Task<ICharacteristic[]> GetCharacteristicsAsync(int serviceId, params int[] characteristicIds)
 		{
-			var s = await _device.GetServiceAsync(GuidExtension.UuidFromPartial(service));
-			if (s == null) throw new NotSupportedException();
-			ICharacteristic[] result = new ICharacteristic[characteristics.Length];
-			for (int i = 0; i < characteristics.Length; i++)
+			Guid uuid;
+			uuid = GuidExtension.UuidFromPartial(serviceId);
+			var s = await _device.GetServiceAsync(uuid);
+			if (s == null) throw new NotSupportedException("Service " + uuid + " not found");
+			ICharacteristic[] result = new ICharacteristic[characteristicIds.Length];
+			for (int i = 0; i < characteristicIds.Length; i++)
 			{
-				result[i] = await s.GetCharacteristicAsync(GuidExtension.UuidFromPartial(characteristics[i]));
-				if (result[i] == null) throw new NotSupportedException();
+				uuid = GuidExtension.UuidFromPartial(characteristicIds[i]);
+				result[i] = await s.GetCharacteristicAsync(uuid);
+				if (result[i] == null) throw new NotSupportedException("Characteristic " + uuid + " not found");
 			} 
 			return result;
 		}
 
-		private async Task<IList<ISensor<Object>>> CreateSensors()
+		private async Task<IList<ISensor>> CreateSensors()
 		{
-			ICharacteristic[] imuChars = await GetCharacteristicsAsync(CHAR_IMU_DATA, CHAR_IMU_ENABLE, CHAR_IMU_CONFIG);
-			IList<ISensor<Object>> l = new List<ISensor<Object>>
+			ICharacteristic[] imu = await GetCharacteristicsAsync(SER_ESENSE, CHAR_IMU_DATA, CHAR_IMU_ENABLE, CHAR_IMU_CONFIG);
+			IList<ISensor> list = new List<ISensor>
 			{
-				(ISensor<Object>)new MotionSensor(imuChars[0], imuChars[1], imuChars[2]),
+				new MotionSensor(data: imu[0], enable: imu[1], config: imu[2])
 				// PushButton
 				// VoltageSensor
 			};
-			return l;
+			return list;
 		}
 
 		public async Task Initialize()
 		{
-			Debug.WriteLine("Trying to initialize: " + _device.Name);
 			try
 			{
 				_name = (await GetCharacteristicsAsync(SER_GENERIC, CHAR_NAME_R))[0].StringValue;
-				Sensors = new ReadOnlyCollection<ISensor<Object>>(await CreateSensors());
+				Sensors = new ReadOnlyCollection<ISensor>(await CreateSensors());
 				_validated = true;
 			}
-			catch (NotSupportedException e)
+			catch (Exception e)
 			{
-				Debug.WriteLine("Unsupported Device!");
-				Debug.WriteLine(e);
-				return;
+				if (_device.Name != null && _device.Name.Length > 0) Debug.WriteLine("Unsupported Device: " + _device.Name + " / " + e.Message);
 			}
 			return;
 		}
 
 		public async Task<bool> ConnectAsync()
 		{
-			if (!CanConnect()) return false;
 			try
 			{
-				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device);
+				var parameters = new ConnectParameters(forceBleTransport: true);
+				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters);
 			}
 			catch (DeviceConnectionException)
 			{
@@ -121,16 +121,23 @@ namespace EarableLibrary
 		public async Task<bool> DisconnectAsync()
 		{
 			if (!IsConnected()) return false;
-			await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
+			try
+			{
+				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 			return true;
 		}
 
 		public bool IsConnected()
 		{
-			return _validated && _device.State == DeviceState.Connected;
+			return _device.State == DeviceState.Connected;
 		}
 
-		public bool CanConnect()
+		public bool IsValid()
 		{
 			return _validated;
 		}

@@ -43,7 +43,6 @@ namespace Karl.Model
 		/// </summary>
 		public void SearchDevices()
 		{
-			Debug.WriteLine("Searching for Devices");
 			_earableScanner.StopScanning();
 			DiscoveredDevices.Clear();
 			_earableScanner.StartScanning();
@@ -55,13 +54,16 @@ namespace Karl.Model
 		/// <param name="device">Device to connect with.</param>
 		public async void ConnectDevice(EarableHandle device)
 		{
+			_earableScanner.StopScanning();
 			await device.handle.ConnectAsync();
 			MotionSensor sens = (MotionSensor)device.handle.Sensors[0];
 			sens.SamplingRate = 10;
 			sens.ValueChanged += (s, e) =>
 			{
-				//Debug.WriteLine(String.Format("Acc: {0} {1} {2}", e.Acc.x, e.Acc.y, e.Acc.z));
+				MotionSensorChangedEventArgs c = (MotionSensorChangedEventArgs)e;
+				Debug.WriteLine(String.Format("Acc: {0} {1} {2}", c.Acc.x, c.Acc.y, c.Acc.z));
 			};
+			sens.StartSampling();
 			_connectedEarable = device.handle;
 		}
 

@@ -34,13 +34,13 @@ namespace EarableLibrary
 		public TripleShort Acc { get; }
 	}
 
-	public class MotionSensor : ISensor<MotionSensorChangedEventArgs>
+	public class MotionSensor : ISensor
 	{
 		private static readonly byte CMD_IMU_ENABLE = 0x53;
 		private static readonly byte ON = 0x01;
 		private static readonly byte OFF = 0x02;
 
-		public event EventHandler<MotionSensorChangedEventArgs> ValueChanged;
+		public event EventHandler ValueChanged;
 
 		public byte SamplingRate { get; set; } = 50;
 

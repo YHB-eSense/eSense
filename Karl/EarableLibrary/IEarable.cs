@@ -12,7 +12,7 @@ namespace EarableLibrary
 
 		IAudioStream AudioStream { get; }
 
-		ReadOnlyCollection<ISensor<object>> Sensors { get; }
+		ReadOnlyCollection<ISensor> Sensors { get; }
 
 		Task<bool> ConnectAsync();
 
