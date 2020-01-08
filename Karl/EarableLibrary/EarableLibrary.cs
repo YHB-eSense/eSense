@@ -12,6 +12,8 @@ namespace EarableLibrary
 		public EarableLibrary()
 		{
 			CrossBluetoothLE.Current.Adapter.DeviceDiscovered += DeviceDiscovered;
+			//CrossBluetoothLE.Current.Adapter.ScanTimeout = 60;
+			//CrossBluetoothLE.Current.Adapter.ScanMode = Balanced;
 		}
 
 		private void DeviceDiscovered(object sender, DeviceEventArgs e)
@@ -25,7 +27,7 @@ namespace EarableLibrary
 		{
 			Debug.WriteLine("Starting Scan...");
 			CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync(serviceUuids:ESense.RequiredServiceUuids);
-			}
+		}
 
 		public void StopScanning()
 		{

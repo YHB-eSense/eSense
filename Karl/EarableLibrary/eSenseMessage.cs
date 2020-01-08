@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace EarableLibrary
@@ -68,15 +69,6 @@ namespace EarableLibrary
 			};
 			if (result.Checksum != checksum) throw new InvalidCastException("Invalid checksum detected!");
 			return result;
-		}
-
-		public void WriteTo(ICharacteristic target)
-		{
-			Device.BeginInvokeOnMainThread(() =>
-			{
-				Debug.WriteLine("Writing to {0} from main thread...", target.Id);
-				target.WriteAsync(this);
-			});
 		}
 	}
 }

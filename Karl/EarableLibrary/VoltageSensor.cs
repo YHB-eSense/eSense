@@ -1,5 +1,4 @@
 using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions.EventArgs;
 using System;
 
 namespace EarableLibrary
@@ -17,33 +16,25 @@ namespace EarableLibrary
 
 	public class VoltageSensor : ISensor
 	{
-		public event EventHandler ValueChanged;
+		public float Voltage { get; private set; }
+
+		public bool Charging { get; private set; }
 
 		private readonly ICharacteristic _characteristic;
 
 		public VoltageSensor(ICharacteristic characteristic)
 		{
 			_characteristic = characteristic;
-			_characteristic.ValueUpdated += OnValueChanged;
+			Voltage = -1;
+			Charging = false;
 		}
 
-		public void StartSampling()
+		public async void UpdateValueAsync()
 		{
-			_characteristic.StartUpdatesAsync();
-		}
-
-		public void StopSampling()
-		{
-			_characteristic.StopUpdatesAsync();
-		}
-
-		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
-		{
-			var message = (eSenseMessage)e.Characteristic.Value;
-			var voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f;
-			var charging = (message.Data[0] & 1) == 1;
-			var args = new VoltageChangedEventArgs(voltage, charging);
-			ValueChanged?.Invoke(this, args);
+			var bytes = await _characteristic.ReadAsync();
+			var message = (eSenseMessage)bytes;
+			Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f;
+			Charging = (message.Data[0] & 1) == 1;
 
 		}
 	}

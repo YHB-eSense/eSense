@@ -1,7 +1,6 @@
 using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions.Exceptions;
 using System.Collections.ObjectModel;
 using Plugin.BLE.Abstractions.Extensions;
 using System;

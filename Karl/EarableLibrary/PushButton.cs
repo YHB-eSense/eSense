@@ -1,22 +1,23 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
 
-	public class PushButtonChangedEventArgs : EventArgs
+	public class ButtonArgs : EventArgs
 	{
-		public PushButtonChangedEventArgs(bool state)
+		public ButtonArgs(bool pressed)
 		{
-			Pushed = state;
+			Pressed = pressed;
 		}
-		public bool Pushed { get; }
+		public bool Pressed { get; }
 	}
 
-	public class PushButton : ISensor
+	public class PushButton : ISubscribableSensor<ButtonArgs>
 	{
-		public event EventHandler ValueChanged;
+		public event EventHandler<ButtonArgs> ValueChanged;
 
 		private readonly ICharacteristic _characteristic;
 
@@ -26,21 +27,21 @@ namespace EarableLibrary
 			_characteristic.ValueUpdated += OnValueChanged;
 		}
 
-		public void StartSampling()
+		public async Task StartSamplingAsync()
 		{
-			_characteristic.StartUpdatesAsync();
+			await _characteristic.StartUpdatesAsync();
 		}
 
-		public void StopSampling()
+		public async Task StopSamplingAsync()
 		{
-			_characteristic.StopUpdatesAsync();
+			await _characteristic.StopUpdatesAsync();
 		}
 
 		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
 		{
 			var message = (eSenseMessage)e.Characteristic.Value;
 			var pushed = (message.Data[0] & 1) == 1;
-			var args = new PushButtonChangedEventArgs(pushed);
+			var args = new ButtonArgs(pushed);
 			ValueChanged?.Invoke(this, args);
 		}
 	}
