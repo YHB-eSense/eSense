@@ -10,12 +10,14 @@ namespace Karl.ViewModel
 {
 	public class ModesPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
 		private LangManager _langManager;
 
 		/**
 		 Properties binded to ModesPage of View
 		**/
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string ModesLabel { get => _langManager.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 
@@ -30,6 +32,7 @@ namespace Karl.ViewModel
 		public ModesPageVM()
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_langManager = LangManager.SingletonLangManager;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
 		}
@@ -37,6 +40,7 @@ namespace Karl.ViewModel
 		public void RefreshPage()
 		{
 			OnPropertyChanged("ModesLabel");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		/// <summary>

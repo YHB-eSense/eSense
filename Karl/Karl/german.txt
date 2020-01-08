@@ -18,3 +18,4 @@ alert_title=Hinweis:
 alert_text=Du musst jedem Eintrag einen Wert zuweisen und eine Datei auswählen!
 alert_ok=Ok
 devices=Verfügbare Geräte:
+color=Farbe

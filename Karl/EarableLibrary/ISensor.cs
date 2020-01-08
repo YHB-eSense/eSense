@@ -3,12 +3,12 @@ using System;
 namespace EarableLibrary
 {
 
-	public interface ISensor<T>
+	public interface ISensor
 	{
-		event EventHandler<T> ValueChanged;
+		event EventHandler ValueChanged;
 
 		void StartSampling();
 
-		bool StopSampling();
+		void StopSampling();
 	}
 }

@@ -24,7 +24,7 @@
 
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-				<Image Source="{Binding Cover}" Aspect="AspectFit" BackgroundColor="SkyBlue"/>
+				<Image Source="{Binding Cover}" Aspect="AspectFit" BackgroundColor="{Binding CurrentColor.Color}"/>
 			</Frame>
 
 			<!--Second Row-->
@@ -34,10 +34,10 @@
 					<Slider x:Name="slider"
 						Minimum="0"
 						Maximum="1"
-						ThumbColor="SkyBlue"
+						ThumbColor="{Binding CurrentColor.Color}"
 						Value="{Binding CurrentPosition}"
 						HorizontalOptions="FillAndExpand"
-						MinimumTrackColor="SkyBlue"
+						MinimumTrackColor="{Binding CurrentColor.Color}"
 						MaximumTrackColor="Gray"
 						VerticalOptions="Center">
 						<Slider.Behaviors>
@@ -79,11 +79,11 @@
 						HeightRequest="20"/>
 					<Slider	Minimum="0"
 						Maximum="1"
-						ThumbColor="SkyBlue"
+						ThumbColor="{Binding CurrentColor.Color}"
 						Value="{Binding Volume}"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Center"
-						MinimumTrackColor="SkyBlue"
+						MinimumTrackColor="{Binding CurrentColor.Color}"
 						MaximumTrackColor="Gray">
 					</Slider>
 					<Image Source="volume_on"

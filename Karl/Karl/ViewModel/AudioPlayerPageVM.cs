@@ -9,6 +9,7 @@ namespace Karl.ViewModel
 {
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private AudioPlayer _audioPlayer;
 		private string _iconPlay;
 		private string _iconPause;
@@ -20,6 +21,7 @@ namespace Karl.ViewModel
 		/**
 		 Properties binded to AudioPlayerPage of View
 		**/
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 
 		public AudioTrack AudioTrack
 		{
@@ -110,6 +112,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public AudioPlayerPageVM()
 		{
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
@@ -144,6 +147,7 @@ namespace Karl.ViewModel
 			OnPropertyChanged("TimeLeft");
 			OnPropertyChanged("AudioTrack");
 			OnPropertyChanged("Cover");
+			OnPropertyChanged("CurrentColor");
 		}
 
 		/// <summary>

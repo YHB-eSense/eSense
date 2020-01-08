@@ -17,7 +17,7 @@ namespace Karl.ViewModel
 
 		public async void GotoPage(ContentPage page)
 		{
-			await Application.Current.MainPage.Navigation.PushAsync(page);
+			await Application.Current.MainPage.Navigation.PushAsync(page, true);
 		}
 
 		public async void GoBack()

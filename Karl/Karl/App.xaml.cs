@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using Karl.View;
 using Karl.ViewModel;
 using Karl.Model;
+using FormsControls.Base;
 
 namespace Karl
 {
@@ -34,8 +35,8 @@ namespace Karl
 			ContentPage[] pages = {audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, addSongPage, mainPage};
 			handler.SetPages(pages);
 
-			MainPage = new NavigationPage(mainPage);
-        }
+			MainPage = new AnimationNavigationPage(mainPage);
+		}
 
         protected override void OnStart()
         {

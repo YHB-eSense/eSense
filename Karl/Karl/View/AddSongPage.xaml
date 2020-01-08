@@ -62,11 +62,11 @@
 				<StackLayout Orientation="Vertical">
 					<Button Text="{Binding PickFileLabel}"
 						Command="{Binding PickFileCommand}"
-						BackgroundColor="RoyalBlue"
+						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"/>
 					<Button Text="{Binding AddSongLabel}"
 						Command="{Binding AddSongCommand}"
-						BackgroundColor="SkyBlue"
+						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"/>
 				</StackLayout>
 			</Frame>

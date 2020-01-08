@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
+using FormsControls.Base;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SettingsPage : ContentPage
+	public partial class SettingsPage : ContentPage, IAnimationPage
 	{
 
 		private SettingsPageVM _settingsPageVM;
+
+		public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromTop };
 
 		public SettingsPage(SettingsPageVM settingsPageVM)
 		{
@@ -27,6 +30,14 @@ namespace Karl.View
 		{
 			base.OnAppearing();
 			_settingsPageVM.RefreshPage();
+		}
+
+		public void OnAnimationStarted(bool isPopAnimation)
+		{
+		}
+
+		public void OnAnimationFinished(bool isPopAnimation)
+		{
 		}
 
 	}

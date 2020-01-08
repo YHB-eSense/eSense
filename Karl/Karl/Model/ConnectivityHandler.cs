@@ -1,6 +1,7 @@
 using System;
 using EarableLibrary;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Karl.Model
 {
@@ -51,9 +52,18 @@ namespace Karl.Model
 		/// Connect to the Device given as a parameter.
 		/// </summary>
 		/// <param name="device">Device to connect with.</param>
-		public void ConnectDevice(EarableHandle device)
+		public async void ConnectDevice(EarableHandle device)
 		{
-			device.handle.ConnectAsync();
+			_earableScanner.StopScanning();
+			await device.handle.ConnectAsync();
+			MotionSensor sens = (MotionSensor)device.handle.Sensors[0];
+			sens.SamplingRate = 10;
+			sens.ValueChanged += (s, e) =>
+			{
+				MotionSensorChangedEventArgs c = (MotionSensorChangedEventArgs)e;
+				Debug.WriteLine(String.Format("Acc: {0} {1} {2}", c.Acc.x, c.Acc.y, c.Acc.z));
+			};
+			sens.StartSampling();
 			_connectedEarable = device.handle;
 		}
 
