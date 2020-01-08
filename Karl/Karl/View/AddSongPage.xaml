@@ -52,13 +52,18 @@
 			</Frame>
 
 			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0">
-				<Button Text="{Binding PickFileLabel}"
-					Command="{Binding PickFileCommand}"/>
-			</Frame>
-			<Frame Grid.Row="3" Grid.Column="1">
-				<Button Text="{Binding AddSongLabel}"
-					Command="{Binding AddSongCommand}"/>
+
+			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+				<StackLayout Orientation="Vertical">
+					<Button Text="{Binding PickFileLabel}"
+						Command="{Binding PickFileCommand}"
+						BackgroundColor="RoyalBlue"
+						TextColor="White"/>
+					<Button Text="{Binding AddSongLabel}"
+						Command="{Binding AddSongCommand}"
+						BackgroundColor="SkyBlue"
+						TextColor="White"/>
+				</StackLayout>
 			</Frame>
 
 		</Grid>
