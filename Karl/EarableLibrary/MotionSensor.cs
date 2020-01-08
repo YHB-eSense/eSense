@@ -37,8 +37,8 @@ namespace EarableLibrary
 	public class MotionSensor : ISensor
 	{
 		private static readonly byte CMD_IMU_ENABLE = 0x53;
-		private static readonly byte ON = 0x01;
-		private static readonly byte OFF = 0x02;
+		private static readonly byte ENABLED = 0x01;
+		private static readonly byte DISABLED = 0x02;
 
 		public event EventHandler ValueChanged;
 
@@ -56,30 +56,22 @@ namespace EarableLibrary
 
 		public void StartSampling()
 		{
-			WriteBytes(_enable, new eSenseMessage(CMD_IMU_ENABLE, ON, SamplingRate));
+			new eSenseMessage(CMD_IMU_ENABLE, ENABLED, SamplingRate).WriteTo(_enable);
 			_data.StartUpdatesAsync();
-		}
-
-		private void WriteBytes(ICharacteristic c, byte[] bytes)
-		{
-			Device.BeginInvokeOnMainThread(() =>
-			{
-				c.WriteAsync(bytes);
-			});
 		}
 
 		public void StopSampling()
 		{
-			WriteBytes(_enable, new eSenseMessage(CMD_IMU_ENABLE, OFF, 0));
+			new eSenseMessage(CMD_IMU_ENABLE, DISABLED, 0).WriteTo(_enable);
 			_data.StopUpdatesAsync();
 		}
 
 		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			eSenseMessage message = (eSenseMessage) e.Characteristic.Value;
-			TripleShort gyro = TripleShort.FromByteArray(message.Data, 0);
-			TripleShort acc = TripleShort.FromByteArray(message.Data, 6);
-			MotionSensorChangedEventArgs args = new MotionSensorChangedEventArgs(gyro, acc);
+			var message = eSenseMessage.ParseMessageWithPacketIndex(e.Characteristic.Value);
+			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
+			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
+			var args = new MotionSensorChangedEventArgs(gyro, acc);
 			ValueChanged?.Invoke(this, args);
 		}
 	}

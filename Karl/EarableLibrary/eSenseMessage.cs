@@ -1,6 +1,9 @@
+using Plugin.BLE.Abstractions.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using Xamarin.Forms;
 
 namespace EarableLibrary
 {
@@ -49,7 +52,7 @@ namespace EarableLibrary
 			return result;
 		}
 
-		public static eSenseMessage parseMessageWithPacketIndex(byte[] m)
+		public static eSenseMessage ParseMessageWithPacketIndex(byte[] m)
 		{
 			byte header = m[0];
 			byte index = m[1];
@@ -65,6 +68,15 @@ namespace EarableLibrary
 			};
 			if (result.Checksum != checksum) throw new InvalidCastException("Invalid checksum detected!");
 			return result;
+		}
+
+		public void WriteTo(ICharacteristic target)
+		{
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				Debug.WriteLine("Writing to {0} from main thread...", target.Id);
+				target.WriteAsync(this);
+			});
 		}
 	}
 }
