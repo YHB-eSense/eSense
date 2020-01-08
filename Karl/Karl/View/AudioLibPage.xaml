@@ -57,19 +57,19 @@
 			<Frame Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" CornerRadius="0"></Frame>
 			
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
 				<Button Text="{Binding TitleLabel}"
 					TextColor="{Binding TitleSortTextColor}"
 					Command="{Binding TitleSortCommand}"
 					BackgroundColor="{Binding TitleSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
 				<Button Text="{Binding ArtistLabel}"
 					Command="{Binding ArtistSortCommand}"
 					TextColor="{Binding ArtistSortTextColor}"
 					BackgroundColor="{Binding ArtistSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="SkyBlue" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
 				<Button Text="{Binding BPMLabel}"
 					BackgroundColor="{Binding BPMSortColor}"
 					TextColor="{Binding BPMSortTextColor}"

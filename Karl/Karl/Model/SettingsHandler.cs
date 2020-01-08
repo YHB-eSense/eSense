@@ -61,6 +61,7 @@ namespace Karl.Model
 			Colors = new List<CustomColor>();
 			Colors.Add(new CustomColor(Color.RoyalBlue, "RoyalBlue"));
 			Colors.Add(new CustomColor(Color.SkyBlue, "SkyBlue"));
+			Colors.Add(new CustomColor(Color.DarkRed, "DarkRed"));
 			CurrentColor = Colors[0];
 		}
 
