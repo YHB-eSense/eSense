@@ -32,7 +32,7 @@ namespace EarableLibrary
 		public async void UpdateValueAsync()
 		{
 			var bytes = await _characteristic.ReadAsync();
-			var message = (eSenseMessage)bytes;
+			var message = new eSenseMessage(received: bytes);
 			Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f;
 			Charging = (message.Data[0] & 1) == 1;
 

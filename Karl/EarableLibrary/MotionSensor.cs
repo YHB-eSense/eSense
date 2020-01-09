@@ -23,13 +23,15 @@ namespace EarableLibrary
 
 	public class MotionArgs : EventArgs
 	{
-		public MotionArgs(TripleShort gyro, TripleShort acc)
+		public MotionArgs(TripleShort gyro, TripleShort acc, byte packetId)
 		{
 			Gyro = gyro;
 			Acc = acc;
+			PacketId = packetId;
 		}
 		public TripleShort Gyro { get; }
 		public TripleShort Acc { get; }
+		public byte PacketId { get;  }
 	}
 
 	public class MotionSensor : ISubscribableSensor<MotionArgs>
@@ -69,10 +71,10 @@ namespace EarableLibrary
 
 		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			var message = eSenseMessage.ParseMessageWithPacketIndex(e.Characteristic.Value);
+			var message = new eSenseMessage(received: e.Characteristic.Value, hasPacketIndex: true);
 			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
 			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
-			var args = new MotionArgs(gyro, acc);
+			var args = new MotionArgs(gyro, acc, message.PacketIndex);
 			ValueChanged?.Invoke(this, args);
 		}
 	}

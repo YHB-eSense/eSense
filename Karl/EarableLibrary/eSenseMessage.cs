@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace EarableLibrary
 {
-	class eSenseMessage
+	public class eSenseMessage
 	{
 		public byte Header { get; set; }
 		public byte[] Data { get; set; }
@@ -30,45 +30,48 @@ namespace EarableLibrary
 			Data = data;
 		}
 
+		public eSenseMessage(byte[] received, bool hasPacketIndex = false)
+		{
+			int i = 0; // parsing index
+			HasPacketIndex = hasPacketIndex;
+			Header = received[i++];
+			if (HasPacketIndex) PacketIndex = received[i++];
+			var receivedChecksum = received[i++];
+			var receivedSize = received[i++];
+			if (receivedSize != received.Length - i) throw new MessageError("Invalid size detected!");
+			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: i, destinationIndex: 0, length: receivedSize);
+			if (Checksum != receivedChecksum) throw new MessageError("Invalid checksum detected!");
+		}
+
+		public byte[] ToByteArray()
+		{
+			var size = Data.Length + 3;
+			if (HasPacketIndex) size++;
+			var bytes = new byte[size];
+			int i = 0; // count written bytes
+			bytes[i++] = Header;
+			if (HasPacketIndex) bytes[i++] = PacketIndex;
+			bytes[i++] = Checksum;
+			bytes[i++] = (byte)Data.Length;
+			Data.CopyTo(bytes, i);
+			return bytes;
+		}
+
 		public static implicit operator byte[](eSenseMessage m)
 		{
-			byte[] message = new byte[m.Data.Length + 3];
-			message[0] = m.Header;
-			message[1] = m.Checksum;
-			message[2] = (byte)m.Data.Length;
-			m.Data.CopyTo(message, 3);
-			return message;
+			return m.ToByteArray();
 		}
 
 		public static explicit operator eSenseMessage(byte[] m)
 		{
-			byte header = m[0];
-			byte checksum = m[1];
-			byte size = m[2];
-			byte[] data = new byte[size];
-			if (size != m.Length - 3) throw new InvalidCastException("Invalid size detected!");
-			Array.Copy(sourceArray: m, destinationArray: data, sourceIndex: 3, destinationIndex: 0, length: size);
-			eSenseMessage result = new eSenseMessage(header, data);
-			if (result.Checksum != checksum) throw new InvalidCastException("Invalid checksum detected!");
-			return result;
+			return new eSenseMessage(m, false);
 		}
+	}
 
-		public static eSenseMessage ParseMessageWithPacketIndex(byte[] m)
+	public class MessageError : Exception
+	{
+		public MessageError(string message) : base(message)
 		{
-			byte header = m[0];
-			byte index = m[1];
-			byte checksum = m[2];
-			byte size = m[3];
-			byte[] data = new byte[size];
-			if (size != m.Length - 4) throw new InvalidCastException("Invalid size detected!");
-			Array.Copy(sourceArray: m, destinationArray: data, sourceIndex: 4, destinationIndex: 0, length: size);
-			eSenseMessage result = new eSenseMessage(header, data)
-			{
-				HasPacketIndex = true,
-				PacketIndex = index
-			};
-			if (result.Checksum != checksum) throw new InvalidCastException("Invalid checksum detected!");
-			return result;
 		}
 	}
 }
