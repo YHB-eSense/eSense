@@ -56,14 +56,29 @@ namespace Karl.Model
 		{
 			_earableScanner.StopScanning();
 			await device.handle.ConnectAsync();
-			MotionSensor sens = (MotionSensor)device.handle.Sensors[0];
-			sens.SamplingRate = 10;
-			sens.ValueChanged += (s, e) =>
+
+			var imu = (MotionSensor)device.handle.Sensors[typeof(MotionSensor)];
+			imu.SamplingRate = 10;
+			imu.ValueChanged += (s, args) =>
 			{
-				MotionSensorChangedEventArgs c = (MotionSensorChangedEventArgs)e;
-				Debug.WriteLine(String.Format("Acc: {0} {1} {2}", c.Acc.x, c.Acc.y, c.Acc.z));
+				Debug.WriteLine("Acc(x,y,z)\t{0}\t{1}\t{2}", args.Acc.x, args.Acc.y, args.Acc.z);
 			};
-			sens.StartSampling();
+			await imu.StartSamplingAsync();
+
+			var button = (PushButton)device.handle.Sensors[typeof(PushButton)];
+			button.ValueChanged += (s, args) =>
+			{
+				Debug.WriteLine("Pushed the button: {0}", args.Pressed);
+			};
+			await button.StartSamplingAsync();
+
+			/*var voltage = (VoltageSensor)device.handle.Sensors[typeof(VoltageSensor)];
+			voltage.ValueChanged += (s, e) =>
+			{
+				var args = (VoltageChangedEventArgs)e;
+				Debug.WriteLine("Voltage: {0}", args.Voltage);
+			};
+			voltage.StartSampling();*/
 			_connectedEarable = device.handle;
 		}
 

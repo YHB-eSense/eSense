@@ -1,14 +1,19 @@
 using System;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
-
 	public interface ISensor
 	{
-		event EventHandler ValueChanged;
+	}
 
-		void StartSampling();
+	public interface ISubscribableSensor<T> : ISensor
+	{
+		event EventHandler<T> ValueChanged;
 
-		void StopSampling();
+		Task StartSamplingAsync();
+
+		Task StopSamplingAsync();
+
 	}
 }

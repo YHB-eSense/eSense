@@ -1,7 +1,6 @@
 using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions.Exceptions;
 using System.Collections.ObjectModel;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
@@ -13,17 +12,19 @@ namespace EarableLibrary
 {
 	public class ESense : IEarable
 	{
-		private static readonly int SER_ESENSE = 0xFF06;
-		private static readonly int CHAR_IMU_ENABLE = 0xFF07;
-		private static readonly int CHAR_IMU_DATA = 0xFF08;
-		private static readonly int CHAR_BUTTON = 0xFF09;
-		private static readonly int CHAR_VOLTAGE = 0xFF0A;
-		private static readonly int CHAR_INTERVALS = 0xFF0B;
-		private static readonly int CHAR_NAME_W = 0xFF0C;
-		private static readonly int CHAR_IMU_OFFSET = 0xFF0D;
-		private static readonly int CHAR_IMU_CONFIG = 0xFF0E;
-		private static readonly int SER_GENERIC = 0x1800;
-		private static readonly int CHAR_NAME_R = 0x2A00;
+		private static readonly Guid SER_GENERIC = GuidExtension.UuidFromPartial(0x1800);
+		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
+		private static readonly Guid SER_ESENSE = GuidExtension.UuidFromPartial(0xFF06);
+		private static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
+		private static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
+		private static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
+		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
+		private static readonly Guid CHAR_INTERVALS = GuidExtension.UuidFromPartial(0xFF0B);
+		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
+		private static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
+		private static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
+
+		public static Guid[] RequiredServiceUuids = { SER_GENERIC, SER_ESENSE };
 
 		private readonly IDevice _device;
 		private readonly IAudioStream _audioStream;
@@ -55,42 +56,36 @@ namespace EarableLibrary
 
 		public IAudioStream AudioStream => _audioStream;
 
-		public ReadOnlyCollection<ISensor> Sensors { get; private set; }
+		public ReadOnlyDictionary<Type, ISensor> Sensors { get; private set; }
 
-		private async Task<ICharacteristic[]> GetCharacteristicsAsync(int serviceId, params int[] characteristicIds)
+		private async Task<Dictionary<Guid, ICharacteristic>> GetCharacteristicsAsync(Guid serviceId)
 		{
-			Guid uuid;
-			uuid = GuidExtension.UuidFromPartial(serviceId);
-			var s = await _device.GetServiceAsync(uuid);
-			if (s == null) throw new NotSupportedException("Service " + uuid + " not found");
-			ICharacteristic[] result = new ICharacteristic[characteristicIds.Length];
-			for (int i = 0; i < characteristicIds.Length; i++)
-			{
-				uuid = GuidExtension.UuidFromPartial(characteristicIds[i]);
-				result[i] = await s.GetCharacteristicAsync(uuid);
-				if (result[i] == null) throw new NotSupportedException("Characteristic " + uuid + " not found");
-			} 
-			return result;
+			var dict = new Dictionary<Guid, ICharacteristic>();
+			var service = await _device.GetServiceAsync(serviceId);
+			if (service == null) throw new NotSupportedException(String.Format("Service {0} not found", serviceId));
+			var characteristics = await service.GetCharacteristicsAsync();
+			foreach (var c in characteristics) dict.Add(c.Id, c);
+			return dict;
 		}
 
-		private async Task<IList<ISensor>> CreateSensors()
+		private async Task<Dictionary<Type, ISensor>> CreateSensors()
 		{
-			ICharacteristic[] imu = await GetCharacteristicsAsync(SER_ESENSE, CHAR_IMU_DATA, CHAR_IMU_ENABLE, CHAR_IMU_CONFIG);
-			IList<ISensor> list = new List<ISensor>
+			var c = await GetCharacteristicsAsync(SER_ESENSE);
+			var dict = new Dictionary<Type, ISensor>
 			{
-				new MotionSensor(data: imu[0], enable: imu[1], config: imu[2])
-				// PushButton
-				// VoltageSensor
+				{ typeof(MotionSensor), new MotionSensor(data: c[CHAR_IMU_DATA], enable: c[CHAR_IMU_ENABLE], config: c[CHAR_IMU_CONFIG]) },
+				{ typeof(PushButton), new PushButton(c[CHAR_BUTTON]) },
+				{ typeof(VoltageSensor), new VoltageSensor(c[CHAR_VOLTAGE]) }
 			};
-			return list;
+			return dict;
 		}
 
 		public async Task Initialize()
 		{
 			try
 			{
-				_name = (await GetCharacteristicsAsync(SER_GENERIC, CHAR_NAME_R))[0].StringValue;
-				Sensors = new ReadOnlyCollection<ISensor>(await CreateSensors());
+				_name = (await GetCharacteristicsAsync(SER_GENERIC))[CHAR_NAME_R].StringValue;
+				Sensors = new ReadOnlyDictionary<Type, ISensor>(await CreateSensors());
 				_validated = true;
 			}
 			catch (Exception e)
@@ -106,10 +101,8 @@ namespace EarableLibrary
 			{
 				var parameters = new ConnectParameters(forceBleTransport: true);
 				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters);
-			}
-			catch (DeviceConnectionException)
-			{
-				return false;
+				await Initialize();
+				Debug.WriteLine("Now connected to {0}", Name);
 			}
 			catch (Exception)
 			{
