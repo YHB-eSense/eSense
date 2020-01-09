@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
@@ -8,9 +9,9 @@ namespace EarableLibrary
 	{
 		event EventHandler<EarableEventArgs> EarableDiscovered;
 
-		void StartScanning();
+		Task StartScanningAsync();
 
-		void StopScanning();
+		Task StopScanningAsync();
 	}
 
 	public class EarableEventArgs : System.EventArgs
