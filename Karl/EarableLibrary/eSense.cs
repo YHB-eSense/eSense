@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace EarableLibrary
 {
@@ -80,11 +81,12 @@ namespace EarableLibrary
 			return dict;
 		}
 
-		public async Task Initialize()
+		protected async Task Initialize()
 		{
 			try
 			{
-				_name = (await GetCharacteristicsAsync(SER_GENERIC))[CHAR_NAME_R].StringValue;
+				//var name = (await GetCharacteristicsAsync(SER_GENERIC))[CHAR_NAME_R];
+				//_name = Encoding.UTF8.GetString(await name.ReadAsync());
 				Sensors = new ReadOnlyDictionary<Type, ISensor>(await CreateSensors());
 				_validated = true;
 			}

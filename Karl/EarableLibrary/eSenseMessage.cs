@@ -16,18 +16,19 @@ namespace EarableLibrary
 		{
 			get
 			{
-				byte checksum = (byte)Data.Length;
+				var checksum = (byte)Data.Length;
 				foreach (byte b in Data) checksum += b;
 				return checksum;
 			}
 		}
 		public byte PacketIndex { get; set; }
-		public bool HasPacketIndex = false;
+		public bool HasPacketIndex { get; set; }
 
 		public eSenseMessage(byte header, params byte[] data)
 		{
 			Header = header;
 			Data = data;
+			PacketIndex = 0;
 		}
 
 		public eSenseMessage(byte[] received, bool hasPacketIndex = false)
@@ -35,11 +36,12 @@ namespace EarableLibrary
 			int i = 0; // parsing index
 			HasPacketIndex = hasPacketIndex;
 			Header = received[i++];
-			if (HasPacketIndex) PacketIndex = received[i++];
+			if (hasPacketIndex) PacketIndex = received[i++];
 			var receivedChecksum = received[i++];
-			var receivedSize = received[i++];
-			if (receivedSize != received.Length - i) throw new MessageError("Invalid size detected!");
-			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: i, destinationIndex: 0, length: receivedSize);
+			var dataSize = received[i++];
+			if (dataSize != received.Length - i) throw new MessageError("Invalid size detected!");
+			Data = new byte[dataSize];
+			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: i, destinationIndex: 0, length: dataSize);
 			if (Checksum != receivedChecksum) throw new MessageError("Invalid checksum detected!");
 		}
 

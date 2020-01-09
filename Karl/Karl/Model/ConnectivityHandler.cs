@@ -32,7 +32,7 @@ namespace Karl.Model
 		private ConnectivityHandler()
 		{
 			DiscoveredDevices = new ObservableCollection<EarableHandle>();
-			_earableScanner = new EarableLibrary.EarableLibrary();
+			_earableScanner = new EarableLibrary.EarableLibrary(scanTimeout: 60);
 			_earableScanner.EarableDiscovered += (s, e) => {
 				DiscoveredDevices.Add(new EarableHandle(e.Earable));
 			};
@@ -41,11 +41,11 @@ namespace Karl.Model
 		/// <summary>
 		/// Search for Bluetooth Devices.
 		/// </summary>
-		public void SearchDevices()
+		public async void SearchDevices()
 		{
-			_earableScanner.StopScanning();
+			await _earableScanner.StopScanningAsync();
 			DiscoveredDevices.Clear();
-			_earableScanner.StartScanning();
+			await _earableScanner.StartScanningAsync();
 		}
 
 		/// <summary>
@@ -54,21 +54,21 @@ namespace Karl.Model
 		/// <param name="device">Device to connect with.</param>
 		public async void ConnectDevice(EarableHandle device)
 		{
-			_earableScanner.StopScanning();
+			await _earableScanner.StopScanningAsync();
 			await device.handle.ConnectAsync();
 
 			var imu = (MotionSensor)device.handle.Sensors[typeof(MotionSensor)];
 			imu.SamplingRate = 10;
 			imu.ValueChanged += (s, args) =>
 			{
-				Debug.WriteLine("Acc(x,y,z)\t{0}\t{1}\t{2}", args.Acc.x, args.Acc.y, args.Acc.z);
+				Debug.WriteLine("(Id,Acc(x,y,z))\t{0}\t{1}\t{2}\t{3}", args.PacketId, args.Acc.x, args.Acc.y, args.Acc.z);
 			};
 			await imu.StartSamplingAsync();
 
 			var button = (PushButton)device.handle.Sensors[typeof(PushButton)];
 			button.ValueChanged += (s, args) =>
 			{
-				Debug.WriteLine("Pushed the button: {0}", args.Pressed);
+				Debug.WriteLine("Button pushed: {0}", args.Pressed);
 			};
 			await button.StartSamplingAsync();
 
