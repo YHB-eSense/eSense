@@ -24,12 +24,6 @@ namespace Karl.View
 			BindingContext = _addSongPageVM;
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			_addSongPageVM.RefreshPage();
-		}
-
 		public void OnAnimationStarted(bool isPopAnimation)
 		{
 		}
