@@ -64,6 +64,7 @@ namespace Karl.ViewModel
 		//Commands binded to AddSongsPage of View
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }
+		public ICommand GetBPMCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and AudioLib of Model
@@ -78,6 +79,15 @@ namespace Karl.ViewModel
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			_settingsHandler.SettingsChanged += Refresh;
+			GetBPMCommand = new Command(DetBPM);
+		}
+
+		private void DetBPM()
+		{
+			if (BPMDectetor.DetectBPM(_newSongFileLocation) != 0)
+			{
+				NewSongBPM = BPMDectetor.DetectBPM(_newSongFileLocation).ToString();
+			}
 		}
 
 		private void Refresh(object sender, EventArgs args)
