@@ -12,44 +12,54 @@ namespace Karl.Model
 {
 	static class BPMDectetor
 	{
-		private static short[] leftChn;
-		private static short[] rightChn;
 		private static double BPM;
 		private static double sampleRate = 44100;
-		private static double trackLength = 0;
+		private static double SongLength = 0;
+		private static short[] leftChannel;
+		private static short[] rightChannel;
+		private static short[] sampleBuffer;
 
+		/// <summary>
+		/// Used Method from http://mziccard.me/2015/05/28/beats-detection-algorithms-1/
+		/// to detect BPM
+		/// </summary>
+		/// <param name="filename"> Path to File used for detection </param>
+		/// <returns>BPM of song</returns>
 		public static double DetectBPM(string filename)
 		{
 			MP3Stream stream = new MP3Stream(File.OpenRead(filename));
-			int bsize = (int)stream.Length / 100;
+			int stepSize = (int)stream.Length / 50;
 			byte[] buffer = new byte[(int)stream.Length];
-			byte[] bufferer = new byte[bsize];
-			List<short> chan1 = new List<short>();
-			List<short> chan2 = new List<short>();
+			byte[] bufferOfBuffer = new byte[stepSize];
+
+			Debug.WriteLine("asd Reading "+ stream.Length+ " "+filename);
 			int read = 1;
-			for (int i = 0; i < 100; i++) {
-				read += stream.Read(bufferer, 0,bsize);
-				for (int j = 0; j < bsize; j++ ) {
-					buffer[j+(i*bsize)] = bufferer[j];
+			//Read MP3 File
+			for (int i = 0; i < 50 && read > 0; i++) {
+				read = stream.Read(bufferOfBuffer, 0,stepSize);
+				Debug.WriteLine("bsd finished read");
+				for (int j = 0; j < stepSize; j++ ) {
+					buffer[j+(i*stepSize)] = bufferOfBuffer[j];
 				}
+				Debug.WriteLine("asd" + i+ " ");
 			}
-			short[] sampleBuffer = new short[buffer.Length / 2];
-			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, buffer.Length/2);
-			for (int i = 1; i+1 < sampleBuffer.Length; i += 2)
-			{
-				chan1.Add(sampleBuffer[i-1]);
-				chan2.Add(sampleBuffer[i]);
-			}				
-			leftChn = chan1.ToArray();
-			rightChn = chan2.ToArray();
+			Debug.WriteLine("asd finished Reading");
+			//Get Values for left and right Channel
+			sampleBuffer = new short[buffer.Length / 2];
+			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, buffer.Length / 2);
+			leftChannel = getChannel(0,sampleBuffer);
+			rightChannel = getChannel(1, sampleBuffer);
 			stream.Close();
-			trackLength = (float)leftChn.Length / sampleRate;
-			int sampleStep = 3600;
+
+			//Compute Energy
+			SongLength = (float)leftChannel.Length / sampleRate;
+			int sampleStep = 4100;
 			List<double> energies = new List<double>();
-			for (int i = 0; i < leftChn.Length - sampleStep - 1; i += sampleStep)
+			for (int i = 0; i < leftChannel.Length - sampleStep - 1; i += sampleStep)
 			{
-				energies.Add(rangeQuadSum(leftChn, i, i + sampleStep));
+				energies.Add(SumOfSquaredRange(leftChannel, i, i + sampleStep));
 			}
+
 			int beats = 0;
 			double average = 0;
 			double sumOfSquaresOfDifferences = 0;
@@ -57,48 +67,82 @@ namespace Karl.Model
 			double newC = 0;
 			List<double> variances = new List<double>();
 			int offset = 10;
+
+			//Searching for Energy Peaks (Beats)
 			for (int i = offset; i <= energies.Count - offset - 1; i++)
 			{
-				// calculate local energy average
 				double currentEnergy = energies[i];
-				double qwe = rangeSum(energies.ToArray(), i - offset, i - 1) + currentEnergy + rangeSum(energies.ToArray(), i + 1, i + offset);
+				double qwe = SumofRange(energies.ToArray(), i - offset, i - 1) + currentEnergy + SumofRange(energies.ToArray(), i + 1, i + offset);
 				qwe /= offset * 2 + 1;
-
-				// calculate energy variance of nearby energies
+				// calculate local energy average and variance
 				List<double> nearbyEnergies = energies.Skip(i - 5).Take(5).Concat(energies.Skip(i + 1).Take(5)).ToList<double>();
 				average = nearbyEnergies.Average();
 				sumOfSquaresOfDifferences = nearbyEnergies.Select(val => (val - average) * (val - average)).Sum();
 				variance = (sumOfSquaresOfDifferences / nearbyEnergies.Count) / Math.Pow(10, 22);
-
-				// experimental linear regression - constant calculated according to local energy variance
 				newC = variance * 0.009 + 1.385;
+				// Check if current location in track is a beat
 				if (currentEnergy > newC * qwe)
 					beats++;
 			}
-			BPM = beats / (trackLength / 60);
+
+			BPM = beats / (SongLength / 60);
 			return BPM; 
 		}
 
-		private static double rangeQuadSum(short[] samples, int start, int stop)
+
+		/// <summary>
+		/// Calculates Sum of squared elements of data between start and end
+		/// </summary>
+		/// <param name="data">Array with Elements</param>
+		/// <param name="start">Starting Point</param>
+		/// <param name="end">end Point</param>
+		/// <returns>Sum of squared elements in range</returns>
+		private static double SumOfSquaredRange(short[] data, int start, int end)
 		{
-			double tmp = 0;
-			for (int i = start; i <= stop; i++)
+			double result = 0;
+			for (int i = start; i <= end; i++)
 			{
-				tmp += Math.Pow(samples[i], 2);
+				result += Math.Pow(data[i], 2);
 			}
 
-			return tmp;
+			return result;
 		}
 
-		private static double rangeSum(double[] data, int start, int stop)
+		/// <summary>
+		/// Calculates Sum of elements of data between start and end
+		/// </summary>
+		/// <param name="data">Array with Elements</param>
+		/// <param name="start">Starting Point</param>
+		/// <param name="end">end Point</param>
+		/// <returns>Sum of  elements in range</returns>
+		private static double SumofRange(double[] data, int start, int stop)
 		{
-			double tmp = 0;
+			double result = 0;
 			for (int i = start; i <= stop; i++)
 			{
-				tmp += data[i];
+				result += data[i];
 			}
-			return tmp;
+			return result;
 		}
+
+		/// <summary>
+		/// Returns values of either right or left channel of samplesBuffer
+		/// </summary>
+		/// <param name="direction">for either left or right channel</param>
+		/// <param name="samplesBuffer">given samples</param>
+		/// <returns>values of left/right channel</returns>
+		private static short[] getChannel(int direction, short[] samplesBuffer)
+		{
+			List<short> result = new List<short>();
+			for (int i = 1; i + 1 < sampleBuffer.Length; i += 2)
+			{
+				if (direction == 0) result.Add(sampleBuffer[i - 1]);
+				else result.Add(sampleBuffer[i]);
+			}
+			return result.ToArray();
+		}
+
+
 	}
 }
 
