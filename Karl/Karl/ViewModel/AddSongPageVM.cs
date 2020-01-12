@@ -104,10 +104,11 @@ namespace Karl.ViewModel
 		{
 			int bpm;
 			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
-				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || int.TryParse(NewSongBPM, out bpm))
+				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
 			{
 				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
 					_langManager.CurrentLang.Get("alert_text"), _langManager.CurrentLang.Get("alert_ok"));
+				System.Diagnostics.Debug.WriteLine(int.TryParse(NewSongBPM, out bpm));
 				return;
 			}
 			_audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
