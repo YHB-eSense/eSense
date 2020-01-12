@@ -20,7 +20,14 @@ namespace Karl.Model
 		public AudioTrack CurrentTrack
 		{
 			get { return _audioPlayerImp.CurrentTrack; }
-			set { _audioPlayerImp.CurrentTrack = value; }
+			set
+			{
+				if (_audioPlayerImp.CurrentTrack != value)
+				{
+					_audioPlayerImp.CurrentTrack = value;
+					TrackChanged?.Invoke(this, value);
+				}
+			}
 		}
 
 		/// <summary>

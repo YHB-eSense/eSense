@@ -34,7 +34,7 @@ namespace Karl.ViewModel
 			set
 			{
 				_audioPlayer.Volume = value;
-				OnPropertyChanged("Volume");
+				OnPropertyChanged(nameof(Volume));
 			}
 		}
 
@@ -127,6 +127,7 @@ namespace Karl.ViewModel
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
 			_dragValue = 0;
+
 		}
 
 		/// <summary>
