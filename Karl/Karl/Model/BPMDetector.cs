@@ -28,22 +28,19 @@ namespace Karl.Model
 		public static double DetectBPM(string filename)
 		{
 			MP3Stream stream = new MP3Stream(File.OpenRead(filename));
-			int stepSize = (int)stream.Length / 50;
-			byte[] buffer = new byte[(int)stream.Length];
+			int stepSize = 4096;
+			byte[] buffer = new byte[stream.Length];
 			byte[] bufferOfBuffer = new byte[stepSize];
-
-			Debug.WriteLine("asd Reading "+ stream.Length+ " "+filename);
 			int read = 1;
+
 			//Read MP3 File
-			for (int i = 0; i < 50 && read > 0; i++) {
+			for (int i = 0; read > 0 && (i+1) * stepSize < stream.Length; i++) {
 				read = stream.Read(bufferOfBuffer, 0,stepSize);
-				Debug.WriteLine("bsd finished read");
-				for (int j = 0; j < stepSize; j++ ) {
-					buffer[j+(i*stepSize)] = bufferOfBuffer[j];
+				for (int j = 0; j < read; j++ ) {
+					buffer[j + (i * stepSize)] = bufferOfBuffer[j];
 				}
-				Debug.WriteLine("asd" + i+ " ");
 			}
-			Debug.WriteLine("asd finished Reading");
+			
 			//Get Values for left and right Channel
 			sampleBuffer = new short[buffer.Length / 2];
 			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, buffer.Length / 2);
