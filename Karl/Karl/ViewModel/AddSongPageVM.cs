@@ -108,7 +108,6 @@ namespace Karl.ViewModel
 			{
 				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
 					_langManager.CurrentLang.Get("alert_text"), _langManager.CurrentLang.Get("alert_ok"));
-				System.Diagnostics.Debug.WriteLine(int.TryParse(NewSongBPM, out bpm));
 				return;
 			}
 			_audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
@@ -142,7 +141,7 @@ namespace Karl.ViewModel
 
 		private string GetArtist()
 		{
-			if (_file != null && _file.Tag.AlbumArtists.Length >= 1){return _file.Tag.AlbumArtists[0]; }
+			if (_file != null && _file.Tag.Performers.Length >= 1){ return _file.Tag.Performers[0]; }
 			return _langManager.CurrentLang.Get("unknown");
 		}
 

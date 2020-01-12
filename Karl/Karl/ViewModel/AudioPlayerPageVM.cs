@@ -69,20 +69,16 @@ namespace Karl.ViewModel
 				TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).Seconds);
 			}
 		}
-		public string Cover
+		public ImageSource Cover
 		{
 			get
 			{
-				//Image cover = new Image();
-				if (AudioTrack == null)
+				if (AudioTrack == null || AudioTrack.Cover == null)
 				{
-					//cover.Source = "art.png";
-					//return cover;
-					return "art.png";
+					return ImageSource.FromFile("art.png");
+					
 				}
-				//cover.Source = ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover));
-				//return cover;
-				return "art.png";
+				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
 			}
 		}
 
@@ -113,17 +109,19 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_dragValue = 0;
 			_settingsHandler.SettingsChanged += Refresh;
+			_audioPlayer.AudioChanged += Refresh;
 		}
 
 		public void Refresh(object sender, EventArgs args)
 		{
 			if (!_audioPlayer.Paused) { _timer.Start(); }
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
@@ -171,7 +169,6 @@ namespace Karl.ViewModel
 
 		private void Tick(object sender, EventArgs e)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));

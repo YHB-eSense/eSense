@@ -31,20 +31,6 @@ namespace Karl.Model
 			foreach(AudioTrack track in tracks) { AllAudioTracks.Add(track); }
 		}
 
-		public async void AddTrack(String storage)
-		{
-			BasicAudioTrack newTrack = new BasicAudioTrack(storage);
-			await _database.SaveTrackAsync(newTrack);
-			AllAudioTracks.Add(newTrack);
-		}
-
-		public async void AddTrack(string storage, string title)
-		{
-			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title);
-			await _database.SaveTrackAsync(newTrack);
-			AllAudioTracks.Add(newTrack);
-		}
-
 		public async void AddTrack(string storage, string title, string artist, int bpm)
 		{
 			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
