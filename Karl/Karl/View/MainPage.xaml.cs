@@ -26,6 +26,8 @@ namespace Karl.View
 		{
 			base.OnAppearing();
 			_mainPageVM.RefreshPage();
+			((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Gray;
+			
 		}
 
 	}

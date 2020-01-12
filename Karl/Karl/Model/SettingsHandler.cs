@@ -84,5 +84,10 @@ namespace Karl.Model
 		public string Name { get; }
 
 		public Color Color { get; }
+
+		public static implicit operator Color(CustomColor v)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

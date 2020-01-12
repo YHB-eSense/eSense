@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NAudio.Wave;
+using MP3Sharp;
+using System.Reflection;
 
 namespace Karl.Model
 {
@@ -16,55 +18,45 @@ namespace Karl.Model
 		private static double sampleRate = 44100;
 		private static double trackLength = 0;
 
-	
-
 		public static double DetectBPM(string filename)
 		{
-			if (filename != null)
-			{
-				using (WaveFileReader reader = new WaveFileReader(filename))
-				{
-					byte[] buffer = new byte[reader.Length];
-					int read = reader.Read(buffer, 0, buffer.Length);
-					short[] sampleBuffer = new short[read / 2];
-					Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, read);
-
-					List<short> chan1 = new List<short>();
-					List<short> chan2 = new List<short>();
-
-					for (int i = 0; i < sampleBuffer.Length; i += 2)
-					{
-						chan1.Add(sampleBuffer[i]);
-						chan2.Add(sampleBuffer[i + 1]);
-					}
-
-					leftChn = chan1.ToArray();
-					rightChn = chan2.ToArray();
+			MP3Stream stream = new MP3Stream(File.OpenRead(filename));
+			int bsize = (int)stream.Length / 100;
+			byte[] buffer = new byte[(int)stream.Length];
+			byte[] bufferer = new byte[bsize];
+			List<short> chan1 = new List<short>();
+			List<short> chan2 = new List<short>();
+			int read = 1;
+			for (int i = 0; i < 100; i++) {
+				read += stream.Read(bufferer, 0,bsize);
+				for (int j = 0; j < bsize; j++ ) {
+					buffer[j+(i*bsize)] = bufferer[j];
 				}
 			}
-
+			short[] sampleBuffer = new short[buffer.Length / 2];
+			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, buffer.Length/2);
+			for (int i = 1; i+1 < sampleBuffer.Length; i += 2)
+			{
+				chan1.Add(sampleBuffer[i-1]);
+				chan2.Add(sampleBuffer[i]);
+			}				
+			leftChn = chan1.ToArray();
+			rightChn = chan2.ToArray();
+			stream.Close();
 			trackLength = (float)leftChn.Length / sampleRate;
-
-			// 0.1s window ... 0.1*44100 = 4410 samples, lets adjust this to 3600 
 			int sampleStep = 3600;
-
-			// calculate energy over windows of size sampleSetep
 			List<double> energies = new List<double>();
 			for (int i = 0; i < leftChn.Length - sampleStep - 1; i += sampleStep)
 			{
 				energies.Add(rangeQuadSum(leftChn, i, i + sampleStep));
 			}
-
 			int beats = 0;
 			double average = 0;
 			double sumOfSquaresOfDifferences = 0;
 			double variance = 0;
 			double newC = 0;
 			List<double> variances = new List<double>();
-
-			// how many energies before and after index for local energy average
 			int offset = 10;
-
 			for (int i = offset; i <= energies.Count - offset - 1; i++)
 			{
 				// calculate local energy average
@@ -83,10 +75,8 @@ namespace Karl.Model
 				if (currentEnergy > newC * qwe)
 					beats++;
 			}
-
 			BPM = beats / (trackLength / 60);
-			Debug.WriteLine(BPM+"BPM");
-			return BPM;
+			return BPM; 
 		}
 
 		private static double rangeQuadSum(short[] samples, int start, int stop)
@@ -107,7 +97,6 @@ namespace Karl.Model
 			{
 				tmp += data[i];
 			}
-
 			return tmp;
 		}
 	}

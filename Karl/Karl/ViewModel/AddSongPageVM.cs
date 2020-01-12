@@ -60,7 +60,8 @@ namespace Karl.ViewModel
 		{
 			if (BPMDectetor.DetectBPM(NewSongFileLocation) != 0)
 			{
-				NewSongBPM = BPMDectetor.DetectBPM(NewSongFileLocation).ToString();
+				NewSongBPM = ((int)BPMDectetor.DetectBPM(NewSongFileLocation)).ToString();
+				OnPropertyChanged("NewSongBPM");
 			}
 		}
 
