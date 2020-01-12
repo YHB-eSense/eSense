@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System;
 
 namespace Karl.ViewModel
 {
@@ -14,16 +15,15 @@ namespace Karl.ViewModel
 		private ModeHandler _modeHandler;
 		private LangManager _langManager;
 
-		/**
-		 Properties binded to ModesPage of View
-		**/
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string ModesLabel { get => _langManager.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 
-		/**
-		 Commands binded to ModesPage of View
-		**/
+		//Commands binded to ModesPage of View
 		public ICommand ActivateModeCommand { get; }
 
 		/// <summary>
@@ -35,30 +35,18 @@ namespace Karl.ViewModel
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_langManager = LangManager.SingletonLangManager;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
+			_settingsHandler.SettingsChanged += Refresh;
 		}
 
-		public void RefreshPage()
+		public void Refresh(object sender, EventArgs args)
 		{
-			OnPropertyChanged("ModesLabel");
-			OnPropertyChanged("CurrentColor");
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
-		/// <summary>
-		/// Actives mode
-		/// </summary>
-		/// <param name="mode">Mode to be activated</param>
 		private void ActivateMode(Mode mode)
 		{
 			mode.Activate();
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 	}

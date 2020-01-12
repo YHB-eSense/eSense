@@ -18,28 +18,53 @@ namespace Karl.ViewModel
 		private LangManager _langManager;
 		private File _file;
 		private bool _picked;
+		private string _newSongTitle;
+		private string _newSongArtist;
+		private string _newSongBPM;
+		private string _newSongFileLocation;
 
-		/**
-		 Properties binded to AddSongsPage of View
-		**/
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to AddSongsPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
 		public string PickFileLabel { get => _langManager.CurrentLang.Get("pick_file"); }
 		public string AddSongLabel { get => _langManager.CurrentLang.Get("add_song"); }
-		public string NewSongTitle { get; set; }
-		public string NewSongArtist { get; set; }
-		public string NewSongBPM { get; set; }
-		public string NewSongFileLocation { get; set; }
+		public string NewSongTitle
+		{
+			get => _newSongTitle;
+			set
+			{
+				_newSongTitle = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewSongTitle)));
+			}
+		}
+		public string NewSongArtist
+		{
+			get => _newSongArtist;
+			set
+			{
+				_newSongArtist = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewSongArtist)));
+			}
+		}
+		public string NewSongBPM
+		{
+			get => _newSongBPM;
+			set
+			{
+				_newSongBPM = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewSongBPM)));
+			}
+		}
 
-		/**
-		 Commands binded to AddSongsPage of View
-		**/
+		//Commands binded to AddSongsPage of View
 		public ICommand AddSongCommand { get; }
 		public ICommand PickFileCommand { get; }
 		public ICommand GetBPMCommand { get; }
-
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and AudioLib of Model
@@ -53,97 +78,77 @@ namespace Karl.ViewModel
 			_langManager = LangManager.SingletonLangManager;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
+			_settingsHandler.SettingsChanged += Refresh;
 			GetBPMCommand = new Command(DetBPM);
 		}
 
 		private void DetBPM()
 		{
-			if (BPMDectetor.DetectBPM(NewSongFileLocation) != 0)
+			if (BPMDectetor.DetectBPM(_newSongFileLocation) != 0)
 			{
-				NewSongBPM = ((int)BPMDectetor.DetectBPM(NewSongFileLocation)).ToString();
-				OnPropertyChanged("NewSongBPM");
+				NewSongBPM = ((int)BPMDectetor.DetectBPM(_newSongFileLocation)).ToString();
 			}
 		}
 
-		public void RefreshPage()
+		private void Refresh(object sender, EventArgs args)
 		{
-			OnPropertyChanged("TitleLabel");
-			OnPropertyChanged("ArtistLabel");
-			OnPropertyChanged("BPMLabel");
-			OnPropertyChanged("PickFileLabel");
-			OnPropertyChanged("AddSongLabel");
-			OnPropertyChanged("CurrentColor");
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PickFileLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddSongLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
-		/// <summary>
-		/// Adds song to AudioLib of Model
-		/// </summary>
 		private async void AddSong()
 		{
+			int bpm;
 			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
-				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked)
+				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || int.TryParse(NewSongBPM, out bpm))
 			{
 				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
 					_langManager.CurrentLang.Get("alert_text"), _langManager.CurrentLang.Get("alert_ok"));
 				return;
 			}
-			_audioLib.AddTrack(NewSongFileLocation, NewSongTitle, NewSongArtist, Convert.ToInt32(NewSongBPM));
+			_audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
 			_handler.GoBack();
-			_picked = false;
 			NewSongTitle = null;
 			NewSongArtist = null;
 			NewSongBPM = null;
-			NewSongFileLocation = null;
-			OnPropertyChanged("NewSongTitle");
-			OnPropertyChanged("NewSongArtist");
-			OnPropertyChanged("NewSongBPM");
+			_newSongFileLocation = null;
+			_picked = false;
 		}
 
-		/// <summary>
-		/// Opens a file picker
-		/// </summary>
 		private async void PickFile()
 		{
 			var pick = await CrossFilePicker.Current.PickFile();
 			if (pick != null)
 			{
 				_picked = true;
-				NewSongFileLocation = pick.FilePath;
-				_file = File.Create(NewSongFileLocation);
+				_newSongFileLocation = pick.FilePath;
+				_file = File.Create(_newSongFileLocation);
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
-				NewSongBPM = Convert.ToString(GetBPM());
-				OnPropertyChanged("NewSongTitle");
-				OnPropertyChanged("NewSongArtist");
-				OnPropertyChanged("NewSongBPM");
+				NewSongBPM = GetBPM();
 			}
 		}
 
 		private string GetTitle()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
-			return "Unknown";
+			return _langManager.CurrentLang.Get("unknown");
 		}
 
 		private string GetArtist()
 		{
 			if (_file != null && _file.Tag.AlbumArtists.Length >= 1){return _file.Tag.AlbumArtists[0]; }
-			return "Unknown";
+			return _langManager.CurrentLang.Get("unknown");
 		}
 
-		private int GetBPM()
+		private string GetBPM()
 		{
-			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return (int)_file.Tag.BeatsPerMinute; }
-			return 0;
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
+			return _langManager.CurrentLang.Get("unknown");
 		}
 
 	}

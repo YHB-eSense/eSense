@@ -45,7 +45,8 @@
 												<Switch IsToggled="false" 
 													HorizontalOptions="EndAndExpand"
 													VerticalOptions="Center"
-													OnColor="{Binding CurrentColor.Color, Source={x:Reference modespage}}">
+													ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
+													OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
 												<Switch.Behaviors>
 													<b:EventToCommandBehavior EventName="Toggled"
 														Command="{Binding ActivateModeCommand}"

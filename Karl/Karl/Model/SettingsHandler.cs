@@ -12,42 +12,72 @@ namespace Karl.Model
 	{
 		private static LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
+		private CustomColor _currentColor;
+
+		//Eventhandling
+		public event EventHandler SettingsChanged;
 
 		/// <summary>
 		/// The List of registered Languages.
 		/// </summary>
 		public List<Lang> Languages { get => _langManager.AvailableLangs; }
 
+		public List<CustomColor> Colors { get; }
+
 		/// <summary>
 		/// The currently selected Language.
 		/// </summary>
-		public Lang CurrentLang {
+		public Lang CurrentLang
+		{
 			get => _langManager.CurrentLang;
-			set { _langManager.CurrentLang = value; }
+			set
+			{
+				_langManager.CurrentLang = value;
+				SettingsChanged?.Invoke(this, null);
+			}
 		}
 
 		/// <summary>
 		/// The Name of the currently connected Device.
 		/// </summary>
-		public String DeviceName { get; set; }
+		public String DeviceName
+		{
+			get => "Test"; //TODO;
+			set
+			{
+				//TODO
+				SettingsChanged?.Invoke(this, null);
+			}
+		}
 
 		/// <summary>
 		/// The total Steps done.
 		/// </summary>
-		public int Steps { get => 0; }
+		public int Steps
+		{
+			get => 0;
+			set
+			{
+				//TODO
+				SettingsChanged?.Invoke(this, null);
+			}
+		}
 
-		public List<CustomColor> Colors { get; }
-
-		public CustomColor CurrentColor { get; set; }
+		public CustomColor CurrentColor
+		{
+			get => _currentColor;
+			set
+			{
+				_currentColor = value;
+				SettingsChanged?.Invoke(this, null);
+			}
+		}
 
 		public static SettingsHandler SingletonSettingsHandler
 		{
 			get
 			{
-				if (_singletonSettingsHandler == null)
-				{
-					_singletonSettingsHandler = new SettingsHandler();
-				}
+				if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
 				return _singletonSettingsHandler;
 			}
 		}
@@ -63,6 +93,7 @@ namespace Karl.Model
 			Colors.Add(new CustomColor(Color.SkyBlue, "SkyBlue"));
 			Colors.Add(new CustomColor(Color.DarkRed, "DarkRed"));
 			CurrentColor = Colors[0];
+			//TODO
 		}
 
 		/// <summary>
@@ -82,7 +113,6 @@ namespace Karl.Model
 			Name = name;
 		}
 		public string Name { get; }
-
 		public Color Color { get; }
 
 		public static implicit operator Color(CustomColor v)

@@ -22,13 +22,5 @@ namespace Karl.View
 			BindingContext = _mainPageVM;
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			_mainPageVM.RefreshPage();
-			((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Gray;
-			
-		}
-
 	}
 }
