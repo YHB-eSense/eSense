@@ -19,17 +19,19 @@ namespace Karl.ViewModel
 		private LangManager _langManager;
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
-
 		private Color _titleSortColor;
 		private Color _titleSortTextColor;
 		private Color _artistSortColor;
 		private Color _artistSortTextColor;
 		private Color _bpmSortColor;
 		private Color _bpmSortTextColor;
+		private enum _sortType { TITLESORT, ARTISTSORT, BPMSORT}
+		private _sortType type;
 
-		/**
-		 Properties binded to AudioLibPage of View
-		**/
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to AudioLibPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
@@ -37,47 +39,67 @@ namespace Karl.ViewModel
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
-			set { _audioLib.AudioTracks = value; OnPropertyChanged("Songs");}
+			set
+			{
+				_audioLib.AudioTracks = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			}
 		}
-
 		public Color TitleSortColor {
 			get => _titleSortColor;
-			set { _titleSortColor = value; OnPropertyChanged("TitleSortColor"); }
+			set
+			{
+				_titleSortColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleSortColor)));
+			}
 		}
-
 		public Color TitleSortTextColor
 		{
 			get => _titleSortTextColor;
-			set { _titleSortTextColor = value; OnPropertyChanged("TitleSortTextColor"); }
+			set
+			{
+				_titleSortTextColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleSortTextColor)));
+			}
 		}
-
 		public Color ArtistSortColor
 		{
 			get => _artistSortColor;
-			set { _artistSortColor = value; OnPropertyChanged("ArtistSortColor"); }
+			set
+			{
+				_artistSortColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistSortColor)));
+			}
 		}
-
 		public Color ArtistSortTextColor
 		{
 			get => _artistSortTextColor;
-			set { _artistSortTextColor = value; OnPropertyChanged("ArtistSortTextColor"); }
+			set
+			{
+				_artistSortTextColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistSortTextColor)));
+			}
 		}
-
 		public Color BPMSortColor
 		{
 			get => _bpmSortColor;
-			set { _bpmSortColor = value; OnPropertyChanged("BPMSortColor"); }
+			set
+			{
+				_bpmSortColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortColor)));
+			}
 		}
-
 		public Color BPMSortTextColor
 		{
 			get => _bpmSortTextColor;
-			set { _bpmSortTextColor = value; OnPropertyChanged("BPMSortTextColor"); }
+			set
+			{
+				_bpmSortTextColor = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortTextColor)));
+			}
 		}
 
-		/**
-		 Commands binded to AudioLibPage of View
-		**/
+		// Commands binded to AudioLibPage of View
 		public ICommand TitleSortCommand { get; }
 		public ICommand ArtistSortCommand { get; }
 		public ICommand BPMSortCommand { get; }
@@ -108,68 +130,70 @@ namespace Karl.ViewModel
 			SearchSongCommand = new Command<string>(SearchSong);
 			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
-			_titleSortColor = CurrentColor.Color;
-			_titleSortTextColor = Color.White;
-			_artistSortColor = Color.Transparent;
-			_artistSortTextColor = Color.Black;
-			_bpmSortColor = Color.Transparent;
-			_bpmSortTextColor = Color.Black;
+			_settingsHandler.SettingsChanged += Refresh;
+			TitleSort();
 		}
 
-		/// <summary>
-		/// Sorts Titles by Name
-		/// </summary>
+		public void Refresh(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleSortColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistSortColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortColor)));
+			switch (type)
+			{
+				case _sortType.TITLESORT: TitleSort(); break;
+				case _sortType.ARTISTSORT: ArtistSort(); break;
+				case _sortType.BPMSORT: BPMSort(); break;
+			}
+		}
+
 		private void TitleSort()
 		{
-			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Title));
+			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Title)); }
 			TitleSortColor = CurrentColor.Color;
 			ArtistSortColor = Color.Transparent;
 			BPMSortColor = Color.Transparent;
 			TitleSortTextColor = Color.White;
 			ArtistSortTextColor = Color.Black;
 			BPMSortTextColor = Color.Black;
+			type = _sortType.TITLESORT;
 		}
 
-		/// <summary>
-		/// Sorts Titles by Artist
-		/// </summary>
 		private void ArtistSort()
 		{
-			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Artist));
+			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Artist)); }
 			TitleSortColor = Color.Transparent;
 			ArtistSortColor = CurrentColor.Color;
 			BPMSortColor = Color.Transparent;
 			TitleSortTextColor = Color.Black;
 			ArtistSortTextColor = Color.White;
 			BPMSortTextColor = Color.Black;
+			type = _sortType.ARTISTSORT;
 		}
 
-		/// <summary>
-		/// Sorts Titles by BPM
-		/// </summary>
 		private void BPMSort()
 		{
-			Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.BPM));
+			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.BPM)); }
 			TitleSortColor = Color.Transparent;
 			ArtistSortColor = Color.Transparent;
 			BPMSortColor = CurrentColor.Color;
 			TitleSortTextColor = Color.Black;
 			ArtistSortTextColor = Color.Black;
 			BPMSortTextColor = Color.White;
+			type = _sortType.BPMSORT;
 		}
 
-		/// <summary>
-		/// Jumps to AudioPlayer in Model
-		/// </summary>
 		private void PlaySong(AudioTrack track)
 		{
 			_handler.GotoPage(_handler._pages[0]);
 			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
 		}
 
-		/// <summary>
-		/// Navigates to AddSongPage
-		/// </summary>
 		private void AddSong()
 		{
 			_handler.GotoPage(_handler._pages[5]);
@@ -181,10 +205,6 @@ namespace Karl.ViewModel
 			else { _deleteList.Add(song); }
 		}
 
-		/// <summary>
-		/// Sets Songs to only contain AudioTracks with title in their Title property
-		/// </summary>
-		/// <param name="title"></param>
 		private void SearchSong(string title)
 		{
 			if (_oldSongs == null){ _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
@@ -199,33 +219,9 @@ namespace Karl.ViewModel
 		private async void DeleteSongs()
 		{
 			bool answer = await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("question_title"),
-					_langManager.CurrentLang.Get("question_text"), _langManager.CurrentLang.Get("question_no"),
-					_langManager.CurrentLang.Get("question_yes"));
-			if (answer) {
-				foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }
-				OnPropertyChanged("Songs");
-			}
-		}
-
-		public void RefreshPage()
-		{
-			OnPropertyChanged("Songs");
-			OnPropertyChanged("TitleLabel");
-			OnPropertyChanged("ArtistLabel");
-			OnPropertyChanged("BPMLabel");
-			OnPropertyChanged("CurrentColor");
-			OnPropertyChanged("TitelSortColor");
-			OnPropertyChanged("ArtistSortColor");
-			OnPropertyChanged("BPMSortColor");
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+					_langManager.CurrentLang.Get("question_text"), _langManager.CurrentLang.Get("question_yes"),
+					_langManager.CurrentLang.Get("question_no"));
+			if (answer) { foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }}
 		}
 
 	}

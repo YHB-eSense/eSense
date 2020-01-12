@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using Karl.Model;
-using Karl.View;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Plugin.Permissions;
@@ -13,17 +10,17 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
 		private NavigationHandler _handler;
+		private SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
 		private LangManager _langManager;
 		private string _iconOn;
 		private string _iconOff;
-		private string _icon;
 
-		/**
-		 Properties binded to MainPage of View
-		**/
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to MainPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string StepsLabel { get => _langManager.CurrentLang.Get("steps"); }
 		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
@@ -35,7 +32,6 @@ namespace Karl.ViewModel
 				return null;
 			}
 		}
-
 		public string StepsAmount
 		{
 			get
@@ -44,28 +40,16 @@ namespace Karl.ViewModel
 				return null;
 			}
 		}
-
-		public bool ConnectBoolean
-		{
-			get => _connectivityHandler.Connected; 
-		}
-		
 		public string Icon
 		{
-			get => _icon;
-			set
+			get
 			{
-				if (_icon != value)
-				{
-					_icon = value;
-					OnPropertyChanged("Icon");
-				}
+				if (_connectivityHandler.Connected) { return _iconOn; }
+				return _iconOff;
 			}
 		}
 
-		/**
-		 Commands binded to MainPage of View
-		**/
+		//Commands binded to MainPage of View
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
 		public ICommand ConnectionPageCommand { get; }
@@ -89,7 +73,21 @@ namespace Karl.ViewModel
 			SettingsPageCommand = new Command(GotoSettingsPage);
 			_iconOn = "bluetooth_on.png";
 			_iconOff = "bluetooth_off.png";
-			Icon = _iconOff;
+			_settingsHandler.SettingsChanged += Refresh;
+		}
+
+		private async void Refresh(object sender, EventArgs args)
+		{
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			if (status != PermissionStatus.Granted)
+			{
+				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void GotoAudioPlayerPage()
@@ -104,7 +102,11 @@ namespace Karl.ViewModel
 
 		private void GotoConnectionPage()
 		{
-			if(_connectivityHandler.Connected) { _connectivityHandler.Disconnect(); }
+			if(_connectivityHandler.Connected)
+			{
+				_connectivityHandler.Disconnect();
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+			}
 			else { _handler.GotoPage(_handler._pages[2]); }
 		}
 
@@ -118,29 +120,5 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[4]);
 		}
 
-		public async void RefreshPage()
-		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-			if (status != PermissionStatus.Granted)
-			{
-				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-			}
-			if (_connectivityHandler.Connected) { Icon = _iconOn; }
-			else { Icon = _iconOff; }
-			OnPropertyChanged("StepsAmount");
-			OnPropertyChanged("DeviceName");
-			OnPropertyChanged("StepsLabel");
-			OnPropertyChanged("DeviceNameLabel");
-			OnPropertyChanged("CurrentColor");
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
 	}
 }

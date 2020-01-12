@@ -14,6 +14,9 @@ namespace Karl.Model
 		private Stack<AudioTrack> _songsBefore;
 		private Stack<AudioTrack> _songsAfter;
 
+		//Eventhandling
+		public event EventHandler AudioChanged;
+
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
@@ -74,6 +77,7 @@ namespace Karl.Model
 			_audioPlayerImp = new BasicAudioPlayer();
 			_songsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
+			Paused = true;
 		}
 
 		/// <summary>
@@ -84,6 +88,7 @@ namespace Karl.Model
 			if (CurrentTrack != null) { _songsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>

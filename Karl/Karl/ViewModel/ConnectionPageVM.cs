@@ -15,14 +15,16 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private ConnectivityHandler _connectivityHandler;
 		private LangManager _langManager;
-		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
 
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to ConnectionPage of View
+		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
 		public string DevicesLabel { get => _langManager.CurrentLang.Get("devices"); }
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 
-		/**
-		 Commands binded to ConnectionPage of View
-		**/
+		//Commands binded to ConnectionPage of View
 		public ICommand RefreshDevicesCommand { get; }
 		public ICommand ConnectToDeviceCommand { get; }
 
@@ -38,12 +40,13 @@ namespace Karl.ViewModel
 			_langManager = LangManager.SingletonLangManager;
 			RefreshDevicesCommand = new Command(RefreshDevices);
 			ConnectToDeviceCommand = new Command<EarableHandle>(ConnectToDevice);
+			_settingsHandler.SettingsChanged += Refresh;
 		}
 
-		public void RefreshPage()
+		public void Refresh(object sender, EventArgs args)
 		{
-			OnPropertyChanged("DevicesLabel");
-			OnPropertyChanged("CurrentColor");
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DevicesLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			RefreshDevices();
 		}
 
@@ -52,23 +55,11 @@ namespace Karl.ViewModel
 			_connectivityHandler.SearchDevices();
 		}
 
-		/// <summary>
-		/// Connects to device
-		/// </summary>
-		/// <param name="device">Selected device to connect to</param>
 		private void ConnectToDevice(EarableHandle device)
 		{
 			_connectivityHandler.ConnectDevice(device);
 			_handler.GoBack();
 		}
 
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
 	}
 }

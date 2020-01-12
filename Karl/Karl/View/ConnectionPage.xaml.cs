@@ -25,12 +25,6 @@ namespace Karl.View
 			BindingContext = _connectionPageVM;
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			_connectionPageVM.RefreshPage();
-		}
-
 		public void OnAnimationStarted(bool isPopAnimation)
 		{
 		}

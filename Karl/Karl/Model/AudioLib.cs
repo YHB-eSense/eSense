@@ -50,16 +50,6 @@ namespace Karl.Model
 		/// <summary>
 		/// Add a new Track to the current Library
 		/// </summary>
-		public void AddTrack(string storage)
-		{
-			_audioLibImp.AddTrack(storage);
-		}
-
-		public void AddTrack(string storage, string title)
-		{
-			_audioLibImp.AddTrack(storage, title);
-		}
-
 		public void AddTrack(string storage, string title, string artist, int bpm)
 		{
 			_audioLibImp.AddTrack(storage, title, artist, bpm);
@@ -74,8 +64,6 @@ namespace Karl.Model
 	internal interface IAudioLibImpl
 	{
 		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-		void AddTrack(string storage);
-		void AddTrack(string storage, string title);
 		void AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
 	}

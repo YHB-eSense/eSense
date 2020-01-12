@@ -16,6 +16,7 @@ namespace Karl.Model
 		public BasicAudioLib()
 		{
 			_database = BasicAudioTrackDatabase.SingletonDatabase;
+			AllAudioTracks = new ObservableCollection<AudioTrack>();
 			GetTracks();
 			//testing
 			//AllAudioTracks = new ObservableCollection<AudioTrack>();
@@ -26,21 +27,8 @@ namespace Karl.Model
 		private async void GetTracks()
 		{
 			var data = await _database.GetTracksAsync();
-			AllAudioTracks = new ObservableCollection<AudioTrack>(data);
-		}
-
-		public async void AddTrack(String storage)
-		{
-			BasicAudioTrack newTrack = new BasicAudioTrack(storage);
-			await _database.SaveTrackAsync(newTrack);
-			AllAudioTracks.Add(newTrack);
-		}
-
-		public async void AddTrack(string storage, string title)
-		{
-			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title);
-			await _database.SaveTrackAsync(newTrack);
-			AllAudioTracks.Add(newTrack);
+			ObservableCollection<AudioTrack> tracks = new ObservableCollection<AudioTrack>(data);
+			foreach(AudioTrack track in tracks) { AllAudioTracks.Add(track); }
 		}
 
 		public async void AddTrack(string storage, string title, string artist, int bpm)

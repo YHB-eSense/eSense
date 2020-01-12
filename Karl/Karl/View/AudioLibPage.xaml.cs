@@ -25,12 +25,6 @@ namespace Karl.View
 			BindingContext = _audioLibPageVM;
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			_audioLibPageVM.RefreshPage();
-		}
-
 		public void OnAnimationStarted(bool isPopAnimation)
 		{
 		}
