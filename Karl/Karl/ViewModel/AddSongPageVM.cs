@@ -87,7 +87,9 @@ namespace Karl.ViewModel
 		{
 			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
-				NewSongBPM = ((int)BPMDetectorWav.DetectBPM(_newSongFileLocation)).ToString();
+				//NewSongBPM = ((int)BPMDetectorWav.DetectBPM(_newSongFileLocation)).ToString();
+				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
+				NewSongBPM = calculator.Calculate().ToString();
 
 			}
 			else if (Path.GetExtension(_newSongFileLocation).Equals(".mp3"))

@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using MP3Sharp;
 using NAudio.Wave;
-using Plugin.SimpleAudioPlayer;
 
 namespace Karl.Model
 {
