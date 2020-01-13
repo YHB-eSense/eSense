@@ -3,6 +3,7 @@ using Plugin.FilePicker;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Windows.Input;
 using TagLib;
@@ -16,7 +17,7 @@ namespace Karl.ViewModel
 		private NavigationHandler _handler;
 		private AudioLib _audioLib;
 		private LangManager _langManager;
-		private File _file;
+		private TagLib.File _file;
 		private bool _picked;
 		private string _newSongTitle;
 		private string _newSongArtist;
@@ -82,11 +83,20 @@ namespace Karl.ViewModel
 			GetBPMCommand = new Command(DetBPM);
 		}
 
-		private void DetBPM()
+		private async void DetBPM()
 		{
-			if (BPMDetectorMP3.DetectBPM(_newSongFileLocation) != 0)
+			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
+			{
+				NewSongBPM = ((int)BPMDetectorWav.DetectBPM(_newSongFileLocation)).ToString();
+
+			}
+			else if (Path.GetExtension(_newSongFileLocation).Equals(".mp3"))
 			{
 				NewSongBPM = ((int)BPMDetectorMP3.DetectBPM(_newSongFileLocation)).ToString();
+			}
+			else {
+				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
+				"Not a .wav or a .mp3 file", _langManager.CurrentLang.Get("alert_ok"));
 			}
 		}
 
@@ -126,7 +136,7 @@ namespace Karl.ViewModel
 			{
 				_picked = true;
 				_newSongFileLocation = pick.FilePath;
-				_file = File.Create(_newSongFileLocation);
+				_file = TagLib.File.Create(_newSongFileLocation);
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
 				NewSongBPM = GetBPM();

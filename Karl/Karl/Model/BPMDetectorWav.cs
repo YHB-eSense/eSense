@@ -9,7 +9,7 @@ using Plugin.SimpleAudioPlayer;
 
 namespace Karl.Model
 {
-	static class BPMDetectorMP3
+	static class BPMDetectorWav
 	{
 		private static double BPM;
 		private static double sampleRate = 44100;
@@ -27,31 +27,27 @@ namespace Karl.Model
 		/// <returns>BPM of song</returns>
 		public static double DetectBPM(string filename)
 		{
-			MP3Stream stream = new MP3Stream(File.OpenRead(filename));
-			int stepSize = 4096;
-			byte[] buffer = new byte[stream.Length];
-			byte[] bufferOfBuffer = new byte[stepSize];
-			int read = 1;
-			for (int i = 0; read > 0 && (i + 1) * stepSize < stream.Length; i++)
+			int readsum= 0;
+			byte[] buffer;
+			using (WaveFileReader reader = new WaveFileReader(filename))
 			{
-				read = stream.Read(bufferOfBuffer, 0, stepSize);
-				for (int j = 0; j < read; j++)
-				{
-					buffer[j + (i * stepSize)] = bufferOfBuffer[j];
-				}
+				buffer = new byte[reader.Length];
+				readsum = reader.Read(buffer, 0, buffer.Length);
 			}
-			sampleBuffer = new short[buffer.Length / 2];
-			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, buffer.Length / 2);
-			leftChannel = getChannel(0, sampleBuffer);
+			//Get Values for left and right Channel
+			sampleBuffer = new short[readsum / 2];
+			Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, readsum);
+			leftChannel = getChannel(0,sampleBuffer);
 			rightChannel = getChannel(1, sampleBuffer);
-			stream.Close();
+
 			//Compute Energy
-			SongLength = (float)leftChannel.Length / sampleRate;
-			int sampleStep = 4100;
+			SongLength = (float)leftChannel.Length / sampleRate; 
+			int sampleStep = 3600;
 			List<double> energies = new List<double>();
 			for (int i = 0; i < leftChannel.Length - sampleStep - 1; i += sampleStep)
 			{
 				energies.Add(SumOfSquaredRange(leftChannel, i, i + sampleStep));
+				energies.Add(SumOfSquaredRange(rightChannel, i, i + sampleStep));
 			}
 			int beats = 0;
 			double average = 0;
@@ -60,8 +56,10 @@ namespace Karl.Model
 			double newC = 0;
 			List<double> variances = new List<double>();
 			int offset = 10;
+
+			//Searching for Energy Peaks (Beats)
 			for (int i = offset; i <= energies.Count - offset - 1; i++)
-				{
+			{
 				double currentEnergy = energies[i];
 				double qwe = SumofRange(energies.ToArray(), i - offset, i - 1) + currentEnergy + SumofRange(energies.ToArray(), i + 1, i + offset);
 				qwe /= offset * 2 + 1;
@@ -75,8 +73,8 @@ namespace Karl.Model
 				if (currentEnergy > newC * qwe)
 					beats++;
 			}
-			BPM = beats / (SongLength / 60);
-			return BPM;
+			BPM = beats / (SongLength/60);
+			return BPM; 
 		}
 
 
