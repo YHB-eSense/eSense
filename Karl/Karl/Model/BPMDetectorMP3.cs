@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Karl.Model
 {
-	static class BPMDectetor
+	static class BPMDetectorMP3
 	{
 		private static double BPM;
 		private static double sampleRate = 44100;
@@ -55,6 +55,7 @@ namespace Karl.Model
 			for (int i = 0; i < leftChannel.Length - sampleStep - 1; i += sampleStep)
 			{
 				energies.Add(SumOfSquaredRange(leftChannel, i, i + sampleStep));
+				energies.Add(SumOfSquaredRange(rightChannel, i, i + sampleStep));
 			}
 
 			int beats = 0;

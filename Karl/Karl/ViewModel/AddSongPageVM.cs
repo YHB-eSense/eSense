@@ -84,9 +84,9 @@ namespace Karl.ViewModel
 
 		private void DetBPM()
 		{
-			if (BPMDectetor.DetectBPM(_newSongFileLocation) != 0)
+			if (BPMDetectorMP3.DetectBPM(_newSongFileLocation) != 0)
 			{
-				NewSongBPM = ((int)BPMDectetor.DetectBPM(_newSongFileLocation)).ToString();
+				NewSongBPM = ((int)BPMDetectorMP3.DetectBPM(_newSongFileLocation)).ToString();
 			}
 		}
 

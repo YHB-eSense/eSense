@@ -28,7 +28,7 @@ namespace Karl.Model
 				if (_audioPlayerImp.CurrentTrack != value)
 				{
 					_audioPlayerImp.CurrentTrack = value;
-					TrackChanged?.Invoke(this, value);
+					AudioChanged?.Invoke(this, null);
 				}
 			}
 		}
