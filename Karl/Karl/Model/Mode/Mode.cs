@@ -18,7 +18,7 @@ namespace Karl.Model
 		/// </summary>
 		protected Mode()
 		{
-			//LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
+			LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
 			Name = UpdateName(LangManager.SingletonLangManager.CurrentLang);
 		}
 		/// <summary>

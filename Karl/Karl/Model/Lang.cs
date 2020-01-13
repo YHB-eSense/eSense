@@ -51,10 +51,11 @@ namespace Karl.Model
 	/// This Singleton stores loads and changes the current Language.
 	/// It is based on a push Observer Pattern. And sends a notification if the language is changed.
 	/// </summary>
-	public class LangManager
+	public class LangManager : IObservable<Lang>
 	{
 		private ConfigFile _configFile;
 		private static LangManager _singletonLangManager;
+		private readonly List<IObserver<Lang>> Observers;
 		public List<Lang> AvailableLangs { get; }
 
 		/// <summary>
@@ -117,13 +118,11 @@ namespace Karl.Model
 
 			//for testing
 			CurrentLang = AvailableLangs.First();
+
+			//Init Observable Pattern
+			Observers = new List<IObserver<Lang>>();
 		}
-
 	
-
-	}
-
-		/*
 		//todo https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8
 		/// <summary>
 		/// Usual Subscribe method.
@@ -133,20 +132,27 @@ namespace Karl.Model
 		public IDisposable Subscribe(IObserver<Lang> observer)
 		{
 			//todo
-			throw new NotImplementedException();
+			Observers.Add(observer);
+			return new Unsubscriber(this, observer);
 		}
 
 		private class Unsubscriber : IDisposable
 		{
-			//todo
+			LangManager parent;
+			IObserver<Lang> myObserver;
 			public void Dispose()
 			{
-				//todo
-				throw new NotImplementedException();
+				parent.Observers.Remove(myObserver);
+			}
+			public Unsubscriber(LangManager parent, IObserver<Lang> observer)
+			{
+				this.parent = parent;
+				this.myObserver = observer;
 			}
 		}
 	}
 
+	 /*
 	/// <summary>
 	/// A general struct to indentify a language.
 	/// </summary>

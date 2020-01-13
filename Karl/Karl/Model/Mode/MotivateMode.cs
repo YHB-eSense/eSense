@@ -17,8 +17,14 @@ namespace Karl.Model
 
 		public void ChooseNextSong()
 		{
-			if (Output == null) return;
-			double StepsPerMinute = Output.Value.Frequency * 60;
+			if (AudioLib.SingletonAudioLib.AudioTracks.Count == 0) return; //todo
+			double StepsPerMinute;
+			lock (this)
+			{
+				if (Output == null) return;
+				if (Output.Value.Frequency == 0) return; //todo
+				StepsPerMinute = Output.Value.Frequency * 60;
+			}
 			AudioTrack BestTrack = null;
 			double MinDiff = Double.PositiveInfinity;
 			foreach (AudioTrack Track in Library)
@@ -37,15 +43,16 @@ namespace Karl.Model
 
 		public override void Activate()
 		{
-			if (!AudioPlayer.Paused) AudioPlayer.TogglePause();
+			//if (!AudioPlayer.Paused) AudioPlayer.TogglePause();
+			AudioPlayer.Clear();
 			AudioPlayer.NextSongEvent += ChooseNextSong;
-			throw new NotImplementedException(); //todo
+			//throw new NotImplementedException(); //todo
 		}
 
 		public override void Deactivate()
 		{
 			AudioPlayer.NextSongEvent -= ChooseNextSong;
-			throw new NotImplementedException(); //todo
+			//throw new NotImplementedException(); //todo
 		}
 
 		protected override String UpdateName(Lang value)
@@ -72,7 +79,10 @@ namespace Karl.Model
 
 			public void OnNext(Output value)
 			{
-				parent.Output = value;//todo
+				lock (parent)
+				{
+					parent.Output = value;//todo
+				}
 			}
 		}
 	}
