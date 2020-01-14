@@ -76,13 +76,8 @@ namespace Karl.ViewModel
 			_settingsHandler.SettingsChanged += Refresh;
 		}
 
-		private async void Refresh(object sender, EventArgs args)
+		private void Refresh(object sender, EventArgs args)
 		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-			if (status != PermissionStatus.Granted)
-			{
-				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-			}
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsLabel)));
@@ -100,14 +95,23 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[1]);
 		}
 
-		private void GotoConnectionPage()
+		private async void GotoConnectionPage()
 		{
 			if(_connectivityHandler.Connected)
 			{
 				_connectivityHandler.Disconnect();
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			}
-			else { _handler.GotoPage(_handler._pages[2]); }
+			else
+			{
+				_handler.GotoPage(_handler._pages[2]);
+				var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+				if (status != PermissionStatus.Granted)
+				{
+					await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+				}
+				_connectivityHandler.SearchDevices();
+			}
 		}
 
 		private void GotoModesPage()

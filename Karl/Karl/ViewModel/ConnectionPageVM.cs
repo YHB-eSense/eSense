@@ -47,7 +47,6 @@ namespace Karl.ViewModel
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DevicesLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-			RefreshDevices();
 		}
 
 		private void RefreshDevices()
