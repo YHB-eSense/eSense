@@ -3,24 +3,29 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace EarableLibrary
 {
 	public class EarableLibrary : IEarableScanner
 	{
-		public event EventHandler<EarableEventArgs> EarableDiscovered;
-
-		public event EventHandler ScanningStarted, ScanningStopped;
+		public event EventHandler<EarableEventArgs> EarableDiscovered; // EarableDisconnected
 
 		public int ScanTimeout { get; set; }
 
-		public EarableLibrary(int scanTimeout)
+		public bool IsScanning
 		{
-			ScanTimeout = scanTimeout;
+			get => CrossBluetoothLE.Current.Adapter.IsScanning;
+		}
+
+		public EarableLibrary()
+		{
 			var adapter = CrossBluetoothLE.Current.Adapter;
 			adapter.DeviceDiscovered += DeviceDiscovered;
-			adapter.ScanTimeoutElapsed += (s, e) => ScanningStopped.Invoke(this, null);
+			// adapter.DeviceConnectionLost += DeviceConnectionLost;
+			// adapter.ScanTimeoutElapsed += ScanTimeoutElapsed;
 		}
 
 		private void DeviceDiscovered(object sender, DeviceEventArgs e)
@@ -32,19 +37,16 @@ namespace EarableLibrary
 
 		public async Task StartScanningAsync()
 		{
-			Debug.WriteLine("Starting Scan...");
 			var adapter = CrossBluetoothLE.Current.Adapter;
 			adapter.ScanMode = ScanMode.LowLatency;
 			adapter.ScanTimeout = ScanTimeout;
 			await adapter.StartScanningForDevicesAsync(serviceUuids:ESense.RequiredServiceUuids);
-			ScanningStarted?.Invoke(this, null);
 		}
 
 		public async Task StopScanningAsync()
 		{
-			Debug.WriteLine("Stopping Scan...");
-			await CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
-			ScanningStopped?.Invoke(this, null);
+			var adapter = CrossBluetoothLE.Current.Adapter;
+			await adapter.StopScanningForDevicesAsync();
 		}
 	}
 }
