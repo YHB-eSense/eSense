@@ -1,4 +1,5 @@
 using Plugin.BLE;
+using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
 using System.Diagnostics;
@@ -12,12 +13,14 @@ namespace EarableLibrary
 
 		public event EventHandler ScanningStarted, ScanningStopped;
 
+		public int ScanTimeout { get; set; }
+
 		public EarableLibrary(int scanTimeout)
 		{
+			ScanTimeout = scanTimeout;
 			var adapter = CrossBluetoothLE.Current.Adapter;
-			//adapter.ScanTimeout = scanTimeout;
 			adapter.DeviceDiscovered += DeviceDiscovered;
-			// adapter.ScanTimeoutElapsed += ScanningStopped.Invoke;
+			adapter.ScanTimeoutElapsed += (s, e) => ScanningStopped.Invoke(this, null);
 		}
 
 		private void DeviceDiscovered(object sender, DeviceEventArgs e)
@@ -30,7 +33,10 @@ namespace EarableLibrary
 		public async Task StartScanningAsync()
 		{
 			Debug.WriteLine("Starting Scan...");
-			await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync(serviceUuids:ESense.RequiredServiceUuids);
+			var adapter = CrossBluetoothLE.Current.Adapter;
+			adapter.ScanMode = ScanMode.LowLatency;
+			adapter.ScanTimeout = ScanTimeout;
+			await adapter.StartScanningForDevicesAsync(serviceUuids:ESense.RequiredServiceUuids);
 			ScanningStarted?.Invoke(this, null);
 		}
 

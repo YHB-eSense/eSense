@@ -32,7 +32,7 @@ namespace Karl.Model
 		private ConnectivityHandler()
 		{
 			DiscoveredDevices = new ObservableCollection<EarableHandle>();
-			_earableScanner = new EarableLibrary.EarableLibrary(scanTimeout: 60);
+			_earableScanner = new EarableLibrary.EarableLibrary(scanTimeout: 60000);
 			_earableScanner.EarableDiscovered += (s, e) => {
 				DiscoveredDevices.Add(new EarableHandle(e.Earable));
 			};
