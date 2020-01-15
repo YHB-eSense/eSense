@@ -12,6 +12,7 @@ namespace Karl.Model
 	{
 		private LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
+		private static readonly Object _padlock = new Object();
 		private CustomColor _currentColor;
 		private AudioModule _currentAudioModule;
 		private int _steps;
@@ -95,8 +96,21 @@ namespace Karl.Model
 		{
 			get
 			{
+				lock (_padlock)
+				{
+					if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
+					return _singletonSettingsHandler;
+				}
+			}
+		}
+		/// <summary>
+		/// Initializes the Singleton should it still be null.
+		/// </summary>
+		public static void Init()
+		{
+			lock(_padlock)
+			{
 				if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
-				return _singletonSettingsHandler;
 			}
 		}
 
@@ -189,6 +203,7 @@ namespace Karl.Model
 		{
 			//todo
 		}
+
 	}
 
 	public class CustomColor

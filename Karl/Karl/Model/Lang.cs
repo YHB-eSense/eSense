@@ -18,6 +18,7 @@ namespace Karl.Model
 		private FileInfo BaseFile;
 		public String Tag { get; private set; }
 		public string Name { get => Get("name"); }
+
 		/// <summary>
 		/// Sets Path for given Language
 		/// </summary>
@@ -108,6 +109,10 @@ namespace Karl.Model
 				if (_singletonLangManager == null)
 				{
 					_singletonLangManager = new LangManager();
+
+					//In Case VM needs LangData before Settings were loaded.
+					SettingsHandler.Init();
+
 					return _singletonLangManager;
 				}
 				return _singletonLangManager;
@@ -177,9 +182,6 @@ namespace Karl.Model
 				AvailableLangs.Add(NewLang);
 				LangMap.Add(NewLang.Tag, NewLang);
 			}
-
-			//for testing
-			CurrentLang = AvailableLangs.First();
 
 			//Init Observable Pattern
 			Observers = new List<IObserver<Lang>>();
