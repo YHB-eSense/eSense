@@ -18,7 +18,6 @@ namespace Karl
 
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM();
 			AudioLibPageVM audioLibPageVM = new AudioLibPageVM(handler);
-			ConnectionPageVM connectionPageVM = new ConnectionPageVM(handler);
 			ModesPageVM modesPageVM = new ModesPageVM();
 			SettingsPageVM settingsPageVM = new SettingsPageVM();
 			AddSongPageVM addSongPageVM = new AddSongPageVM(handler);
@@ -26,13 +25,12 @@ namespace Karl
 
 			AudioPlayerPage audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
 			AudioLibPage audioLibPage = new AudioLibPage(audioLibPageVM);
-			ConnectionPage connectionPage = new ConnectionPage(connectionPageVM);
 			ModesPage modesPage = new ModesPage(modesPageVM);
 			SettingsPage settingsPage = new SettingsPage(settingsPageVM);
 			AddSongPage addSongPage = new AddSongPage(addSongPageVM);
 			MainPage mainPage = new MainPage(mainPageVM);
 
-			ContentPage[] pages = {audioPlayerPage, audioLibPage, connectionPage, modesPage, settingsPage, addSongPage, mainPage};
+			ContentPage[] pages = {audioPlayerPage, audioLibPage, null, modesPage, settingsPage, addSongPage, mainPage};
 			handler.SetPages(pages);
 
 			MainPage = new AnimationNavigationPage(mainPage);
