@@ -95,23 +95,10 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[1]);
 		}
 
-		private async void GotoConnectionPage()
+		private void GotoConnectionPage()
 		{
-			if(_connectivityHandler.EarableConnected)
-			{
-				_connectivityHandler.Disconnect();
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-			}
-			else
-			{
-				_handler.GotoPage(_handler._pages[2]);
-				var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-				if (status != PermissionStatus.Granted)
-				{
-					await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-				}
-				_connectivityHandler.SearchDevices();
-			}
+			INavToSettings navigator = DependencyService.Get<INavToSettings>();
+			navigator.NavToSettings();
 		}
 
 		private void GotoModesPage()
