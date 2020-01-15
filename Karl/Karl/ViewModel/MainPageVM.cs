@@ -68,7 +68,7 @@ namespace Karl.ViewModel
 			_langManager = LangManager.SingletonLangManager;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
-			ConnectionPageCommand = new Command(GotoConnectionPage);
+			ConnectionPageCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
 			_iconOn = "bluetooth_on.png";
@@ -95,10 +95,34 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[1]);
 		}
 
-		private void GotoConnectionPage()
+
+		private async void TryConnect()
 		{
-			INavToSettings navigator = DependencyService.Get<INavToSettings>();
-			navigator.NavToSettings();
+			/*
+			// Check for (required) location permission first
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			if (status != PermissionStatus.Granted)
+			{
+				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+			}
+			*/
+
+			if (_connectivityHandler.EarableConnected)
+			{
+				await _connectivityHandler.Disconnect();
+			}
+			else
+			{
+				var success = await _connectivityHandler.Connect();
+				if (!success)
+				{
+					INavToSettings navigator = DependencyService.Get<INavToSettings>();
+					navigator.NavToSettings();
+
+				}
+
+			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}
 
 		private void GotoModesPage()

@@ -2,15 +2,15 @@ using System;
 using EarableLibrary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Xamarin.Forms;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Karl.Model
 {
 	/// <summary>
 	/// This class handles the conntection to the Earables Library and Step Detection Library
 	/// </summary>
-	public class ConnectivityHandler : INotifyPropertyChanged
+	public class ConnectivityHandler
 	{
 
 		private static ConnectivityHandler _connectivityHandler;
@@ -26,10 +26,13 @@ namespace Karl.Model
 			}
 		}
 
-		private readonly IEarableScanner _earableScanner;
+		private readonly IEarableManager _earableManager;
 		private IEarable _connectedEarable;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		private ConnectivityHandler()
+		{
+			_earableManager = new EarableLibrary.EarableLibrary();
+		}
 
 		public bool EarableConnected
 		{
@@ -45,42 +48,17 @@ namespace Karl.Model
 			}
 		}
 
-		public bool IsScanning { get => _earableScanner.IsScanning; }
-
-		public ObservableCollection<EarableHandle> DiscoveredDevices { get; }
-
-		private ConnectivityHandler()
-		{
-			DiscoveredDevices = new ObservableCollection<EarableHandle>();
-			_earableScanner = new EarableLibrary.EarableLibrary
-			{
-				ScanTimeout = 30000 // 30 seconds
-			};
-			_earableScanner.EarableDiscovered += (s, e) => {
-				DiscoveredDevices.Add(new EarableHandle(e.Earable));
-			};
-		}
-
 		/// <summary>
-		/// Search for Bluetooth Devices.
+		/// Tries establishing a BLE connection to a bonded EarableDevice.
 		/// </summary>
-		public async void SearchDevices()
+		/// <returns>null if connection failed, the newly connected device otherwise</returns>
+		public async Task<bool> Connect()
 		{
-			await _earableScanner.StopScanningAsync();
-			DiscoveredDevices.Clear();
-			await _earableScanner.StartScanningAsync();
-		}
+			_connectedEarable = await _earableManager.ConnectEarableAsync();
 
-		/// <summary>
-		/// Connect to the Device given as a parameter.
-		/// </summary>
-		/// <param name="device">Device to connect with.</param>
-		public async void ConnectDevice(EarableHandle device)
-		{
-			await _earableScanner.StopScanningAsync();
-			await device.handle.ConnectAsync();
+			if (_connectedEarable == null) return false;
 
-			var imu = (MotionSensor)device.handle.Sensors[typeof(MotionSensor)];
+			var imu = (MotionSensor)_connectedEarable.Sensors[typeof(MotionSensor)];
 			imu.SamplingRate = 10;
 			imu.ValueChanged += (s, args) =>
 			{
@@ -88,29 +66,22 @@ namespace Karl.Model
 			};
 			await imu.StartSamplingAsync();
 
-			var button = (PushButton)device.handle.Sensors[typeof(PushButton)];
+			var button = (PushButton)_connectedEarable.Sensors[typeof(PushButton)];
 			button.ValueChanged += (s, args) =>
 			{
 				Debug.WriteLine("Button pushed: {0}", args.Pressed);
 			};
 			await button.StartSamplingAsync();
 
-			/*var voltage = (VoltageSensor)device.handle.Sensors[typeof(VoltageSensor)];
-			voltage.ValueChanged += (s, e) =>
-			{
-				var args = (VoltageChangedEventArgs)e;
-				Debug.WriteLine("Voltage: {0}", args.Voltage);
-			};
-			voltage.StartSampling();*/
-			_connectedEarable = device.handle;
+			return true;
 		}
 
-		public void Disconnect()
+		public async Task Disconnect()
 		{
 			if (!EarableConnected) return;
-			_connectedEarable.DisconnectAsync();
+			await _connectedEarable.DisconnectAsync();
 			_connectedEarable = null;
-		}
+		} 
 
 		/// <summary>
 		/// Set a new Device name.
