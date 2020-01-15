@@ -1,3 +1,4 @@
+using EarableLibrary;
 using System;
 using System.Collections.Generic;
 
@@ -40,6 +41,15 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccGyroData>
 
 	{
+		AccGyroData accgyrodata;
+		int counter;
+		public Input()
+		{
+			counter = 0;
+			accgyrodata = new AccGyroData();
+			Subscribe(new StepDetectionAlg());
+		}
+
 		private List<IObserver<AccGyroData>> _observers;
 		/// <summary>
 		/// method for subscribing to input
@@ -95,8 +105,20 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, EventArgs args)
 		{
-			throw new NotImplementedException();
-			//short to double 
+			MotionArgs marg = (MotionArgs)args;
+			accgyrodata.AccData.Xacc[counter] = marg.Acc.x;
+			accgyrodata.AccData.Yacc[counter] = marg.Acc.y;
+			accgyrodata.AccData.Zacc[counter] = marg.Acc.z;
+			accgyrodata.GyroData.Xgyro[counter] = marg.Gyro.x;
+			accgyrodata.GyroData.Ygyro[counter] = marg.Gyro.y;
+			accgyrodata.GyroData.Zgyro[counter] = marg.Gyro.z;
+			counter++;
+			if (counter == AccGyroData.DATALENGTH)
+			{
+				Update(accgyrodata);
+				accgyrodata = new AccGyroData();
+				counter = 0;
+			}
 		}
 	}
 }

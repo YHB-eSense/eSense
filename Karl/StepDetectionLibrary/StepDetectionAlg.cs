@@ -8,8 +8,12 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// This class takes the raw gyro and acceleration data form the input, detects steps and then pushes them to the outputmanager
 	/// </summary>
-	class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
+	public class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
+		public StepDetectionAlg()
+		{
+			Subscribe(new OutputManager());
+		}
 		private List<IObserver<Output>> _observer;
 		/// <summary>
 		/// method if provider finished sending data

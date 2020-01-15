@@ -19,6 +19,13 @@ namespace EarableLibrary
 			t.z = (short) ((b[4 + offset] << 8) + b[5 + offset]);
 			return t;
 		}
+
+		public TripleShort(short x, short y, short z)
+		{
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
 	}
 
 	public class MotionArgs : EventArgs
