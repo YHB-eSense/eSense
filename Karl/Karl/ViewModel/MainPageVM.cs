@@ -28,7 +28,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (_connectivityHandler.Connected) { return _settingsHandler.DeviceName; }
+				if (_connectivityHandler.EarableConnected) { return _settingsHandler.DeviceName; }
 				return null;
 			}
 		}
@@ -36,7 +36,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (_connectivityHandler.Connected) { return Convert.ToString(_settingsHandler.Steps); }
+				if (_connectivityHandler.EarableConnected) { return Convert.ToString(_settingsHandler.Steps); }
 				return null;
 			}
 		}
@@ -44,7 +44,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (_connectivityHandler.Connected) { return _iconOn; }
+				if (_connectivityHandler.EarableConnected) { return _iconOn; }
 				return _iconOff;
 			}
 		}
@@ -97,7 +97,7 @@ namespace Karl.ViewModel
 
 		private async void GotoConnectionPage()
 		{
-			if(_connectivityHandler.Connected)
+			if(_connectivityHandler.EarableConnected)
 			{
 				_connectivityHandler.Disconnect();
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));

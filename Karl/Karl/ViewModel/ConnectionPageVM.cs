@@ -21,6 +21,13 @@ namespace Karl.ViewModel
 
 		//Properties binded to ConnectionPage of View
 		public ObservableCollection<EarableHandle> Devices { get => _connectivityHandler.DiscoveredDevices; }
+		public string ScanState
+		{
+			get
+			{
+				return _connectivityHandler.IsScanning ? "Scanning..." : "Not Scanning";
+			}
+		}
 		public string DevicesLabel { get => _langManager.CurrentLang.Get("devices"); }
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 

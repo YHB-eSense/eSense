@@ -47,6 +47,7 @@
 					Command="{Binding RefreshDevicesCommand}"/>
 			</Frame>
 			<Frame Grid.Row="1" Grid.Column="2">
+				<Label Text="{Binding ScanState}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
 
 		</Grid>
