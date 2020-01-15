@@ -10,12 +10,20 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
-		private static LangManager _langManager;
+		private LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
 		private CustomColor _currentColor;
+		private AudioModule _currentAudioModule;
+		private int _steps;
+		private IDictionary<string, Object> _properties;
+		internal IDictionary<string, AudioModule> AvailableAudioModules;
+
+		//Delegates for EventHandling
+		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
 		public event EventHandler SettingsChanged;
+		internal event AudioModuleDelegate AudioModuleChanged;
 
 		/// <summary>
 		/// The List of registered Languages.
@@ -55,11 +63,21 @@ namespace Karl.Model
 		/// </summary>
 		public int Steps
 		{
-			get => 0;
-			set
+			get => _steps;
+			private set
 			{
 				//TODO
 				SettingsChanged?.Invoke(this, null);
+			}
+		}
+
+		internal AudioModule CurrentAudioModule
+		{
+			get => _currentAudioModule;
+			private set
+			{
+				_currentAudioModule = value;
+				AudioModuleChanged.Invoke(value);
 			}
 		}
 
@@ -88,6 +106,74 @@ namespace Karl.Model
 		private SettingsHandler()
 		{
 			_langManager = LangManager.SingletonLangManager;
+			_properties = Application.Current.Properties;
+			AvailableAudioModules = new Dictionary<string, AudioModule>();
+
+			//Init AudioModules
+			AvailableAudioModules.Add("basicAudioModule", new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack)));
+
+			//Load AudioModule
+			Object val;
+			if (_properties.TryGetValue("audioModule", out val))
+			{
+				AudioModule audioModule;
+				if (AvailableAudioModules.TryGetValue(val.ToString(), out audioModule))
+				{
+					_currentAudioModule = audioModule;
+					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: " + val.ToString());
+				}
+				else
+				{
+					AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
+					_currentAudioModule = audioModule;
+					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
+					_properties.Remove("audioModule");
+					_properties.Add("audioModule", "basicAudioModule");
+				}
+			}
+			else
+			{
+				AudioModule audioModule;
+				AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
+				_currentAudioModule = audioModule;
+				System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
+				_properties.Add("audioModule", "basicAudioModule");
+			}
+
+			//Load Chosen Language
+			if(_properties.TryGetValue("lang", out val))
+			{
+				if (_langManager.ChooseLang(val.ToString()))
+					System.Diagnostics.Debug.WriteLine("LangChosen: " + val.ToString());
+				else
+				{
+					_langManager.ChooseLang("lang_english");
+					_properties.Add("lang", "lang_english");
+				}
+			}
+
+			//Load Steps
+			if (_properties.TryGetValue("steps", out val))
+			{
+				string Value = val.ToString();
+				try
+				{
+					_steps = int.Parse(Value);
+				} catch (FormatException e)
+				{
+					_steps = 0;
+					_properties.Remove("steps");
+					_properties.Add("steps", "0");
+				}
+			} else
+			{
+				_steps = 0;
+				_properties.Add("steps", "0");
+			}
+
+
+
+			//Colors to use.
 			Colors = new List<CustomColor>();
 			Colors.Add(new CustomColor(Color.RoyalBlue, "RoyalBlue"));
 			Colors.Add(new CustomColor(Color.SkyBlue, "SkyBlue"));
@@ -119,5 +205,18 @@ namespace Karl.Model
 		{
 			throw new NotImplementedException();
 		}
+	}
+
+	internal struct AudioModule
+	{
+		internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack)
+		{
+			AudioLib = audioLib;
+			AudioPlayer = audioPlayer;
+			AudioTrack = audioTrack;
+		}
+		public IAudioLibImpl AudioLib;
+		public IAudioPlayerImpl AudioPlayer;
+		public Type AudioTrack;
 	}
 }

@@ -82,6 +82,8 @@ namespace Karl.Model
 		/// </summary>
 		private AudioPlayer()
 		{
+			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
+			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
 			SongsBefore = new Stack<AudioTrack>();
@@ -155,6 +157,11 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
+		private void UpdateAudioModule(AudioModule audioModule)
+		{
+			_audioPlayerImp = audioModule.AudioPlayer;
+			//TODO
+		}
 	}
 
 	interface IAudioPlayerImpl
