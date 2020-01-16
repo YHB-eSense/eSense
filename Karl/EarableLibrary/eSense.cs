@@ -11,10 +11,11 @@ using System.Text;
 namespace EarableLibrary
 {
 	/// <summary>
-	/// IEarable implemenation for eSense earables.
+	/// Implementation of IEarable for eSense headphones (https://www.esense.io/).
 	/// </summary>
 	public class ESense : IEarable
 	{
+		// Service and characteristic ids from the BLE specification (https://www.esense.io/share/eSense-BLE-Specification.pdf)
 		private static readonly Guid SER_GENERIC = GuidExtension.UuidFromPartial(0x1800);
 		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
 		private static readonly Guid SER_ESENSE = GuidExtension.UuidFromPartial(0xFF06);
@@ -64,6 +65,7 @@ namespace EarableLibrary
 
 		/// <summary>
 		/// Called after the connection has been established.
+		/// Can be used to initialize sensors and load device properties.
 		/// </summary>
 		protected async Task InitializeConnection()
 		{
@@ -81,9 +83,9 @@ namespace EarableLibrary
 		}
 
 		/// <summary>
-		/// Connect to the device.
+		/// Connect to the device and initialize sensors.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> ConnectAsync()
 		{
 			try
@@ -103,7 +105,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Disconnect from the device.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> DisconnectAsync()
 		{
 			if (!IsConnected()) return false;
@@ -121,17 +123,17 @@ namespace EarableLibrary
 		/// <summary>
 		/// Retrieve current connection state.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Whether the device is currently connected or not</returns>
 		public bool IsConnected()
 		{
 			return _device.State == DeviceState.Connected;
 		}
 
 		/// <summary>
-		/// Retrieve a sensor.
+		/// Retrieve one of the builtin sensors.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
+		/// <typeparam name="T">Type of the sensor</typeparam>
+		/// <returns>Object representing the requested sensor type, null if there is no such sensor builtin</returns>
 		public T GetSensor<T>() where T : ISensor
 		{
 			return (T)_sensors[typeof(T)];

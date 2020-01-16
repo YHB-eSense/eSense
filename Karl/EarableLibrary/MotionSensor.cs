@@ -10,19 +10,43 @@ namespace EarableLibrary
 	/// </summary>
 	public struct TripleShort
 	{
-		public short x;
-		public short y;
-		public short z;
+		/// <summary>
+		/// The three shorts making up the triple.
+		/// </summary>
+		public short x, y, z;
 
-		public static TripleShort FromByteArray(byte[] b, int offset=0)
+		/// <summary>
+		/// Parse a TripleShort from an array of bytes.
+		/// The first three pairs of bytes are converted to one short each (in the order x, y, z).
+		/// </summary>
+		/// <param name="array">The array of bytes</param>
+		/// <param name="offset">Offset of the first byte</param>
+		/// <param name="bigEndian">Whether to use big-endian (MSB first) or little-endian</param>
+		/// <returns>The parsed TripleShort</returns>
+		public static TripleShort FromByteArray(byte[] array, int offset=0, bool bigEndian=true)
 		{
 			TripleShort t;
-			t.x = (short) ((b[0 + offset] << 8) + b[1 + offset]);
-			t.y = (short) ((b[2 + offset] << 8) + b[3 + offset]);
-			t.z = (short) ((b[4 + offset] << 8) + b[5 + offset]);
+			if (bigEndian)
+			{
+				t.x = (short)((array[0 + offset] << 8) + array[1 + offset]);
+				t.y = (short)((array[2 + offset] << 8) + array[3 + offset]);
+				t.z = (short)((array[4 + offset] << 8) + array[5 + offset]);
+			}
+			else
+			{
+				t.x = (short)((array[1 + offset] << 8) + array[0 + offset]);
+				t.y = (short)((array[3 + offset] << 8) + array[2 + offset]);
+				t.z = (short)((array[5 + offset] << 8) + array[4 + offset]);
+			}
 			return t;
 		}
 
+		/// <summary>
+		/// Construct a new TripleShort from three shorts.
+		/// </summary>
+		/// <param name="x">First short</param>
+		/// <param name="y">Second short</param>
+		/// <param name="z">Third short</param>
 		public TripleShort(short x, short y, short z)
 		{
 			this.x = x;
@@ -31,43 +55,81 @@ namespace EarableLibrary
 		}
 	}
 
-	public class MotionArgs : EventArgs
+	/// <summary>
+	/// One sample of the motion sensor readings.
+	/// </summary>
+	public class MotionSensorSample : EventArgs
 	{
-		public MotionArgs(TripleShort gyro, TripleShort acc, byte packetId)
+		/// <summary>
+		/// Construct a new MotionSensorSample.
+		/// </summary>
+		/// <param name="gyro">Sensor reading of the gyroscope</param>
+		/// <param name="acc">Sensor reading of the acceleromter</param>
+		/// <param name="id">Consecutive sample id</param>
+		public MotionSensorSample(TripleShort gyro, TripleShort acc, byte id)
 		{
 			Gyro = gyro;
 			Acc = acc;
-			PacketId = packetId;
+			SampleId = id;
 		}
+
+		/// <summary>
+		/// Struct which holds sensor readings for all three axes of the gyroscope.
+		/// </summary>
 		public TripleShort Gyro { get; }
+
+		/// <summary>
+		/// Structs which holds sensor readings for all thee axes of the accelerometer.
+		/// </summary>
 		public TripleShort Acc { get; }
-		public byte PacketId { get;  }
+
+		/// <summary>
+		/// Consecutive sample id which increases which each new sample.
+		/// When the maximum capacity (255) is exceeded, an overflow happens.
+		/// </summary>
+		public byte SampleId { get;  }
 	}
 
 	/// <summary>
-	/// An IMU (Inertial Measurement Unit).
+	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionArgs>
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
 	{
+		// Command used to enable and disable IMU sampling
 		private static readonly byte CMD_IMU_ENABLE = 0x53;
 		private static readonly byte ENABLE = 0x01;
 		private static readonly byte DISABLE = 0x00;
 
-		public event EventHandler<MotionArgs> ValueChanged;
-
-		public int SamplingRate { get; set; }
-
 		private readonly ICharacteristic _data, _enable, _config;
 
+		/// <summary>
+		/// Invoked when a new sample is available.
+		/// </summary>
+		public event EventHandler<MotionSensorSample> ValueChanged;
+
+		/// <summary>
+		/// Targeted rate at which new samples are retrieved.
+		/// </summary>
+		public int SamplingRate { get; set; }
+
+		/// <summary>
+		/// Construct a new MotionSensor.
+		/// </summary>
+		/// <param name="data">Characteristic giving access to the sensor readings</param>
+		/// <param name="enable">Characteristic giving access to the enable-flag</param>
+		/// <param name="config">Characteristic giving access to the sensor configuration</param>
 		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config)
 		{
 			_data = data;
 			_enable = enable;
 			_config = config;
-			data.ValueUpdated += OnValueChanged;
+			data.ValueUpdated += OnValueUpdated;
 			SamplingRate = 50;
 		}
 
+		/// <summary>
+		/// Start sampling at the configured rate (<see cref="SamplingRate"/>).
+		/// </summary>
 		public async Task StartSamplingAsync()
 		{
 			await _data.StartUpdatesAsync();
@@ -75,6 +137,9 @@ namespace EarableLibrary
 			await _enable.WriteAsync(msg);
 		}
 
+		/// <summary>
+		/// Stop sampling.
+		/// </summary>
 		public async Task StopSamplingAsync()
 		{
 			await _data.StopUpdatesAsync();
@@ -82,13 +147,27 @@ namespace EarableLibrary
 			await _enable.WriteAsync(msg);
 		}
 
-		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
+		/// <summary>
+		/// Manually retrieve the current sensor reading.
+		/// </summary>
+		/// <returns>Sensor reading</returns>
+		public async Task<MotionSensorSample> ReadAsync()
 		{
-			var message = new ESenseMessage(received: e.Characteristic.Value, hasPacketIndex: true);
+			var message = await _data.ReadAsync();
+			return ParseMessage(message);
+		}
+
+		private MotionSensorSample ParseMessage(byte[] bytes)
+		{
+			var message = new ESenseMessage(received: bytes, hasPacketIndex: true);
 			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
 			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
-			var args = new MotionArgs(gyro, acc, message.PacketIndex);
-			ValueChanged?.Invoke(this, args);
+			return new MotionSensorSample(gyro, acc, message.PacketIndex);
+		}
+
+		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
+		{
+			ValueChanged?.Invoke(this, ParseMessage(e.Characteristic.Value));
 		}
 	}
 }

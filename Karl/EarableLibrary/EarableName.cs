@@ -9,7 +9,7 @@ namespace EarableLibrary
 	/// Wrapper class which bundles read- and write-functionality for the device name.
 	/// Stores a local copy of the remote value, which allows for synchronous read operations.
 	/// </summary>
-	public class EarableName
+	internal class EarableName
 	{
 		private string _name;
 		private readonly ICharacteristic _read, _write;

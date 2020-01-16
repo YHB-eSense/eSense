@@ -41,7 +41,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Retrieve connection state.
 		/// </summary>
-		/// <returns>Whether the earable is connected (true) or not (false)</returns>
+		/// <returns>Whether the earable is connected or not</returns>
 		bool IsConnected();
 	}
 }

@@ -12,7 +12,7 @@ namespace EarableLibrary
 	{
 		/// <summary>
 		/// Try establishing a BLE connection to an earable:
-		/// Connections to all available earables (<see cref="ListEarables"/>) will be established successively until one succeeds.
+		/// Connections to all available earables (<see cref="ListEarables"/>) will be opened successively until one succeeds.
 		/// </summary>
 		/// <returns>The first successfully connected earable or null if all failed</returns>
 		public async Task<IEarable> ConnectEarableAsync()

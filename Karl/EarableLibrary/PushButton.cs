@@ -30,7 +30,7 @@ namespace EarableLibrary
 	/// </summary>
 	public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>
 	{
-		private readonly ICharacteristic _characteristic;
+		private readonly ICharacteristic _read;
 
 		/// <summary>
 		/// Invoked when the button state changes.
@@ -48,8 +48,8 @@ namespace EarableLibrary
 		/// <param name="read">Characteristic, which provides read-access to the current button state</param>
 		public PushButton(ICharacteristic read)
 		{
-			_characteristic = read;
-			_characteristic.ValueUpdated += OnValueUpdated;
+			_read = read;
+			_read.ValueUpdated += OnValueUpdated;
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace EarableLibrary
 		/// </summary>
 		public async Task StartSamplingAsync()
 		{
-			await _characteristic.StartUpdatesAsync();
+			await _read.StartUpdatesAsync();
 		}
 
 		/// <summary>
@@ -65,16 +65,16 @@ namespace EarableLibrary
 		/// </summary>
 		public async Task StopSamplingAsync()
 		{
-			await _characteristic.StopUpdatesAsync();
+			await _read.StopUpdatesAsync();
 		}
 
 		/// <summary>
-		/// Manually query the current button state.
+		/// Manually retrieve the current button state.
 		/// </summary>
 		/// <returns>Current button state</returns>
 		public async Task<ButtonState> ReadAsync()
 		{
-			var message = await _characteristic.ReadAsync();
+			var message = await _read.ReadAsync();
 			return ParseMessage(message);
 		}
 

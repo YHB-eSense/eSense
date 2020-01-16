@@ -122,7 +122,7 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, EventArgs args)
 		{
-			MotionArgs marg = (MotionArgs)args;
+			MotionSensorSample marg = (MotionSensorSample)args;
 			accgyrodata.AccData.Xacc[counter] = marg.Acc.x;
 			accgyrodata.AccData.Yacc[counter] = marg.Acc.y;
 			accgyrodata.AccData.Zacc[counter] = marg.Acc.z;

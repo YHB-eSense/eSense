@@ -69,7 +69,7 @@ namespace Karl.Model
 			imu.SamplingRate = 10;
 			imu.ValueChanged += (s, args) =>
 			{
-				Debug.WriteLine("(Id,Acc(x,y,z))\t{0}\t{1}\t{2}\t{3}", args.PacketId, args.Acc.x, args.Acc.y, args.Acc.z);
+				Debug.WriteLine("(Id,Acc(x,y,z))\t{0}\t{1}\t{2}\t{3}", args.SampleId, args.Acc.x, args.Acc.y, args.Acc.z);
 
 				accDataXList.Add(args.Acc.x);
 				accDataYList.Add(args.Acc.y);

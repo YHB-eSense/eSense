@@ -8,10 +8,26 @@ using Xamarin.Forms;
 
 namespace EarableLibrary
 {
+	/// <summary>
+	/// Utility for encoding and decoding messages from and to the eSense.
+	/// See official eSense BLE specification for details about the used protocol:
+	/// https://www.esense.io/share/eSense-BLE-Specification.pdf
+	/// </summary>
 	public class ESenseMessage
 	{
+		/// <summary>
+		/// Message header
+		/// </summary>
 		public byte Header { get; set; }
+
+		/// <summary>
+		/// Message data
+		/// </summary>
 		public byte[] Data { get; set; }
+
+		/// <summary>
+		/// Calculated checksum
+		/// </summary>
 		public byte Checksum
 		{
 			get
@@ -21,9 +37,23 @@ namespace EarableLibrary
 				return checksum;
 			}
 		}
+
+		/// <summary>
+		/// Consecutive packet counter used in some messages.
+		/// Meaningless if <see cref="HasPacketIndex"/> is false.
+		/// </summary>
 		public byte PacketIndex { get; set; }
+
+		/// <summary>
+		/// Whether this message contains an packet index or not.
+		/// </summary>
 		public bool HasPacketIndex { get; set; }
 
+		/// <summary>
+		/// Construct a new ESenseMessage.
+		/// </summary>
+		/// <param name="header">Message header</param>
+		/// <param name="data">Message data</param>
 		public ESenseMessage(byte header, params byte[] data)
 		{
 			Header = header;
@@ -31,6 +61,12 @@ namespace EarableLibrary
 			PacketIndex = 0;
 		}
 
+		/// <summary>
+		/// Construct a new ESenseMessage from an encoded byte array.
+		/// </summary>
+		/// <param name="received">The encoded byte array</param>
+		/// <param name="hasPacketIndex">Whether the message received contains a packet-index-byte or not</param>
+		/// <exception cref="MessageError">When the received message is invalid (wrong size or checksum)</exception>
 		public ESenseMessage(byte[] received, bool hasPacketIndex = false)
 		{
 			int i = 0; // parsing index
@@ -45,6 +81,10 @@ namespace EarableLibrary
 			if (Checksum != receivedChecksum) throw new MessageError("Invalid checksum detected!");
 		}
 
+		/// <summary>
+		/// Encode this message into a byte array.
+		/// </summary>
+		/// <returns></returns>
 		public byte[] ToByteArray()
 		{
 			var size = Data.Length + 3;
@@ -59,20 +99,35 @@ namespace EarableLibrary
 			return bytes;
 		}
 
-		public static implicit operator byte[](ESenseMessage m)
+		/// <summary>
+		/// See <see cref="ToByteArray"/>.
+		/// </summary>
+		/// <param name="message">Message to be encoded</param>
+		public static implicit operator byte[](ESenseMessage message)
 		{
-			return m.ToByteArray();
+			return message.ToByteArray();
 		}
 
-		public static explicit operator ESenseMessage(byte[] m)
+		/// <summary>
+		/// Decode the byte array to an ESenseMessage (same as calling <see cref="ESenseMessage"/>).
+		/// </summary>
+		/// <param name="array">Encoded byte array</param>
+		public static explicit operator ESenseMessage(byte[] array)
 		{
-			return new ESenseMessage(m, false);
+			return new ESenseMessage(array, false);
 		}
 	}
 
+	/// <summary>
+	/// Exception for errors that occur during message-parsing due to an malmformed message.
+	/// </summary>
 	public class MessageError : Exception
 	{
-		public MessageError(string message) : base(message)
+		/// <summary>
+		/// Construct a new MessageError.
+		/// </summary>
+		/// <param name="errorMessage">Message describing the error</param>
+		public MessageError(string errorMessage) : base(errorMessage)
 		{
 		}
 	}
