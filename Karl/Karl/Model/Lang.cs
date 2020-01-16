@@ -14,9 +14,9 @@ namespace Karl.Model
 	{
 		private const string WORD_NOT_FOUND_MESSAGE = "Word not found";
 		private IDictionary <string, string> _wordPairs;
-		private Boolean initDone = false;
+		private bool initDone = false;
 		private FileInfo BaseFile;
-		public String Tag { get; private set; }
+		public string Tag { get; private set; }
 		public string Name { get => Get("name"); }
 
 		/// <summary>
@@ -75,12 +75,11 @@ namespace Karl.Model
 	/// </summary>
 	public class LangManager : IObservable<Lang>
 	{
-		private ConfigFile _configFile;
 		private static LangManager _singletonLangManager;
 		private readonly List<IObserver<Lang>> Observers;
 		private Lang _currentLang;
 		public List<Lang> AvailableLangs { get; }
-		public Dictionary<String, Lang> LangMap { get; private set; }
+		public Dictionary<string, Lang> LangMap { get; private set; }
 
 		/// <summary>
 		/// The Language obj. currently selected.
@@ -124,7 +123,7 @@ namespace Karl.Model
 		/// </summary>
 		/// <param name="tag">The language tag</param>
 		/// <returns>true if lang was found. False otherwise.</returns>
-		public Boolean ChooseLang(String tag)
+		public bool ChooseLang(String tag)
 		{
 			if( LangMap.TryGetValue(tag, out Lang lang ))
 			{

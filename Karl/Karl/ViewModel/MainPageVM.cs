@@ -95,7 +95,6 @@ namespace Karl.ViewModel
 			_handler.GotoPage(_handler._pages[1]);
 		}
 
-
 		private async void TryConnect()
 		{
 			/*
@@ -118,7 +117,6 @@ namespace Karl.ViewModel
 				{
 					INavToSettings navigator = DependencyService.Get<INavToSettings>();
 					navigator.NavToSettings();
-
 				}
 
 			}

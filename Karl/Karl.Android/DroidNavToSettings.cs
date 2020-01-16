@@ -13,7 +13,7 @@ using Karl.Droid;
 using Karl.Model;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(DroidNavToSettings))]
+[assembly: Dependency(typeof(Karl.Droid.DroidNavToSettings))]
 namespace Karl.Droid
 {
 	class DroidNavToSettings : INavToSettings
