@@ -2,6 +2,8 @@ using System;
 using EarableLibrary;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using StepDetectionLibrary;
+using System.Collections.Generic;
 
 namespace Karl.Model
 {
@@ -56,11 +58,31 @@ namespace Karl.Model
 
 			if (_connectedEarable == null) return false;
 
+			var input = new Input();
+			var accDataXList = new List<double>();
+			var accDataYList = new List<double>();
+			var accDataZList = new List<double>();
+			var gyroDataXList = new List<short>();
+			var gyroDataYList = new List<short>();
+			var gyroDataZList = new List<short>();
 			var imu = _connectedEarable.GetSensor<MotionSensor>();
 			imu.SamplingRate = 10;
 			imu.ValueChanged += (s, args) =>
 			{
 				Debug.WriteLine("(Id,Acc(x,y,z))\t{0}\t{1}\t{2}\t{3}", args.PacketId, args.Acc.x, args.Acc.y, args.Acc.z);
+
+				accDataXList.Add(args.Acc.x);
+				accDataYList.Add(args.Acc.y);
+				accDataZList.Add(args.Acc.z);
+				gyroDataXList.Add(args.Gyro.x);
+				gyroDataYList.Add(args.Gyro.y);
+				gyroDataZList.Add(args.Gyro.z);
+				if (accDataXList.Count == AccGyroData.DATALENGTH)
+				{
+					var accData = new AccData(accDataXList.ToArray(), accDataYList.ToArray(), accDataZList.ToArray());
+					var gyroData = new GyroData(gyroDataXList.ToArray(), gyroDataYList.ToArray(), gyroDataZList.ToArray());
+					input.Update(new AccGyroData(accData, gyroData));
+				}
 			};
 			await imu.StartSamplingAsync();
 

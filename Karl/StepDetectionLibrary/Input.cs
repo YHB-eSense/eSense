@@ -13,6 +13,11 @@ namespace StepDetectionLibrary
 		public AccData AccData;
 		public GyroData GyroData;
 		public const int DATALENGTH = 250;
+		public AccGyroData(AccData accData, GyroData gyroData)
+		{
+			AccData = accData;
+			GyroData = gyroData;
+		}
 	}
 
 	/// <summary>
@@ -23,6 +28,12 @@ namespace StepDetectionLibrary
 		public double[] Xacc;
 		public double[] Yacc;
 		public double[] Zacc;
+		public AccData(double[] xacc, double[] yacc, double[] zacc)
+		{
+			Xacc = xacc;
+			Yacc = yacc;
+			Zacc = zacc;
+		}
 	}
 
 	/// <summary>
@@ -33,6 +44,12 @@ namespace StepDetectionLibrary
 		public short[] Xgyro;
 		public short[] Ygyro;
 		public short[] Zgyro;
+		public GyroData(short[] xgyro, short[] ygyro, short[] zgyro)
+		{
+			Xgyro = xgyro;
+			Ygyro = ygyro;
+			Zgyro = zgyro;
+		}
 	}
 
 	/// <summary>

@@ -12,18 +12,14 @@
 		<Grid RowSpacing="0" ColumnSpacing="0">
 
 			<Grid.RowDefinitions>
-				<RowDefinition Height="100"/>
-				<RowDefinition Height="100"/>
-				<RowDefinition Height="100"/>
-				<RowDefinition Height="30"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+			<Frame Grid.Row="0" Grid.Column="0" Padding="5">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding LanguageLabel}"
 						   TextColor="Black"
@@ -36,7 +32,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+			<Frame Grid.Row="1" Grid.Column="0" Padding="5">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding ColorLabel}"
 						   TextColor="Black"
@@ -49,7 +45,7 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+			<Frame Grid.Row="2" Grid.Column="0" Padding="5">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding DeviceNameLabel}"
 						TextColor="Black"
@@ -59,12 +55,12 @@
 			</Frame>
 
 			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Padding="5">
+			<Frame Grid.Row="3" Grid.Column="0" Padding="5">
 				<StackLayout Orientation="Vertical" Padding="0">
 					<Button Text="{Binding ChangeDeviceNameLabel}"
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
-					Command="{Binding ChangeDeviceNameCommand}">
+						Command="{Binding ChangeDeviceNameCommand}">
 					</Button>
 					<Button Text="{Binding ResetStepsLabel}"
 						BackgroundColor="{Binding CurrentColor.Color}"

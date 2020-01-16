@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace TestProject
 {
-    class MainClass
+    public class MainClass
     {
-		public static async void Main(string[] args)
+		public static async void Main()
 		{
 			ActivityLog activitylog = new ActivityLog();
 			ActivityFrame[] activityFrames = await activitylog.GetData();

@@ -33,9 +33,9 @@ namespace Karl.ViewModel
 
 		//Properties binded to AudioLibPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string TitleLabel { get => "Test"; }//_langManager.CurrentLang.Get("title"); }
-		public string ArtistLabel { get => "Test"; }//_langManager.CurrentLang.Get("artist"); }
-		public string BPMLabel { get => "Test"; }//_langManager.CurrentLang.Get("bpm"); }
+		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
+		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
+		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;

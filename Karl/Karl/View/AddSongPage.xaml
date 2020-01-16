@@ -13,15 +13,11 @@
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
+				<RowDefinition Height="2*"/>
 			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding TitleLabel}"
 						FontSize="Large"
@@ -31,7 +27,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.ColumnSpan="2">
+			<Frame Grid.Row="1">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding ArtistLabel}"
 						FontSize="Large"
@@ -41,25 +37,25 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.ColumnSpan="2">
+			<Frame Grid.Row="2">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding BPMLabel}"
 						FontSize="Large"
 						TextColor="Black"/>
 					<Entry Text="{Binding NewSongBPM}"
-					Keyboard="Numeric"/>
-					<Button Text="Get BPM"
-							TextColor="White"
-							Command="{Binding GetBPMCommand}"
-							BackgroundColor="#018786"/>
+						Keyboard="Numeric"/>
 				</StackLayout>
 			</Frame>
 			
 
 			<!--Fourth Row-->
-
-			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="3">
 				<StackLayout Orientation="Vertical">
+					<Button Text="Get BPM" 
+						TextColor="White" 
+						Command="{Binding GetBPMCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"/>
+					<!--TODO-->
 					<Button Text="{Binding PickFileLabel}"
 						Command="{Binding PickFileCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"
