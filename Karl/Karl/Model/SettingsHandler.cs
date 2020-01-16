@@ -41,6 +41,8 @@ namespace Karl.Model
 			get => _langManager.CurrentLang;
 			set
 			{
+				if (_properties.ContainsKey("lang")) _properties.Remove("lang");
+				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
 				SettingsChanged?.Invoke(this, null);
 			}
@@ -103,16 +105,6 @@ namespace Karl.Model
 				}
 			}
 		}
-		/// <summary>
-		/// Initializes the Singleton should it still be null.
-		/// </summary>
-		public static void Init()
-		{
-			lock(_padlock)
-			{
-				if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
-			}
-		}
 
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler
@@ -164,6 +156,10 @@ namespace Karl.Model
 					_langManager.ChooseLang("lang_english");
 					_properties.Add("lang", "lang_english");
 				}
+			} else
+			{
+				_langManager.ChooseLang("lang_english");
+				_properties.Add("lang", "lang_english");
 			}
 
 			//Load Steps
