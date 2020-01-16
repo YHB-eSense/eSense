@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Karl.Model.Exceptions;
 
 namespace Karl.Model
 {
@@ -86,7 +87,11 @@ namespace Karl.Model
 		/// </summary>
 		public Lang CurrentLang
 		{
-			get => _currentLang;
+			get
+			{
+				if (_currentLang == null) throw new NotInitializedException("The SettingsHandler is not initialized.");
+				return _currentLang;
+			}
 			set
 			{
 				_currentLang = value;
@@ -108,10 +113,6 @@ namespace Karl.Model
 				if (_singletonLangManager == null)
 				{
 					_singletonLangManager = new LangManager();
-
-					//In Case VM needs LangData before Settings were loaded.
-					SettingsHandler.Init();
-
 					return _singletonLangManager;
 				}
 				return _singletonLangManager;
@@ -142,6 +143,7 @@ namespace Karl.Model
 		{
 			AvailableLangs = new List<Lang>();
 			LangMap = new Dictionary<String, Lang>();
+
 			//LocalApplicationData
 			string directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
@@ -149,17 +151,18 @@ namespace Karl.Model
 			var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Karl.english.txt");
 			var reader = new StreamReader(stream);
 			string english = reader.ReadToEnd();
+			reader.Close();
 
 			//load embedded resource "german.txt"
 			stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Karl.german.txt");
 			reader = new StreamReader(stream);
 			string german = reader.ReadToEnd();
+			reader.Close();
 
 			//Create Lang Dir in LocalApplicationData
 			string LangDirPath = Path.Combine(directory, "lang");
 			DirectoryInfo LangDir = new DirectoryInfo(LangDirPath);
 			if (!LangDir.Exists) LangDir.Create();
-			FileInfo[] LangFiles = LangDir.GetFiles("*.lang");
 
 			//write english to LocalApplicationData if it does not exist already
 			if (!File.Exists(Path.Combine(LangDirPath, "lang_english.lang")))
@@ -173,6 +176,9 @@ namespace Karl.Model
 				File.WriteAllText(Path.Combine(LangDirPath, "lang_german.lang"), german);
 			}
 
+			//Fetch all files from LangDir
+			FileInfo[] LangFiles = LangDir.GetFiles("*.lang");
+
 			//load all langs from LocalApplicationData
 			string[] filePaths = Directory.GetFiles(directory);
 			foreach (FileInfo file in LangFiles)
@@ -181,8 +187,6 @@ namespace Karl.Model
 				AvailableLangs.Add(NewLang);
 				LangMap.Add(NewLang.Tag, NewLang);
 			}
-
-			_currentLang = AvailableLangs.First();
 
 			//Init Observable Pattern
 			Observers = new List<IObserver<Lang>>();
