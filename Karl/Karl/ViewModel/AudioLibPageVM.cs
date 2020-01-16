@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Karl.Model;
+using Karl.View;
 using Xamarin.Forms;
 
 namespace Karl.ViewModel
@@ -190,13 +190,13 @@ namespace Karl.ViewModel
 
 		private void PlaySong(AudioTrack track)
 		{
-			_handler.GotoPage(_handler._pages[0]);
+			_handler.GotoPage<AudioPlayerPage>();
 			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
 		}
 
 		private void AddSong()
 		{
-			_handler.GotoPage(_handler._pages[5]);
+			_handler.GotoPage<AddSongPage>();
 		}
 
 		private void EditDeleteList(AudioTrack song)

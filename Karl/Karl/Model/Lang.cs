@@ -182,6 +182,8 @@ namespace Karl.Model
 				LangMap.Add(NewLang.Tag, NewLang);
 			}
 
+			_currentLang = AvailableLangs.First();
+
 			//Init Observable Pattern
 			Observers = new List<IObserver<Lang>>();
 		}

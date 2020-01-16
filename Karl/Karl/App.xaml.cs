@@ -1,18 +1,15 @@
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using Karl.View;
 using Karl.ViewModel;
-using Karl.Model;
 using FormsControls.Base;
 
 namespace Karl
 {
-    public partial class App : Application
-    {
+	public partial class App : Application
+	{
 		public App()
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
 
 			NavigationHandler handler = new NavigationHandler();
 
@@ -30,25 +27,25 @@ namespace Karl
 			AddSongPage addSongPage = new AddSongPage(addSongPageVM);
 			MainPage mainPage = new MainPage(mainPageVM);
 
-			ContentPage[] pages = {audioPlayerPage, audioLibPage, null, modesPage, settingsPage, addSongPage, mainPage};
+			ContentPage[] pages = {audioPlayerPage, audioLibPage, modesPage, settingsPage, addSongPage, mainPage};
 			handler.SetPages(pages);
 
 			MainPage = new AnimationNavigationPage(mainPage);
 		}
 
-        protected override void OnStart()
-        {
-            // Handle when your app starts
-        }
+		protected override void OnStart()
+		{
+			// Handle when your app starts
+		}
 
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
+		protected override void OnSleep()
+		{
+			// Handle when your app sleeps
+		}
 
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
-        }
-    }
+		protected override void OnResume()
+		{
+			// Handle when your app resumes
+		}
+	}
 }

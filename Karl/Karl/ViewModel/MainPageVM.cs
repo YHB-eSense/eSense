@@ -3,8 +3,7 @@ using System.ComponentModel;
 using Karl.Model;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
+using Karl.View;
 
 namespace Karl.ViewModel
 {
@@ -87,12 +86,12 @@ namespace Karl.ViewModel
 
 		private void GotoAudioPlayerPage()
 		{
-			_handler.GotoPage(_handler._pages[0]);
+			_handler.GotoPage<AudioPlayerPage>();
 		}
 
 		private void GotoAudioLibPage()
 		{
-			_handler.GotoPage(_handler._pages[1]);
+			_handler.GotoPage<AudioLibPage>();
 		}
 
 		private async void TryConnect()
@@ -125,12 +124,12 @@ namespace Karl.ViewModel
 
 		private void GotoModesPage()
 		{
-			_handler.GotoPage(_handler._pages[3]);
+			_handler.GotoPage<ModesPage>();
 		}
 
 		private void GotoSettingsPage()
 		{
-			_handler.GotoPage(_handler._pages[4]);
+			_handler.GotoPage<SettingsPage>();
 		}
 
 	}
