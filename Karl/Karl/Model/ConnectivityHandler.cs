@@ -1,8 +1,6 @@
 using System;
 using EarableLibrary;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Karl.Model
@@ -58,7 +56,7 @@ namespace Karl.Model
 
 			if (_connectedEarable == null) return false;
 
-			var imu = (MotionSensor)_connectedEarable.Sensors[typeof(MotionSensor)];
+			var imu = _connectedEarable.GetSensor<MotionSensor>();
 			imu.SamplingRate = 10;
 			imu.ValueChanged += (s, args) =>
 			{
@@ -66,7 +64,7 @@ namespace Karl.Model
 			};
 			await imu.StartSamplingAsync();
 
-			var button = (PushButton)_connectedEarable.Sensors[typeof(PushButton)];
+			var button = _connectedEarable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
 			{
 				Debug.WriteLine("Button pushed: {0}", args.Pressed);

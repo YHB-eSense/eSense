@@ -1,5 +1,4 @@
 using Plugin.BLE;
-using Plugin.BLE.Abstractions.Contracts;
 using System.Threading.Tasks;
 
 namespace EarableLibrary

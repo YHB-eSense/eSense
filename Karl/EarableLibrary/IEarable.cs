@@ -1,5 +1,4 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace EarableLibrary
@@ -10,9 +9,7 @@ namespace EarableLibrary
 
 		Guid Id { get; }
 
-		IAudioStream AudioStream { get; }
-
-		ReadOnlyDictionary<Type, ISensor> Sensors { get; }
+		T GetSensor<T>() where T : ISensor;
 
 		Task<bool> ConnectAsync();
 

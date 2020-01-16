@@ -39,7 +39,7 @@ namespace EarableLibrary
 
 		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			var message = new eSenseMessage(received: e.Characteristic.Value);
+			var message = new ESenseMessage(received: e.Characteristic.Value);
 			var pushed = (message.Data[0] & 1) == 1;
 			var args = new ButtonArgs(pushed);
 			ValueChanged?.Invoke(this, args);

@@ -65,20 +65,20 @@ namespace EarableLibrary
 		public async Task StartSamplingAsync()
 		{
 			await _data.StartUpdatesAsync();
-			var msg = new eSenseMessage(CMD_IMU_ENABLE, ENABLE, SamplingRate);
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, SamplingRate);
 			await _enable.WriteAsync(msg);
 		}
 
 		public async Task StopSamplingAsync()
 		{
 			await _data.StopUpdatesAsync();
-			var msg = new eSenseMessage(CMD_IMU_ENABLE, DISABLE, 0);
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, DISABLE, 0);
 			await _enable.WriteAsync(msg);
 		}
 
 		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			var message = new eSenseMessage(received: e.Characteristic.Value, hasPacketIndex: true);
+			var message = new ESenseMessage(received: e.Characteristic.Value, hasPacketIndex: true);
 			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
 			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
 			var args = new MotionArgs(gyro, acc, message.PacketIndex);

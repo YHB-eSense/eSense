@@ -1,13 +1,11 @@
 using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
-using System.Collections.ObjectModel;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace EarableLibrary
 {
@@ -28,50 +26,39 @@ namespace EarableLibrary
 		public static Guid[] RequiredServiceUuids = { SER_GENERIC, SER_ESENSE };
 
 		private readonly IDevice _device;
-		private readonly IAudioStream _audioStream;
 
-		private string _name;
-		private bool _validated;
+		private EarableName _name;
 
 		public ESense(IDevice device)
 		{
 			_device = device;
-			_validated = false;
 		}
 
 		public string Name
 		{
-			get
-			{
-				//if (_name != null) return _name;
-				return _device.Name;
-			}
-			set
-			{
-				_name = value;
-				//updateCharacteristic();
-			}
+			get => _name.Value;
+			set => _name.Value = value;
 		}
 
 		public Guid Id => _device.Id;
 
-		public IAudioStream AudioStream => _audioStream;
+		private Dictionary<Type, ISensor> _sensors;
 
-		public ReadOnlyDictionary<Type, ISensor> Sensors { get; private set; }
-
-		private async Task<Dictionary<Guid, ICharacteristic>> GetCharacteristicsAsync(Guid serviceId)
+		private async Task<Dictionary<Guid, ICharacteristic>> GetCharacteristicsAsync(params Guid[] serviceIds)
 		{
 			var dict = new Dictionary<Guid, ICharacteristic>();
-			var service = await _device.GetServiceAsync(serviceId);
-			if (service == null) throw new NotSupportedException(String.Format("Service {0} not found", serviceId));
-			var characteristics = await service.GetCharacteristicsAsync();
-			foreach (var c in characteristics) dict.Add(c.Id, c);
+			foreach (Guid serviceId in serviceIds)
+			{
+				var service = await _device.GetServiceAsync(serviceId);
+				if (service == null) throw new NotSupportedException(string.Format("Service {0} not found", serviceId));
+				var characteristics = await service.GetCharacteristicsAsync();
+				foreach (var c in characteristics) dict.Add(c.Id, c);
+			}
 			return dict;
 		}
 
-		private async Task<Dictionary<Type, ISensor>> CreateSensors()
+		private Dictionary<Type, ISensor> CreateSensors(Dictionary<Guid, ICharacteristic> c)
 		{
-			var c = await GetCharacteristicsAsync(SER_ESENSE);
 			var dict = new Dictionary<Type, ISensor>
 			{
 				{ typeof(MotionSensor), new MotionSensor(data: c[CHAR_IMU_DATA], enable: c[CHAR_IMU_ENABLE], config: c[CHAR_IMU_CONFIG]) },
@@ -85,10 +72,9 @@ namespace EarableLibrary
 		{
 			try
 			{
-				//var name = (await GetCharacteristicsAsync(SER_GENERIC))[CHAR_NAME_R];
-				//_name = Encoding.UTF8.GetString(await name.ReadAsync());
-				Sensors = new ReadOnlyDictionary<Type, ISensor>(await CreateSensors());
-				_validated = true;
+				var characteristics = await GetCharacteristicsAsync(SER_GENERIC, SER_ESENSE);
+				_name = new EarableName(characteristics[CHAR_NAME_R], characteristics[CHAR_NAME_W]);
+				_sensors = CreateSensors(characteristics);
 			}
 			catch (Exception e)
 			{
@@ -132,9 +118,9 @@ namespace EarableLibrary
 			return _device.State == DeviceState.Connected;
 		}
 
-		public bool IsValid()
+		public T GetSensor<T>() where T : ISensor
 		{
-			return _validated;
+			return (T)_sensors[typeof(T)];
 		}
 	}
 }

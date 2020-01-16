@@ -1,14 +1,8 @@
-using Plugin.BLE.Abstractions.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace EarableLibrary
 {
-	public class eSenseMessage
+	public class ESenseMessage
 	{
 		public byte Header { get; set; }
 		public byte[] Data { get; set; }
@@ -24,14 +18,14 @@ namespace EarableLibrary
 		public byte PacketIndex { get; set; }
 		public bool HasPacketIndex { get; set; }
 
-		public eSenseMessage(byte header, params byte[] data)
+		public ESenseMessage(byte header, params byte[] data)
 		{
 			Header = header;
 			Data = data;
 			PacketIndex = 0;
 		}
 
-		public eSenseMessage(byte[] received, bool hasPacketIndex = false)
+		public ESenseMessage(byte[] received, bool hasPacketIndex = false)
 		{
 			int i = 0; // parsing index
 			HasPacketIndex = hasPacketIndex;
@@ -59,14 +53,14 @@ namespace EarableLibrary
 			return bytes;
 		}
 
-		public static implicit operator byte[](eSenseMessage m)
+		public static implicit operator byte[](ESenseMessage m)
 		{
 			return m.ToByteArray();
 		}
 
-		public static explicit operator eSenseMessage(byte[] m)
+		public static explicit operator ESenseMessage(byte[] m)
 		{
-			return new eSenseMessage(m, false);
+			return new ESenseMessage(m, false);
 		}
 	}
 
