@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
+	/// <summary>
+	/// Group of three shorts (x, y, z).
+	/// </summary>
 	public struct TripleShort
 	{
 		public short x;
@@ -41,6 +44,9 @@ namespace EarableLibrary
 		public byte PacketId { get;  }
 	}
 
+	/// <summary>
+	/// An IMU (Inertial Measurement Unit).
+	/// </summary>
 	public class MotionSensor : ISubscribableSensor<MotionArgs>
 	{
 		private static readonly byte CMD_IMU_ENABLE = 0x53;
@@ -49,7 +55,7 @@ namespace EarableLibrary
 
 		public event EventHandler<MotionArgs> ValueChanged;
 
-		public byte SamplingRate { get; set; }
+		public int SamplingRate { get; set; }
 
 		private readonly ICharacteristic _data, _enable, _config;
 
@@ -65,7 +71,7 @@ namespace EarableLibrary
 		public async Task StartSamplingAsync()
 		{
 			await _data.StartUpdatesAsync();
-			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, SamplingRate);
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte) SamplingRate);
 			await _enable.WriteAsync(msg);
 		}
 

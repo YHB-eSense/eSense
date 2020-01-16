@@ -5,44 +5,89 @@ using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
-
-	public class ButtonArgs : EventArgs
+	/// <summary>
+	/// Represents a state which one button can be in.
+	/// </summary>
+	public class ButtonState : EventArgs
 	{
-		public ButtonArgs(bool pressed)
+		/// <summary>
+		/// Constructs a new ButtonState.
+		/// </summary>
+		/// <param name="pressed"></param>
+		public ButtonState(bool pressed)
 		{
 			Pressed = pressed;
 		}
+
+		/// <summary>
+		/// Whether the button is currently pressed or not.
+		/// </summary>
 		public bool Pressed { get; }
 	}
 
-	public class PushButton : ISubscribableSensor<ButtonArgs>
+	/// <summary>
+	/// Event-based sensor which measures the binary push pressure.
+	/// </summary>
+	public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>
 	{
-		public event EventHandler<ButtonArgs> ValueChanged;
-
 		private readonly ICharacteristic _characteristic;
 
-		public PushButton(ICharacteristic characteristic)
+		/// <summary>
+		/// Invoked when the button state changes.
+		/// </summary>
+		public event EventHandler<ButtonState> ValueChanged;
+
+		/// <summary>
+		/// Always -1, since this sensor is event-based.
+		/// </summary>
+		public int SamplingRate { get => -1; set => _ = value; }
+
+		/// <summary>
+		/// Construct a new PushButton.
+		/// </summary>
+		/// <param name="read">Characteristic, which provides read-access to the current button state</param>
+		public PushButton(ICharacteristic read)
 		{
-			_characteristic = characteristic;
-			_characteristic.ValueUpdated += OnValueChanged;
+			_characteristic = read;
+			_characteristic.ValueUpdated += OnValueUpdated;
 		}
 
+		/// <summary>
+		/// Start sampling.
+		/// </summary>
 		public async Task StartSamplingAsync()
 		{
 			await _characteristic.StartUpdatesAsync();
 		}
 
+		/// <summary>
+		/// Stop sampling.
+		/// </summary>
 		public async Task StopSamplingAsync()
 		{
 			await _characteristic.StopUpdatesAsync();
 		}
 
-		protected virtual void OnValueChanged(object sender, CharacteristicUpdatedEventArgs e)
+		/// <summary>
+		/// Manually query the current button state.
+		/// </summary>
+		/// <returns>Current button state</returns>
+		public async Task<ButtonState> ReadAsync()
 		{
-			var message = new ESenseMessage(received: e.Characteristic.Value);
+			var message = await _characteristic.ReadAsync();
+			return ParseMessage(message);
+		}
+
+		private ButtonState ParseMessage(byte[] bytes)
+		{
+			var message = new ESenseMessage(received: bytes);
 			var pushed = (message.Data[0] & 1) == 1;
-			var args = new ButtonArgs(pushed);
-			ValueChanged?.Invoke(this, args);
+			return new ButtonState(pushed);
+		}
+
+		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
+		{
+			ValueChanged?.Invoke(this, ParseMessage(e.Characteristic.Value));
 		}
 	}
 }
