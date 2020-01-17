@@ -13,7 +13,6 @@ namespace Karl.Model
 	/// </summary>
 	public class Lang
 	{
-		private const string WORD_NOT_FOUND_MESSAGE = "Word not found";
 		private IDictionary <string, string> _wordPairs;
 		private bool initDone = false;
 		private FileInfo BaseFile;
@@ -38,7 +37,7 @@ namespace Karl.Model
 		{
 			if (!initDone) Init();
 			if (_wordPairs.ContainsKey(tag)) { return _wordPairs[tag]; }
-			return WORD_NOT_FOUND_MESSAGE;
+			return tag;
 		}
 
 		/// <summary>
