@@ -103,6 +103,11 @@ namespace StepDetectionLibrary
 
 		}
 
+		private OutputManager()
+		{
+			_observers = new List<IObserver<Output>>();
+		}
+
 		/// <summary>
 		/// Unsubscriber
 		/// </summary>

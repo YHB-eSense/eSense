@@ -132,7 +132,7 @@ namespace Karl.Model
 		private SettingsHandler()
 		{
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			_outputManager = new OutputManager();
+			_outputManager = OutputManager.SingletonOutputManager;
 			_outputManager.Subscribe(new StepDetectionObserver(this));
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
@@ -160,7 +160,6 @@ namespace Karl.Model
 						CurrentColor = CC;
 						FoundColor = true;
 						break;
-
 					}
 				}
 				if (!FoundColor)
