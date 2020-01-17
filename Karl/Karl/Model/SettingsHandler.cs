@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// <summary>
 	/// The SettingsHandler is a class where you can change all App Settings and find the current Settings.
 	/// </summary>
-	public class SettingsHandler: IObserver<Output>
+	public class SettingsHandler
 	{
 		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
@@ -76,6 +76,8 @@ namespace Karl.Model
 			get => _steps;
 			private set
 			{
+				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
+				_properties.Add("steps", value.ToString());
 				_steps = value;
 				SettingsChanged?.Invoke(this, null);
 			}
@@ -86,6 +88,8 @@ namespace Karl.Model
 			get => _currentAudioModule;
 			private set
 			{
+				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
+				_properties.Add("audioModule", value.Tag);
 				_currentAudioModule = value;
 				AudioModuleChanged.Invoke(value);
 			}
@@ -96,6 +100,8 @@ namespace Karl.Model
 			get => _currentColor;
 			set
 			{
+				if (_properties.ContainsKey("color")) _properties.Remove("color");
+				_properties.Add("color", value.Color.ToHex());
 				_currentColor = value;
 				SettingsChanged?.Invoke(this, null);
 			}
@@ -112,6 +118,13 @@ namespace Karl.Model
 				}
 			}
 		}
+		/// <summary>
+		/// Resets the Step Counter.
+		/// </summary>
+		public void ResetSteps()
+		{
+			throw new NotImplementedException();
+		}
 
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler
@@ -120,8 +133,7 @@ namespace Karl.Model
 		{
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_outputManager = new OutputManager();
-			_outputManager.Subscribe(this);
-			Steps = 0;
+			_outputManager.Subscribe(new StepDetectionObserver(this));
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
@@ -131,13 +143,37 @@ namespace Karl.Model
 			Colors.Add(new CustomColor(Color.RoyalBlue));
 			Colors.Add(new CustomColor(Color.SkyBlue));
 			Colors.Add(new CustomColor(Color.DarkRed));
-			CurrentColor = Colors[0];
 
 			//Init AudioModules
-			AvailableAudioModules.Add("basicAudioModule", new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack)));
+			AvailableAudioModules.Add("basicAudioModule",
+				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
 
-			//Load AudioModule
+			//Load Color
 			Object val;
+			if (_properties.TryGetValue("color", out val))
+			{
+				bool FoundColor = false;
+				foreach (CustomColor CC in Colors)
+				{
+					if (CC.Color.ToHex().Equals(val.ToString()))
+					{
+						CurrentColor = CC;
+						FoundColor = true;
+						break;
+					}
+				}
+				if (!FoundColor)
+				{
+					_properties.Remove("color");
+					_properties.Add("color", Colors[0].Color.ToHex());
+					CurrentColor = Colors[0];
+				}
+			} else
+			{
+				_properties.Add("color", Colors[0].Color.ToHex());
+				CurrentColor = Colors[0];
+			}
+			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
 			{
 				AudioModule audioModule;
@@ -203,27 +239,27 @@ namespace Karl.Model
 			//TODO
 		}
 
-		/// <summary>
-		/// Reset the Step counter.
-		/// </summary>
-		public void ResetSteps()
+		private class StepDetectionObserver : IObserver<Output>
 		{
-			Steps = 0;
-		}
+			private SettingsHandler _parent;
+			public StepDetectionObserver(SettingsHandler parent)
+			{
+				_parent = parent;
+			}
+			public void OnCompleted()
+			{
+				throw new NotImplementedException();
+			}
 
-		public void OnCompleted()
-		{
-			throw new NotImplementedException();
-		}
+			public void OnError(Exception error)
+			{
+				throw new NotImplementedException();
+			}
 
-		public void OnError(Exception error)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void OnNext(Output value)
-		{
-			Steps = Steps + value.StepCount;
+			public void OnNext(Output value)
+			{
+				_parent.Steps = _parent._steps + value.StepCount;
+			}
 		}
 	}
 
@@ -247,12 +283,14 @@ namespace Karl.Model
 
 	internal struct AudioModule
 	{
-		internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack)
+		internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
 		{
+			Tag = tag;
 			AudioLib = audioLib;
 			AudioPlayer = audioPlayer;
 			AudioTrack = audioTrack;
 		}
+		public string Tag;
 		public IAudioLibImpl AudioLib;
 		public IAudioPlayerImpl AudioPlayer;
 		public Type AudioTrack;
