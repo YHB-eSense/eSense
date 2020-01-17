@@ -108,7 +108,7 @@ namespace EarableLibrary
 		public event EventHandler<MotionSensorSample> ValueChanged;
 
 		/// <summary>
-		/// Targeted rate at which new samples are retrieved.
+		/// Targeted rate (in Hz) at which new samples are retrieved.
 		/// </summary>
 		public int SamplingRate { get; set; }
 
