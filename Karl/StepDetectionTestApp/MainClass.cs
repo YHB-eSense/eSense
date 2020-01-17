@@ -7,7 +7,7 @@ namespace StepDetectionTestApp
     {
 		public static void Main()
 		{
-			string path = "C:\\Users\\Leo\\Documents\\PSE\\Daten\\schritte50hz.db";
+			string path = "C:\\Users\\Leo\\Documents\\PSE\\Daten\\16schritte50hz.db";
 			ActivityLog activitylog = new ActivityLog(path);
 			var activityFrames = activitylog.GetData();
 
