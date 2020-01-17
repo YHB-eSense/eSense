@@ -120,6 +120,13 @@ namespace Karl.Model
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
 
+			//Colors to use.
+			Colors = new List<CustomColor>();
+			Colors.Add(new CustomColor(Color.RoyalBlue));
+			Colors.Add(new CustomColor(Color.SkyBlue));
+			Colors.Add(new CustomColor(Color.DarkRed));
+			CurrentColor = Colors[0];
+
 			//Init AudioModules
 			AvailableAudioModules.Add("basicAudioModule", new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack)));
 
@@ -187,13 +194,6 @@ namespace Karl.Model
 			}
 
 
-
-			//Colors to use.
-			Colors = new List<CustomColor>();
-			Colors.Add(new CustomColor(Color.RoyalBlue, "RoyalBlue"));
-			Colors.Add(new CustomColor(Color.SkyBlue, "SkyBlue"));
-			Colors.Add(new CustomColor(Color.DarkRed, "DarkRed"));
-			CurrentColor = Colors[0];
 			//TODO
 		}
 
@@ -221,14 +221,16 @@ namespace Karl.Model
 		}
 	}
 
-	public class CustomColor
+	public struct CustomColor
 	{
-		public CustomColor(Color color, string name)
+		public CustomColor(Color color)
 		{
 			Color = color;
-			Name = name;
 		}
-		public string Name { get; }
+		public string Name
+		{
+			get => LangManager.SingletonLangManager.CurrentLang.Get("col_" + this.Color.ToHex());
+		}
 		public Color Color { get; }
 
 		public static implicit operator Color(CustomColor v)

@@ -13,6 +13,13 @@ namespace StepDetectionLibrary
 		public AccData AccData;
 		public GyroData GyroData;
 		public const int DATALENGTH = 250;
+
+		public AccGyroData(int a)
+		{
+			AccData = new AccData(a);
+			GyroData = new GyroData(a);
+		}
+
 		public AccGyroData(AccData accData, GyroData gyroData)
 		{
 			AccData = accData;
@@ -28,6 +35,13 @@ namespace StepDetectionLibrary
 		public double[] Xacc;
 		public double[] Yacc;
 		public double[] Zacc;
+
+		public AccData(int a)
+		{
+			Xacc = new double[a];
+			Yacc = new double[a];
+			Zacc = new double[a];
+		}
 		public AccData(double[] xacc, double[] yacc, double[] zacc)
 		{
 			Xacc = xacc;
@@ -41,10 +55,17 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public struct GyroData
 	{
-		public short[] Xgyro;
-		public short[] Ygyro;
-		public short[] Zgyro;
-		public GyroData(short[] xgyro, short[] ygyro, short[] zgyro)
+		public double[] Xgyro;
+		public double[] Ygyro;
+		public double[] Zgyro;
+
+		public GyroData(int a)
+		{
+			Xgyro = new double[a];
+			Ygyro = new double[a];
+			Zgyro = new double[a];
+		}
+		public GyroData(double[] xgyro, double[] ygyro, double[] zgyro)
 		{
 			Xgyro = xgyro;
 			Ygyro = ygyro;
@@ -63,7 +84,7 @@ namespace StepDetectionLibrary
 		public Input()
 		{
 			counter = 0;
-			accgyrodata = new AccGyroData();
+			accgyrodata = new AccGyroData(AccGyroData.DATALENGTH);
 			Subscribe(new StepDetectionAlg());
 		}
 
@@ -125,6 +146,7 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, EventArgs args)
 		{
+
 			MotionSensorSample marg = (MotionSensorSample)args;
 			accgyrodata.AccData.Xacc[counter] = marg.Acc.x;
 			accgyrodata.AccData.Yacc[counter] = marg.Acc.y;
@@ -136,7 +158,7 @@ namespace StepDetectionLibrary
 			if (counter == AccGyroData.DATALENGTH)
 			{
 				Update(accgyrodata);
-				accgyrodata = new AccGyroData();
+				accgyrodata = new AccGyroData(AccGyroData.DATALENGTH);
 				counter = 0;
 			}
 		}

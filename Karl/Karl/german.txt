@@ -19,4 +19,7 @@ alert_text=Du musst jedem Eintrag einen Wert zuweisen und eine Datei auswählen!
 alert_ok=Ok
 devices=Verfügbare Geräte:
 color=Farbe
+col_#FF4169E1=Königsblau
+col_#FF87CEEB=Himmelblau
+col_#FF8B0000=Dunkelrot
 unknown=Unbekannt

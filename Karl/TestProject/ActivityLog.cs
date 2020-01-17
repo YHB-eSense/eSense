@@ -71,12 +71,12 @@ namespace TestProject
 		public short GyroY { get; set; }
 		public short GyroZ { get; set; }
 		public byte Counter { get; set; }
-		public MotionArgs ToMotionArgs()
+		public MotionSensorSample ToMotionSensorSample()
 		{
 			TripleShort acc = new TripleShort(AccX, AccY, AccZ);
 			TripleShort gyro = new TripleShort(GyroX, GyroY, GyroZ);
 
-			return new MotionArgs(gyro, acc, Counter);
+			return new MotionSensorSample(gyro, acc, Counter);
 		
 		}
 
