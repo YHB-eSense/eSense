@@ -10,15 +10,15 @@ namespace TestProject
 {
     public class MainClass
     {
-		public static async void Main()
+		public static void Main()
 		{
 			ActivityLog activitylog = new ActivityLog();
-			ActivityFrame[] activityFrames = await activitylog.GetData();
+			ActivityFrame[] activityFrames = activitylog.GetData().GetAwaiter().GetResult();
 			Input input = new Input();
 
 			for (int i = 0; i < activityFrames.Length; i++)
 			{
-				MotionArgs arg = activityFrames[i].ToMotionArgs();
+				MotionSensorSample arg = activityFrames[i].ToMotionSensorSample();
 				input.ValueChanged(null, arg);
 			}
 
