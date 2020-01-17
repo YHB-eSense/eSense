@@ -27,6 +27,18 @@ namespace Karl.ViewModel
 		public string ResetStepsLabel { get => _langManager.CurrentLang.Get("reset_steps"); }
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
 		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
+		public List<string> ColorNames
+		{
+			get
+			{
+				List<string> colorNames = new List<string>();
+				foreach (CustomColor color in _settingsHandler.Colors)
+				{
+					colorNames.Add(color.Name);
+				}
+				return colorNames;
+			}
+		}
 		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
@@ -42,6 +54,20 @@ namespace Karl.ViewModel
 			set
 			{
 				_settingsHandler.CurrentColor = value;
+			}
+		}
+		public string CurrentColorName
+		{
+			get => _settingsHandler.CurrentColor.Name;
+			set
+			{
+				foreach(CustomColor color in _settingsHandler.Colors)
+				{
+					if(color.Name == value)
+					{
+						CurrentColor = color;
+					}
+				}
 			}
 		}
 		public string DeviceName
@@ -78,10 +104,8 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
-			foreach (CustomColor CC in Colors)
-			{
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CC.Name)));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColorName)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorNames)));
 		}
 
 		private void ChangeDeviceName()

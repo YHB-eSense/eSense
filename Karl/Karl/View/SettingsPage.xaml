@@ -37,9 +37,8 @@
 					<Label Text="{Binding ColorLabel}"
 						   TextColor="Black"
 						   FontSize="Large"/>
-					<Picker ItemsSource="{Binding Colors}"
-						SelectedItem="{Binding CurrentColor}"
-						ItemDisplayBinding="{Binding Name}">
+					<Picker ItemsSource="{Binding ColorNames}"
+						SelectedItem="{Binding CurrentColorName}">
 					</Picker>
 				</StackLayout>
 			</Frame>
