@@ -59,6 +59,20 @@ namespace Karl.ViewModel
 				_settingsHandler.CurrentColor = value;
 			}
 		}
+		public string CurrentColorName
+		{
+			get
+			{
+				foreach(string name in ColorNames)
+				{
+					if(name == _settingsHandler.CurrentColor.Name)
+					{
+						return name;
+					}
+				}
+				return null;
+			}
+		}
 		public string DeviceName
 		{
 			get => _settingsHandler.DeviceName;
@@ -95,14 +109,8 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
-			
-
-			//foreach(CustomColor color in Colors)
-			//{
-			//	PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(color) + ".Name"));
-			//}
-			//PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColorName)));
-			//PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorNames)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorNames)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColorName)));
 		}
 
 		private void ChangeDeviceName()
