@@ -12,12 +12,13 @@ namespace Karl.Model
 	public class SettingsHandler: IObserver<Output>
 	{
 		private LangManager _langManager;
+		private ConnectivityHandler _connectivityHandler;
 		private static SettingsHandler _singletonSettingsHandler;
 		private static readonly Object _padlock = new Object();
 		private CustomColor _currentColor;
 		private AudioModule _currentAudioModule;
 		private int _steps;
-		private OutputManager outputManager;
+		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
 		internal IDictionary<string, AudioModule> AvailableAudioModules;
 
@@ -55,10 +56,14 @@ namespace Karl.Model
 		/// </summary>
 		public String DeviceName
 		{
-			get => "Test"; //TODO;
+			get
+			{
+				if (_connectivityHandler.EarableConnected) { return _connectivityHandler.EarableName; }
+				return null;
+			}
 			set
 			{
-				//TODO
+				_connectivityHandler.EarableName = value;
 				SettingsChanged?.Invoke(this, null);
 			}
 		}
@@ -113,8 +118,9 @@ namespace Karl.Model
 		/// </summary>
 		private SettingsHandler()
 		{
-			outputManager = new OutputManager();
-			outputManager.Subscribe(this);
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			_outputManager = new OutputManager();
+			_outputManager.Subscribe(this);
 			Steps = 0;
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
@@ -202,7 +208,7 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetSteps()
 		{
-			//todo
+			Steps = 0;
 		}
 
 		public void OnCompleted()

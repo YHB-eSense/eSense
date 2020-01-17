@@ -33,7 +33,6 @@ namespace Karl.ViewModel
 			set
 			{
 				_settingsHandler.CurrentLang = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLanguage)));
 				Refresh(this, null);
 			}
 		}
@@ -43,7 +42,6 @@ namespace Karl.ViewModel
 			set
 			{
 				_settingsHandler.CurrentColor = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			}
 		}
 		public string DeviceName

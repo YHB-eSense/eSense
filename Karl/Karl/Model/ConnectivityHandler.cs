@@ -49,6 +49,12 @@ namespace Karl.Model
 			}
 		}
 
+		public string EarableName
+		{
+			get => _connectedEarable.Name;
+			set { _connectedEarable.Name = value; }
+		}
+
 		/// <summary>
 		/// Tries establishing a BLE connection to a bonded EarableDevice.
 		/// </summary>
@@ -81,14 +87,5 @@ namespace Karl.Model
 			_connectedEarable = null;
 		} 
 
-		/// <summary>
-		/// Set a new Device name.
-		/// </summary>
-		/// <param name="name">The new Name.</param>
-		public void SetDeviceName(String name)
-		{
-			if (!EarableConnected) return;
-			_connectedEarable.Name = name;
-		}
 	}
 }
