@@ -97,7 +97,7 @@ namespace StepDetectionLibrary
 			int length = AccGyroData.DATALENGTH;
 			AccData accdata = data.AccData;
 			const double AVGMAG = 10; // value needs to be tested
-			const double THRESHHOLD = 10; //value needs to be tested
+			const double THRESHHOLD = 6500; //value needs to be tested
 			int stepcount = 0;
 			Boolean threshhold_passed = false;
 
@@ -109,6 +109,7 @@ namespace StepDetectionLibrary
 
 			for (int i = 0; i < length; i++)
 			{
+				//Console.WriteLine(netmag[i]);
 				if (netmag[i] > THRESHHOLD)
 				{
 					threshhold_passed = true;

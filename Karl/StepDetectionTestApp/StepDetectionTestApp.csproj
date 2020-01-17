@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="ActivityLog.cs" />
     <Compile Include="MainClass.cs" />
+    <Compile Include="Printer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
