@@ -102,7 +102,9 @@ namespace StepDetectionLibrary
 			return new Unsubscriber(_observers, observer);
 
 		}
-
+		/// <summary>
+		/// Singleton -> Don't call.
+		/// </summary>
 		private OutputManager()
 		{
 			_observers = new List<IObserver<Output>>();

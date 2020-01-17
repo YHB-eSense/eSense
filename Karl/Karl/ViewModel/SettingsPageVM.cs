@@ -78,6 +78,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
 		}
 
 		private void ChangeDeviceName()
