@@ -78,7 +78,10 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+			foreach (CustomColor CC in Colors)
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CC.Name)));
+			}
 		}
 
 		private void ChangeDeviceName()
