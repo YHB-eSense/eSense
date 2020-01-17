@@ -2,7 +2,7 @@ using EarableLibrary;
 using SQLite;
 using System;
 
-namespace TestProject
+namespace StepDetectionTestApp
 {
 	public class ActivityLog
 	{
