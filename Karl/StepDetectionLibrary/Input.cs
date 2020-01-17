@@ -83,6 +83,7 @@ namespace StepDetectionLibrary
 		int counter;
 		public Input()
 		{
+			_observers = new List<IObserver<AccGyroData>>();
 			counter = 0;
 			accgyrodata = new AccGyroData(AccGyroData.DATALENGTH);
 			Subscribe(new StepDetectionAlg());

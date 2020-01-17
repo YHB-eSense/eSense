@@ -13,7 +13,8 @@ namespace TestProject
 		public static void Main()
 		{
 			ActivityLog activitylog = new ActivityLog();
-			ActivityFrame[] activityFrames = activitylog.GetData().GetAwaiter().GetResult();
+			var activityFrames = Blub().GetAwaiter().GetResult();
+
 			Input input = new Input();
 
 			for (int i = 0; i < activityFrames.Length; i++)
@@ -21,8 +22,12 @@ namespace TestProject
 				MotionSensorSample arg = activityFrames[i].ToMotionSensorSample();
 				input.ValueChanged(null, arg);
 			}
+		}
 
-
+		private static async Task<ActivityFrame[]> Blub()
+		{
+			ActivityLog activitylog = new ActivityLog();
+			return await activitylog.GetData();
 		}
 
 	}
