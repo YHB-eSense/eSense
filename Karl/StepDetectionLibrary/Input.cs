@@ -68,6 +68,9 @@ namespace StepDetectionLibrary
 		}
 
 		private List<IObserver<AccGyroData>> _observers;
+
+		public int PreferredSamplingRate { get => 50; }
+
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
