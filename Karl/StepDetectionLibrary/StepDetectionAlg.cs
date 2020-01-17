@@ -13,7 +13,7 @@ namespace StepDetectionLibrary
 		public StepDetectionAlg()
 		{
 			_observer = new List<IObserver<Output>>();
-			Subscribe(new OutputManager());
+			Subscribe(OutputManager.SingletonOutputManager);
 		}
 		private List<IObserver<Output>> _observer;
 		/// <summary>
