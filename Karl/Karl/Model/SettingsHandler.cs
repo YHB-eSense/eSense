@@ -1,6 +1,8 @@
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Forms;
 
@@ -34,7 +36,7 @@ namespace Karl.Model
 		/// </summary>
 		public List<Lang> Languages { get => _langManager.AvailableLangs; }
 
-		public List<CustomColor> Colors { get; }
+		public List<CustomColor> Colors { get; set; }
 
 		/// <summary>
 		/// The currently selected Language.
@@ -47,6 +49,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("lang")) _properties.Remove("lang");
 				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
+				ResetColors();
 				SettingsChanged?.Invoke(this, null);
 			}
 		}
@@ -54,7 +57,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The Name of the currently connected Device.
 		/// </summary>
-		public String DeviceName
+		public string DeviceName
 		{
 			get
 			{
@@ -126,6 +129,28 @@ namespace Karl.Model
 			throw new NotImplementedException();
 		}
 
+		private void ResetColors()
+		{
+			if(Colors != null) { Colors.Clear(); }
+			Colors = new List<CustomColor>();
+			Colors.Add(new CustomColor(Color.RoyalBlue));
+			Colors.Add(new CustomColor(Color.SkyBlue));
+			Colors.Add(new CustomColor(Color.DarkRed));
+			/*
+			if(_currentColor != null)
+			{
+				foreach (CustomColor color in Colors)
+				{
+					if (_currentColor.Color.Equals(color.Color))
+					{
+						CurrentColor = color;
+						break;
+					}
+				}
+			}
+			*/
+		}
+
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler
 		/// </summary>
@@ -139,14 +164,7 @@ namespace Karl.Model
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
 
 			//Colors to use.
-			Colors = new List<CustomColor>();
-			Colors.Add(new CustomColor(Color.RoyalBlue));
-			Colors.Add(new CustomColor(Color.SkyBlue));
-			Colors.Add(new CustomColor(Color.DarkRed));
-
-			//Init AudioModules
-			AvailableAudioModules.Add("basicAudioModule",
-				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
+			ResetColors();
 
 			//Load Color
 			Object val;
@@ -168,11 +186,17 @@ namespace Karl.Model
 					_properties.Add("color", Colors[0].Color.ToHex());
 					CurrentColor = Colors[0];
 				}
-			} else
+			}
+			else
 			{
 				_properties.Add("color", Colors[0].Color.ToHex());
 				CurrentColor = Colors[0];
 			}
+
+			//Init AudioModules
+			AvailableAudioModules.Add("basicAudioModule",
+				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
+
 			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
 			{
@@ -235,7 +259,6 @@ namespace Karl.Model
 				_properties.Add("steps", "0");
 			}
 
-
 			//TODO
 		}
 
@@ -263,7 +286,7 @@ namespace Karl.Model
 		}
 	}
 
-	public struct CustomColor
+	public class CustomColor //: INotifyPropertyChanged
 	{
 		public CustomColor(Color color)
 		{
@@ -272,6 +295,7 @@ namespace Karl.Model
 		public string Name
 		{
 			get => LangManager.SingletonLangManager.CurrentLang.Get("col_" + this.Color.ToHex());
+			//set { RaisePropertyChange(); }
 		}
 		public Color Color { get; }
 
@@ -279,6 +303,17 @@ namespace Karl.Model
 		{
 			throw new NotImplementedException();
 		}
+		/*
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void RaisePropertyChange([CallerMemberName] string propertyname = null)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+			}
+		}
+		*/
 	}
 
 	internal struct AudioModule

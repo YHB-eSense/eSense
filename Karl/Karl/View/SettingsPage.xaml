@@ -39,15 +39,10 @@
 					<Label Text="{Binding ColorLabel}"
 						   TextColor="Black"
 						   FontSize="Large"/>
-					<Picker ItemsSource="{Binding ColorNames}"
-							SelectedItem="{Binding CurrentColorName}">
-						<!--
-						<Picker.Behaviors>
-							<b:EventToCommandBehavior EventName="SelectedIndexChanged"
-							Command="{Binding ChangeColorLangCommand}"
-							CommandParameter="{Binding .}"/>
-						</Picker.Behaviors>
-						-->
+					<Picker x:Name ="Picker"
+							ItemsSource="{Binding Colors}"
+							SelectedItem="{Binding CurrentColor}"
+							ItemDisplayBinding="{Binding Name}">
 					</Picker>
 				</StackLayout>
 			</Frame>
