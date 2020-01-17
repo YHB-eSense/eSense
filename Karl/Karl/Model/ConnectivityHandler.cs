@@ -85,10 +85,10 @@ namespace Karl.Model
 		/// Set a new Device name.
 		/// </summary>
 		/// <param name="name">The new Name.</param>
-		public void SetDeviceName(String name)
+		public async void SetDeviceName(string name)
 		{
 			if (!EarableConnected) return;
-			_connectedEarable.Name = name;
+			await _connectedEarable.SetNameAsync(name);
 		}
 	}
 }
