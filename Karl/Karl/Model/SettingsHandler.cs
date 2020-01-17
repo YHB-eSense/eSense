@@ -1,3 +1,4 @@
+using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Karl.Model
 	/// <summary>
 	/// The SettingsHandler is a class where you can change all App Settings and find the current Settings.
 	/// </summary>
-	public class SettingsHandler
+	public class SettingsHandler: IObserver<Output>
 	{
 		private LangManager _langManager;
 		private static SettingsHandler _singletonSettingsHandler;
@@ -16,6 +17,7 @@ namespace Karl.Model
 		private CustomColor _currentColor;
 		private AudioModule _currentAudioModule;
 		private int _steps;
+		private OutputManager outputManager;
 		private IDictionary<string, Object> _properties;
 		internal IDictionary<string, AudioModule> AvailableAudioModules;
 
@@ -69,7 +71,7 @@ namespace Karl.Model
 			get => _steps;
 			private set
 			{
-				//TODO
+				_steps = value;
 				SettingsChanged?.Invoke(this, null);
 			}
 		}
@@ -111,6 +113,9 @@ namespace Karl.Model
 		/// </summary>
 		private SettingsHandler()
 		{
+			outputManager = new OutputManager();
+			outputManager.Subscribe(this);
+			Steps = 0;
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
@@ -200,6 +205,20 @@ namespace Karl.Model
 			//todo
 		}
 
+		public void OnCompleted()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void OnError(Exception error)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void OnNext(Output value)
+		{
+			Steps = Steps + value.StepCount;
+		}
 	}
 
 	public class CustomColor
