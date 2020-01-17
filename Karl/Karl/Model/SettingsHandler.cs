@@ -160,6 +160,7 @@ namespace Karl.Model
 						CurrentColor = CC;
 						FoundColor = true;
 						break;
+
 					}
 				}
 				if (!FoundColor)
