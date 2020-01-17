@@ -119,7 +119,7 @@ namespace StepDetectionLibrary
 				}
 			}
 
-			Output output = new Output(stepcount/(length/50), stepcount);
+			Output output = new Output(stepcount/(length/50.0), stepcount);
 
 			return output;
 		}
