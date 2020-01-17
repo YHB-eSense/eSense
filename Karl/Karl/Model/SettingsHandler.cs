@@ -147,6 +147,8 @@ namespace Karl.Model
 			//Init AudioModules
 			AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
+			AvailableAudioModules.Add("spotifyAudioModule",
+				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));
 
 			//Load Color
 			Object val;
