@@ -44,6 +44,11 @@ namespace StepDetectionLibrary
 		private static OutputManager _singletonOutputManager;
 		private List<IObserver<Output>> _observers;
 
+		public OutputManager()
+		{
+			_observers = new List<IObserver<Output>>();
+		}
+
 		/// <summary>
 		/// singleton pattern
 		/// </summary>

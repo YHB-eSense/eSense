@@ -1,6 +1,7 @@
 using EarableLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace StepDetectionLibrary
 {
@@ -145,16 +146,14 @@ namespace StepDetectionLibrary
 		/// </summary>
 		/// <param name="sender">sender object</param>
 		/// <param name="args">parameter</param>
-		public void ValueChanged(object sender, EventArgs args)
+		public void ValueChanged(object sender, MotionSensorSample args)
 		{
-
-			MotionSensorSample marg = (MotionSensorSample)args;
-			accgyrodata.AccData.Xacc[counter] = marg.Acc.x;
-			accgyrodata.AccData.Yacc[counter] = marg.Acc.y;
-			accgyrodata.AccData.Zacc[counter] = marg.Acc.z;
-			accgyrodata.GyroData.Xgyro[counter] = marg.Gyro.x;
-			accgyrodata.GyroData.Ygyro[counter] = marg.Gyro.y;
-			accgyrodata.GyroData.Zgyro[counter] = marg.Gyro.z;
+			accgyrodata.AccData.Xacc[counter] = args.Acc.x;
+			accgyrodata.AccData.Yacc[counter] = args.Acc.y;
+			accgyrodata.AccData.Zacc[counter] = args.Acc.z;
+			accgyrodata.GyroData.Xgyro[counter] = args.Gyro.x;
+			accgyrodata.GyroData.Ygyro[counter] = args.Gyro.y;
+			accgyrodata.GyroData.Zgyro[counter] = args.Gyro.z;
 			counter++;
 			if (counter == AccGyroData.DATALENGTH)
 			{
