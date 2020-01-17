@@ -12,6 +12,7 @@ namespace StepDetectionLibrary
 	{
 		public StepDetectionAlg()
 		{
+			_observer = new List<IObserver<Output>>();
 			Subscribe(new OutputManager());
 		}
 		private List<IObserver<Output>> _observer;

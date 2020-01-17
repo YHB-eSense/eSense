@@ -63,7 +63,7 @@ namespace Karl.Model
 			}
 			set
 			{
-				_connectivityHandler.EarableName = value;
+				_connectivityHandler.SetDeviceName(value);
 				SettingsChanged?.Invoke(this, null);
 			}
 		}

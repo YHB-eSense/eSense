@@ -50,12 +50,21 @@ namespace EarableLibrary
 		}
 
 		/// <summary>
-		/// Device name.
+		/// Get device name.
 		/// </summary>
 		public string Name
 		{
 			get => _name.Get();
-			set => _name.SetAsync(value).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Asynchronously set a new device name.
+		/// </summary>
+		/// <param name="name">New name</param>
+		/// <returns>Whether the name could be set successfully or not</returns>
+		public async Task<bool> SetNameAsync(string name)
+		{
+			return await _name.SetAsync(name);
 		}
 
 		/// <summary>

@@ -52,7 +52,6 @@ namespace Karl.Model
 		public string EarableName
 		{
 			get => _connectedEarable.Name;
-			set { _connectedEarable.Name = value; }
 		}
 
 		/// <summary>
@@ -85,7 +84,18 @@ namespace Karl.Model
 			if (!EarableConnected) return;
 			await _connectedEarable.DisconnectAsync();
 			_connectedEarable = null;
-		} 
+		}
+
+		/// <summary>
+		/// Set a new Device name.
+		/// </summary>
+		/// <param name="name">The new Name.</param>
+		public async void SetDeviceName(string name)
+		{
+			if (!EarableConnected) return;
+			await _connectedEarable.SetNameAsync(name);
+			
+		}
 
 	}
 }

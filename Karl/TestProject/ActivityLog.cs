@@ -28,11 +28,13 @@ namespace TestProject
 		{
 			if (database == null)
 			{
-				var name = string.Format("activity-log-{0}.db", DateTime.Now.Ticks);
+				var name = string.Format("schritte10hz.db");
 				var path = Path.Combine("C:\\Users\\Leo\\Documents\\PSE\\Daten", name);
+				Console.WriteLine(path);
 				database = new SQLiteAsyncConnection(path);
-				ActivityFrame[] data = await database.Table<ActivityFrame>().ToArrayAsync();
-				return data;
+				var table = database.Table<ActivityFrame>();
+				return await table.ToArrayAsync();
+				// return new ActivityFrame[0];
 			}
 			return null;
 
