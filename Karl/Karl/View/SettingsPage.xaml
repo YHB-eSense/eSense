@@ -4,9 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
+			 xmlns:b="http://prismlibrary.com"
+			 prism:ViewModelLocator.AutowireViewModel="True"
 			 mc:Ignorable="d"
-             x:Class="Karl.View.SettingsPage">
+             x:Class="Karl.View.SettingsPage"
+			 x:Name="settingspage">
     <ContentPage.Content>
 
 		<Grid RowSpacing="0" ColumnSpacing="0">
@@ -38,7 +40,13 @@
 						   TextColor="Black"
 						   FontSize="Large"/>
 					<Picker ItemsSource="{Binding ColorNames}"
-						SelectedItem="{Binding CurrentColorName}">
+							SelectedItem="{Binding CurrentColor}"
+							ItemDisplayBinding="{Binding Name}">
+						<Picker.Behaviors>
+							<b:EventToCommandBehavior EventName="SelectedIndexChanged"
+							Command="{Binding ChangeColorLangCommand}"
+							CommandParameter="{Binding .}"/>
+						</Picker.Behaviors>
 					</Picker>
 				</StackLayout>
 			</Frame>
@@ -64,7 +72,7 @@
 					<Button Text="{Binding ResetStepsLabel}"
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
-					Command="{Binding ResetStepsCommand}"/>
+						Command="{Binding ResetStepsCommand}"/>
 				</StackLayout>
 			</Frame>
 		</Grid>
