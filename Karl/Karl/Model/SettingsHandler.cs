@@ -126,29 +126,17 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetSteps()
 		{
-			throw new NotImplementedException();
+			Steps = 0;
 		}
 
 		private void ResetColors()
 		{
-			if(Colors != null) { Colors.Clear(); }
-			Colors = new List<CustomColor>();
-			Colors.Add(new CustomColor(Color.RoyalBlue));
-			Colors.Add(new CustomColor(Color.SkyBlue));
-			Colors.Add(new CustomColor(Color.DarkRed));
-			/*
-			if(_currentColor != null)
+			if(Colors != null)
 			{
-				foreach (CustomColor color in Colors)
-				{
-					if (_currentColor.Color.Equals(color.Color))
-					{
-						CurrentColor = color;
-						break;
-					}
-				}
+				List<CustomColor> newColors = new List<CustomColor>(Colors);
+				Colors.Clear();
+				Colors = newColors;
 			}
-			*/
 		}
 
 		/// <summary>
@@ -164,7 +152,10 @@ namespace Karl.Model
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
 
 			//Colors to use.
-			ResetColors();
+			Colors = new List<CustomColor>();
+			Colors.Add(new CustomColor(Color.RoyalBlue));
+			Colors.Add(new CustomColor(Color.SkyBlue));
+			Colors.Add(new CustomColor(Color.DarkRed));
 
 			//Load Color
 			Object val;
