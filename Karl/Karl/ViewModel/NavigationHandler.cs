@@ -7,16 +7,16 @@ namespace Karl.ViewModel
 {
 	public class NavigationHandler
 	{
-		private Dictionary<Type, ContentPage> Pages { get; set; }
+		private Dictionary<Type, ContentPage> _pages { get; set; }
 
 		public NavigationHandler()
 		{
-			Pages = new Dictionary<Type, ContentPage>();
+			_pages = new Dictionary<Type, ContentPage>();
 		}
 
 		public void SetPages(ContentPage[] pages)
 		{
-			foreach (var page in pages) Pages.Add(page.GetType(), page);
+			foreach (var page in pages) _pages.Add(page.GetType(), page);
 		}
 
 		public async void GotoPage<T>() where T : ContentPage
@@ -26,16 +26,10 @@ namespace Karl.ViewModel
 
 		private async Task GotoPage(Type pageType)
 		{
-			if (!Pages.ContainsKey(pageType))
-			{
-				throw new ArgumentException("NavigationHandler does not know of any page with that type");
-			}
-			var toBePushed = Pages[pageType];
+			if (!_pages.ContainsKey(pageType)) { throw new ArgumentException("Type of page not found"); }
+			var toBePushed = _pages[pageType];
 			var stack = Application.Current.MainPage.Navigation.NavigationStack;
-			foreach (var page in stack)
-			{
-				if (page.Equals(toBePushed)) return; // Page already on stack; do nothing
-			}
+			foreach (var page in stack) { if (page.Equals(toBePushed)) return; } // Page already on stack; do nothing
 			await Application.Current.MainPage.Navigation.PushAsync(toBePushed);
 		}
 

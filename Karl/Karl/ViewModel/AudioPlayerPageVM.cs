@@ -73,11 +73,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (AudioTrack == null || AudioTrack.Cover == null)
-				{
-					return ImageSource.FromFile("art.png");
-					
-				}
+				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromFile("art.png"); }
 				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
 			}
 		}

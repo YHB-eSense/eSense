@@ -51,7 +51,7 @@ namespace Karl.ViewModel
 		//Commands binded to MainPage of View
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
-		public ICommand ConnectionPageCommand { get; }
+		public ICommand TryConnectCommand { get; }
 		public ICommand ModesPageCommand { get; }
 		public ICommand SettingsPageCommand { get; }
 
@@ -67,7 +67,7 @@ namespace Karl.ViewModel
 			_langManager = LangManager.SingletonLangManager;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
-			ConnectionPageCommand = new Command(TryConnect);
+			TryConnectCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
 			_iconOn = "bluetooth_on.png";
@@ -105,10 +105,7 @@ namespace Karl.ViewModel
 			}
 			*/
 
-			if (_connectivityHandler.EarableConnected)
-			{
-				await _connectivityHandler.Disconnect();
-			}
+			if (_connectivityHandler.EarableConnected) { await _connectivityHandler.Disconnect(); }
 			else
 			{
 				var success = await _connectivityHandler.Connect();
@@ -117,7 +114,6 @@ namespace Karl.ViewModel
 					INavToSettings navigator = DependencyService.Get<INavToSettings>();
 					navigator.NavToSettings();
 				}
-
 			}
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}

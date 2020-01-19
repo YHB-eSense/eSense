@@ -41,7 +41,7 @@
 			<Frame Grid.Row="1" Grid.Column="1">
 				<ImageButton Source="{Binding Icon}"
 					BackgroundColor="Transparent"
-					Command="{Binding ConnectionPageCommand}"/>
+					Command="{Binding TryConnectCommand}"/>
 			</Frame>
 
 			<!--Third Row-->

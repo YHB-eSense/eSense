@@ -16,7 +16,6 @@ namespace Karl.ViewModel
 		private SettingsHandler _settingsHandler;
 		private string _deviceName;
 		private LangManager _langManager;
-		private string _currentColorName;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -32,23 +31,17 @@ namespace Karl.ViewModel
 		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
-			set
-			{
-				_settingsHandler.CurrentLang = value;
-			}
+			set { _settingsHandler.CurrentLang = value; }
 		}
 		public CustomColor CurrentColor
 		{
 			get => _settingsHandler.CurrentColor;
-			set { if (value != null) { _settingsHandler.CurrentColor = value; } }
+			set { _settingsHandler.CurrentColor = value; }
 		}
 		public string DeviceName
 		{
 			get => _settingsHandler.DeviceName;
-			set
-			{
-				_deviceName = value;
-			}
+			set { _deviceName = value; }
 		}
 
 		//Commands binded to SettingsPage of View
@@ -61,7 +54,6 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_currentColorName = _settingsHandler.CurrentColor.Name;
 			_langManager = LangManager.SingletonLangManager;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);

@@ -205,15 +205,17 @@ namespace Karl.ViewModel
 			else { _deleteList.Add(song); }
 		}
 
-		private void SearchSong(string title)
+		private void SearchSong(string value)
 		{
 			if (_oldSongs == null){ _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
-			if (title == null || title == "")
+			if (value == null || value == "")
 			{
 				Songs = new ObservableCollection<AudioTrack>(_oldSongs);
 				_oldSongs = null;
 			}
-			else { Songs = new ObservableCollection<AudioTrack>(Songs.Where(song => song.Title.Contains(title))); }
+			else { Songs = new ObservableCollection<AudioTrack>(_oldSongs.Where(song =>
+				song.Title.ToLower().Contains(value.ToLower()) ||
+				song.Artist.ToLower().Contains(value.ToLower()))); }
 		}
 
 		private async void DeleteSongs()
