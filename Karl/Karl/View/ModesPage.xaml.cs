@@ -19,23 +19,23 @@ namespace Karl.View
 		private ModesPageVM _modesPageVM;
 		List<Microcharts.Entry> entries = new List<Microcharts.Entry>()
 		{
-			new Microcharts.Entry(200)
+			new Microcharts.Entry(100)
 			{
 				Color = SKColor.Parse("#FF1493"),
-				Label = "Avocado",
-				ValueLabel = "200"
+				Label = "0min",
+				ValueLabel = "100"
 			},
 			new Microcharts.Entry(300)
 			{
 				Color = SKColor.Parse("#68B9C0"),
-				Label = "Apfelsine",
+				Label = "1min",
 				ValueLabel = "300"
 			},
-			new Microcharts.Entry(-100)
+			new Microcharts.Entry(200)
 			{
 				Color = SKColor.Parse("#266489"),
-				Label = "Pomelo",
-				ValueLabel = "-100"
+				Label = "2min",
+				ValueLabel = "200"
 			}
 
 		};
@@ -48,7 +48,7 @@ public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration
 			_modesPageVM = modesPageVM;
 			BindingContext = _modesPageVM;
 			
-			CrazyChart.Chart = new BarChart { Entries = entries };
+			CrazyChart.Chart = new LineChart { Entries = entries };
 		}
 
 		public void OnAnimationStarted(bool isPopAnimation)
