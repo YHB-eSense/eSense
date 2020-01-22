@@ -14,6 +14,10 @@ namespace Karl.Model
 	{
 
 		private static ConnectivityHandler _connectivityHandler;
+
+		//Eventhandling
+		public event EventHandler<ConnectionEventArgs> ConnectionChanged;
+
 		public static ConnectivityHandler SingletonConnectivityHandler
 		{
 			get
@@ -77,6 +81,8 @@ namespace Karl.Model
 			};
 			await button.StartSamplingAsync();
 
+			ConnectionChanged?.Invoke(this, null);
+
 			return true;
 		}
 
@@ -85,6 +91,7 @@ namespace Karl.Model
 			if (!EarableConnected) return;
 			await _connectedEarable.DisconnectAsync();
 			_connectedEarable = null;
+			ConnectionChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -95,8 +102,11 @@ namespace Karl.Model
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.SetNameAsync(name);
-			
 		}
 
+	}
+
+	public class ConnectionEventArgs : EventArgs
+	{
 	}
 }

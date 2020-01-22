@@ -108,17 +108,25 @@ namespace Karl.ViewModel
 			_audioPlayer.AudioChanged += Refresh;
 		}
 
-		public void Refresh(object sender, EventArgs args)
+		public void Refresh(object sender, SettingsEventArgs args)
+		{
+			switch (args.Value)
+			{
+				case nameof(_settingsHandler.CurrentColor):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+					break;
+			}
+		}
+
+		public void Refresh(object sender, AudioEventArgs args)
 		{
 			if (!_audioPlayer.Paused) { _timer.Start(); }
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void PausePlay()
@@ -134,14 +142,12 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			_audioPlayer.PrevTrack();
-			Refresh(this, null);
 		}
 
 		private void PlayNext()
 		{
 			if (AudioTrack == null) { return; }
 			_audioPlayer.NextTrack();
-			Refresh(this, null);
 		}
 
 		private void PositionDragStarted()

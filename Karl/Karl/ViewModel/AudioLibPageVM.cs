@@ -134,16 +134,20 @@ namespace Karl.ViewModel
 			TitleSort();
 		}
 
-		public void Refresh(object sender, EventArgs args)
+		public void Refresh(object sender, SettingsEventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleSortColor)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistSortColor)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortColor)));
+			switch (args.Value)
+			{
+				case nameof(_settingsHandler.CurrentLang):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+					break;
+				case nameof(_settingsHandler.CurrentColor):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+					break;
+			}
+
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;

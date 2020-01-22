@@ -28,7 +28,7 @@ namespace Karl.Model
 		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
-		public event EventHandler SettingsChanged;
+		public event EventHandler<SettingsEventArgs> SettingsChanged;
 		internal event AudioModuleDelegate AudioModuleChanged;
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Karl.Model
 				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
 				ResetColors();
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentLang)));
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace Karl.Model
 			set
 			{
 				_connectivityHandler.SetDeviceName(value);
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
 				_properties.Add("steps", value.ToString());
 				_steps = value;
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(Steps)));
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
 				_currentColor = value;
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentColor)));
 			}
 		}
 
@@ -320,5 +320,15 @@ namespace Karl.Model
 		public IAudioLibImpl AudioLib;
 		public IAudioPlayerImpl AudioPlayer;
 		public Type AudioTrack;
+	}
+
+	public class SettingsEventArgs : EventArgs
+	{
+		public string Value { get; set; }
+
+		public SettingsEventArgs(string value)
+		{
+			Value = value;
+		}
 	}
 }

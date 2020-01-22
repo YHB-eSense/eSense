@@ -38,12 +38,19 @@ namespace Karl.ViewModel
 			_settingsHandler.SettingsChanged += Refresh;
 		}
 
-		public void Refresh(object sender, EventArgs args)
+		public void Refresh(object sender, SettingsEventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-			_modeHandler.ResetModes();
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
+			switch (args.Value)
+			{
+				case nameof(_settingsHandler.CurrentLang):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
+					_modeHandler.ResetModes();
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
+					break;
+				case nameof(_settingsHandler.CurrentColor):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+					break;
+			}
 		}
 
 		private void ActivateMode(Mode mode)
