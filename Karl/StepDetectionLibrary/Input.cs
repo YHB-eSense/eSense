@@ -13,7 +13,7 @@ namespace StepDetectionLibrary
 	{
 		public AccData AccData;
 		public GyroData GyroData;
-		public const int DATALENGTH = 40;
+		public const int DATALENGTH = 50;
 
 		public AccGyroData(int a)
 		{
