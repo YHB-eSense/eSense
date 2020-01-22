@@ -33,6 +33,7 @@ namespace Karl.Model
 		private ConnectivityHandler()
 		{
 			_earableManager = new EarableLibrary.EarableLibrary();
+			_stepDetection = new Input();
 		}
 
 		public bool EarableConnected
