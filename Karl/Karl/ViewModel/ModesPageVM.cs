@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System;
+using Microcharts;
 
 namespace Karl.ViewModel
 {
@@ -56,6 +57,14 @@ namespace Karl.ViewModel
 		private void ActivateMode(Mode mode)
 		{
 			mode.Activate();
+		}
+
+		public LineChart StepChart
+		{
+			get
+			{
+				return new LineChart { Entries = _settingsHandler.ChartEntries };
+			}
 		}
 
 	}
