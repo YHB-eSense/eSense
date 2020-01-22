@@ -9,11 +9,17 @@ namespace Karl.Model
 	/// <summary>
 	/// The Motivation Mode.
 	/// </summary>
-	class MotivateMode : Mode
+	class MotivationMode : Mode
 	{
-		AudioPlayer AudioPlayer = AudioPlayer.SingletonAudioPlayer;
+		private AudioPlayer _audioPlayer = AudioPlayer.SingletonAudioPlayer;
+		private LangManager _langManager = LangManager.SingletonLangManager;
 		Nullable<Output> Output;
 		ObservableCollection<AudioTrack> Library = AudioLib.SingletonAudioLib.AudioTracks;
+
+		public override string Name
+		{
+			get => _langManager.CurrentLang.Get("motivation_mode");
+		}
 
 		public void ChooseNextSong()
 		{
@@ -29,7 +35,7 @@ namespace Karl.Model
 			double MinDiff = Double.PositiveInfinity;
 			foreach (AudioTrack Track in Library)
 			{
-				if (AudioPlayer.SongsQueue.Contains(Track)) continue;
+				if (_audioPlayer.SongsQueue.Contains(Track)) continue;
 
 				double ThisDiff = Math.Abs(Track.BPM - StepsPerMinute);
 				if (ThisDiff < MinDiff)
@@ -38,20 +44,20 @@ namespace Karl.Model
 					BestTrack = Track;
 				}
 			}
-			if (BestTrack != null) AudioPlayer.SongsQueue.Enqueue(BestTrack);
+			if (BestTrack != null) _audioPlayer.SongsQueue.Enqueue(BestTrack);
 		}
 
 		public override void Activate()
 		{
 			//if (!AudioPlayer.Paused) AudioPlayer.TogglePause();
-			AudioPlayer.Clear();
-			AudioPlayer.NextSongEvent += ChooseNextSong;
+			_audioPlayer.Clear();
+			_audioPlayer.NextSongEvent += ChooseNextSong;
 			//throw new NotImplementedException(); //todo
 		}
 
 		public override void Deactivate()
 		{
-			AudioPlayer.NextSongEvent -= ChooseNextSong;
+			_audioPlayer.NextSongEvent -= ChooseNextSong;
 			//throw new NotImplementedException(); //todo
 		}
 
@@ -62,8 +68,8 @@ namespace Karl.Model
 
 		private class StepDetectionObserver : IObserver<Output>
 		{
-			MotivateMode parent;
-			public StepDetectionObserver(MotivateMode parent)
+			MotivationMode parent;
+			public StepDetectionObserver(MotivationMode parent)
 			{
 				this.parent = parent;
 			}

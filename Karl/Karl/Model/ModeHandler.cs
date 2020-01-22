@@ -33,10 +33,21 @@ namespace Karl.Model
 		/// <param name="audioPlayer">The audioplayer that is the modes do stuff on.</param>
 		private ModeHandler()
 		{
-			this._audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			Modes = new List<Mode>();
 			Modes.Add(new AutostopMode());
-			Modes.Add(new MotivateMode());
+			Modes.Add(new MotivationMode());
 		}
+
+		public void ResetModes()
+		{
+			if(Modes != null)
+			{
+				List<Mode> newModes = new List<Mode>(Modes);
+				Modes.Clear();
+				Modes = newModes;
+			}
+		}
+
 	}
 }

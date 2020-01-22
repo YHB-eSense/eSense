@@ -4,6 +4,8 @@ using Karl.Model;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.View;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace Karl.ViewModel
 {
@@ -96,14 +98,12 @@ namespace Karl.ViewModel
 
 		private async void TryConnect()
 		{
-			/*
 			// Check for (required) location permission first
 			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
 			if (status != PermissionStatus.Granted)
 			{
 				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
 			}
-			*/
 
 			if (_connectivityHandler.EarableConnected) { await _connectivityHandler.Disconnect(); }
 			else

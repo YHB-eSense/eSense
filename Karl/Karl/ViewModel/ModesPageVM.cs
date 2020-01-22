@@ -42,6 +42,8 @@ namespace Karl.ViewModel
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			_modeHandler.ResetModes();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
 		}
 
 		private void ActivateMode(Mode mode)

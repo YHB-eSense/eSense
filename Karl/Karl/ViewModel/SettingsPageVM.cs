@@ -36,7 +36,7 @@ namespace Karl.ViewModel
 		public CustomColor CurrentColor
 		{
 			get => _settingsHandler.CurrentColor;
-			set { _settingsHandler.CurrentColor = value; }
+			set { if(value != null) _settingsHandler.CurrentColor = value; }
 		}
 		public string DeviceName
 		{

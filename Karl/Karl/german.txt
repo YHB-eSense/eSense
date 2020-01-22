@@ -23,3 +23,5 @@ col_#FF4169E1=Königsblau
 col_#FF87CEEB=Himmelblau
 col_#FF8B0000=Dunkelrot
 unknown=Unbekannt
+autostop_mode=AutostopModus
+motivation_mode=MotivierungsModus
