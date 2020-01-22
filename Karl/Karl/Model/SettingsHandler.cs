@@ -162,6 +162,7 @@ namespace Karl.Model
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
 			/*AvailableAudioModules.Add("spotifyAudioModule",
 				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));*/
+
 			//Load Color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
