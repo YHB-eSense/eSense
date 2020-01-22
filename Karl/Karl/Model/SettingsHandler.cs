@@ -157,6 +157,12 @@ namespace Karl.Model
 			Colors.Add(new CustomColor(Color.SkyBlue));
 			Colors.Add(new CustomColor(Color.DarkRed));
 
+			//Init AudioModules
+			AvailableAudioModules.Add("basicAudioModule",
+				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
+			/*AvailableAudioModules.Add("spotifyAudioModule",
+				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));*/
+
 			//Load Color
 			Object val;
 			if (_properties.TryGetValue("color", out val))

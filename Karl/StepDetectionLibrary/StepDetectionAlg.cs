@@ -10,10 +10,15 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
+
+		private Stack<int> steps;
+		private int stepsum;
 		public StepDetectionAlg()
 		{
 			_observer = new List<IObserver<Output>>();
 			Subscribe(OutputManager.SingletonOutputManager);
+			steps = new Stack<int>();
+			stepsum = 0;
 		}
 		private List<IObserver<Output>> _observer;
 		/// <summary>
@@ -119,7 +124,14 @@ namespace StepDetectionLibrary
 				}
 			}
 
-			Output output = new Output(stepcount/(length/50.0), stepcount);
+			steps.Push(stepcount);
+			stepsum += stepcount;
+			if(steps.Count > 5)
+			{
+				stepsum -= steps.Pop();
+			}
+			double frequency = (Convert.ToDouble(stepsum) / Convert.ToDouble(steps.Count)) / (length / 50.0); 
+			Output output = new Output(frequency, stepcount);
 
 			return output;
 		}
