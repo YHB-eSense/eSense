@@ -25,8 +25,8 @@ namespace Karl.Model
 		private async void Authorize()
 		{
 			AuthorizationCodeAuth auth = new AuthorizationCodeAuth(
-				CLIENT_ID, CLIENT_SECRET, @"http://localhost:4002", @"http://localhost:4002",
-				Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative);
+				CLIENT_ID, CLIENT_SECRET, @"http://google.com", @"http://google.com",
+				Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative | Scope.AppRemoteControl);
 
 			auth.AuthReceived += async (sender, payload) =>
 			{
