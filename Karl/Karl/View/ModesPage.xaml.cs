@@ -17,28 +17,6 @@ namespace Karl.View
 	public partial class ModesPage : ContentPage, IAnimationPage
 	{
 		private ModesPageVM _modesPageVM;
-		List<Microcharts.Entry> entries = new List<Microcharts.Entry>()
-		{
-			new Microcharts.Entry(100)
-			{
-				Color = SKColor.Parse("#FF1493"),
-				Label = "0min",
-				ValueLabel = "100"
-			},
-			new Microcharts.Entry(300)
-			{
-				Color = SKColor.Parse("#68B9C0"),
-				Label = "1min",
-				ValueLabel = "300"
-			},
-			new Microcharts.Entry(200)
-			{
-				Color = SKColor.Parse("#266489"),
-				Label = "2min",
-				ValueLabel = "200"
-			}
-
-		};
 
 public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromLeft };
 
@@ -48,7 +26,7 @@ public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration
 			_modesPageVM = modesPageVM;
 			BindingContext = _modesPageVM;
 			
-			CrazyChart.Chart = new LineChart { Entries = entries };
+			CrazyChart.Chart = _modesPageVM.StepChart;
 		}
 
 		public void OnAnimationStarted(bool isPopAnimation)

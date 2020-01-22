@@ -1,9 +1,11 @@
+using SkiaSharp;
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Timers;
 using Xamarin.Forms;
 
 namespace Karl.Model
@@ -23,6 +25,36 @@ namespace Karl.Model
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
 		internal IDictionary<string, AudioModule> AvailableAudioModules;
+		private int _stepslastmin;
+
+		private Timer timer;
+
+		public List<Microcharts.Entry> ChartEntries;
+		private void InitTimer()
+		{
+			
+			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+			timer.AutoReset = true;
+			timer.Elapsed += new System.Timers.ElapsedEventHandler(AddChartEvent);
+			timer.Start();
+		}
+
+		private void AddChartEvent(object sender, ElapsedEventArgs e)
+		{
+			Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+			{
+				Color = SKColor.Parse("#FF1493"),
+				Label = "Steps",
+				ValueLabel = _stepslastmin.ToString()
+			};
+			ChartEntries.Add(entry);
+			_stepslastmin = 0;
+			if(ChartEntries.Count > 10)
+			{
+				ChartEntries.RemoveAt(0);
+			}
+
+		}
 
 		//Delegates for EventHandling
 		internal delegate void AudioModuleDelegate(AudioModule audioModule);
@@ -121,6 +153,9 @@ namespace Karl.Model
 				}
 			}
 		}
+
+
+
 		/// <summary>
 		/// Resets the Step Counter.
 		/// </summary>
@@ -150,6 +185,9 @@ namespace Karl.Model
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
+			_stepslastmin = 0;
+			ChartEntries = new List<Microcharts.Entry>();
+			InitTimer();
 
 			//Colors to use.
 			Colors = new List<CustomColor>();
@@ -279,6 +317,8 @@ namespace Karl.Model
 			public void OnNext(Output value)
 			{
 				_parent.Steps = _parent._steps + value.StepCount;
+				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
+
 			}
 		}
 	}
