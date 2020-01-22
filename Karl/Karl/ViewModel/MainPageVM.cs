@@ -28,7 +28,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _langManager.CurrentLang.Get("steps") +
+					return _langManager.CurrentLang.Get("device_name") + " " +
 						_settingsHandler.DeviceName; }
 				return null;
 			}
@@ -38,7 +38,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _langManager.CurrentLang.Get("device_name") +
+					return _langManager.CurrentLang.Get("steps") + " " +
 						Convert.ToString(_settingsHandler.Steps); }
 				return null;
 			}
@@ -103,6 +103,8 @@ namespace Karl.ViewModel
 		private void Refresh(object sender, ConnectionEventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
 		private void GotoAudioPlayerPage()
