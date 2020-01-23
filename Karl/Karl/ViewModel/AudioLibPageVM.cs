@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows.Input;
 using Karl.Model;
 using Karl.View;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 
 namespace Karl.ViewModel
@@ -134,8 +136,13 @@ namespace Karl.ViewModel
 			TitleSort();
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		public async void Refresh(object sender, SettingsEventArgs args)
 		{
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+			if (status != PermissionStatus.Granted)
+			{
+				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+			}
 			switch (args.Value)
 			{
 				case nameof(_settingsHandler.CurrentLang):
@@ -147,7 +154,6 @@ namespace Karl.ViewModel
 					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 					break;
 			}
-
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;

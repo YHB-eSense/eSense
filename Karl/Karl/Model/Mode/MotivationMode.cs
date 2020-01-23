@@ -52,6 +52,12 @@ namespace Karl.Model
 			//if (!AudioPlayer.Paused) AudioPlayer.TogglePause();
 			_audioPlayer.Clear();
 			_audioPlayer.NextSongEvent += ChooseNextSong;
+			if (_audioPlayer.Paused)
+			{
+				ChooseNextSong();
+				_audioPlayer.NextTrack();
+			}
+
 			//throw new NotImplementedException(); //todo
 		}
 
@@ -61,7 +67,7 @@ namespace Karl.Model
 			//throw new NotImplementedException(); //todo
 		}
 
-		protected override String UpdateName(Lang value)
+		protected override string UpdateName(Lang value)
 		{
 			return "MotivateMode"; //value.get("mode_motivate");//todo
 		}
