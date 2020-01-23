@@ -229,9 +229,12 @@ namespace Karl.Model
 			}
 
 			//Init AudioModules
-			AvailableAudioModules.Add("basicAudioModule",
+			if (!AvailableAudioModules.ContainsKey("basicAudioModule"))
+			{
+				AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-
+			}
+			
 			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
 			{
