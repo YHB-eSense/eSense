@@ -12,14 +12,14 @@ namespace Karl.Model
 		/// <summary>
 		/// The name of the mode.
 		/// </summary>
-		public String Name { get; protected set; }
+		public abstract string Name { get; }
 		/// <summary>
 		/// The constructor registers this for name changes.
 		/// </summary>
 		protected Mode()
 		{
 			LangManager.SingletonLangManager.Subscribe(new LangObserver(this));//todo
-			Name = UpdateName(LangManager.SingletonLangManager.CurrentLang);
+			//Name = UpdateName(LangManager.SingletonLangManager.CurrentLang);
 		}
 		/// <summary>
 		/// Activate this mode.
@@ -34,7 +34,7 @@ namespace Karl.Model
 		/// </summary>
 		/// <param name="value">The current Language data</param>
 		/// <returns>The name of the Mode.</returns>
-		protected abstract String UpdateName(Lang value);
+		protected abstract string UpdateName(Lang value);
 		//todo
 
 		private class LangObserver : IObserver<Lang>
@@ -56,7 +56,7 @@ namespace Karl.Model
 
 			public void OnNext(Lang value)
 			{
-				parent.Name = parent.UpdateName(value); //todo
+				//parent.Name = parent.UpdateName(value); //todo
 			}
 		}
 	}

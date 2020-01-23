@@ -23,4 +23,6 @@ col_#FF4169E1=Royal Blue
 col_#FF87CEEB=Sky Blue
 col_#FF8B0000=Dark Red
 unknown=Unknown
+autostop_mode=AutostopMode
+motivation_mode=MotivationMode
 

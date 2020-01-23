@@ -1,9 +1,11 @@
+using SkiaSharp;
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Timers;
 using Xamarin.Forms;
 
 namespace Karl.Model
@@ -23,12 +25,42 @@ namespace Karl.Model
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
 		internal IDictionary<string, AudioModule> AvailableAudioModules;
+		private int _stepslastmin;
+
+		private Timer timer;
+
+		public List<Microcharts.Entry> ChartEntries;
+		private void InitTimer()
+		{
+			
+			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+			timer.AutoReset = true;
+			timer.Elapsed += new System.Timers.ElapsedEventHandler(AddChartEvent);
+			timer.Start();
+		}
+
+		private void AddChartEvent(object sender, ElapsedEventArgs e)
+		{
+			Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+			{
+				Color = SKColor.Parse("#FF1493"),
+				Label = "Steps",
+				ValueLabel = _stepslastmin.ToString()
+			};
+			ChartEntries.Add(entry);
+			_stepslastmin = 0;
+			if(ChartEntries.Count > 10)
+			{
+				ChartEntries.RemoveAt(0);
+			}
+
+		}
 
 		//Delegates for EventHandling
 		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
-		public event EventHandler SettingsChanged;
+		public event EventHandler<SettingsEventArgs> SettingsChanged;
 		internal event AudioModuleDelegate AudioModuleChanged;
 
 		/// <summary>
@@ -50,7 +82,7 @@ namespace Karl.Model
 				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
 				ResetColors();
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentLang)));
 			}
 		}
 
@@ -67,7 +99,7 @@ namespace Karl.Model
 			set
 			{
 				_connectivityHandler.SetDeviceName(value);
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
 			}
 		}
 
@@ -82,7 +114,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
 				_properties.Add("steps", value.ToString());
 				_steps = value;
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(Steps)));
 			}
 		}
 
@@ -106,7 +138,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
 				_currentColor = value;
-				SettingsChanged?.Invoke(this, null);
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentColor)));
 			}
 		}
 
@@ -121,6 +153,9 @@ namespace Karl.Model
 				}
 			}
 		}
+
+
+
 		/// <summary>
 		/// Resets the Step Counter.
 		/// </summary>
@@ -150,12 +185,21 @@ namespace Karl.Model
 			_langManager = LangManager.SingletonLangManager;
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
+			_stepslastmin = 0;
+			ChartEntries = new List<Microcharts.Entry>();
+			InitTimer();
 
 			//Colors to use.
 			Colors = new List<CustomColor>();
 			Colors.Add(new CustomColor(Color.RoyalBlue));
 			Colors.Add(new CustomColor(Color.SkyBlue));
 			Colors.Add(new CustomColor(Color.DarkRed));
+
+			//Init AudioModules
+			AvailableAudioModules.Add("basicAudioModule",
+				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
+			/*AvailableAudioModules.Add("spotifyAudioModule",
+				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));*/
 
 			//Load Color
 			Object val;
@@ -273,6 +317,8 @@ namespace Karl.Model
 			public void OnNext(Output value)
 			{
 				_parent.Steps = _parent._steps + value.StepCount;
+				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
+
 			}
 		}
 	}
@@ -320,5 +366,15 @@ namespace Karl.Model
 		public IAudioLibImpl AudioLib;
 		public IAudioPlayerImpl AudioPlayer;
 		public Type AudioTrack;
+	}
+
+	public class SettingsEventArgs : EventArgs
+	{
+		public string Value { get; set; }
+
+		public SettingsEventArgs(string value)
+		{
+			Value = value;
+		}
 	}
 }

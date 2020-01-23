@@ -4,6 +4,8 @@ using Karl.Model;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.View;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace Karl.ViewModel
 {
@@ -21,13 +23,13 @@ namespace Karl.ViewModel
 
 		//Properties binded to MainPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string StepsLabel { get => _langManager.CurrentLang.Get("steps"); }
-		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
 		public string DeviceName
 		{
 			get
 			{
-				if (_connectivityHandler.EarableConnected) { return _settingsHandler.DeviceName; }
+				if (_connectivityHandler.EarableConnected) {
+					return _langManager.CurrentLang.Get("steps") +
+						_settingsHandler.DeviceName; }
 				return null;
 			}
 		}
@@ -35,7 +37,9 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (_connectivityHandler.EarableConnected) { return Convert.ToString(_settingsHandler.Steps); }
+				if (_connectivityHandler.EarableConnected) {
+					return _langManager.CurrentLang.Get("device_name") +
+						Convert.ToString(_settingsHandler.Steps); }
 				return null;
 			}
 		}
@@ -73,15 +77,32 @@ namespace Karl.ViewModel
 			_iconOn = "bluetooth_on.png";
 			_iconOff = "bluetooth_off.png";
 			_settingsHandler.SettingsChanged += Refresh;
+			_connectivityHandler.ConnectionChanged += Refresh;
 		}
 
-		private void Refresh(object sender, EventArgs args)
+		private void Refresh(object sender, SettingsEventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			switch (args.Value)
+			{
+				case nameof(_settingsHandler.CurrentLang):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+					break;
+				case nameof(_settingsHandler.DeviceName):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+					break;
+				case nameof(_settingsHandler.Steps):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+					break;
+				case nameof(_settingsHandler.CurrentColor):
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+					break;
+			}	
+		}
+
+		private void Refresh(object sender, ConnectionEventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}
 
 		private void GotoAudioPlayerPage()
@@ -104,7 +125,6 @@ namespace Karl.ViewModel
 				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
 			}
 			*/
-
 			if (_connectivityHandler.EarableConnected) { await _connectivityHandler.Disconnect(); }
 			else
 			{
