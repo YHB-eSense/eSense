@@ -18,15 +18,13 @@ namespace Karl.View
 	{
 		private ModesPageVM _modesPageVM;
 
-public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromLeft };
+		public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromLeft };
 
 		public ModesPage(ModesPageVM modesPageVM)
 		{
 			InitializeComponent();
 			_modesPageVM = modesPageVM;
 			BindingContext = _modesPageVM;
-			
-			CrazyChart.Chart = _modesPageVM.StepChart;
 		}
 
 		public void OnAnimationStarted(bool isPopAnimation)

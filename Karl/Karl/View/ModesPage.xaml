@@ -63,10 +63,9 @@
 					</ListView>
 				</StackLayout>
 			</Frame>
+			
 			<Frame Grid.Row="2">
-				<forms:ChartView x:Name="CrazyChart" HeightRequest="150"/>
-
-
+				<forms:ChartView x:Name="CrazyChart" Chart="{Binding StepChart}"/>
 			</Frame>
 
 		</Grid>

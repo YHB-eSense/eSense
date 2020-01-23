@@ -2,6 +2,8 @@ using Xamarin.Forms;
 using Karl.View;
 using Karl.ViewModel;
 using FormsControls.Base;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace Karl
 {
@@ -31,6 +33,8 @@ namespace Karl
 			handler.SetPages(pages);
 
 			MainPage = new AnimationNavigationPage(mainPage);
+
+			GetPermissions();
 		}
 
 		protected override void OnStart()
@@ -47,5 +51,15 @@ namespace Karl
 		{
 			// Handle when your app resumes
 		}
+
+		private async void GetPermissions()
+		{
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+			if (status != PermissionStatus.Granted)
+			{
+				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+			}
+		}
+
 	}
 }

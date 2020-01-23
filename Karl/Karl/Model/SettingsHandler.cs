@@ -32,28 +32,30 @@ namespace Karl.Model
 		public List<Microcharts.Entry> ChartEntries;
 		private void InitTimer()
 		{
-			
 			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
 			timer.AutoReset = true;
-			timer.Elapsed += new System.Timers.ElapsedEventHandler(AddChartEvent);
+			timer.Elapsed += new ElapsedEventHandler(AddChartEvent);
 			timer.Start();
 		}
 
 		private void AddChartEvent(object sender, ElapsedEventArgs e)
 		{
-			Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+			if (_connectivityHandler.EarableConnected)
 			{
-				Color = SKColor.Parse("#FF1493"),
-				Label = "Steps",
-				ValueLabel = _stepslastmin.ToString()
-			};
-			ChartEntries.Add(entry);
-			_stepslastmin = 0;
-			if(ChartEntries.Count > 10)
-			{
-				ChartEntries.RemoveAt(0);
+				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+				{
+					Color = SKColor.Parse(CurrentColor.Color.ToHex()),
+					Label = DateTime.Now.ToString("HH:mm"),
+					ValueLabel = _stepslastmin.ToString()
+				};
+				ChartEntries.Add(entry);
+				_stepslastmin = 0;
+				if (ChartEntries.Count > 10)
+				{
+					ChartEntries.RemoveAt(0);
+				}
+				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(ChartEntries)));
 			}
-
 		}
 
 		//Delegates for EventHandling
@@ -138,6 +140,10 @@ namespace Karl.Model
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
 				_currentColor = value;
+				foreach(Microcharts.Entry entry in ChartEntries)
+				{
+					entry.Color = SKColor.Parse(_currentColor.Color.ToHex());
+				}
 				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentColor)));
 			}
 		}

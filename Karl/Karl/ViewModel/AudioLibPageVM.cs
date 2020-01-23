@@ -136,13 +136,8 @@ namespace Karl.ViewModel
 			TitleSort();
 		}
 
-		public async void Refresh(object sender, SettingsEventArgs args)
+		public void Refresh(object sender, SettingsEventArgs args)
 		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-			if (status != PermissionStatus.Granted)
-			{
-				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
-			}
 			switch (args.Value)
 			{
 				case nameof(_settingsHandler.CurrentLang):
