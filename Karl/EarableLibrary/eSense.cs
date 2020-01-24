@@ -82,7 +82,9 @@ namespace EarableLibrary
 			try
 			{
 				var characteristics = await GetCharacteristicsAsync(ServiceUuids);
-				_name = new EarableName(characteristics[CHAR_NAME_R], characteristics[CHAR_NAME_W]);
+				_name = new EarableName(read: characteristics[CHAR_NAME_R], write: characteristics[CHAR_NAME_W]);
+				await _name.Initialize();
+				new IntervalConfiguration(characteristics[CHAR_INTERVALS]);
 				_sensors = CreateSensors(characteristics);
 			}
 			catch (Exception e)
@@ -166,7 +168,7 @@ namespace EarableLibrary
 		{
 			var dict = new Dictionary<Type, ISensor>
 			{
-				{ typeof(MotionSensor), new MotionSensor(data: c[CHAR_IMU_DATA], enable: c[CHAR_IMU_ENABLE], config: c[CHAR_IMU_CONFIG]) },
+				{ typeof(MotionSensor), new MotionSensor(data: c[CHAR_IMU_DATA], enable: c[CHAR_IMU_ENABLE], config: c[CHAR_IMU_CONFIG], offset: c[CHAR_IMU_OFFSET]) },
 				{ typeof(PushButton), new PushButton(c[CHAR_BUTTON]) },
 				{ typeof(VoltageSensor), new VoltageSensor(c[CHAR_VOLTAGE]) }
 			};

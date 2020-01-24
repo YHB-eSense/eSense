@@ -29,7 +29,13 @@ namespace Karl.Model
 
 		private Timer timer;
 
+		/// <summary>
+		/// List with Microchartentries to get a chart with steps in the last few minutes
+		/// </summary>
 		public List<Microcharts.Entry> ChartEntries;
+		/// <summary>
+		/// timer to set time between each microchart entry
+		/// </summary>
 		private void InitTimer()
 		{
 			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
@@ -38,6 +44,11 @@ namespace Karl.Model
 			timer.Start();
 		}
 
+		/// <summary>
+		/// method to add microchartentries
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void AddChartEvent(object sender, ElapsedEventArgs e)
 		{
 			if (_connectivityHandler.EarableConnected)
@@ -100,8 +111,10 @@ namespace Karl.Model
 			}
 			set
 			{
-				_connectivityHandler.SetDeviceName(value);
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+				_connectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
+				{
+					SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+				});
 			}
 		}
 

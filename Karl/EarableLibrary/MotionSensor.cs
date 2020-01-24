@@ -100,7 +100,7 @@ namespace EarableLibrary
 		private static readonly byte ENABLE = 0x01;
 		private static readonly byte DISABLE = 0x00;
 
-		private readonly ICharacteristic _data, _enable, _config;
+		private readonly ICharacteristic _data, _enable, _config, _offset;
 
 		/// <summary>
 		/// Invoked when a new sample is available.
@@ -118,11 +118,12 @@ namespace EarableLibrary
 		/// <param name="data">Characteristic giving access to the sensor readings</param>
 		/// <param name="enable">Characteristic giving access to the enable-flag</param>
 		/// <param name="config">Characteristic giving access to the sensor configuration</param>
-		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config)
+		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
 		{
 			_data = data;
 			_enable = enable;
 			_config = config;
+			_offset = offset;
 			data.ValueUpdated += OnValueUpdated;
 			SamplingRate = 50;
 		}
