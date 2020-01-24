@@ -10,8 +10,8 @@ namespace Karl.Model
 	/// </summary>
 	public abstract class AudioTrack
 	{
-		public abstract int Id { get; set; }
-		public abstract String StorageLocation { get; set; }
+		public abstract string Id { get; set; }
+		
 		/// <summary>
 		/// The duration of the song.
 		/// </summary>

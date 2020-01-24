@@ -30,7 +30,7 @@ namespace Karl.Model
 
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
-		private const string SCOPE = "user-read-playback-state";
+		private const string SCOPE = "user-read-playback-state user-modify-playback-state";
 		private const string AUTHORIZE_URI = @"https://accounts.spotify.com/authorize";
 		private const string REDIRECT_URI = @"karl1.companyname.com:/oauth2redirect";
 		private const string ACCESSTOKEN_URI = @"https://accounts.spotify.com/api/token";
@@ -78,16 +78,20 @@ namespace Karl.Model
 				Console.WriteLine(profile.DisplayName);
 				List <SimplePlaylist> playlists = api.GetUserPlaylists(profile.Id).Items;
 				foreach (var playlist in playlists) {
-					Debug.WriteLine(playlist.Name.ToString());
+					Debug.WriteLine(playlist.Name.ToString()+ " "+ playlist.Tracks.Href);	
 				}
 				List <Device> devices = api.GetDevices().Devices;
+				Device nowdevice = new Device();
 				Debug.WriteLine(devices.Count);
 				foreach (var device in devices) {
 					Debug.WriteLine(device.Name+ " "+ device.IsActive);
+					nowdevice = device;
 				}
+				Debug.WriteLine(api.GetPlayback().Timestamp+" "+ api.GetPlayback().Item.Name);
+				api.PausePlayback(nowdevice.Id);
+				api.SetVolume(80);
 				
 			}
-		
 			/*
 			HttpResponseMessage response = await _client.GetAsync("https://api.spotify.com/v1/albums/{6rqhFgbbKwnb9MLmUQDhG6}");
 			string responseBody = await response.Content.ReadAsStringAsync();
