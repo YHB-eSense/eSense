@@ -15,8 +15,8 @@ namespace Karl.ViewModel
 		private SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
 		private LangManager _langManager;
-		private string _iconOn;
-		private string _iconOff;
+		private ImageSource _iconOn;
+		private ImageSource _iconOff;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -43,12 +43,11 @@ namespace Karl.ViewModel
 				return null;
 			}
 		}
-		public string Icon
+		public ImageSource Icon
 		{
 			get
 			{
-				if (_connectivityHandler.EarableConnected) { return _iconOn; }
-				return _iconOff;
+				return _connectivityHandler.EarableConnected ? _iconOn : _iconOff;
 			}
 		}
 
@@ -74,8 +73,8 @@ namespace Karl.ViewModel
 			TryConnectCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
-			_iconOn = "bluetooth_on.png";
-			_iconOff = "bluetooth_off.png";
+			_iconOn = ImageSource.FromResource("Karl.Resources.bluetooth_on.png");
+			_iconOff = ImageSource.FromResource("Karl.Resources.bluetooth_off.png");
 			_settingsHandler.SettingsChanged += Refresh;
 			_connectivityHandler.ConnectionChanged += Refresh;
 		}

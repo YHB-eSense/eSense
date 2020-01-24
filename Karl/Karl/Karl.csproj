@@ -9,11 +9,35 @@
   <ItemGroup>
     <None Remove="english.txt" />
     <None Remove="german.txt" />
+    <None Remove="Resources\add.png" />
+    <None Remove="Resources\art.png" />
+    <None Remove="Resources\backward.png" />
+    <None Remove="Resources\bluetooth_off.png" />
+    <None Remove="Resources\bluetooth_on.png" />
+    <None Remove="Resources\delete.png" />
+    <None Remove="Resources\forward.png" />
+    <None Remove="Resources\pause.png" />
+    <None Remove="Resources\play.png" />
+    <None Remove="Resources\refresh.png" />
+    <None Remove="Resources\volume_off.png" />
+    <None Remove="Resources\volume_on.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="english.txt" />
     <EmbeddedResource Include="german.txt" />
+    <EmbeddedResource Include="Resources\add.png" />
+    <EmbeddedResource Include="Resources\art.png" />
+    <EmbeddedResource Include="Resources\backward.png" />
+    <EmbeddedResource Include="Resources\bluetooth_off.png" />
+    <EmbeddedResource Include="Resources\bluetooth_on.png" />
+    <EmbeddedResource Include="Resources\delete.png" />
+    <EmbeddedResource Include="Resources\forward.png" />
+    <EmbeddedResource Include="Resources\pause.png" />
+    <EmbeddedResource Include="Resources\play.png" />
+    <EmbeddedResource Include="Resources\refresh.png" />
+    <EmbeddedResource Include="Resources\volume_off.png" />
+    <EmbeddedResource Include="Resources\volume_on.png" />
   </ItemGroup>
 
   <ItemGroup>
