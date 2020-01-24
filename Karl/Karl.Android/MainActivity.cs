@@ -21,6 +21,7 @@ namespace Karl.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+			global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
 			FormsControls.Droid.Main.Init(this);
 			LoadApplication(new App());
         }

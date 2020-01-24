@@ -91,7 +91,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
 				_properties.Add("audioModule", value.Tag);
 				_currentAudioModule = value;
-				AudioModuleChanged.Invoke(value);
+				AudioModuleChanged?.Invoke(value);
 			}
 		}
 
@@ -175,6 +175,7 @@ namespace Karl.Model
 				_properties.Add("color", Colors[0].Color.ToHex());
 				CurrentColor = Colors[0];
 			}
+
 			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
 			{
@@ -237,7 +238,7 @@ namespace Karl.Model
 				_properties.Add("steps", "0");
 			}
 
-
+			CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
 			//TODO
 		}
 

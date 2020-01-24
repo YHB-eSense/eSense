@@ -8,6 +8,7 @@ namespace Karl.Model
 	sealed class SpotifyAudioLib : IAudioLibImpl
 	{
 		private eSenseSpotifyWebAPI webAPI;
+		private bool _initDone;
 		/// <summary>
 		/// This is the tag of the Spotify Playlist this Lib is based on.
 		/// </summary>
@@ -15,9 +16,15 @@ namespace Karl.Model
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
 
-		public SpotifyAudioLib()
+		public async void Init()
 		{
-			webAPI = new eSenseSpotifyWebAPI();
+			lock (this)
+			{
+				if (_initDone) return;
+				webAPI = eSenseSpotifyWebAPI.WebApiSingleton;
+				webAPI.Auth();
+				_initDone = true;
+			}
 		}
 
 		public void AddTrack(String storage, String title, double duration)

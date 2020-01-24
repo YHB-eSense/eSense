@@ -1,66 +1,65 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.Http;
-using System.Threading.Tasks;
-using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Enums;
-using SpotifyAPI.Web.Models;
+using Xamarin.Auth;
+using Xamarin.Auth.Presenters;
 
 namespace Karl.Model
 {
-	class eSenseSpotifyWebAPI
+	public class eSenseSpotifyWebAPI
 	{
+		private static eSenseSpotifyWebAPI _instance;
+		public static eSenseSpotifyWebAPI WebApiSingleton
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new eSenseSpotifyWebAPI();
+				}
+				return _instance;
+			}
+		}
+		private eSenseSpotifyWebAPI() { }
+		public OAuth2Authenticator AuthenticationState { get; private set; }
+
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
-		private string TokenType;
-		private string AccessToken;
-		private SpotifyWebAPI _api;
-		private PrivateProfile profile;
-		public eSenseSpotifyWebAPI()
-		{
-			Authorize();
-		}
-		private async void Authorize()
-		{
-			AuthorizationCodeAuth auth = new AuthorizationCodeAuth(
-				CLIENT_ID, CLIENT_SECRET, @"http://google.com", @"http://google.com",
-				Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative | Scope.AppRemoteControl);
+		private const string SCOPE = "playlist-read-private";
+		private const string AUTHORIZE_URI = @"https://accounts.spotify.com/authorize";
+		private const string REDIRECT_URI = @"karl1.companyname.com:/oauth2redirect";
+		private const string ACCESSTOKEN_URI = @"https://accounts.spotify.com/api/token";
+		private Account _acc;
+		private HttpClient _client;
 
-			auth.AuthReceived += async (sender, payload) =>
-			{
-				auth.Stop();
-				Token token = await auth.ExchangeCode(payload.Code);
-				_api = new SpotifyWebAPI()
-				{
-					TokenType = token.TokenType,
-					AccessToken = token.AccessToken
-				};
-				// Do requests with API client
-			};
-			auth.Start(); // Starts an internal HTTP Server
-			auth.OpenBrowser();
-		}
-
-		private async void FetchProfile()
+		public async void Auth()
 		{
-			profile = await _api.GetPrivateProfileAsync();
+			Uri AuthURI = new Uri(AUTHORIZE_URI);
+			Uri RedirectURI = new Uri(REDIRECT_URI);
+			Uri AccessTokenUri = new Uri(ACCESSTOKEN_URI);
+			OAuth2Authenticator auth = new OAuth2Authenticator(
+				clientId: CLIENT_ID,
+				clientSecret: CLIENT_SECRET,
+				scope: SCOPE,
+				authorizeUrl: AuthURI,
+				redirectUrl: RedirectURI,
+				accessTokenUrl: AccessTokenUri);
+			auth.Completed += OnAuth;
+
+			OAuthLoginPresenter presenter = new OAuthLoginPresenter();
+
+			presenter.Login(auth);
+
+			_client = new HttpClient();
 		}
 
-		public Paging<SimplePlaylist> FetchPlaylists()
+		public void OnAuth(object sender, AuthenticatorCompletedEventArgs args)
 		{
-			return _api.GetUserPlaylists(profile.Id);
+			if (!args.IsAuthenticated) throw new HttpRequestException("Authentication failed!");
+
+			_acc = args.Account;
 		}
 
-		public Paging<PlaylistTrack> FetchPlaylistTracks(SimplePlaylist playlist)
-		{
-			return _api.GetPlaylistTracks(playlist.Id);
-		}
 
-		public Paging<PlaylistTrack> FetchPlaylistTracks(string playlistID)
-		{
-			return _api.GetPlaylistTracks(playlistID);
-		}
 	}
 }
+

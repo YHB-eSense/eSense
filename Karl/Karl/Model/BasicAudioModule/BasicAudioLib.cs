@@ -43,6 +43,11 @@ namespace Karl.Model
 			await _database.DeleteTrackAsync(track);
 			AllAudioTracks.Remove(track);
 		}
+
+		public void Init()
+		{
+			throw new NotImplementedException();
+		}
 	}
 	
 }
