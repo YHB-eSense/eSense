@@ -100,8 +100,10 @@ namespace Karl.Model
 			}
 			set
 			{
-				_connectivityHandler.SetDeviceName(value);
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+				_connectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
+				{
+					SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+				});
 			}
 		}
 

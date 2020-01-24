@@ -98,7 +98,7 @@ namespace Karl.Model
 		/// Set a new Device name.
 		/// </summary>
 		/// <param name="name">The new Name.</param>
-		public async void SetDeviceName(string name)
+		public async Task SetDeviceNameAsync(string name)
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.SetNameAsync(name);
