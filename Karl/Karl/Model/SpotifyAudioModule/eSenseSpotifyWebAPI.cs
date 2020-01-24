@@ -1,7 +1,12 @@
+using Newtonsoft.Json;
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Models;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
+
 
 namespace Karl.Model
 {
@@ -43,20 +48,21 @@ namespace Karl.Model
 				authorizeUrl: AuthURI,
 				redirectUrl: RedirectURI,
 				accessTokenUrl: AccessTokenUri);
-			auth.Completed += OnAuth;
+			auth.Completed += OnAuthAsync;
 
 			OAuthLoginPresenter presenter = new OAuthLoginPresenter();
-
+			
 			presenter.Login(auth);
-
+			
 			_client = new HttpClient();
 		}
 
-		public void OnAuth(object sender, AuthenticatorCompletedEventArgs args)
+		public async void OnAuthAsync(object sender, AuthenticatorCompletedEventArgs args)
 		{
 			if (!args.IsAuthenticated) throw new HttpRequestException("Authentication failed!");
-
 			_acc = args.Account;
+			HttpResponseMessage response = await _client.GetAsync("https://api.spotify.com/v1/albums/{6rqhFgbbKwnb9MLmUQDhG6}");
+			Debug.WriteLine("asd"+JsonConvert.DeserializeObject<Token>(response.ToString()).ToString());
 		}
 
 
