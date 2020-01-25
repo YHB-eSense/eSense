@@ -73,7 +73,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromResource("art.png"); }
+				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromResource("Karl.Resources.Images.art.png"); }
 				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
 			}
 		}
@@ -97,8 +97,8 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			PositionDragStartedCommand = new Command(PositionDragStarted);
 			PositionDragCompletedCommand = new Command(PositionDragCompleted);
-			_iconPlay = ImageSource.FromResource("Karl.Resources.play.png");
-			_iconPause = ImageSource.FromResource("Karl.Resources.pause.png");
+			_iconPlay = ImageSource.FromResource("Karl.Resources.Images.play.png");
+			_iconPause = ImageSource.FromResource("Karl.Resources.Images.pause.png");
 			_timer = new Timer();
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);

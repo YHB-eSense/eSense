@@ -14,7 +14,6 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
-		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
 
 		//Eventhandling
@@ -22,7 +21,7 @@ namespace Karl.ViewModel
 
 		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string ModesLabel { get => _langManager.CurrentLang.Get("modes"); }
+		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
 		{
@@ -43,7 +42,6 @@ namespace Karl.ViewModel
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_langManager = LangManager.SingletonLangManager;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
 			_settingsHandler.SettingsChanged += Refresh;

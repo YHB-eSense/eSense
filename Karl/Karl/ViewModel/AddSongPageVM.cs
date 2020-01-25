@@ -14,9 +14,8 @@ namespace Karl.ViewModel
 	public class AddSongPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
-		private NavigationHandler _handler;
+		private NavigationHandler _navHandler;
 		private AudioLib _audioLib;
-		private LangManager _langManager;
 		private TagLib.File _file;
 		private bool _picked;
 		private string _newSongTitle;
@@ -29,11 +28,11 @@ namespace Karl.ViewModel
 
 		//Properties binded to AddSongsPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
-		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
-		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
-		public string PickFileLabel { get => _langManager.CurrentLang.Get("pick_file"); }
-		public string AddSongLabel { get => _langManager.CurrentLang.Get("add_song"); }
+		public string TitleLabel { get => _settingsHandler.CurrentLang.Get("title"); }
+		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
+		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
+		public string PickFileLabel { get => _settingsHandler.CurrentLang.Get("pick_file"); }
+		public string AddSongLabel { get => _settingsHandler.CurrentLang.Get("add_song"); }
 		public string NewSongTitle
 		{
 			get => _newSongTitle;
@@ -73,10 +72,9 @@ namespace Karl.ViewModel
 		/// <param name="handler"> For navigation</param>
 		public AddSongPageVM(NavigationHandler handler)
 		{
-			_handler = handler;
+			_navHandler = handler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
-			_langManager = LangManager.SingletonLangManager;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(DetBPM);
@@ -97,8 +95,8 @@ namespace Karl.ViewModel
 				NewSongBPM = ((int)BPMDetectorMP3.DetectBPM(_newSongFileLocation)).ToString();
 			}
 			else {
-				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
-				"Not a .wav or a .mp3 file", _langManager.CurrentLang.Get("alert_ok"));
+				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
+				"Not a .wav or a .mp3 file", _settingsHandler.CurrentLang.Get("alert_ok"));
 			}
 		}
 
@@ -124,12 +122,12 @@ namespace Karl.ViewModel
 			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
 				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
 			{
-				await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("alert_title"),
-					_langManager.CurrentLang.Get("alert_text"), _langManager.CurrentLang.Get("alert_ok"));
+				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
+					_settingsHandler.CurrentLang.Get("alert_text"), _settingsHandler.CurrentLang.Get("alert_ok"));
 				return;
 			}
 			_audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
-			_handler.GoBack();
+			_navHandler.GoBack();
 			NewSongTitle = null;
 			NewSongArtist = null;
 			NewSongBPM = null;
@@ -154,19 +152,19 @@ namespace Karl.ViewModel
 		private string GetTitle()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
-			return _langManager.CurrentLang.Get("unknown");
+			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
 		private string GetArtist()
 		{
 			if (_file != null && _file.Tag.Performers.Length >= 1){ return _file.Tag.Performers[0]; }
-			return _langManager.CurrentLang.Get("unknown");
+			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
 		private string GetBPM()
 		{
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
-			return _langManager.CurrentLang.Get("unknown");
+			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
 	}

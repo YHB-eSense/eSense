@@ -54,7 +54,7 @@
 
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.Column="0">
-				<ImageButton Source="{local:ImageResource Karl.Resources.backward.png}"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.backward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayPrevCommand}"/>
@@ -66,7 +66,7 @@
 					Command="{Binding PausePlayCommand}"/>
 			</Frame>
 			<Frame Grid.Row="2" Grid.Column="2">
-				<ImageButton Source="{local:ImageResource Karl.Resources.forward.png}"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.forward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayNextCommand}"/>

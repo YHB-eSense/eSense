@@ -11,10 +11,9 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private NavigationHandler _handler;
+		private NavigationHandler _navHandler;
 		private SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
-		private LangManager _langManager;
 		private ImageSource _iconOn;
 		private ImageSource _iconOff;
 
@@ -28,7 +27,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _langManager.CurrentLang.Get("device_name") + " " +
+					return _settingsHandler.CurrentLang.Get("device_name") + " " +
 						_settingsHandler.DeviceName; }
 				return null;
 			}
@@ -38,7 +37,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _langManager.CurrentLang.Get("steps") + " " +
+					return _settingsHandler.CurrentLang.Get("steps") + " " +
 						Convert.ToString(_settingsHandler.Steps); }
 				return null;
 			}
@@ -64,17 +63,16 @@ namespace Karl.ViewModel
 		/// <param name="handler">For navigation</param>
 		public MainPageVM(NavigationHandler handler)
 		{
-			_handler = handler;
+			_navHandler = handler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_langManager = LangManager.SingletonLangManager;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			TryConnectCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
-			_iconOn = ImageSource.FromResource("Karl.Resources.bluetooth_on.png");
-			_iconOff = ImageSource.FromResource("Karl.Resources.bluetooth_off.png");
+			_iconOn = ImageSource.FromResource("Karl.Resources.Images.bluetooth_on.png");
+			_iconOff = ImageSource.FromResource("Karl.Resources.Images.bluetooth_off.png");
 			_settingsHandler.SettingsChanged += Refresh;
 			_connectivityHandler.ConnectionChanged += Refresh;
 		}
@@ -108,12 +106,12 @@ namespace Karl.ViewModel
 
 		private void GotoAudioPlayerPage()
 		{
-			_handler.GotoPage<AudioPlayerPage>();
+			_navHandler.GotoPage<AudioPlayerPage>();
 		}
 
 		private void GotoAudioLibPage()
 		{
-			_handler.GotoPage<AudioLibPage>();
+			_navHandler.GotoPage<AudioLibPage>();
 		}
 
 		private async void TryConnect()
@@ -133,12 +131,12 @@ namespace Karl.ViewModel
 
 		private void GotoModesPage()
 		{
-			_handler.GotoPage<ModesPage>();
+			_navHandler.GotoPage<ModesPage>();
 		}
 
 		private void GotoSettingsPage()
 		{
-			_handler.GotoPage<SettingsPage>();
+			_navHandler.GotoPage<SettingsPage>();
 		}
 
 	}

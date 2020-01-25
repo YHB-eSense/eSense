@@ -15,17 +15,16 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private string _deviceName;
-		private LangManager _langManager;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to SettingsPage of View
-		public string LanguageLabel { get => _langManager.CurrentLang.Get("language"); }
-		public string ColorLabel { get => _langManager.CurrentLang.Get("color"); }
-		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
-		public string ChangeDeviceNameLabel { get => _langManager.CurrentLang.Get("change_device_name"); }
-		public string ResetStepsLabel { get => _langManager.CurrentLang.Get("reset_steps"); }
+		public string LanguageLabel { get => _settingsHandler.CurrentLang.Get("language"); }
+		public string ColorLabel { get => _settingsHandler.CurrentLang.Get("color"); }
+		public string DeviceNameLabel { get => _settingsHandler.CurrentLang.Get("device_name"); }
+		public string ChangeDeviceNameLabel { get => _settingsHandler.CurrentLang.Get("change_device_name"); }
+		public string ResetStepsLabel { get => _settingsHandler.CurrentLang.Get("reset_steps"); }
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
 		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
 		public Lang SelectedLanguage
@@ -54,7 +53,6 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_langManager = LangManager.SingletonLangManager;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
 			_settingsHandler.SettingsChanged += Refresh;
