@@ -4,8 +4,6 @@ using Karl.Model;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.View;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 
 namespace Karl.ViewModel
 {
