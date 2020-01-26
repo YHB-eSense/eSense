@@ -55,29 +55,30 @@ namespace Karl.ViewModel
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
-			_settingsHandler.SettingsChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.ColorChanged += RefreshColor;
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeDeviceNameLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResetStepsLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-				case nameof(_settingsHandler.DeviceName):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}	
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeDeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResetStepsLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+		}
+
+		private void RefreshDeviceName(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void ChangeDeviceName()

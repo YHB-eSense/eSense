@@ -51,15 +51,14 @@
 			<!--Fourth Row-->
 			<Frame Grid.Row="3">
 				<StackLayout Orientation="Vertical">
-					<Button Text="Get BPM" 
-						TextColor="White" 
-						Command="{Binding GetBPMCommand}"
-						BackgroundColor="{Binding CurrentColor.Color}"/>
-					<!--TODO-->
 					<Button Text="{Binding PickFileLabel}"
 						Command="{Binding PickFileCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"/>
+					<Button Text="Get BPM" 
+						TextColor="White" 
+						Command="{Binding GetBPMCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"/>
 					<Button Text="{Binding AddSongLabel}"
 						Command="{Binding AddSongCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"

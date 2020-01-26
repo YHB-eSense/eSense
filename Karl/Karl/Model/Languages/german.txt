@@ -1,7 +1,7 @@
 name=Deutsch
-steps=Schritte:
-device_name=Gerät:
-modes=Verfügbare Modi:
+steps=Schritte
+device_name=Gerät
+modes=Verfügbare Modi
 language=Sprachen
 change_device_name=Gerätename ändern
 reset_steps=Schrittanzahl zurücksetzen

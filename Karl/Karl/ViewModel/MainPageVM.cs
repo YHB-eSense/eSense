@@ -27,7 +27,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _settingsHandler.CurrentLang.Get("device_name") + " " +
+					return _settingsHandler.CurrentLang.Get("device_name") + ": " +
 						_settingsHandler.DeviceName; }
 				return null;
 			}
@@ -37,7 +37,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_connectivityHandler.EarableConnected) {
-					return _settingsHandler.CurrentLang.Get("steps") + " " +
+					return _settingsHandler.CurrentLang.Get("steps") + ": " +
 						Convert.ToString(_settingsHandler.Steps); }
 				return null;
 			}
@@ -49,6 +49,7 @@ namespace Karl.ViewModel
 				return _connectivityHandler.EarableConnected ? _iconOn : _iconOff;
 			}
 		}
+		public bool HelpVisible { get; set; }
 
 		//Commands binded to MainPage of View
 		public ICommand AudioPlayerPageCommand { get; }
@@ -56,6 +57,7 @@ namespace Karl.ViewModel
 		public ICommand TryConnectCommand { get; }
 		public ICommand ModesPageCommand { get; }
 		public ICommand SettingsPageCommand { get; }
+		public ICommand HelpCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ConnectivityHandler, SettingsHandler of Model
@@ -71,33 +73,38 @@ namespace Karl.ViewModel
 			TryConnectCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
+			HelpCommand = new Command(HelpOnOff);
 			_iconOn = ImageSource.FromResource("Karl.Resources.Images.bluetooth_on.png");
 			_iconOff = ImageSource.FromResource("Karl.Resources.Images.bluetooth_off.png");
-			_settingsHandler.SettingsChanged += Refresh;
-			_connectivityHandler.ConnectionChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.StepsChanged += RefreshSteps;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
+			HelpVisible = false;
 		}
 
-		private void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
-					break;
-				case nameof(_settingsHandler.DeviceName):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
-					break;
-				case nameof(_settingsHandler.Steps):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}	
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
-		private void Refresh(object sender, ConnectionEventArgs args)
+		private void RefreshDeviceName(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+		private void RefreshSteps(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
@@ -139,5 +146,10 @@ namespace Karl.ViewModel
 			_navHandler.GotoPage<SettingsPage>();
 		}
 
+		private void HelpOnOff()
+		{
+			HelpVisible = !HelpVisible;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HelpVisible)));
+		}
 	}
 }

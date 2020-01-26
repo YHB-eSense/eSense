@@ -130,23 +130,21 @@ namespace Karl.ViewModel
 			SearchSongCommand = new Command<string>(SearchSong);
 			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
-			_settingsHandler.SettingsChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 			TitleSort();
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;

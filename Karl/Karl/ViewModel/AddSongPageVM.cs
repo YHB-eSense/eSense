@@ -78,7 +78,8 @@ namespace Karl.ViewModel
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(DetBPM);
-			_settingsHandler.SettingsChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 		}
 
 		private async void DetBPM()
@@ -100,20 +101,18 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private void Refresh(object sender, SettingsEventArgs args)
-		{	switch(args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PickFileLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddSongLabel)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}
+		private void RefreshLang(object sender, EventArgs args)
+		{	
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PickFileLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddSongLabel)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private async void AddSong()

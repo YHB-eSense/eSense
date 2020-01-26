@@ -44,30 +44,31 @@ namespace Karl.ViewModel
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			ActivateModeCommand = new Command<Mode>(ActivateMode);
-			_settingsHandler.SettingsChanged += Refresh;
-			_connectivityHandler.ConnectionChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.ChartChanged += RefreshChart;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
-					_modeHandler.ResetModes();
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-					break;
-				case nameof(_settingsHandler.ChartEntries):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-					break;
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
+			_modeHandler.ResetModes();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
 		}
 
-		private void Refresh(object sender, ConnectionEventArgs args)
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		public void RefreshChart(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}

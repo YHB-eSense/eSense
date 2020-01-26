@@ -62,7 +62,7 @@ namespace Karl.Model
 				{
 					ChartEntries.RemoveAt(0);
 				}
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(ChartEntries)));
+				ChartChanged?.Invoke(this, null);
 			}
 		}
 
@@ -70,7 +70,17 @@ namespace Karl.Model
 		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
-		public event EventHandler<SettingsEventArgs> SettingsChanged;
+		public delegate void LangEventHandler(object source, EventArgs e);
+		public event LangEventHandler LangChanged;
+		public delegate void DeviceNameEventHandler(object source, EventArgs e);
+		public event DeviceNameEventHandler DeviceNameChanged;
+		public delegate void StepsEventHandler(object source, EventArgs e);
+		public event StepsEventHandler StepsChanged;
+		public delegate void ColorEventHandler(object source, EventArgs e);
+		public event ColorEventHandler ColorChanged;
+		public delegate void ChartEventHandler(object source, EventArgs e);
+		public event ChartEventHandler ChartChanged;
+
 		internal event AudioModuleDelegate AudioModuleChanged;
 
 		/// <summary>
@@ -92,7 +102,7 @@ namespace Karl.Model
 				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
 				_colorManager.ResetColors();
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentLang)));
+				LangChanged?.Invoke(this, null);
 			}
 		}
 
@@ -110,7 +120,7 @@ namespace Karl.Model
 			{
 				_connectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
 				{
-					SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+					DeviceNameChanged?.Invoke(this, null);
 				});
 			}
 		}
@@ -126,7 +136,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
 				_properties.Add("steps", value.ToString());
 				_steps = value;
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(Steps)));
+				StepsChanged?.Invoke(this, null);
 			}
 		}
 
@@ -154,7 +164,7 @@ namespace Karl.Model
 				{
 					entry.Color = SKColor.Parse(_colorManager.CurrentColor.Color.ToHex());
 				}
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentColor)));
+				ColorChanged?.Invoke(this, null);
 			}
 		}
 
@@ -340,13 +350,4 @@ namespace Karl.Model
 		public Type AudioTrack;
 	}
 
-	public class SettingsEventArgs : EventArgs
-	{
-		public string Value { get; set; }
-
-		public SettingsEventArgs(string value)
-		{
-			Value = value;
-		}
-	}
 }
