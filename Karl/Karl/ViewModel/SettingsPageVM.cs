@@ -15,17 +15,16 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private string _deviceName;
-		private LangManager _langManager;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to SettingsPage of View
-		public string LanguageLabel { get => _langManager.CurrentLang.Get("language"); }
-		public string ColorLabel { get => _langManager.CurrentLang.Get("color"); }
-		public string DeviceNameLabel { get => _langManager.CurrentLang.Get("device_name"); }
-		public string ChangeDeviceNameLabel { get => _langManager.CurrentLang.Get("change_device_name"); }
-		public string ResetStepsLabel { get => _langManager.CurrentLang.Get("reset_steps"); }
+		public string LanguageLabel { get => _settingsHandler.CurrentLang.Get("language"); }
+		public string ColorLabel { get => _settingsHandler.CurrentLang.Get("color"); }
+		public string DeviceNameLabel { get => _settingsHandler.CurrentLang.Get("device_name"); }
+		public string ChangeDeviceNameLabel { get => _settingsHandler.CurrentLang.Get("change_device_name"); }
+		public string ResetStepsLabel { get => _settingsHandler.CurrentLang.Get("reset_steps"); }
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
 		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
 		public Lang SelectedLanguage
@@ -54,32 +53,32 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_langManager = LangManager.SingletonLangManager;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
-			_settingsHandler.SettingsChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.ColorChanged += RefreshColor;
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeDeviceNameLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResetStepsLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-				case nameof(_settingsHandler.DeviceName):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}	
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeDeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResetStepsLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+		}
+
+		private void RefreshDeviceName(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void ChangeDeviceName()

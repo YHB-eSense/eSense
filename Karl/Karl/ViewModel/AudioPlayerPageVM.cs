@@ -11,8 +11,8 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private AudioPlayer _audioPlayer;
-		private string _iconPlay;
-		private string _iconPause;
+		private ImageSource _iconPlay;
+		private ImageSource _iconPause;
 		private Timer _timer;
 		private double _dragValue;
 		private bool _wasPaused;
@@ -41,7 +41,7 @@ namespace Karl.ViewModel
 			}
 			set { _dragValue = value; }
 		}
-		public string Icon
+		public ImageSource Icon
 		{
 			get
 			{
@@ -73,7 +73,7 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromFile("art.png"); }
+				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromResource("Karl.Resources.Images.art.png"); }
 				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
 			}
 		}
@@ -97,28 +97,23 @@ namespace Karl.ViewModel
 			PlayNextCommand = new Command(PlayNext);
 			PositionDragStartedCommand = new Command(PositionDragStarted);
 			PositionDragCompletedCommand = new Command(PositionDragCompleted);
-			_iconPlay = "play.png";
-			_iconPause = "pause.png";
+			_iconPlay = ImageSource.FromResource("Karl.Resources.Images.play.png");
+			_iconPause = ImageSource.FromResource("Karl.Resources.Images.pause.png");
 			_timer = new Timer();
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
 			_dragValue = 0;
-			_settingsHandler.SettingsChanged += Refresh;
-			_audioPlayer.AudioChanged += Refresh;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_audioPlayer.AudioChanged += RefreshAudio;
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshColor(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
-		public void Refresh(object sender, AudioEventArgs args)
+		public void RefreshAudio(object sender, EventArgs args)
 		{
 			if (!_audioPlayer.Paused) { _timer.Start(); }
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));

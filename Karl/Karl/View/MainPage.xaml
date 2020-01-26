@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
 			 mc:Ignorable="d"
 			 x:Class="Karl.View.MainPage">
 	<ContentPage.Content>
@@ -12,12 +12,16 @@
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*"/>
-				<RowDefinition Height="4*"/>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="5*"/>
+				<RowDefinition Height="1*"/>
 				<RowDefinition Height="1*"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="8*"/>
+				<ColumnDefinition Width="1*"/>
 				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 
@@ -29,27 +33,58 @@
 			</Grid.GestureRecognizers>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="1">
-				<Label Text="{Binding DeviceName}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			<Frame Grid.Row="0" Grid.Column="2">
+				<Image Source="{local:ImageResource Karl.Resources.Images.settings.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.help.png}"
+					BackgroundColor="Transparent"
+					Command="{Binding HelpCommand}"/>
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="1">
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="2">
+				<Label Text="{Binding DeviceName}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+				<Image Source="{local:ImageResource Karl.Resources.Images.modes.png}" IsVisible="{Binding HelpVisible}"/>
+			</Frame>
+			<Frame Grid.Row="2" Grid.Column="2">
 				<ImageButton Source="{Binding Icon}"
 					BackgroundColor="Transparent"
 					Command="{Binding TryConnectCommand}"/>
 			</Frame>
+			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2">
+				<Image Source="{local:ImageResource Karl.Resources.Images.audio_lib.png}" IsVisible="{Binding HelpVisible}"/>
+			</Frame>
 
-			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="1">
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+			</Frame>
+			<Frame Grid.Row="3" Grid.Column="2">
 				<Label Text="{Binding StepsAmount}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
-			
-		</Grid>
+			<Frame Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2">
+			</Frame>
 
+			<!--Fifth Row-->
+			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+			</Frame>
+			<Frame Grid.Row="4" Grid.Column="2">
+				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}" IsVisible="{Binding HelpVisible}"/>
+			</Frame>
+			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
+			</Frame>
+
+		</Grid>
+		
 	</ContentPage.Content>
 </ContentPage>

@@ -116,6 +116,29 @@ namespace EarableLibrary
 		{
 			return new ESenseMessage(array, false);
 		}
+
+		public static short[] ByteToShortArray(byte[] bytes, bool bigEndian = true)
+		{
+			short[] result = new short[bytes.Length / 2];
+			for (int i = 0; i < result.Length; i++)
+				if (bigEndian)
+					result[i] = (short)(bytes[i] << 8 + bytes[i + 1]);
+				else
+					result[i] = (short)(bytes[i + 1] << 8 + bytes[i]);
+			return result;
+		}
+
+		public static byte[] ShortToByteArray(short[] shorts, bool bigEndian = true)
+		{
+			byte[] result = new byte[shorts.Length * 2];
+			for (int i = 0; i < shorts.Length; i++)
+				if (bigEndian)
+				{
+					result[2 * i] = (byte)(shorts[i]);
+					result[2 * i + 1] = (byte)(shorts[i] >> 8);
+				}
+			return result;
+		}
 	}
 
 	/// <summary>

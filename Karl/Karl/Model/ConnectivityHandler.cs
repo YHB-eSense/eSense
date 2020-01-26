@@ -16,7 +16,8 @@ namespace Karl.Model
 		private static ConnectivityHandler _connectivityHandler;
 
 		//Eventhandling
-		public event EventHandler<ConnectionEventArgs> ConnectionChanged;
+		public delegate void ConnectionEventHandler(object source, EventArgs e);
+		public event ConnectionEventHandler ConnectionChanged;
 
 		public static ConnectivityHandler SingletonConnectivityHandler
 		{
@@ -98,15 +99,11 @@ namespace Karl.Model
 		/// Set a new Device name.
 		/// </summary>
 		/// <param name="name">The new Name.</param>
-		public async void SetDeviceName(string name)
+		public async Task SetDeviceNameAsync(string name)
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.SetNameAsync(name);
 		}
 
-	}
-
-	public class ConnectionEventArgs : EventArgs
-	{
 	}
 }

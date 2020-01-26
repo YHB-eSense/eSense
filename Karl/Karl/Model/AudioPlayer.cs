@@ -24,7 +24,8 @@ namespace Karl.Model
 		}
 
 		//Eventhandling
-		public event EventHandler<AudioEventArgs> AudioChanged;
+		public delegate void AudioEventHandler(object source, EventArgs e);
+		public event AudioEventHandler AudioChanged;
 
 		/// <summary>
 		/// The Track that is currently chosen.
@@ -91,7 +92,7 @@ namespace Karl.Model
 			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -115,7 +116,7 @@ namespace Karl.Model
 				if (SongsQueue.Count != 0) _audioPlayerImp.PlayTrack(SongsQueue.Dequeue());
 				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
 			}
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -129,7 +130,7 @@ namespace Karl.Model
 				_songsAfter.Push(CurrentTrack);
 				_audioPlayerImp.PlayTrack(SongsBefore.Pop());
 			}
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -167,7 +168,4 @@ namespace Karl.Model
 		void TogglePause();
 	}
 
-	public class AudioEventArgs : EventArgs
-	{
-	}
 }

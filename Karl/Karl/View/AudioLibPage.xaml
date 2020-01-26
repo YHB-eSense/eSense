@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage"
 			 x:Name="audiolibpage">
@@ -43,13 +44,13 @@
 				</SearchBar>
 			</Frame>
 			<Frame Grid.Row="0" Grid.Column="3" Padding="10" CornerRadius="0">
-				<ImageButton Source="add.png"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.add.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding AddSongCommand}"/>
 			</Frame>
 			<Frame Grid.Row="0" Grid.Column="4" Padding="10" CornerRadius="0">
-				<ImageButton Source="delete.png"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.delete.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding DeleteSongsCommand}"/>

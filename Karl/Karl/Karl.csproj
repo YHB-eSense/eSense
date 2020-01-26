@@ -9,11 +9,53 @@
   <ItemGroup>
     <None Remove="english.txt" />
     <None Remove="german.txt" />
+    <None Remove="Resources\add.png" />
+    <None Remove="Resources\art.png" />
+    <None Remove="Resources\backward.png" />
+    <None Remove="Resources\bluetooth_off.png" />
+    <None Remove="Resources\bluetooth_on.png" />
+    <None Remove="Resources\delete.png" />
+    <None Remove="Resources\forward.png" />
+    <None Remove="Resources\Images\audio_lib.png" />
+    <None Remove="Resources\Images\audio_player.png" />
+    <None Remove="Resources\Images\down.png" />
+    <None Remove="Resources\Images\help.png" />
+    <None Remove="Resources\Images\left.png" />
+    <None Remove="Resources\Images\modes.png" />
+    <None Remove="Resources\Images\right.png" />
+    <None Remove="Resources\Images\settings.png" />
+    <None Remove="Resources\Images\up.png" />
+    <None Remove="Resources\pause.png" />
+    <None Remove="Resources\play.png" />
+    <None Remove="Resources\refresh.png" />
+    <None Remove="Resources\volume_off.png" />
+    <None Remove="Resources\volume_on.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="english.txt" />
-    <EmbeddedResource Include="german.txt" />
+    <EmbeddedResource Include="Model\Languages\english.txt" />
+    <EmbeddedResource Include="Model\Languages\german.txt" />
+    <EmbeddedResource Include="Resources\Images\add.png" />
+    <EmbeddedResource Include="Resources\Images\art.png" />
+    <EmbeddedResource Include="Resources\Images\audio_lib.png" />
+    <EmbeddedResource Include="Resources\Images\audio_player.png" />
+    <EmbeddedResource Include="Resources\Images\backward.png" />
+    <EmbeddedResource Include="Resources\Images\bluetooth_off.png" />
+    <EmbeddedResource Include="Resources\Images\bluetooth_on.png" />
+    <EmbeddedResource Include="Resources\Images\delete.png" />
+    <EmbeddedResource Include="Resources\Images\down.png" />
+    <EmbeddedResource Include="Resources\Images\forward.png" />
+    <EmbeddedResource Include="Resources\Images\help.png" />
+    <EmbeddedResource Include="Resources\Images\left.png" />
+    <EmbeddedResource Include="Resources\Images\modes.png" />
+    <EmbeddedResource Include="Resources\Images\pause.png" />
+    <EmbeddedResource Include="Resources\Images\play.png" />
+    <EmbeddedResource Include="Resources\Images\refresh.png" />
+    <EmbeddedResource Include="Resources\Images\right.png" />
+    <EmbeddedResource Include="Resources\Images\settings.png" />
+    <EmbeddedResource Include="Resources\Images\up.png" />
+    <EmbeddedResource Include="Resources\Images\volume_off.png" />
+    <EmbeddedResource Include="Resources\Images\volume_on.png" />
   </ItemGroup>
 
   <ItemGroup>

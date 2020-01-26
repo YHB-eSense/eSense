@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioPlayerPage">
 	<ContentPage.Content>
@@ -53,7 +54,7 @@
 
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.Column="0">
-				<ImageButton Source="backward.png"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.backward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayPrevCommand}"/>
@@ -65,7 +66,7 @@
 					Command="{Binding PausePlayCommand}"/>
 			</Frame>
 			<Frame Grid.Row="2" Grid.Column="2">
-				<ImageButton Source="forward.png"
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.forward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayNextCommand}"/>
@@ -74,7 +75,7 @@
 			<!--Fourth Row-->
 			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
 				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
-					<Image Source="volume_off"
+					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
 					<Slider	Minimum="0"
@@ -86,7 +87,7 @@
 						MinimumTrackColor="{Binding CurrentColor.Color}"
 						MaximumTrackColor="Gray">
 					</Slider>
-					<Image Source="volume_on"
+					<Image Source="{local:ImageResource Karl.Resources.Images.volume_on.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
 				</StackLayout>

@@ -1,7 +1,7 @@
 name=English
-steps=Steps:
-device_name=Device:
-modes=Available Modes:
+steps=Steps
+device_name=Device
+modes=Available Modes
 language=Language
 change_device_name=Change Device Name
 reset_steps=Reset Steps Amount
