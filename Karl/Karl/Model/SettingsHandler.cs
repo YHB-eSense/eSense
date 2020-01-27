@@ -126,6 +126,16 @@ namespace Karl.Model
 			throw new NotImplementedException();
 		}
 
+		public void changeAudioModuleToSpotify()
+		{
+			SpotifyAudioPlayer spota = new SpotifyAudioPlayer();
+			spota.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			_currentAudioModule = new AudioModule(new SpotifyAudioLib(),spota
+				, typeof(SpotifyAudioTrack),"");
+			AudioPlayer.SingletonAudioPlayer.changeAudioToSpotify();
+
+		}
+
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler
 		/// </summary>
@@ -272,6 +282,8 @@ namespace Karl.Model
 		{
 			Color = color;
 		}
+
+		
 		public string Name
 		{
 			get => LangManager.SingletonLangManager.CurrentLang.Get("col_" + this.Color.ToHex());

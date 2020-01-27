@@ -23,15 +23,7 @@ namespace Karl.ViewModel
 		//Properties binded to AudioPlayerPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
-		public double Volume
-		{
-			get => _audioPlayer.Volume; 
-			set
-			{
-				_audioPlayer.Volume = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
-			}
-		}
+		
 		public double CurrentPosition
 		{
 			get
@@ -94,7 +86,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public AudioPlayerPageVM()
 		{
-			/*_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
@@ -109,7 +101,8 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_dragValue = 0;
 			_settingsHandler.SettingsChanged += Refresh;
-			_audioPlayer.AudioChanged += Refresh;*/
+			_audioPlayer.AudioChanged += Refresh;
+			AudioPlayer.SingletonAudioPlayer.changeAudioToBasic();
 		}
 
 		public void Refresh(object sender, EventArgs args)
@@ -117,7 +110,6 @@ namespace Karl.ViewModel
 			if (!_audioPlayer.Paused) { _timer.Start(); }
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
@@ -163,7 +155,7 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
+			//_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 

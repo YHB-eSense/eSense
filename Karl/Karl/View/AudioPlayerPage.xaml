@@ -77,15 +77,7 @@
 					<Image Source="volume_off"
 						WidthRequest="20"
 						HeightRequest="20"/>
-					<Slider	Minimum="0"
-						Maximum="1"
-						ThumbColor="{Binding CurrentColor.Color}"
-						Value="{Binding Volume}"
-						HorizontalOptions="FillAndExpand"
-						VerticalOptions="Center"
-						MinimumTrackColor="{Binding CurrentColor.Color}"
-						MaximumTrackColor="Gray">
-					</Slider>
+					
 					<Image Source="volume_on"
 						WidthRequest="20"
 						HeightRequest="20"/>

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Timers;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 
@@ -8,38 +10,65 @@ namespace Karl.Model
 {
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
+		private Timer _timer;
+		private AudioTrack _track;
 
-		public SpotifyWebAPI api;
-		private Device _activeDevice;
+		public SpotifyWebAPI api { get; set; }
 
-		public SpotifyAudioPlayer() {
-			eSenseSpotifyWebAPI e = eSenseSpotifyWebAPI.WebApiSingleton;
+		public SpotifyAudioPlayer()
+		{
+			_timer = new Timer();
+			_timer.Interval = 100;
+			_timer.Elapsed += new ElapsedEventHandler(Tick);
+			_timer.AutoReset = true;
+			_track = new SpotifyAudioTrack(0, "", "", 0, "");
+			Paused = true;
 		}
 
-		public double CurrentSongPos { get => api.GetPlayback().ProgressMs; set => api.SeekPlayback((int)value,_activeDevice.Id); }
-
+		public double CurrentSongPos { get; set; }
 		public Stack<AudioTrack> PlayedSongs { get; set; }
 
-		public AudioTrack CurrentTrack { get =>
-				new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs, api.GetPlayback().Item.Name,
-					api.GetPlayback().Item.Artists.ToString(), 0, api.GetPlayback().Item.Id.ToString());
-			set => api.ResumePlayback("", "", null, "", 0); }
+		public AudioTrack CurrentTrack { get => _track; set => _track = value; }
 
-		public double Volume { get => _activeDevice.VolumePercent; set => api.SetVolume((int)value); }
-
-		public Queue<AudioTrack> Queue {get;set;}
+		public Queue<AudioTrack> Queue { get; set; }
+		public bool Paused { get; set;  }
 
 		public void TogglePause()
 		{
-			api.PausePlayback(); 
+			if (Paused != api.GetPlayback().IsPlaying)
+			{
+				Paused = !Paused;
+			}
+			Debug.WriteLine("asd " + api.GetPlayback().IsPlaying);
+			if(_track.Duration == 0)
+			{
+				_track = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs/1000
+				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0, "");
+			}
+			if (api.GetPlayback().IsPlaying)
+			{
+				_timer.Stop();
+				api.PausePlayback();
+			}
+			else
+			{
+				_timer.Start();
+				api.ResumePlayback("", "", null, "", 0);
+			}
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
-			api.ResumePlayback("","",null,"",0);
+			api.ResumePlayback("", "", null, "", 0);
+			_timer.Start();
+			//CurrentTrack = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs
+			//, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0, "");
 		}
 
-		
+		private void Tick(object sender, EventArgs e)
+		{
+			CurrentSongPos = api.GetPlayback().ProgressMs/1000;
+		}
+
 	}
-	
 }

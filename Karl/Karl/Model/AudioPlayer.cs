@@ -42,14 +42,6 @@ namespace Karl.Model
 			}
 		}
 
-		/// <summary>
-		/// The current system volume.
-		/// </summary>
-		public double Volume
-		{
-			get { return _audioPlayerImp.Volume; }
-			set { _audioPlayerImp.Volume = value; }
-		}
 
 		/// <summary>
 		/// The current second you are at in the song.
@@ -57,13 +49,16 @@ namespace Karl.Model
 		public double CurrentSecInTrack
 		{
 			get { return _audioPlayerImp.CurrentSongPos; }
-			set { _audioPlayerImp.CurrentSongPos = value; }
-		} 
+		}
 
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
-		public bool Paused { get; set; }
+		public bool Paused
+		{
+			get => _audioPlayerImp.Paused;
+			set => _audioPlayerImp.Paused = value;
+		}
 
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
@@ -85,10 +80,21 @@ namespace Karl.Model
 			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			//testing BasicAudioPlayer
-			_audioPlayerImp = new SpotifyAudioPlayer();
+			//_audioPlayerImp = new BasicAudioPlayer();
 			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
-			Paused = true;
+		}
+
+		public void changeAudioToSpotify()
+		{
+			SpotifyAudioPlayer SpotAP = new SpotifyAudioPlayer();
+			SpotAP.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			_audioPlayerImp = SpotAP;
+		}
+
+		public void changeAudioToBasic()
+		{
+			_audioPlayerImp = new BasicAudioPlayer();
 		}
 
 		/// <summary>
@@ -167,8 +173,8 @@ namespace Karl.Model
 	interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
-		double Volume { get; set; }
-		double CurrentSongPos { get; set; }
+		double CurrentSongPos { get; }
+		bool Paused { get; set; }
 		void PlayTrack(AudioTrack track);
 		void TogglePause();
 	}

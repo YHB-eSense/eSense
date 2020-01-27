@@ -26,10 +26,13 @@ namespace Karl.Model
 			set { _simpleAudioPlayer.Seek(value); }
 		}
 
+		public bool Paused { get; set; }
+
 		public BasicAudioPlayer()
 		{
 			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
 			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
+			Paused = true;
 		}
 
 		public void PlayTrack(AudioTrack track)

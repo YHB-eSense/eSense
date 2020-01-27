@@ -16,8 +16,7 @@ namespace Karl.Model
 	{
 		private static eSenseSpotifyWebAPI _instance;
 		public SpotifyWebAPI api { get; set; }
-		public bool isAuthentified = false;
-
+		public event EventHandler isauthed;
 
 		public static eSenseSpotifyWebAPI WebApiSingleton
 		{
@@ -30,7 +29,7 @@ namespace Karl.Model
 				return _instance;
 			}
 		}
-		private eSenseSpotifyWebAPI() { Auth(); }
+		private eSenseSpotifyWebAPI() { }
 		public OAuth2Authenticator AuthenticationState { get; private set; }
 
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
@@ -89,7 +88,6 @@ namespace Karl.Model
 					foreach(var track in ab) {
 						Debug.WriteLine(track.Track.Name.ToString());
 					}
-					//+ playlist.Headers().ToString());
 				}
 				List <Device> devices = api.GetDevices().Devices;
 				Device nowdevice = new Device();
@@ -98,8 +96,7 @@ namespace Karl.Model
 					Debug.WriteLine(device.Name+ " "+ device.IsActive);
 					nowdevice = device;
 				}
-				isAuthentified = true;
-			
+				isauthed.Invoke(sender, args);
 			}
 		
 		}

@@ -12,9 +12,7 @@ namespace Karl
 		public App()
 		{
 			InitializeComponent();
-			_ = eSenseSpotifyWebAPI.WebApiSingleton;
-			Task <int> SpotifyAuth = Task<int>.Factory.StartNew(new Func<int>(eSenseSpotifyWebAPI.WebApiSingleton.Auth()));
-			SpotifyAuth.Wait();
+		
 			NavigationHandler handler = new NavigationHandler();
 
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM();

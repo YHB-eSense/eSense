@@ -84,6 +84,8 @@ namespace Karl.ViewModel
 
 		//Commands binded to SettingsPage of View
 		public ICommand ChangeDeviceNameCommand { get; }
+
+		public ICommand ActivateSpotifyCommand { get; }
 		public ICommand ResetStepsCommand { get; }
 		public ICommand ChangeColorLangCommand { get; }
 
@@ -97,7 +99,19 @@ namespace Karl.ViewModel
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
 			ChangeColorLangCommand = new Command<string>(ChangeColorLang);
+			ActivateSpotifyCommand = new Command(ActivateSpotify);
 			_settingsHandler.SettingsChanged += Refresh;
+		}
+
+		private void ActivateSpotify()
+		{
+			eSenseSpotifyWebAPI.WebApiSingleton.Auth();
+			eSenseSpotifyWebAPI.WebApiSingleton.isauthed += (sender, args) =>
+			{
+				AudioModule am;
+				SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
+			
+			};
 		}
 
 		public void Refresh(object sender, EventArgs args)
