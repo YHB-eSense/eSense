@@ -6,7 +6,8 @@
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
 			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
-             x:Class="Karl.View.AudioPlayerPage">
+             x:Class="Karl.View.AudioPlayerPage"
+			 xmlns:vs="clr-namespace:VolumeSliderPlugin.Shared;assembly=VolumeSliderPlugin">
 	<ContentPage.Content>
 
 		<Grid RowSpacing="0" ColumnSpacing="0">
@@ -78,15 +79,13 @@
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
-					<Slider	Minimum="0"
-						Maximum="1"
+					<vs:VolumeSlider x:Name="volumeSlider"
+						Volume="0.5"
 						ThumbColor="{Binding CurrentColor.Color}"
-						Value="{Binding Volume}"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Center"
 						MinimumTrackColor="{Binding CurrentColor.Color}"
-						MaximumTrackColor="Gray">
-					</Slider>
+						MaximumTrackColor="Gray"/>
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_on.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>

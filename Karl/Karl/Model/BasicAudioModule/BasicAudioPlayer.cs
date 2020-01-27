@@ -14,12 +14,6 @@ namespace Karl.Model
 
 		public AudioTrack CurrentTrack { get; set; }
 
-		public double Volume
-		{
-			get { return _simpleAudioPlayer.Volume; }
-			set { _simpleAudioPlayer.Volume = value; }
-		}
-
 		public double CurrentSongPos
 		{
 			get { return _simpleAudioPlayer.CurrentPosition; }

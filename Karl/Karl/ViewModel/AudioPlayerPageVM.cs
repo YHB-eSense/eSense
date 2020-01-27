@@ -23,15 +23,6 @@ namespace Karl.ViewModel
 		//Properties binded to AudioPlayerPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
-		public double Volume
-		{
-			get => _audioPlayer.Volume; 
-			set
-			{
-				_audioPlayer.Volume = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
-			}
-		}
 		public double CurrentPosition
 		{
 			get

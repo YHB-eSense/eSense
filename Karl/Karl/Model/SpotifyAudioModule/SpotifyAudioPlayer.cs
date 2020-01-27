@@ -12,8 +12,6 @@ namespace Karl.Model
 
 		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public double Volume { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
 		public Queue<AudioTrack> Queue => throw new NotImplementedException();
 
 		public void TogglePause()
