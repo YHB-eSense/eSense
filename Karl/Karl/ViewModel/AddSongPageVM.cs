@@ -84,20 +84,27 @@ namespace Karl.ViewModel
 
 		private async void DetBPM()
 		{
+			if(!_picked)
+			{
+				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
+					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
+				return;
+			}
 			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
 				//NewSongBPM = ((int)BPMDetectorWav.DetectBPM(_newSongFileLocation)).ToString();
 				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
 				NewSongBPM = calculator.Calculate().ToString();
-
 			}
+			/*
 			else if (Path.GetExtension(_newSongFileLocation).Equals(".mp3"))
 			{
 				NewSongBPM = ((int)BPMDetectorMP3.DetectBPM(_newSongFileLocation)).ToString();
 			}
+			*/
 			else {
 				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-				"Not a .wav or a .mp3 file", _settingsHandler.CurrentLang.Get("alert_ok"));
+				"alert_text_3", _settingsHandler.CurrentLang.Get("alert_ok"));
 			}
 		}
 

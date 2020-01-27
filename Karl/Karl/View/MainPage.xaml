@@ -33,55 +33,55 @@
 			</Grid.GestureRecognizers>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="2">
+			<Frame Grid.Row="0" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<Image Source="{local:ImageResource Karl.Resources.Images.settings.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{local:ImageResource Karl.Resources.Images.help.png}"
 					BackgroundColor="Transparent"
 					Command="{Binding HelpCommand}"/>
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="2">
+			<Frame Grid.Row="1" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<Label Text="{Binding DeviceName}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 				<Image Source="{local:ImageResource Karl.Resources.Images.modes.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="2">
+			<Frame Grid.Row="2" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{Binding Icon}"
 					BackgroundColor="Transparent"
 					Command="{Binding TryConnectCommand}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2">
+			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 				<Image Source="{local:ImageResource Karl.Resources.Images.audio_lib.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
 
 			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="3" Grid.Column="2">
+			<Frame Grid.Row="3" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<Label Text="{Binding StepsAmount}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
-			<Frame Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2">
+			<Frame Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 
 			<!--Fifth Row-->
-			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="4" Grid.Column="2">
+			<Frame Grid.Row="4" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
+			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 
 		</Grid>

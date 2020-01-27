@@ -15,6 +15,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="5*"/>
 				<RowDefinition Height="1*"/>
+				<RowDefinition Height="1*"/>
 				<RowDefinition Height="2*"/>
 				<RowDefinition Height="1*"/>
 			</Grid.RowDefinitions>
@@ -25,12 +26,17 @@
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-				<Image Source="{Binding Cover}" Aspect="AspectFit" BackgroundColor="{Binding CurrentColor.Color}"/>
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
+				<Image Source="{Binding Cover}" Aspect="AspectFit"/>
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
+				<Label Text="{Binding AudioTrack.Title}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
 					<Label Text="{Binding TimePlayed}" VerticalOptions="Center"/>
 					<Slider x:Name="slider"
@@ -53,34 +59,34 @@
 				</StackLayout>
 			</Frame>
 
-			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0">
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="0" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{local:ImageResource Karl.Resources.Images.backward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayPrevCommand}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="1" Padding="0">
+			<Frame Grid.Row="3" Grid.Column="1" Padding="0" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{Binding Icon}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PausePlayCommand}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="2">
+			<Frame Grid.Row="3" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{local:ImageResource Karl.Resources.Images.forward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayNextCommand}"/>
 			</Frame>
 
-			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+			<!--Fifth Row-->
+			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
 					<vs:VolumeSlider x:Name="volumeSlider"
-						Volume="0.5"
+						Volume="0"
 						ThumbColor="{Binding CurrentColor.Color}"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Center"
