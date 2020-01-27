@@ -8,7 +8,7 @@ namespace Karl.Model
 	/// <summary>
 	/// The Autostop Mode.
 	/// </summary>
-	class AutostopMode : Mode
+	class AutostopMode : IMode
 	{
 		private AudioPlayer _audioPlayer = AudioPlayer.SingletonAudioPlayer;
 		private LangManager _langManager = LangManager.SingletonLangManager;
@@ -35,26 +35,21 @@ namespace Karl.Model
 			//todo
 		}
 
-		public override void Activate()
+		public void Activate()
 		{
 			_autostopped = false;
 			StepDetectionDisposable = OutputManager.SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
 			//throw new NotImplementedException();//todo
 		}
 
-		public override void Deactivate()
+		public void Deactivate()
 		{
 			StepDetectionDisposable.Dispose();
 			_autostopped = false;
 			//throw new NotImplementedException();//todo
 		}
 
-		protected override String UpdateName(Lang value)
-		{
-			return "AutoStopMode"; //value.get("mode_autostop");//todo
-		}
-
-		public override string Name
+		public string Name
 		{
 			get => _langManager.CurrentLang.Get("autostop_mode");
 		}

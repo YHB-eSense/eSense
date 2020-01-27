@@ -22,7 +22,7 @@ namespace Karl.ViewModel
 		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
-		public List<Mode> Modes { get => _modeHandler.Modes; }
+		public List<IMode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
 		{
 			get
@@ -43,7 +43,7 @@ namespace Karl.ViewModel
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			ActivateModeCommand = new Command<Mode>(ActivateMode);
+			ActivateModeCommand = new Command<IMode>(ActivateMode);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.ChartChanged += RefreshChart;
@@ -73,7 +73,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
 
-		private void ActivateMode(Mode mode)
+		private void ActivateMode(IMode mode)
 		{
 			mode.Activate();
 		}

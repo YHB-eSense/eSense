@@ -24,7 +24,7 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// freqency property
+		/// freqency property in Hz
 		/// </summary>
 		public double Frequency
 		{ get { return this._freq; } }
