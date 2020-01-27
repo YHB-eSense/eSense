@@ -1,84 +1,66 @@
 using StepDetectionLibrary;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using static Karl.Model.AudioPlayer;
+using static Karl.Model.LangManager;
+using static StepDetectionLibrary.OutputManager;
 
 namespace Karl.Model
 {
 	/// <summary>
 	/// The Autostop Mode.
 	/// </summary>
-	class AutostopMode : IMode
+	class AutostopMode : IMode, IObserver<Output>
 	{
-		private AudioPlayer _audioPlayer = AudioPlayer.SingletonAudioPlayer;
-		private LangManager _langManager = LangManager.SingletonLangManager;
 		private IDisposable StepDetectionDisposable;
 		private bool _autostopped;
-		bool Autostopped
+		public bool Autostopped
 		{
 			get => _autostopped;
 			set
 			{
+				if (value == _autostopped) return;
 				if (value)
 				{
-					if (!_audioPlayer.Paused) _audioPlayer.TogglePause();
+					if (!SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();
 				}
 				else
 				{
-					if (_audioPlayer.Paused) _audioPlayer.TogglePause();
+					if (SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();
 				}
 				_autostopped = value;
 			}
-		}
-		public AutostopMode()
-		{
-			//todo
 		}
 
 		public void Activate()
 		{
 			_autostopped = false;
-			StepDetectionDisposable = OutputManager.SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
-			//throw new NotImplementedException();//todo
+			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
 		}
 
 		public void Deactivate()
 		{
 			StepDetectionDisposable.Dispose();
 			_autostopped = false;
-			//throw new NotImplementedException();//todo
 		}
 
 		public string Name
 		{
-			get => _langManager.CurrentLang.Get("autostop_mode");
+			get => SingletonLangManager.CurrentLang.Get("autostop_mode");
 		}
 
-		private class StepDetectionObserver : IObserver<Output>
+		public void OnNext(Output value)
 		{
-			AutostopMode parent;
-			public StepDetectionObserver(AutostopMode parent)
-			{
-				this.parent = parent;
-			}
-			public void OnCompleted()
-			{
-				throw new NotImplementedException(); //todo
-			}
-
-			public void OnError(Exception error)
-			{
-				throw new NotImplementedException(); //todo
-			}
-
-			public void OnNext(Output value)
-			{
-				if (value.Frequency == 0)
-				{
-					if (!parent.Autostopped) parent.Autostopped = true;
-				}
-				else if (parent.Autostopped) parent.Autostopped = false;
-			}
+			Autostopped = value.Frequency == 0;
 		}
-	} 
+
+		public void OnCompleted()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void OnError(Exception error)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

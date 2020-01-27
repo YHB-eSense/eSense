@@ -3,6 +3,7 @@ using StepDetectionLibrary;
 using static Karl.Model.AudioPlayer;
 using static Karl.Model.AudioLib;
 using static Karl.Model.LangManager;
+using static StepDetectionLibrary.OutputManager;
 
 namespace Karl.Model
 {
@@ -18,6 +19,8 @@ namespace Karl.Model
 
 		private Output? LastOutput;
 
+		private IDisposable StepDetectionDisposable;
+
 		public string Name
 		{
 			get => SingletonLangManager.CurrentLang.Get("motivation_mode");
@@ -27,6 +30,7 @@ namespace Karl.Model
 		{
 			SingletonAudioPlayer.Clear();
 			SingletonAudioPlayer.NextSongEvent += ChooseNextSong;
+			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
 			if (SingletonAudioPlayer.Paused)
 			{
 				ChooseNextSong();
@@ -37,6 +41,7 @@ namespace Karl.Model
 		public void Deactivate()
 		{
 			SingletonAudioPlayer.NextSongEvent -= ChooseNextSong;
+			StepDetectionDisposable.Dispose();
 		}
 
 		public void OnNext(Output value)
