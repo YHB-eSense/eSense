@@ -25,7 +25,7 @@ namespace Karl.Model
 		/// <summary>
 		/// All registered modes.
 		/// </summary>
-		public List<Mode> Modes { get; private set; }
+		public List<IMode> Modes { get; private set; }
 
 		/// <summary>
 		/// Constructor of the mode handler.
@@ -34,7 +34,7 @@ namespace Karl.Model
 		private ModeHandler()
 		{
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			Modes = new List<Mode>();
+			Modes = new List<IMode>();
 			Modes.Add(new AutostopMode());
 			Modes.Add(new MotivationMode());
 		}
@@ -43,7 +43,7 @@ namespace Karl.Model
 		{
 			if(Modes != null)
 			{
-				List<Mode> newModes = new List<Mode>(Modes);
+				List<IMode> newModes = new List<IMode>(Modes);
 				Modes.Clear();
 				Modes = newModes;
 			}

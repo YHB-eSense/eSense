@@ -1,41 +1,72 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using StepDetectionLibrary;
+using static Karl.Model.AudioPlayer;
+using static Karl.Model.AudioLib;
+using static Karl.Model.LangManager;
 
 namespace Karl.Model
 {
 	/// <summary>
 	/// The Motivation Mode.
 	/// </summary>
-	class MotivationMode : Mode
+	public class MotivationMode : IMode, IObserver<Output>
 	{
-		private AudioPlayer _audioPlayer = AudioPlayer.SingletonAudioPlayer;
-		private LangManager _langManager = LangManager.SingletonLangManager;
-		Nullable<Output> Output;
-		ObservableCollection<AudioTrack> Library = AudioLib.SingletonAudioLib.AudioTracks;
+		/// <summary>
+		/// If current step rate and current song BPM difer by more than this threshold, a new song will prematurely be chosen.
+		/// </summary>
+		public double MaxAllowedBPMDiff;
 
-		public override string Name
+		private Output? LastOutput;
+
+		public string Name
 		{
-			get => _langManager.CurrentLang.Get("motivation_mode");
+			get => SingletonLangManager.CurrentLang.Get("motivation_mode");
+		}
+
+		public void Activate()
+		{
+			SingletonAudioPlayer.Clear();
+			SingletonAudioPlayer.NextSongEvent += ChooseNextSong;
+			if (SingletonAudioPlayer.Paused)
+			{
+				ChooseNextSong();
+				SingletonAudioPlayer.NextTrack();
+			}
+		}
+
+		public void Deactivate()
+		{
+			SingletonAudioPlayer.NextSongEvent -= ChooseNextSong;
+		}
+
+		public void OnNext(Output value)
+		{
+			LastOutput = value;
+			if (SingletonAudioPlayer.SongsQueue.Count == 0)
+			{
+				ChooseNextSong();
+			}
+			else if (Math.Abs(SingletonAudioPlayer.SongsQueue.Peek().BPM - value.Frequency) > MaxAllowedBPMDiff)
+			{
+				ChooseNextSong();
+			}
 		}
 
 		public void ChooseNextSong()
 		{
-			if (AudioLib.SingletonAudioLib.AudioTracks.Count == 0) return; //todo
+			if (SingletonAudioLib.AudioTracks.Count == 0) return;
 			double StepsPerMinute;
 			lock (this)
 			{
-				if (Output == null) return;
-				if (Output.Value.Frequency == 0) return; //todo
-				StepsPerMinute = Output.Value.Frequency * 60;
+				if (LastOutput == null) return;
+				StepsPerMinute = LastOutput.Value.Frequency * 60;
 			}
 			AudioTrack BestTrack = null;
-			double MinDiff = Double.PositiveInfinity;
-			foreach (AudioTrack Track in Library)
+			double MinDiff = double.PositiveInfinity;
+			foreach (AudioTrack Track in SingletonAudioLib.AudioTracks)
 			{
-				if (_audioPlayer.SongsQueue.Contains(Track)) continue;
+				if (SingletonAudioPlayer.SongsQueue.Contains(Track)) continue;
+				if (SingletonAudioPlayer.SongsBefore.Contains(Track)) continue;
 
 				double ThisDiff = Math.Abs(Track.BPM - StepsPerMinute);
 				if (ThisDiff < MinDiff)
@@ -44,58 +75,17 @@ namespace Karl.Model
 					BestTrack = Track;
 				}
 			}
-			if (BestTrack != null) _audioPlayer.SongsQueue.Enqueue(BestTrack);
+			if (BestTrack != null) SingletonAudioPlayer.SongsQueue.Enqueue(BestTrack);
 		}
 
-		public override void Activate()
+		public void OnCompleted()
 		{
-			//if (!AudioPlayer.Paused) AudioPlayer.TogglePause();
-			_audioPlayer.Clear();
-			_audioPlayer.NextSongEvent += ChooseNextSong;
-			if (_audioPlayer.Paused)
-			{
-				ChooseNextSong();
-				_audioPlayer.NextTrack();
-			}
-
-			//throw new NotImplementedException(); //todo
+			throw new NotImplementedException();
 		}
 
-		public override void Deactivate()
+		public void OnError(Exception error)
 		{
-			_audioPlayer.NextSongEvent -= ChooseNextSong;
-			//throw new NotImplementedException(); //todo
-		}
-
-		protected override string UpdateName(Lang value)
-		{
-			return "MotivateMode"; //value.get("mode_motivate");//todo
-		}
-
-		private class StepDetectionObserver : IObserver<Output>
-		{
-			MotivationMode parent;
-			public StepDetectionObserver(MotivationMode parent)
-			{
-				this.parent = parent;
-			}
-			public void OnCompleted()
-			{
-				throw new NotImplementedException(); //todo
-			}
-
-			public void OnError(Exception error)
-			{
-				throw new NotImplementedException(); //todo
-			}
-
-			public void OnNext(Output value)
-			{
-				lock (parent)
-				{
-					parent.Output = value;//todo
-				}
-			}
+			throw new NotImplementedException();
 		}
 	}
 }
