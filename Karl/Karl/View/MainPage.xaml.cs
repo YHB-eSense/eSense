@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
+using Karl.Model;
 using FormsControls.Base;
 
 namespace Karl.View

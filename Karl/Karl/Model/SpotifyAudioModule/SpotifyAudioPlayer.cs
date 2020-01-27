@@ -9,66 +9,37 @@ namespace Karl.Model
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
 
-		private  SpotifyWebAPI _api;
+		public SpotifyWebAPI api;
+		private Device _activeDevice;
 
-		public SpotifyAudioPlayer(SpotifyWebAPI api) {
-			_api = api;
+		public SpotifyAudioPlayer() {
+			eSenseSpotifyWebAPI e = eSenseSpotifyWebAPI.WebApiSingleton;
 		}
 
-		public double CurrentSongPos { get => _api.GetPlayback().ProgressMs; set => _api.GetPlayback().ProgressMs = (int)value; }
+		public double CurrentSongPos { get => api.GetPlayback().ProgressMs; set => api.SeekPlayback((int)value,_activeDevice.Id); }
 
-		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
+		public Stack<AudioTrack> PlayedSongs { get; set; }
 
 		public AudioTrack CurrentTrack { get =>
-				new SpotifyAudioTrack(_api.GetPlayback().Item.DurationMs, _api.GetPlayback().Item.Name,
-					_api.GetPlayback().Item.Artists.ToString(),0, _api.GetPlayback().Item.Id.ToString());
-			set =>; }
+				new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs, api.GetPlayback().Item.Name,
+					api.GetPlayback().Item.Artists.ToString(), 0, api.GetPlayback().Item.Id.ToString());
+			set => api.ResumePlayback("", "", null, "", 0); }
 
-		public double Volume { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public double Volume { get => _activeDevice.VolumePercent; set => api.SetVolume((int)value); }
 
-		public Queue<AudioTrack> Queue => throw new NotImplementedException();
+		public Queue<AudioTrack> Queue {get;set;}
 
 		public void TogglePause()
 		{
-			throw new NotImplementedException(); //todo
+			api.PausePlayback(); 
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
-			throw new NotImplementedException(); //todo
+			api.ResumePlayback("","",null,"",0);
 		}
 
-		/*
-
-		public double CurrentSongPos { get => _api.GetPlayback().ProgressMs; } //todo
-
-		public Stack<AudioTrack> PlayedSongs => throw new NotImplementedException();
-
-		public AudioTrack CurrentTrack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-		public double Volume { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-		public Queue<AudioTrack> Queue => throw new NotImplementedException();
-
-		public void TogglePause()
-		{
-			_api.PausePlayback();
-		}
-
-		public void PlayTrack(AudioTrack track)
-		{
-			//_api.ResumePlayback(""); //todo
-		}
-
-		void IAudioPlayerImpl.PlayTrack(AudioTrack track)
-		{
-			throw new NotImplementedException();
-		}
-
-		void IAudioPlayerImpl.TogglePause()
-		{
-			throw new NotImplementedException();
-		}*/
+		
 	}
 	
 }

@@ -94,7 +94,7 @@ namespace Karl.ViewModel
 		/// </summary>
 		public AudioPlayerPageVM()
 		{
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			/*_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
@@ -109,7 +109,7 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_dragValue = 0;
 			_settingsHandler.SettingsChanged += Refresh;
-			_audioPlayer.AudioChanged += Refresh;
+			_audioPlayer.AudioChanged += Refresh;*/
 		}
 
 		public void Refresh(object sender, EventArgs args)

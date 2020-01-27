@@ -35,7 +35,7 @@ namespace Karl.Model
 		public void PlayTrack(AudioTrack track)
 		{
 			CurrentTrack = track;
-			_stream = File.OpenRead(CurrentTrack.StorageLocation); //GetStreamFromFile(CurrentTrack.StorageLocation);
+			//_stream = File.OpenRead((BasicAudioTrack)track.StorageLocation); //GetStreamFromFile(CurrentTrack.StorageLocation);
 			_simpleAudioPlayer.Load(_stream);
 			_simpleAudioPlayer.Play();
 		}
@@ -56,6 +56,8 @@ namespace Karl.Model
 		{
 			TogglePause();
 		}
+
+		
 
 		/* //For loading an embedded mp3
 		private Stream GetStreamFromFile(string filename)

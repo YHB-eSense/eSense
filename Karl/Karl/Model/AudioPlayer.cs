@@ -85,7 +85,7 @@ namespace Karl.Model
 			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			//testing BasicAudioPlayer
-			_audioPlayerImp = new BasicAudioPlayer();
+			_audioPlayerImp = new SpotifyAudioPlayer();
 			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
 			Paused = true;

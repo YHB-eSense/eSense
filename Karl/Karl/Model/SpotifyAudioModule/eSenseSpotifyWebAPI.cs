@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
 
@@ -14,6 +15,10 @@ namespace Karl.Model
 	public class eSenseSpotifyWebAPI
 	{
 		private static eSenseSpotifyWebAPI _instance;
+		public SpotifyWebAPI api { get; set; }
+		public bool isAuthentified = false;
+
+
 		public static eSenseSpotifyWebAPI WebApiSingleton
 		{
 			get
@@ -25,7 +30,7 @@ namespace Karl.Model
 				return _instance;
 			}
 		}
-		private eSenseSpotifyWebAPI() { }
+		private eSenseSpotifyWebAPI() { Auth(); }
 		public OAuth2Authenticator AuthenticationState { get; private set; }
 
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
@@ -38,7 +43,7 @@ namespace Karl.Model
 		private HttpClient _client;
 		private OAuth2Authenticator auth;
 
-		public async void Auth()
+		public void Auth()
 		{
 			Uri AuthURI = new Uri(AUTHORIZE_URI);
 			Uri RedirectURI = new Uri(REDIRECT_URI);
@@ -57,6 +62,7 @@ namespace Karl.Model
 			presenter.Login(auth);
 			
 			_client = new HttpClient();
+			
 		}
 
 		public async void OnAuthAsync(object sender, AuthenticatorCompletedEventArgs args)
@@ -67,7 +73,7 @@ namespace Karl.Model
 			string accessToken = serial[1].Split('=')[1];
 			_client.DefaultRequestHeaders.Authorization = new
 				System.Net.Http.Headers.AuthenticationHeaderValue(accessToken);
-			SpotifyWebAPI api = new SpotifyWebAPI
+			api = new SpotifyWebAPI
 			{
 				AccessToken = accessToken,
 				TokenType = "Bearer"
@@ -78,7 +84,12 @@ namespace Karl.Model
 				Console.WriteLine(profile.DisplayName);
 				List <SimplePlaylist> playlists = api.GetUserPlaylists(profile.Id).Items;
 				foreach (var playlist in playlists) {
-					Debug.WriteLine(playlist.Name.ToString()+ " "+ playlist.Tracks.Href);	
+					Debug.WriteLine(playlist.Name.ToString() + " ");
+					PlaylistTrack[] ab = api.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
+					foreach(var track in ab) {
+						Debug.WriteLine(track.Track.Name.ToString());
+					}
+					//+ playlist.Headers().ToString());
 				}
 				List <Device> devices = api.GetDevices().Devices;
 				Device nowdevice = new Device();
@@ -87,16 +98,10 @@ namespace Karl.Model
 					Debug.WriteLine(device.Name+ " "+ device.IsActive);
 					nowdevice = device;
 				}
-				Debug.WriteLine(api.GetPlayback().Timestamp+" "+ api.GetPlayback().Item.Name);
-				api.PausePlayback(nowdevice.Id);
-				api.SetVolume(80);
-				
+				isAuthentified = true;
+			
 			}
-			/*
-			HttpResponseMessage response = await _client.GetAsync("https://api.spotify.com/v1/albums/{6rqhFgbbKwnb9MLmUQDhG6}");
-			string responseBody = await response.Content.ReadAsStringAsync();
-			string res = JsonConvert.SerializeObject(responseBody);
-			Debug.WriteLine(res);*/
+		
 		}
 
 
