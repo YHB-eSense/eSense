@@ -13,7 +13,8 @@ namespace Karl.Model
 		private BasicAudioTrackDatabase _database;
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-		public SimplePlaylist[] AllPlaylists { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public SimplePlaylist[] AllPlaylists { get => null; set => throw new NotImplementedException(); }
+		public SimplePlaylist SelectedPlaylist { get => null; set => throw new NotImplementedException(); }
 
 		public BasicAudioLib()
 		{

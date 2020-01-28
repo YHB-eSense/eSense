@@ -102,7 +102,7 @@ namespace Karl.ViewModel
 			_dragValue = 0;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
-			AudioPlayer.SingletonAudioPlayer.changeAudioToBasic();
+			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
 		}
 
 		private void RefreshColor(object sender, EventArgs args)

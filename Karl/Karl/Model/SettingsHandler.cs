@@ -83,6 +83,8 @@ namespace Karl.Model
 
 		internal event AudioModuleDelegate AudioModuleChanged;
 
+		public bool UsingBasicAudio { get; set; }
+		public bool UsingSpotifyAudio { get; set; }
 		/// <summary>
 		/// The List of registered Languages.
 		/// </summary>
@@ -192,11 +194,16 @@ namespace Karl.Model
 		{
 			AudioPlayer.SingletonAudioPlayer.changeToSpotifyPlayer();
 			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+			UsingBasicAudio = true;
+			UsingSpotifyAudio = false;
 		}
 
 		public void changeAudioModuleToBasic() {
 			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
 			AudioLib.SingletonAudioLib.changeToBasicLib();
+			UsingBasicAudio = false;
+			UsingSpotifyAudio = true;
+
 		}
 
 		/// <summary>

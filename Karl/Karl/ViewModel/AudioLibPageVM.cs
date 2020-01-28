@@ -8,6 +8,7 @@ using Karl.Model;
 using Karl.View;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using SpotifyAPI.Web.Models;
 using Xamarin.Forms;
 
 namespace Karl.ViewModel
@@ -37,6 +38,9 @@ namespace Karl.ViewModel
 		public string TitleLabel { get => _settingsHandler.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
+		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
+		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
+		public SimplePlaylist SelectedPlaylist { get => _audioLib.SelectedPlaylist; set => _audioLib.SelectedPlaylist = value; }
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
@@ -99,6 +103,8 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortTextColor)));
 			}
 		}
+		public bool UsingBasicAudio { get => UsingBasicAudio; }
+		public bool UsingSpotifyAudio { get => UsingSpotifyAudio; }
 
 		// Commands binded to AudioLibPage of View
 		public ICommand TitleSortCommand { get; }
@@ -133,6 +139,7 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			TitleSort();
+		
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
