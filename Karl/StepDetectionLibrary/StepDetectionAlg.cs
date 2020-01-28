@@ -10,14 +10,20 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
-
-		private Stack<int> steps;
+		private Queue<int> steps;
 		private int stepsum;
+
+		/// <summary>
+		/// Amount of chunks to be used for frequency calculation.
+		/// Larger values result in better precision but also in longer latency.
+		/// </summary>
+		public uint FrequencyResolution => 5; // TODO: make this configurable
+
 		public StepDetectionAlg()
 		{
 			_observer = new List<IObserver<Output>>();
 			Subscribe(OutputManager.SingletonOutputManager);
-			steps = new Stack<int>();
+			steps = new Queue<int>();
 			stepsum = 0;
 		}
 		private List<IObserver<Output>> _observer;
@@ -99,12 +105,12 @@ namespace StepDetectionLibrary
 		/// <param name="data">acceleration and gyro data</param>
 		private Output StepDetecAlg(AccGyroData data)
 		{
-			int length = AccGyroData.DATALENGTH;
+			int length = data.DataLength;
 			AccData accdata = data.AccData;
-			const double AVGMAG = 10; // value needs to be tested
-			const double THRESHHOLD = 6500; //value needs to be tested
+			const double AVGMAG = 10; // TODO: value needs to be tested, should be configurable
+			const double THRESHHOLD = 6500; // TODO: value needs to be tested, should be configurable
 			int stepcount = 0;
-			Boolean threshhold_passed = false;
+			bool threshhold_passed = false;
 
 			double[] netmag = new double[length];
 			for (int i = 0; i < length; i++)
@@ -124,13 +130,13 @@ namespace StepDetectionLibrary
 				}
 			}
 
-			steps.Push(stepcount);
+			steps.Enqueue(stepcount);
 			stepsum += stepcount;
-			if(steps.Count > 5)
+			if(steps.Count > FrequencyResolution)
 			{
-				stepsum -= steps.Pop();
+				stepsum -= steps.Dequeue();
 			}
-			double frequency = (Convert.ToDouble(stepsum) / Convert.ToDouble(steps.Count)) / (length / 50.0); 
+			double frequency = stepsum / (data.LengthInSeconds * steps.Count); 
 			Output output = new Output(frequency, stepcount);
 
 			return output;

@@ -9,22 +9,20 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// struct with accerleration and gyro data for all 3 axes
 	/// </summary>
-	public struct AccGyroData
+	public class AccGyroData
 	{
-		public AccData AccData;
-		public GyroData GyroData;
-		public const int DATALENGTH = 50;
+		public readonly AccData AccData;
+		public readonly GyroData GyroData;
+		public readonly int DataLength;
+		public int SamplingRate;
+		public double LengthInSeconds => (double) DataLength / SamplingRate;
 
-		public AccGyroData(int a)
+		public AccGyroData(int dataLength, int samplingRate)
 		{
-			AccData = new AccData(a);
-			GyroData = new GyroData(a);
-		}
-
-		public AccGyroData(AccData accData, GyroData gyroData)
-		{
-			AccData = accData;
-			GyroData = gyroData;
+			DataLength = dataLength;
+			SamplingRate = samplingRate;
+			AccData = new AccData(dataLength);
+			GyroData = new GyroData(dataLength);
 		}
 	}
 
@@ -75,24 +73,29 @@ namespace StepDetectionLibrary
 	}
 
 	/// <summary>
-	/// gets data from earables and sends them to stepdetectionalg class
+	/// Takes motion-samples as input and sends them to <see cref="StepDetectionAlg"/> in chunks of fixed size.
 	/// </summary>
 	public class Input : IObservable<AccGyroData>
-
 	{
-		AccGyroData accgyrodata;
-		int counter;
+
+
+		private List<IObserver<AccGyroData>> _observers;
+		private AccGyroData _chunk;
+		private int _counter;
 		public Input()
 		{
 			_observers = new List<IObserver<AccGyroData>>();
-			counter = 0;
-			accgyrodata = new AccGyroData(AccGyroData.DATALENGTH);
+			_counter = 0;
+			_chunk = new AccGyroData(DataLength, SamplingRate);
 			Subscribe(new StepDetectionAlg());
 		}
 
-		private List<IObserver<AccGyroData>> _observers;
+		/// <summary>
+		/// Amount of samples in one batch.
+		/// </summary>
+		public int DataLength { get => 50; } // TODO: make this configurable
 
-		public int PreferredSamplingRate { get => 50; }
+		public int SamplingRate { get => 50; } // TODO: make this configurable
 
 		/// <summary>
 		/// method for subscribing to input
@@ -148,18 +151,19 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, MotionSensorSample args)
 		{
-			accgyrodata.AccData.Xacc[counter] = args.Acc.x;
-			accgyrodata.AccData.Yacc[counter] = args.Acc.y;
-			accgyrodata.AccData.Zacc[counter] = args.Acc.z;
-			accgyrodata.GyroData.Xgyro[counter] = args.Gyro.x;
-			accgyrodata.GyroData.Ygyro[counter] = args.Gyro.y;
-			accgyrodata.GyroData.Zgyro[counter] = args.Gyro.z;
-			counter++;
-			if (counter == AccGyroData.DATALENGTH)
+			// TODO: use args.SampleId to check for missed samples
+			_chunk.AccData.Xacc[_counter] = args.Acc.x;
+			_chunk.AccData.Yacc[_counter] = args.Acc.y;
+			_chunk.AccData.Zacc[_counter] = args.Acc.z;
+			_chunk.GyroData.Xgyro[_counter] = args.Gyro.x;
+			_chunk.GyroData.Ygyro[_counter] = args.Gyro.y;
+			_chunk.GyroData.Zgyro[_counter] = args.Gyro.z;
+			_counter++;
+			if (_counter == DataLength)
 			{
-				Update(accgyrodata);
-				accgyrodata = new AccGyroData(AccGyroData.DATALENGTH);
-				counter = 0;
+				Update(_chunk);
+				// batch = new AccGyroData(DataLength, SamplingRate);
+				_counter = 0;
 			}
 		}
 	}
