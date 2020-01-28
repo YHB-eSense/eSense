@@ -34,5 +34,7 @@ namespace Karl.Model
 
 		public abstract String StorageLocation { get; set; }
 
+		public abstract String TextId { get; set; }
+
 	}
 }

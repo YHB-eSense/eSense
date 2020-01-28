@@ -195,8 +195,7 @@ namespace Karl.Model
 			_currentAudioModule = new AudioModule(new SpotifyAudioLib(), spota
 				, typeof(SpotifyAudioTrack), "");
 			AudioPlayer.SingletonAudioPlayer.changeAudioToSpotify();
-			SpotifyAudioLib lib = new SpotifyAudioLib();
-			lib.webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			AudioLib.SingletonAudioLib.changeToSpotify();
 		}
 
 		/// <summary>

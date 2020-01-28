@@ -6,6 +6,7 @@ using System.Text;
 using System.Timers;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
+using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -33,20 +34,27 @@ namespace Karl.Model
 		public Queue<AudioTrack> Queue { get; set; }
 		public bool Paused { get; set;  }
 
-		public void TogglePause()
+		public async void TogglePause()
 		{
+			if (api.GetPlayback() == null) {
+				await Application.Current.MainPage.DisplayAlert("", "Please start Spotify", "OK");
+				return;
+			}
 			if (Paused != api.GetPlayback().IsPlaying)
 			{
 				Paused = !Paused;
 			}
 			var webClient = new WebClient();
-			string link = api.GetPlayback().Item.Album.Images[0].Url;
+			string link;
+			if (api.GetPlayback().Item != null) link = api.GetPlayback().Item.Album.Images[0].Url;
+			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
 			Debug.WriteLine("asd " + api.GetPlayback().IsPlaying);
 			//if(_track.Duration == 0)
 			//{
 				_track = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs/1000
-				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0,
+				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name,
+				(int)api.GetAudioFeatures(api.GetPlayback().Item.Id).Tempo,
 				api.GetPlayback().Item.Id,imageBytes);
 			//}
 			if (api.GetPlayback().IsPlaying)
@@ -61,16 +69,25 @@ namespace Karl.Model
 			}
 		}
 
-		public void PlayTrack(AudioTrack track)
+		public async void PlayTrack(AudioTrack track)
 		{
-			api.ResumePlayback("", "", null, "", 0);
+			if (api.GetPlayback() == null)
+			{
+				await Application.Current.MainPage.DisplayAlert("", "Please start Spotify", "OK");
+				return;
+			}
 			_timer.Start();
-			//CurrentTrack = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs
-			//, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0, "");
+			List<String> list = new List<string>();
+			CurrentTrack = track;
+			list.Add("spotify:track:"+track.TextId);
+			if(api.ResumePlayback("", "", list, "", 0).HasError())
+			Debug.WriteLine(api.ResumePlayback("", "", list, "", 0).Error.Message);
+			Debug.WriteLine("bds Play "+track.Title);
 		}
 
 		private void Tick(object sender, EventArgs e)
 		{
+			if (api.GetPlayback() == null) return;
 			CurrentSongPos = api.GetPlayback().ProgressMs/1000;
 		}
 

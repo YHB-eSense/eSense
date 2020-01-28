@@ -17,6 +17,7 @@ namespace Karl.Model
 		public override string Title { get; set; }
 		public override string Artist { get; set; }
 		public override int BPM { get; set; }
+		public override string TextId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 		private File _file;
 

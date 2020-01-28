@@ -71,6 +71,15 @@ namespace Karl.Model
 			//TODO
 			*/
 		}
+
+		public void changeToSpotify()
+		{
+			SpotifyAudioLib lib = new SpotifyAudioLib();
+			lib.webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			lib.Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
+			_audioLibImp = lib;
+			_audioLibImp.Init();
+		}
 	}
 
 	internal interface IAudioLibImpl

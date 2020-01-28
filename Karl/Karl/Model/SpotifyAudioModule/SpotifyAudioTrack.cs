@@ -16,8 +16,8 @@ namespace Karl.Model
 		public override string Artist { get; set; }
 		public override byte[] Cover { get; set; }
 		public override int BPM { get; set; }
-		public string Id { get; set; }
 		public override string StorageLocation { get; set; }
+		public override string TextId { get; set; }
 
 		public SpotifyAudioTrack(double duration, string title, string artist,
 			int bpm, string id, byte [] cover)
@@ -26,7 +26,7 @@ namespace Karl.Model
 			Title = title;
 			Artist = artist;
 			BPM = bpm;
-			Id = id;
+			TextId = id;
 			Cover = cover;
 		}
 

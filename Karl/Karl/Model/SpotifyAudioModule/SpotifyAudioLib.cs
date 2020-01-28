@@ -25,6 +25,7 @@ namespace Karl.Model
 			lock (this)
 			{
 				if (_initDone) return;
+				AllAudioTracks = new ObservableCollection<AudioTrack>();
 				webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				var playlist = webAPI.GetUserPlaylists(Profile.Id).Items[0];
 				PlaylistTrack[] tracks = webAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
@@ -34,14 +35,17 @@ namespace Karl.Model
 					string link = track.Track.Album.Images[0].Url;
 					byte[] imageBytes = webClient.DownloadData(link);
 					AllAudioTracks.Add(new SpotifyAudioTrack(track.Track.DurationMs / 1000, track.Track.Name,
-						track.Track.Artists[0].Name, 0, track.Track.Id, imageBytes));
+						track.Track.Artists[0].Name, (int)webAPI.
+						GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, imageBytes));
+					Debug.WriteLine(track.Track.Name);
 				}
 				_initDone = true;
 			}
 		}
 
-		public SpotifyAudioLib() {
-			
+		public SpotifyAudioLib()
+		{
+
 		}
 
 		public void AddTrack(String storage, String title, double duration)
@@ -69,5 +73,5 @@ namespace Karl.Model
 			Debug.WriteLine("asd Add Track");
 		}
 	}
-	
+
 }
