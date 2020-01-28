@@ -33,12 +33,11 @@ namespace Karl.Model
 
 		public Queue<AudioTrack> Queue { get; set; }
 		public bool Paused { get; set;  }
-		public double Volume { get => 0; set => _ = value; }
+		public double Volume { get => 0; set => _ = 0; }
 
-		public async void TogglePause()
+		public void TogglePause()
 		{
 			if (api.GetPlayback() == null) {
-				await Application.Current.MainPage.DisplayAlert("", "Please start Spotify", "OK");
 				return;
 			}
 			if (Paused != api.GetPlayback().IsPlaying)
@@ -70,11 +69,10 @@ namespace Karl.Model
 			}
 		}
 
-		public async void PlayTrack(AudioTrack track)
+		public void PlayTrack(AudioTrack track)
 		{
 			if (api.GetPlayback() == null)
 			{
-				await Application.Current.MainPage.DisplayAlert("", "Please start Spotify", "OK");
 				return;
 			}
 			_timer.Start();
