@@ -225,6 +225,8 @@ namespace Karl.Model
 		/// </summary>
 		private SettingsHandler()
 		{
+			UsingSpotifyAudio = false;
+			UsingBasicAudio = true;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_outputManager = OutputManager.SingletonOutputManager;
 			_outputManager.Subscribe(new StepDetectionObserver(this));

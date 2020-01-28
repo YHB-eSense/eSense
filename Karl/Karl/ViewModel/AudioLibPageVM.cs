@@ -103,8 +103,8 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortTextColor)));
 			}
 		}
-		public bool UsingBasicAudio { get => UsingBasicAudio; }
-		public bool UsingSpotifyAudio { get => UsingSpotifyAudio; }
+		public bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
+		public bool UsingSpotifyAudio { get => _settingsHandler.UsingSpotifyAudio; }
 
 		// Commands binded to AudioLibPage of View
 		public ICommand TitleSortCommand { get; }
@@ -139,7 +139,6 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			TitleSort();
-		
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
