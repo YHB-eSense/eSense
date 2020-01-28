@@ -11,7 +11,7 @@ namespace Karl.Model
 	{
 		[PrimaryKey, AutoIncrement]
 		public override string Id { get; set; }
-		public string StorageLocation { get; set; }
+		public override string StorageLocation { get; set; }
 		public override double Duration { get; set; }
 		public override byte[] Cover { get; set; }
 		public override string Title { get; set; }

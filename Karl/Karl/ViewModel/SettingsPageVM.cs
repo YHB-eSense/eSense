@@ -110,7 +110,6 @@ namespace Karl.ViewModel
 			{
 				AudioModule am;
 				SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
-			
 			};
 		}
 

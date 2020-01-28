@@ -33,7 +33,8 @@ namespace Karl.Model
 		private AudioLib()
 		{
 			_singletonAudioLib = this;
-			_audioLibImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
+			_audioLibImp = new BasicAudioLib();
+			//SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
 			_audioLibImp.Init();
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioLib;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 using System.Timers;
 using SpotifyAPI.Web;
@@ -21,7 +22,7 @@ namespace Karl.Model
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
-			_track = new SpotifyAudioTrack(0, "", "", 0, "");
+			_track = new SpotifyAudioTrack(0, "", "", 0, "",null);
 			Paused = true;
 		}
 
@@ -39,12 +40,16 @@ namespace Karl.Model
 			{
 				Paused = !Paused;
 			}
+			var webClient = new WebClient();
+			string link = api.GetPlayback().Item.Album.Images[0].Url;
+			byte[] imageBytes = webClient.DownloadData(link);
 			Debug.WriteLine("asd " + api.GetPlayback().IsPlaying);
-			if(_track.Duration == 0)
-			{
+			//if(_track.Duration == 0)
+			//{
 				_track = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs/1000
-				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0, "");
-			}
+				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name, 0,
+				api.GetPlayback().Item.Id,imageBytes);
+			//}
 			if (api.GetPlayback().IsPlaying)
 			{
 				_timer.Stop();

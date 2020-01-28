@@ -46,7 +46,7 @@ namespace Karl.Model
 
 		public void Init()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 	}
 	

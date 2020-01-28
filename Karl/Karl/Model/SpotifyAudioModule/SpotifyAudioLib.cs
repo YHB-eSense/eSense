@@ -2,6 +2,7 @@ using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace Karl.Model
@@ -29,27 +30,27 @@ namespace Karl.Model
 
 		public void AddTrack(String storage, String title, double duration)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine("asd Add Track");
 		}
 
 		public void AddTrack(string storage)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine("asd Add Track");
 		}
 
 		public void AddTrack(string storage, string title)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine("asd Add Track");
 		}
 
 		public void AddTrack(string storage, string title, string artist, int bpm)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine("asd Add Track");
 		}
 
 		public void DeleteTrack(AudioTrack track)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine("asd Add Track");
 		}
 	}
 	

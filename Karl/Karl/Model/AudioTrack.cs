@@ -33,5 +33,7 @@ namespace Karl.Model
 		/// </summary>
 		public abstract int BPM { get; set; }
 
+		public abstract String StorageLocation { get; set; }
+
 	}
 }
