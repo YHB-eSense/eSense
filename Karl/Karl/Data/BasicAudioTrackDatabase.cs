@@ -39,12 +39,12 @@ namespace Karl.Data
 
 		public Task<BasicAudioTrack> GetTrackAsync(int id)
 		{
-			return _database.Table<BasicAudioTrack>().Where(i => i.Id == id).FirstOrDefaultAsync();
+			return _database.Table<BasicAudioTrack>().Where(i => i.Id == null).FirstOrDefaultAsync();
 		}
 
 		public Task<int> SaveTrackAsync(BasicAudioTrack track)
 		{
-			if (track.Id != 0)
+			if (track.Id != null)
 			{
 				return _database.UpdateAsync(track);
 			}

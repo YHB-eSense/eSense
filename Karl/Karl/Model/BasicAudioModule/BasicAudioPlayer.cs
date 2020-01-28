@@ -14,22 +14,19 @@ namespace Karl.Model
 
 		public AudioTrack CurrentTrack { get; set; }
 
-		public double Volume
-		{
-			get { return _simpleAudioPlayer.Volume; }
-			set { _simpleAudioPlayer.Volume = value; }
-		}
-
 		public double CurrentSongPos
 		{
 			get { return _simpleAudioPlayer.CurrentPosition; }
 			set { _simpleAudioPlayer.Seek(value); }
 		}
 
+		public bool Paused { get; set; }
+
 		public BasicAudioPlayer()
 		{
 			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
 			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
+			Paused = true;
 		}
 
 		public void PlayTrack(AudioTrack track)
@@ -56,6 +53,5 @@ namespace Karl.Model
 		{
 			TogglePause();
 		}
-
 	}
 }

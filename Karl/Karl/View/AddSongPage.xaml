@@ -17,7 +17,7 @@
 			</Grid.RowDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0">
+			<Frame Grid.Row="0" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding TitleLabel}"
 						FontSize="Large"
@@ -27,7 +27,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1">
+			<Frame Grid.Row="1" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding ArtistLabel}"
 						FontSize="Large"
@@ -37,7 +37,7 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2">
+			<Frame Grid.Row="2" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding BPMLabel}"
 						FontSize="Large"
@@ -49,17 +49,16 @@
 			
 
 			<!--Fourth Row-->
-			<Frame Grid.Row="3">
+			<Frame Grid.Row="3" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
-					<Button Text="Get BPM" 
-						TextColor="White" 
-						Command="{Binding GetBPMCommand}"
-						BackgroundColor="{Binding CurrentColor.Color}"/>
-					<!--TODO-->
 					<Button Text="{Binding PickFileLabel}"
 						Command="{Binding PickFileCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"/>
+					<Button Text="Get BPM" 
+						TextColor="White" 
+						Command="{Binding GetBPMCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"/>
 					<Button Text="{Binding AddSongLabel}"
 						Command="{Binding AddSongCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"

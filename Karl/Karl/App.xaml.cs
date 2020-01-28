@@ -12,7 +12,7 @@ namespace Karl
 		public App()
 		{
 			InitializeComponent();
-
+		
 			NavigationHandler handler = new NavigationHandler();
 
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM();

@@ -2,9 +2,6 @@ using SkiaSharp;
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Timers;
 using Xamarin.Forms;
 
@@ -17,9 +14,9 @@ namespace Karl.Model
 	{
 		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
+		private ColorManager _colorManager;
 		private static SettingsHandler _singletonSettingsHandler;
 		private static readonly Object _padlock = new Object();
-		private CustomColor _currentColor;
 		private AudioModule _currentAudioModule;
 		private int _steps;
 		private OutputManager _outputManager;
@@ -65,7 +62,7 @@ namespace Karl.Model
 				{
 					ChartEntries.RemoveAt(0);
 				}
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(ChartEntries)));
+				ChartChanged?.Invoke(this, null);
 			}
 		}
 
@@ -73,7 +70,17 @@ namespace Karl.Model
 		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
-		public event EventHandler<SettingsEventArgs> SettingsChanged;
+		public delegate void LangEventHandler(object source, EventArgs e);
+		public event LangEventHandler LangChanged;
+		public delegate void DeviceNameEventHandler(object source, EventArgs e);
+		public event DeviceNameEventHandler DeviceNameChanged;
+		public delegate void StepsEventHandler(object source, EventArgs e);
+		public event StepsEventHandler StepsChanged;
+		public delegate void ColorEventHandler(object source, EventArgs e);
+		public event ColorEventHandler ColorChanged;
+		public delegate void ChartEventHandler(object source, EventArgs e);
+		public event ChartEventHandler ChartChanged;
+
 		internal event AudioModuleDelegate AudioModuleChanged;
 
 		/// <summary>
@@ -81,7 +88,7 @@ namespace Karl.Model
 		/// </summary>
 		public List<Lang> Languages { get => _langManager.AvailableLangs; }
 
-		public List<CustomColor> Colors { get; set; }
+		public List<CustomColor> Colors { get => _colorManager.Colors; }
 
 		/// <summary>
 		/// The currently selected Language.
@@ -94,8 +101,8 @@ namespace Karl.Model
 				if (_properties.ContainsKey("lang")) _properties.Remove("lang");
 				_properties.Add("lang", value.Tag);
 				_langManager.CurrentLang = value;
-				ResetColors();
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentLang)));
+				_colorManager.ResetColors();
+				LangChanged?.Invoke(this, null);
 			}
 		}
 
@@ -113,7 +120,7 @@ namespace Karl.Model
 			{
 				_connectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
 				{
-					SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(DeviceName)));
+					DeviceNameChanged?.Invoke(this, null);
 				});
 			}
 		}
@@ -129,7 +136,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
 				_properties.Add("steps", value.ToString());
 				_steps = value;
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(Steps)));
+				StepsChanged?.Invoke(this, null);
 			}
 		}
 
@@ -141,23 +148,23 @@ namespace Karl.Model
 				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
 				_properties.Add("audioModule", value.Tag);
 				_currentAudioModule = value;
-				AudioModuleChanged.Invoke(value);
+				AudioModuleChanged?.Invoke(value);
 			}
 		}
 
 		public CustomColor CurrentColor
 		{
-			get => _currentColor;
+			get => _colorManager.CurrentColor;
 			set
 			{
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
-				_currentColor = value;
-				foreach(Microcharts.Entry entry in ChartEntries)
+				_colorManager.CurrentColor = value;
+				foreach (Microcharts.Entry entry in ChartEntries)
 				{
-					entry.Color = SKColor.Parse(_currentColor.Color.ToHex());
+					entry.Color = SKColor.Parse(_colorManager.CurrentColor.Color.ToHex());
 				}
-				SettingsChanged?.Invoke(this, new SettingsEventArgs(nameof(CurrentColor)));
+				ColorChanged?.Invoke(this, null);
 			}
 		}
 
@@ -173,8 +180,6 @@ namespace Karl.Model
 			}
 		}
 
-
-
 		/// <summary>
 		/// Resets the Step Counter.
 		/// </summary>
@@ -183,14 +188,14 @@ namespace Karl.Model
 			Steps = 0;
 		}
 
-		private void ResetColors()
+		public void changeAudioModuleToSpotify()
 		{
-			if(Colors != null)
-			{
-				List<CustomColor> newColors = new List<CustomColor>(Colors);
-				Colors.Clear();
-				Colors = newColors;
-			}
+			SpotifyAudioPlayer spota = new SpotifyAudioPlayer();
+			spota.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			_currentAudioModule = new AudioModule(new SpotifyAudioLib(), spota
+				, typeof(SpotifyAudioTrack), "");
+			AudioPlayer.SingletonAudioPlayer.changeAudioToSpotify();
+
 		}
 
 		/// <summary>
@@ -202,23 +207,19 @@ namespace Karl.Model
 			_outputManager = OutputManager.SingletonOutputManager;
 			_outputManager.Subscribe(new StepDetectionObserver(this));
 			_langManager = LangManager.SingletonLangManager;
+			_colorManager = ColorManager.SingletonColorManager;
 			_properties = Application.Current.Properties;
 			AvailableAudioModules = new Dictionary<string, AudioModule>();
 			_stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
-			//Colors to use.
-			Colors = new List<CustomColor>();
-			Colors.Add(new CustomColor(Color.RoyalBlue));
-			Colors.Add(new CustomColor(Color.SkyBlue));
-			Colors.Add(new CustomColor(Color.DarkRed));
-
 			//Init AudioModules
 			AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-			/*AvailableAudioModules.Add("spotifyAudioModule",
-				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));*/
+
+			AvailableAudioModules.Add("spotifyAudioModule",
+				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));
 
 			//Load Color
 			Object val;
@@ -247,12 +248,14 @@ namespace Karl.Model
 				CurrentColor = Colors[0];
 			}
 
+			/*
 			//Init AudioModules
 			if (!AvailableAudioModules.ContainsKey("basicAudioModule"))
 			{
 				AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
 			}
+			*/
 
 			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
@@ -282,7 +285,7 @@ namespace Karl.Model
 			}
 
 			//Load Chosen Language
-			if(_properties.TryGetValue("lang", out val))
+			if (_properties.TryGetValue("lang", out val))
 			{
 				if (_langManager.ChooseLang(val.ToString()))
 					System.Diagnostics.Debug.WriteLine("LangChosen: " + val.ToString());
@@ -291,7 +294,8 @@ namespace Karl.Model
 					_langManager.ChooseLang("lang_english");
 					_properties.Add("lang", "lang_english");
 				}
-			} else
+			}
+			else
 			{
 				_langManager.ChooseLang("lang_english");
 				_properties.Add("lang", "lang_english");
@@ -304,19 +308,21 @@ namespace Karl.Model
 				try
 				{
 					_steps = int.Parse(Value);
-				} catch (FormatException e)
+				}
+				catch (FormatException e)
 				{
 					_steps = 0;
 					_properties.Remove("steps");
 					_properties.Add("steps", "0");
 				}
-			} else
+			}
+			else
 			{
 				_steps = 0;
 				_properties.Add("steps", "0");
 			}
 
-			//TODO
+			CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
 		}
 
 		private class StepDetectionObserver : IObserver<Output>
@@ -340,63 +346,23 @@ namespace Karl.Model
 			{
 				_parent.Steps = _parent._steps + value.StepCount;
 				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
-
 			}
 		}
-	}
 
-	public class CustomColor //: INotifyPropertyChanged
-	{
-		public CustomColor(Color color)
+		internal struct AudioModule
 		{
-			Color = color;
-		}
-		public string Name
-		{
-			get => LangManager.SingletonLangManager.CurrentLang.Get("col_" + this.Color.ToHex());
-			//set { RaisePropertyChange(); }
-		}
-		public Color Color { get; }
-
-		public static implicit operator Color(CustomColor v)
-		{
-			throw new NotImplementedException();
-		}
-		/*
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void RaisePropertyChange([CallerMemberName] string propertyname = null)
-		{
-			if (PropertyChanged != null)
+			internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
 			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+				Tag = tag;
+				AudioLib = audioLib;
+				AudioPlayer = audioPlayer;
+				AudioTrack = audioTrack;
 			}
+			public string Tag;
+			public IAudioLibImpl AudioLib;
+			public IAudioPlayerImpl AudioPlayer;
+			public Type AudioTrack;
 		}
-		*/
-	}
 
-	internal struct AudioModule
-	{
-		internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
-		{
-			Tag = tag;
-			AudioLib = audioLib;
-			AudioPlayer = audioPlayer;
-			AudioTrack = audioTrack;
-		}
-		public string Tag;
-		public IAudioLibImpl AudioLib;
-		public IAudioPlayerImpl AudioPlayer;
-		public Type AudioTrack;
-	}
-
-	public class SettingsEventArgs : EventArgs
-	{
-		public string Value { get; set; }
-
-		public SettingsEventArgs(string value)
-		{
-			Value = value;
-		}
 	}
 }

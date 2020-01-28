@@ -24,7 +24,8 @@ namespace Karl.Model
 		}
 
 		//Eventhandling
-		public event EventHandler<AudioEventArgs> AudioChanged;
+		public delegate void AudioEventHandler(object source, EventArgs e);
+		public event AudioEventHandler AudioChanged;
 
 		/// <summary>
 		/// The Track that is currently chosen.
@@ -35,27 +36,21 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The current system volume.
-		/// </summary>
-		public double Volume
-		{
-			get { return _audioPlayerImp.Volume; }
-			set { _audioPlayerImp.Volume = value; }
-		}
-
-		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
 		public double CurrentSecInTrack
 		{
 			get { return _audioPlayerImp.CurrentSongPos; }
-			set { _audioPlayerImp.CurrentSongPos = value; }
-		} 
+		}
 
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
-		public bool Paused { get; set; }
+		public bool Paused
+		{
+			get => _audioPlayerImp.Paused;
+			set => _audioPlayerImp.Paused = value;
+		}
 
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
@@ -76,11 +71,22 @@ namespace Karl.Model
 		{
 			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
-			//testing BasicAudioPlayer
 			_audioPlayerImp = new BasicAudioPlayer();
 			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
-			Paused = true;
+		}
+
+		public void changeAudioToSpotify()
+		{
+			SpotifyAudioPlayer SpotAP = new SpotifyAudioPlayer();
+			SpotAP.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			_audioPlayerImp = SpotAP;
+		}
+
+		public void changeAudioToBasic()
+		{
+			_audioPlayerImp = new BasicAudioPlayer();
+			
 		}
 
 		/// <summary>
@@ -91,7 +97,7 @@ namespace Karl.Model
 			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -115,7 +121,7 @@ namespace Karl.Model
 				if (SongsQueue.Count != 0) _audioPlayerImp.PlayTrack(SongsQueue.Dequeue());
 				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
 			}
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -129,7 +135,7 @@ namespace Karl.Model
 				_songsAfter.Push(CurrentTrack);
 				_audioPlayerImp.PlayTrack(SongsBefore.Pop());
 			}
-			AudioChanged?.Invoke(this, new AudioEventArgs());
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -161,13 +167,10 @@ namespace Karl.Model
 	interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
-		double Volume { get; set; }
-		double CurrentSongPos { get; set; }
+		double CurrentSongPos { get; }
+		bool Paused { get; set; }
 		void PlayTrack(AudioTrack track);
 		void TogglePause();
 	}
 
-	public class AudioEventArgs : EventArgs
-	{
-	}
 }

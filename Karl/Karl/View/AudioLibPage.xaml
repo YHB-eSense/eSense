@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage"
 			 x:Name="audiolibpage">
@@ -27,7 +28,7 @@
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" CornerRadius="0"></Frame>
+			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" CornerRadius="0" HasShadow="False"></Frame>
 			<Frame Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="0">
 				<SearchBar x:Name="searchBar"
 					Placeholder="{Binding TitleLabel}"
@@ -42,34 +43,34 @@
 					</SearchBar.Behaviors>
 				</SearchBar>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="3" Padding="10" CornerRadius="0">
-				<ImageButton Source="add.png"
+			<Frame Grid.Row="0" Grid.Column="3" Padding="10" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.add.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding AddSongCommand}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="4" Padding="10" CornerRadius="0">
-				<ImageButton Source="delete.png"
+			<Frame Grid.Row="0" Grid.Column="4" Padding="10" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.delete.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding DeleteSongsCommand}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" CornerRadius="0"></Frame>
+			<Frame Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" CornerRadius="0" HasShadow="False"></Frame>
 			
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
 				<Button Text="{Binding TitleLabel}"
 					TextColor="{Binding TitleSortTextColor}"
 					Command="{Binding TitleSortCommand}"
 					BackgroundColor="{Binding TitleSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
 				<Button Text="{Binding ArtistLabel}"
 					Command="{Binding ArtistSortCommand}"
 					TextColor="{Binding ArtistSortTextColor}"
 					BackgroundColor="{Binding ArtistSortColor}"/>
 			</Frame>
-			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0">
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
 				<Button Text="{Binding BPMLabel}"
 					BackgroundColor="{Binding BPMSortColor}"
 					TextColor="{Binding BPMSortTextColor}"
@@ -77,7 +78,7 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" CornerRadius="0">
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" CornerRadius="0" HasShadow="False">
 				<ListView x:Name="listView"
 					HasUnevenRows="True"
 					ItemsSource="{Binding Songs}">

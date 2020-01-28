@@ -20,7 +20,7 @@
 			</Grid.RowDefinitions>
 
 			<!--Second Row-->
-			<Frame Grid.Row="0">
+			<Frame Grid.Row="0" CornerRadius="0" HasShadow="False">
 				<Label Text="{Binding ModesLabel}"
 					FontSize="Large"
 					HorizontalOptions="Center"
@@ -29,7 +29,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1">
+			<Frame Grid.Row="1" CornerRadius="0" HasShadow="False">
 				<StackLayout>
 					<ListView ItemsSource="{Binding Modes}"
 						x:Name="listView"
@@ -63,8 +63,8 @@
 					</ListView>
 				</StackLayout>
 			</Frame>
-			
-			<Frame Grid.Row="2">
+
+			<Frame Grid.Row="2" CornerRadius="0" HasShadow="False">
 				<forms:ChartView x:Name="CrazyChart" Chart="{Binding StepChart}"/>
 			</Frame>
 

@@ -4,14 +4,17 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
-             x:Class="Karl.View.AudioPlayerPage">
+             x:Class="Karl.View.AudioPlayerPage"
+			 xmlns:vs="clr-namespace:VolumeSliderPlugin.Shared;assembly=VolumeSliderPlugin">
 	<ContentPage.Content>
 
 		<Grid RowSpacing="0" ColumnSpacing="0">
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="5*"/>
+				<RowDefinition Height="1*"/>
 				<RowDefinition Height="1*"/>
 				<RowDefinition Height="2*"/>
 				<RowDefinition Height="1*"/>
@@ -23,12 +26,17 @@
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-				<Image Source="{Binding Cover}" Aspect="AspectFit" BackgroundColor="{Binding CurrentColor.Color}"/>
+			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
+				<Image Source="{Binding Cover}" Aspect="AspectFit"/>
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
+				<Label Text="{Binding AudioTrack.Title}" VerticalOptions="Center" HorizontalOptions="Center"/>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
 					<Label Text="{Binding TimePlayed}" VerticalOptions="Center"/>
 					<Slider x:Name="slider"
@@ -51,42 +59,40 @@
 				</StackLayout>
 			</Frame>
 
-			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0">
-				<ImageButton Source="backward.png"
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="0" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.backward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayPrevCommand}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="1" Padding="0">
+			<Frame Grid.Row="3" Grid.Column="1" Padding="0" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{Binding Icon}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PausePlayCommand}"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="2">
-				<ImageButton Source="forward.png"
+			<Frame Grid.Row="3" Grid.Column="2" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.forward.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
 					Command="{Binding PlayNextCommand}"/>
 			</Frame>
 
-			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+			<!--Fifth Row-->
+			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
-					<Image Source="volume_off"
+					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
-					<Slider	Minimum="0"
-						Maximum="1"
+					<vs:VolumeSlider x:Name="volumeSlider"
+						Volume="0"
 						ThumbColor="{Binding CurrentColor.Color}"
-						Value="{Binding Volume}"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Center"
 						MinimumTrackColor="{Binding CurrentColor.Color}"
-						MaximumTrackColor="Gray">
-					</Slider>
-					<Image Source="volume_on"
+						MaximumTrackColor="Gray"/>
+					<Image Source="{local:ImageResource Karl.Resources.Images.volume_on.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
 				</StackLayout>

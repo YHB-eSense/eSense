@@ -14,7 +14,6 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
-		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
 
 		//Eventhandling
@@ -22,8 +21,8 @@ namespace Karl.ViewModel
 
 		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string ModesLabel { get => _langManager.CurrentLang.Get("modes"); }
-		public List<Mode> Modes { get => _modeHandler.Modes; }
+		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
+		public List<IMode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
 		{
 			get
@@ -43,38 +42,38 @@ namespace Karl.ViewModel
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_langManager = LangManager.SingletonLangManager;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			ActivateModeCommand = new Command<Mode>(ActivateMode);
-			_settingsHandler.SettingsChanged += Refresh;
-			_connectivityHandler.ConnectionChanged += Refresh;
+			ActivateModeCommand = new Command<IMode>(ActivateMode);
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.ChartChanged += RefreshChart;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
-					_modeHandler.ResetModes();
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-					break;
-				case nameof(_settingsHandler.ChartEntries):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-					break;
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
+			_modeHandler.ResetModes();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
 		}
 
-		private void Refresh(object sender, ConnectionEventArgs args)
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		public void RefreshChart(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
 
-		private void ActivateMode(Mode mode)
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		private void ActivateMode(IMode mode)
 		{
 			mode.Activate();
 		}

@@ -15,10 +15,9 @@ namespace Karl.ViewModel
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
-		private NavigationHandler _handler;
+		private NavigationHandler _navHandler;
 		private AudioLib _audioLib;
 		private AudioPlayer _audioPlayer;
-		private LangManager _langManager;
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
 		private Color _titleSortColor;
@@ -35,9 +34,9 @@ namespace Karl.ViewModel
 
 		//Properties binded to AudioLibPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public string TitleLabel { get => _langManager.CurrentLang.Get("title"); }
-		public string ArtistLabel { get => _langManager.CurrentLang.Get("artist"); }
-		public string BPMLabel { get => _langManager.CurrentLang.Get("bpm"); }
+		public string TitleLabel { get => _settingsHandler.CurrentLang.Get("title"); }
+		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
+		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
@@ -117,11 +116,10 @@ namespace Karl.ViewModel
 		/// <param name="handler">For navigation</param>
 		public AudioLibPageVM(NavigationHandler handler)
 		{
-			_handler = handler;
+			_navHandler = handler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			_langManager = LangManager.SingletonLangManager;
 			_oldSongs = null;
 			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
@@ -132,23 +130,21 @@ namespace Karl.ViewModel
 			SearchSongCommand = new Command<string>(SearchSong);
 			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
-			_settingsHandler.SettingsChanged += Refresh;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 			TitleSort();
 		}
 
-		public void Refresh(object sender, SettingsEventArgs args)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			switch (args.Value)
-			{
-				case nameof(_settingsHandler.CurrentLang):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
-					break;
-				case nameof(_settingsHandler.CurrentColor):
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-					break;
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;
@@ -195,13 +191,13 @@ namespace Karl.ViewModel
 
 		private void PlaySong(AudioTrack track)
 		{
-			_handler.GotoPage<AudioPlayerPage>();
+			_navHandler.GotoPage<AudioPlayerPage>();
 			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
 		}
 
 		private void AddSong()
 		{
-			_handler.GotoPage<AddSongPage>();
+			_navHandler.GotoPage<AddSongPage>();
 		}
 
 		private void EditDeleteList(AudioTrack song)
@@ -225,9 +221,9 @@ namespace Karl.ViewModel
 
 		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert(_langManager.CurrentLang.Get("question_title"),
-					_langManager.CurrentLang.Get("question_text"), _langManager.CurrentLang.Get("question_yes"),
-					_langManager.CurrentLang.Get("question_no"));
+			bool answer = await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
+					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
+					_settingsHandler.CurrentLang.Get("question_no"));
 			if (answer) { foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }}
 		}
 

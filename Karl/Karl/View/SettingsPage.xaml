@@ -21,7 +21,7 @@
 			</Grid.RowDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Padding="5">
+			<Frame Grid.Row="0" Grid.Column="0" Padding="5" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding LanguageLabel}"
 						   TextColor="Black"
@@ -34,7 +34,7 @@
 			</Frame>
 
 			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Padding="5">
+			<Frame Grid.Row="1" Grid.Column="0" Padding="5" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding ColorLabel}"
 						   TextColor="Black"
@@ -48,7 +48,7 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Padding="5">
+			<Frame Grid.Row="2" Grid.Column="0" Padding="5" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical">
 					<Label Text="{Binding DeviceNameLabel}"
 						TextColor="Black"
@@ -58,7 +58,7 @@
 			</Frame>
 
 			<!--Fourth Row-->
-			<Frame Grid.Row="3" Grid.Column="0" Padding="5">
+			<Frame Grid.Row="3" Grid.Column="0" Padding="5" CornerRadius="0" HasShadow="False">
 				<StackLayout Orientation="Vertical" Padding="0">
 					<Button Text="{Binding ChangeDeviceNameLabel}"
 						BackgroundColor="{Binding CurrentColor.Color}"
@@ -69,6 +69,10 @@
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
 						Command="{Binding ResetStepsCommand}"/>
+					<Button Text="Use Spotify"
+						BackgroundColor="#1ed761"
+						TextColor="White"
+						Command="{Binding ActivateSpotifyCommand}"/>
 				</StackLayout>
 			</Frame>
 		</Grid>
