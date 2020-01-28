@@ -155,16 +155,22 @@ namespace StepDetectionLibrary
 		{
 			int lost = args.SampleId - lastId - 1;
 			if (lost < 0) lost += 256;
+			int lastValid = _counter;
 			while (lost > 0)
 			{
 				// TODO: Interpolate from known values
-				_chunk.AccData.Xacc[_counter] = _chunk.AccData.Xacc[_counter - 1];
-				_chunk.AccData.Yacc[_counter] = _chunk.AccData.Yacc[_counter - 1];
-				_chunk.AccData.Zacc[_counter] = _chunk.AccData.Zacc[_counter - 1];
-				_chunk.GyroData.Xgyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
-				_chunk.GyroData.Ygyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
-				_chunk.GyroData.Zgyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
+				_chunk.AccData.Xacc[_counter] = _chunk.AccData.Xacc[lastValid];
+				_chunk.AccData.Yacc[_counter] = _chunk.AccData.Yacc[lastValid];
+				_chunk.AccData.Zacc[_counter] = _chunk.AccData.Zacc[lastValid];
+				_chunk.GyroData.Xgyro[_counter] = _chunk.GyroData.Xgyro[lastValid];
+				_chunk.GyroData.Ygyro[_counter] = _chunk.GyroData.Xgyro[lastValid];
+				_chunk.GyroData.Zgyro[_counter] = _chunk.GyroData.Xgyro[lastValid];
 				_counter++;
+				if (_counter == DataLength)
+				{
+					Update(_chunk);
+					_counter = 0;
+				}
 				lost--;
 			}
 			lastId = args.SampleId;
@@ -178,9 +184,13 @@ namespace StepDetectionLibrary
 			if (_counter == DataLength)
 			{
 				Update(_chunk);
-				// batch = new AccGyroData(DataLength, SamplingRate);
 				_counter = 0;
 			}
+		}
+
+		private void AddFrame()
+		{
+
 		}
 	}
 }
