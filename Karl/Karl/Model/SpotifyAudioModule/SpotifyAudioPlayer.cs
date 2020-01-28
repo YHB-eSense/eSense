@@ -15,7 +15,7 @@ namespace Karl.Model
 		private Timer _timer;
 		private AudioTrack _track;
 
-		public SpotifyWebAPI api { get; set; }
+		public SpotifyWebAPI WebAPI { get; set; }
 
 		public SpotifyAudioPlayer()
 		{
@@ -37,41 +37,41 @@ namespace Karl.Model
 
 		public void TogglePause()
 		{
-			if (api.GetPlayback() == null) {
+			if (WebAPI.GetPlayback() == null) {
 				return;
 			}
-			if (Paused != api.GetPlayback().IsPlaying)
+			if (Paused != WebAPI.GetPlayback().IsPlaying)
 			{
 				Paused = !Paused;
 			}
 			var webClient = new WebClient();
 			string link;
-			if (api.GetPlayback().Item != null) link = api.GetPlayback().Item.Album.Images[0].Url;
+			if (WebAPI.GetPlayback().Item != null) link = WebAPI.GetPlayback().Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
-			Debug.WriteLine("asd " + api.GetPlayback().IsPlaying);
+			Debug.WriteLine("asd " + WebAPI.GetPlayback().IsPlaying);
 			//if(_track.Duration == 0)
 			//{
-				_track = new SpotifyAudioTrack(api.GetPlayback().Item.DurationMs/1000
-				, api.GetPlayback().Item.Name, api.GetPlayback().Item.Artists[0].Name,
-				(int)api.GetAudioFeatures(api.GetPlayback().Item.Id).Tempo,
-				api.GetPlayback().Item.Id,imageBytes);
+				_track = new SpotifyAudioTrack(WebAPI.GetPlayback().Item.DurationMs/1000
+				, WebAPI.GetPlayback().Item.Name, WebAPI.GetPlayback().Item.Artists[0].Name,
+				(int)WebAPI.GetAudioFeatures(WebAPI.GetPlayback().Item.Id).Tempo,
+				WebAPI.GetPlayback().Item.Id,imageBytes);
 			//}
-			if (api.GetPlayback().IsPlaying)
+			if (WebAPI.GetPlayback().IsPlaying)
 			{
 				_timer.Stop();
-				api.PausePlayback();
+				WebAPI.PausePlayback();
 			}
 			else
 			{
 				_timer.Start();
-				api.ResumePlayback("", "", null, "", 0);
+				WebAPI.ResumePlayback("", "", null, "", 0);
 			}
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
-			if (api.GetPlayback() == null)
+			if (WebAPI.GetPlayback() == null)
 			{
 				return;
 			}
@@ -79,15 +79,15 @@ namespace Karl.Model
 			List<String> list = new List<string>();
 			CurrentTrack = track;
 			list.Add("spotify:track:"+track.TextId);
-			if(api.ResumePlayback("", "", list, "", 0).HasError())
-			Debug.WriteLine(api.ResumePlayback("", "", list, "", 0).Error.Message);
+			if(WebAPI.ResumePlayback("", "", list, "", 0).HasError())
+			Debug.WriteLine(WebAPI.ResumePlayback("", "", list, "", 0).Error.Message);
 			Debug.WriteLine("bds Play "+track.Title);
 		}
 
 		private void Tick(object sender, EventArgs e)
 		{
-			if (api.GetPlayback() == null) return;
-			CurrentSongPos = api.GetPlayback().ProgressMs/1000;
+			if (WebAPI.GetPlayback() == null) return;
+			CurrentSongPos = WebAPI.GetPlayback().ProgressMs/1000;
 		}
 
 	}

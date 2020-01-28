@@ -81,14 +81,12 @@ namespace Karl.Model
 			_songsAfter = new Stack<AudioTrack>();
 		}
 
-		public void changeAudioToSpotify()
+		public void changeToSpotifyPlayer()
 		{
-			SpotifyAudioPlayer SpotAP = new SpotifyAudioPlayer();
-			SpotAP.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
-			_audioPlayerImp = SpotAP;
+			_audioPlayerImp = new SpotifyAudioPlayer();
 		}
 
-		public void changeAudioToBasic()
+		public void changeToBasicPlayer()
 		{
 			_audioPlayerImp = new BasicAudioPlayer();
 			

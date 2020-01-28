@@ -190,12 +190,13 @@ namespace Karl.Model
 
 		public void changeAudioModuleToSpotify()
 		{
-			SpotifyAudioPlayer spota = new SpotifyAudioPlayer();
-			spota.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
-			_currentAudioModule = new AudioModule(new SpotifyAudioLib(), spota
-				, typeof(SpotifyAudioTrack), "");
-			AudioPlayer.SingletonAudioPlayer.changeAudioToSpotify();
-			AudioLib.SingletonAudioLib.changeToSpotify();
+			AudioPlayer.SingletonAudioPlayer.changeToSpotifyPlayer();
+			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+		}
+
+		public void changeAudioModuleToBasic() {
+			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
+			AudioLib.SingletonAudioLib.changeToBasicLib();
 		}
 
 		/// <summary>

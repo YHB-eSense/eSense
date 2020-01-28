@@ -20,7 +20,7 @@ namespace Karl.Model
 		private String PlaylistTag;
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-		public ObservableCollection<SimplePlaylist> AllPlaylists { get; set ; }
+		public SimplePlaylist [] AllPlaylists { get; set ; }
 
 		public async void Init()
 		{
@@ -29,7 +29,7 @@ namespace Karl.Model
 				if (_initDone) return;
 				AllAudioTracks = new ObservableCollection<AudioTrack>();
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
-				AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items
+				AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
 				var playlist = AllPlaylists[0];
 				PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
 				foreach (var track in tracks)
