@@ -10,7 +10,7 @@ namespace Karl.Model
 	public sealed class BasicAudioTrack : AudioTrack
 	{
 		[PrimaryKey, AutoIncrement]
-		public override string Id { get; set; }
+		public int Id { get; set; }
 		public override string StorageLocation { get; set; }
 		public override double Duration { get; set; }
 		public override byte[] Cover { get; set; }

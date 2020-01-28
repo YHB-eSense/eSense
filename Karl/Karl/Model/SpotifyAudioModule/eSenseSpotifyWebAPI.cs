@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-
+using Xamarin.Auth;
+using Xamarin.Auth.Presenters;
 
 namespace Karl.Model
 {

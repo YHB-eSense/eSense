@@ -157,7 +157,7 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
-		private void UpdateAudioModule(AudioModule audioModule)
+		private void UpdateAudioModule(SettingsHandler.AudioModule audioModule)
 		{
 			_audioPlayerImp = audioModule.AudioPlayer;
 			//TODO

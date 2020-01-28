@@ -36,7 +36,7 @@ namespace Karl.Model
 			_audioLibImp = new BasicAudioLib();
 			//SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
 			_audioLibImp.Init();
-			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioLib;
+			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioLib;
 
 		}
 
@@ -63,11 +63,13 @@ namespace Karl.Model
 			_audioLibImp.DeleteTrack(track);
 		}
 
-		private void UpdateAudioLib(AudioModule audioModule)
+		private void UpdateAudioLib(object sender, EventArgs e)
 		{
+			/*
 			audioModule.AudioLib.Init();
 			_audioLibImp = audioModule.AudioLib;
 			//TODO
+			*/
 		}
 	}
 
