@@ -21,6 +21,11 @@ namespace Karl.Model
 		}
 
 		public bool Paused { get; set; }
+		public double Volume
+		{
+			get => _simpleAudioPlayer.Volume;
+			set => _simpleAudioPlayer.Volume = value;
+		}
 
 		public BasicAudioPlayer()
 		{

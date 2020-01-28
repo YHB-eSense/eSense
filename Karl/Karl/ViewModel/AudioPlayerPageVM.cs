@@ -68,6 +68,11 @@ namespace Karl.ViewModel
 				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
 			}
 		}
+		public double Volume
+		{
+			get => AudioPlayer.SingletonAudioPlayer.Volume;
+			set => AudioPlayer.SingletonAudioPlayer.Volume = value;
+		}
 
 		//Commands binded to AudioPlayerPage of View
 		public ICommand PausePlayCommand { get; }
