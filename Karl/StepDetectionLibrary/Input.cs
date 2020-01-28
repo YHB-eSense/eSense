@@ -93,9 +93,9 @@ namespace StepDetectionLibrary
 		/// <summary>
 		/// Amount of samples in one batch.
 		/// </summary>
-		public int DataLength { get => 50; } // TODO: make this configurable
+		public int DataLength { get => 25; } // TODO: make this configurable
 
-		public int SamplingRate { get => 50; } // TODO: make this configurable
+		public int SamplingRate { get => 25; } // TODO: make this configurable
 
 		/// <summary>
 		/// method for subscribing to input
@@ -144,6 +144,8 @@ namespace StepDetectionLibrary
 			}
 		}
 
+		byte lastId = 255;
+
 		/// <summary>
 		/// method to get data from sensors
 		/// </summary>
@@ -151,7 +153,21 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, MotionSensorSample args)
 		{
-			// TODO: use args.SampleId to check for missed samples
+			int lost = args.SampleId - lastId - 1;
+			if (lost < 0) lost += 256;
+			while (lost > 0)
+			{
+				// TODO: Interpolate from known values
+				_chunk.AccData.Xacc[_counter] = _chunk.AccData.Xacc[_counter - 1];
+				_chunk.AccData.Yacc[_counter] = _chunk.AccData.Yacc[_counter - 1];
+				_chunk.AccData.Zacc[_counter] = _chunk.AccData.Zacc[_counter - 1];
+				_chunk.GyroData.Xgyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
+				_chunk.GyroData.Ygyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
+				_chunk.GyroData.Zgyro[_counter] = _chunk.GyroData.Xgyro[_counter - 1];
+				_counter++;
+				lost--;
+			}
+			lastId = args.SampleId;
 			_chunk.AccData.Xacc[_counter] = args.Acc.x;
 			_chunk.AccData.Yacc[_counter] = args.Acc.y;
 			_chunk.AccData.Zacc[_counter] = args.Acc.z;
