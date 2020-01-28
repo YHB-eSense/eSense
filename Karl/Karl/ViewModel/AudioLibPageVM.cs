@@ -10,6 +10,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using SpotifyAPI.Web.Models;
 using Xamarin.Forms;
+using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
@@ -138,6 +139,7 @@ namespace Karl.ViewModel
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
 			TitleSort();
 		}
 
@@ -146,6 +148,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlaylistsLabel)));
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -157,6 +160,12 @@ namespace Karl.ViewModel
 				case _sortType.ARTISTSORT: ArtistSort(); break;
 				case _sortType.BPMSORT: BPMSort(); break;
 			}
+		}
+
+		private void RefreshAudioModule(AudioModule module)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
 		}
 
 		private void TitleSort()
