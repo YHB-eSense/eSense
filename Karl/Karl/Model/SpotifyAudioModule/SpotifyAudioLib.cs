@@ -11,7 +11,8 @@ namespace Karl.Model
 {
 	sealed class SpotifyAudioLib : IAudioLibImpl
 	{
-		public SpotifyWebAPI WebAPI { get; set; }
+		private SpotifyWebAPI WebAPI;
+		private SimplePlaylist _playlist;
 		public PrivateProfile Profile { get; set; }
 		private bool _initDone;
 		/// <summary>
@@ -20,29 +21,40 @@ namespace Karl.Model
 		private String PlaylistTag;
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-		public ObservableCollection<SimplePlaylist> AllPlaylists { get; set ; }
+		public SimplePlaylist[] AllPlaylists { get => WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => _playlist;
+			set {
+				_playlist = value;
+				ChangePlaylist(value);
+			}
+		}
 
 		public async void Init()
 		{
 			lock (this)
 			{
 				if (_initDone) return;
-				AllAudioTracks = new ObservableCollection<AudioTrack>();
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
-				AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items
-				var playlist = AllPlaylists[0];
-				PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
-				foreach (var track in tracks)
-				{
-					var webClient = new WebClient();
-					string link = track.Track.Album.Images[0].Url;
-					byte[] imageBytes = webClient.DownloadData(link);
-					AllAudioTracks.Add(new SpotifyAudioTrack(track.Track.DurationMs / 1000, track.Track.Name,
-						track.Track.Artists[0].Name, (int)WebAPI.
-						GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, imageBytes));
-					Debug.WriteLine(track.Track.Name);
-				}
+				AllAudioTracks = new ObservableCollection<AudioTrack>();
+				SelectedPlaylist = AllPlaylists[0];
 				_initDone = true;
+			}
+		}
+
+		private void ChangePlaylist(SimplePlaylist playlist)
+		{
+			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
+			foreach (var track in tracks)
+			{
+				var webClient = new WebClient();
+				string link = track.Track.Album.Images[0].Url;
+				byte[] imageBytes = webClient.DownloadData(link);
+				AllAudioTracks.Add(new SpotifyAudioTrack(track.Track.DurationMs / 1000, track.Track.Name,
+					track.Track.Artists[0].Name, (int)WebAPI.
+					GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, imageBytes));
+				Debug.WriteLine(track.Track.Name);
 			}
 		}
 

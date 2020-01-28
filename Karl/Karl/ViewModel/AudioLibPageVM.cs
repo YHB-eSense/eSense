@@ -39,8 +39,8 @@ namespace Karl.ViewModel
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
-		public SimplePlaylist[] Playlists; //TODO
-		public SimplePlaylist SelectedPlaylist; //TODO
+		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
+		public SimplePlaylist SelectedPlaylist { get => _audioLib.SelectedPlaylist; set => _audioLib.SelectedPlaylist = value; }
 		public ObservableCollection<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
@@ -103,8 +103,8 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMSortTextColor)));
 			}
 		}
-		public bool UsingBasicAudio; //TODO
-		public bool UsingSpotifyAudio; //TODO
+		public bool UsingBasicAudio { get => UsingBasicAudio; }
+		public bool UsingSpotifyAudio { get => UsingSpotifyAudio; }
 
 		// Commands binded to AudioLibPage of View
 		public ICommand TitleSortCommand { get; }

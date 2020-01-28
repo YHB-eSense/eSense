@@ -31,6 +31,17 @@ namespace Karl.Model
 			private set => _singletonAudioLib = value;
 		}
 
+		public SimplePlaylist[] Playlists
+		{
+			get => _audioLibImp.AllPlaylists;
+		}
+
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => _audioLibImp.SelectedPlaylist;
+			set => _audioLibImp.SelectedPlaylist = value;
+		}
+
 		private AudioLib()
 		{
 			_singletonAudioLib = this;
@@ -86,7 +97,8 @@ namespace Karl.Model
 	internal interface IAudioLibImpl
 	{
 		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-	    SimplePlaylist [] AllPlaylists { get; set; }
+	    SimplePlaylist[] AllPlaylists { get; }
+		SimplePlaylist SelectedPlaylist { get; set; }
 		void AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
 		void Init();
