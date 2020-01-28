@@ -2,6 +2,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
 using FormsControls.Base;
+using VolumeSliderPlugin.Shared;
+using System;
 
 namespace Karl.View
 {
@@ -26,5 +28,6 @@ namespace Karl.View
 		public void OnAnimationFinished(bool isPopAnimation)
 		{
 		}
+
 	}
 }
