@@ -70,7 +70,7 @@
 			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 			<Frame Grid.Row="3" Grid.Column="2" CornerRadius="0" HasShadow="False">
-				<Label Text="{Binding StepsAmount}" VerticalOptions="Center" HorizontalOptions="Center"/>
+				<Label Text="{Binding StepsAmountAndFreq}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
 			<Frame Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
@@ -79,18 +79,9 @@
 			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 			<Frame Grid.Row="4" Grid.Column="2" CornerRadius="0" HasShadow="False">
-				<Label Text="{Binding StepFrequency}" VerticalOptions="Center" HorizontalOptions="Center"/>
-			</Frame>
-			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
-			</Frame>
-
-			<!--Sixth Row-->
-			<Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
-			</Frame>
-			<Frame Grid.Row="5" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 
 		</Grid>

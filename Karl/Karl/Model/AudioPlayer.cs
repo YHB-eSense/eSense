@@ -45,7 +45,8 @@ namespace Karl.Model
 		/// </summary>
 		public double CurrentSecInTrack
 		{
-			get { return _audioPlayerImp.CurrentSongPos; }
+			get => _audioPlayerImp.CurrentSongPos;
+			set => _audioPlayerImp.CurrentSongPos = value;
 		}
 
 		/// <summary>
@@ -77,8 +78,10 @@ namespace Karl.Model
 			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			_audioPlayerImp = new BasicAudioPlayer();
+			SongsQueue = new Queue<AudioTrack>();
 			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
+
 		}
 
 		public void changeToSpotifyPlayer()
@@ -123,8 +126,8 @@ namespace Karl.Model
 				SongsBefore.Push(CurrentTrack);
 				if (SongsQueue.Count != 0) _audioPlayerImp.PlayTrack(SongsQueue.Dequeue());
 				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
+				AudioChanged?.Invoke(this, null);
 			}
-			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -137,8 +140,8 @@ namespace Karl.Model
 				Paused = false;
 				_songsAfter.Push(CurrentTrack);
 				_audioPlayerImp.PlayTrack(SongsBefore.Pop());
+				AudioChanged?.Invoke(this, null);
 			}
-			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -170,7 +173,7 @@ namespace Karl.Model
 	interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
-		double CurrentSongPos { get; }
+		double CurrentSongPos { get; set; }
 		double Volume { get; set; }
 		bool Paused { get; set; }
 		void PlayTrack(AudioTrack track);

@@ -30,7 +30,7 @@ namespace Karl.ViewModel
 				if (AudioTrack == null) { return 0; }
 				return _audioPlayer.CurrentSecInTrack / AudioTrack.Duration;
 			}
-			set { _dragValue = value; }
+			set => _dragValue = value; 
 		}
 		public ImageSource Icon
 		{
@@ -99,10 +99,8 @@ namespace Karl.ViewModel
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
-			_dragValue = 0;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
-			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -157,7 +155,7 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			//_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
+			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 

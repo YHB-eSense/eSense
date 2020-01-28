@@ -77,35 +77,9 @@ namespace Karl.ViewModel
 			_audioLib = AudioLib.SingletonAudioLib;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
-			GetBPMCommand = new Command(DetBPM);
+			GetBPMCommand = new Command(CalculateBPM);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
-		}
-
-		private async void DetBPM()
-		{
-			if(!_picked)
-			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
-				return;
-			}
-			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
-			{
-				//NewSongBPM = ((int)BPMDetectorWav.DetectBPM(_newSongFileLocation)).ToString();
-				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
-				NewSongBPM = calculator.Calculate().ToString();
-			}
-			/*
-			else if (Path.GetExtension(_newSongFileLocation).Equals(".mp3"))
-			{
-				NewSongBPM = ((int)BPMDetectorMP3.DetectBPM(_newSongFileLocation)).ToString();
-			}
-			*/
-			else {
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-				"alert_text_3", _settingsHandler.CurrentLang.Get("alert_ok"));
-			}
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
@@ -152,6 +126,26 @@ namespace Karl.ViewModel
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
 				NewSongBPM = GetBPM();
+			}
+		}
+
+		private async void CalculateBPM()
+		{
+			if (!_picked)
+			{
+				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
+					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
+				return;
+			}
+			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
+			{
+				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
+				NewSongBPM = calculator.Calculate().ToString();
+			}
+			else
+			{
+				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
+				"alert_text_3", _settingsHandler.CurrentLang.Get("alert_ok"));
 			}
 		}
 

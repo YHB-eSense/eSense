@@ -4,7 +4,6 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-			 xmlns:b="http://prismlibrary.com"
 			 prism:ViewModelLocator.AutowireViewModel="True"
 			 mc:Ignorable="d"
              x:Class="Karl.View.SettingsPage"
@@ -17,7 +16,7 @@
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
+				<RowDefinition Height="2*"/>
 			</Grid.RowDefinitions>
 
 			<!--First Row-->
@@ -69,10 +68,10 @@
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
 						Command="{Binding ResetStepsCommand}"/>
-					<Button Text="Use Spotify"
+					<Button Text="{Binding UseAudioModuleLabel}"
 						BackgroundColor="#1ed761"
 						TextColor="White"
-						Command="{Binding ActivateSpotifyCommand}"/>
+						Command="{Binding ChangeAudioModuleCommand}"/>
 				</StackLayout>
 			</Frame>
 		</Grid>

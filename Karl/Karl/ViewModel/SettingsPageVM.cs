@@ -25,28 +25,36 @@ namespace Karl.ViewModel
 		public string DeviceNameLabel { get => _settingsHandler.CurrentLang.Get("device_name"); }
 		public string ChangeDeviceNameLabel { get => _settingsHandler.CurrentLang.Get("change_device_name"); }
 		public string ResetStepsLabel { get => _settingsHandler.CurrentLang.Get("reset_steps"); }
+		public string UseAudioModuleLabel
+		{
+			get
+			{
+				if (_settingsHandler.UsingBasicAudio) { return _settingsHandler.CurrentLang.Get("use_spotify"); }
+				else { return _settingsHandler.CurrentLang.Get("use_basic"); }
+			}
+		}
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
 		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
 		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
-			set { _settingsHandler.CurrentLang = value; }
+			set => _settingsHandler.CurrentLang = value; 
 		}
 		public CustomColor CurrentColor
 		{
 			get => _settingsHandler.CurrentColor;
-			set { if(value != null) _settingsHandler.CurrentColor = value; }
+			set { if (value != null) _settingsHandler.CurrentColor = value; }
 		}
 		public string DeviceName
 		{
 			get => _settingsHandler.DeviceName;
-			set { _deviceName = value; }
+			set => _deviceName = value; 
 		}
 
 		//Commands binded to SettingsPage of View
 		public ICommand ChangeDeviceNameCommand { get; }
-		public ICommand ActivateSpotifyCommand { get; }
 		public ICommand ResetStepsCommand { get; }
+		public ICommand ChangeAudioModuleCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands and SettingsHandler of Model
@@ -56,10 +64,10 @@ namespace Karl.ViewModel
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
+			ChangeAudioModuleCommand = new Command(ChangeAudioModule);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
 			_settingsHandler.ColorChanged += RefreshColor;
-			ActivateSpotifyCommand = new Command(ActivateSpotify);
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
@@ -93,13 +101,20 @@ namespace Karl.ViewModel
 			_settingsHandler.ResetSteps();
 		}
 
-		private void ActivateSpotify()
+		private void ChangeAudioModule()
 		{
-			eSenseSpotifyWebAPI.WebApiSingleton.Auth();
-			eSenseSpotifyWebAPI.WebApiSingleton.isauthed += (sender, args) =>
+			if (_settingsHandler.UsingSpotifyAudio)
 			{
-				SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
-			};
+				_settingsHandler.changeAudioModuleToBasic();
+			}
+			else
+			{
+				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
+				eSenseSpotifyWebAPI.WebApiSingleton.isauthed += (sender, args) =>
+				{
+					SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
+				};
+			}
 		}
 
 	}

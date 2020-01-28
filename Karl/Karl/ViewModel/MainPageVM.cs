@@ -24,39 +24,28 @@ namespace Karl.ViewModel
 		{
 			get
 			{
-				if (_connectivityHandler.EarableConnected) {
-					return _settingsHandler.CurrentLang.Get("device_name") + ": " +
-						_settingsHandler.DeviceName; }
+				if (_connectivityHandler.EarableConnected)
+				{
+					return _settingsHandler.CurrentLang.Get("device_name") + ": " + _settingsHandler.DeviceName;
+				}
 				return null;
 			}
 		}
-		public string StepsAmount
-		{
-			get
-			{
-				if (_connectivityHandler.EarableConnected) {
-					return _settingsHandler.CurrentLang.Get("steps") + ": " +
-						Convert.ToString(_settingsHandler.Steps); }
-				return null;
-			}
-		}
-		public string StepFrequency
+		public string StepsAmountAndFreq
 		{
 			get
 			{
 				if (_connectivityHandler.EarableConnected)
 				{
-					return string.Format("{0}: {1}", _settingsHandler.CurrentLang.Get("frequency"), _settingsHandler.StepFrequency);
+					return _settingsHandler.CurrentLang.Get("steps") + ": " +Convert.ToString(_settingsHandler.Steps) + "     " +
+						string.Format("{0}: {1}", _settingsHandler.CurrentLang.Get("frequency"), _settingsHandler.StepFrequency);
 				}
 				return null;
 			}
 		}
 		public ImageSource Icon
 		{
-			get
-			{
-				return _connectivityHandler.EarableConnected ? _iconOn : _iconOff;
-			}
+			get => _connectivityHandler.EarableConnected ? _iconOn : _iconOff; 
 		}
 		public bool HelpVisible { get; set; }
 
@@ -95,8 +84,7 @@ namespace Karl.ViewModel
 
 		private void RefreshLang(object sender, EventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
@@ -106,8 +94,7 @@ namespace Karl.ViewModel
 		}
 		private void RefreshSteps(object sender, EventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -118,8 +105,7 @@ namespace Karl.ViewModel
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
