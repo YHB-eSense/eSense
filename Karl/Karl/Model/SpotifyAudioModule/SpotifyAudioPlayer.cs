@@ -22,7 +22,7 @@ namespace Karl.Model
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
-			_track = new SpotifyAudioTrack(0, "", "", 0, "",null);
+			_track = new SpotifyAudioTrack(0, "", "", 0, "", null);
 			Paused = true;
 		}
 

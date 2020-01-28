@@ -16,6 +16,7 @@ namespace Karl.Model
 	{
 		private static eSenseSpotifyWebAPI _instance;
 		public SpotifyWebAPI api { get; set; }
+		public PrivateProfile UsersProfile { get; set; }
 		public event EventHandler isauthed;
 
 		public static eSenseSpotifyWebAPI WebApiSingleton
@@ -81,6 +82,7 @@ namespace Karl.Model
 			if (!profile.HasError())
 			{
 				Console.WriteLine(profile.DisplayName);
+				UsersProfile = profile;
 				List <SimplePlaylist> playlists = api.GetUserPlaylists(profile.Id).Items;
 				foreach (var playlist in playlists) {
 					Debug.WriteLine(playlist.Name.ToString() + " ");
