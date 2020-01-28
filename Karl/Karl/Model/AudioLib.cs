@@ -1,3 +1,4 @@
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -75,7 +76,7 @@ namespace Karl.Model
 		public void changeToSpotify()
 		{
 			SpotifyAudioLib lib = new SpotifyAudioLib();
-			lib.webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			lib.WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 			lib.Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
 			_audioLibImp = lib;
 			_audioLibImp.Init();
@@ -85,6 +86,7 @@ namespace Karl.Model
 	internal interface IAudioLibImpl
 	{
 		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+	    SimplePlaylist [] AllPlaylists { get; set; }
 		void AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
 		void Init();

@@ -1,4 +1,5 @@
 using Karl.Data;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ namespace Karl.Model
 		private BasicAudioTrackDatabase _database;
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+		public SimplePlaylist[] AllPlaylists { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 		public BasicAudioLib()
 		{
