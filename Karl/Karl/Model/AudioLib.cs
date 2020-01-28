@@ -33,8 +33,9 @@ namespace Karl.Model
 		private AudioLib()
 		{
 			_singletonAudioLib = this;
-			//testing BasicAudioLib
-			_audioLibImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
+			_audioLibImp = new BasicAudioLib();
+			//SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
+			_audioLibImp.Init();
 			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioLib;
 
 		}
@@ -64,6 +65,7 @@ namespace Karl.Model
 
 		private void UpdateAudioLib(AudioModule audioModule)
 		{
+			audioModule.AudioLib.Init();
 			_audioLibImp = audioModule.AudioLib;
 			//TODO
 		}
@@ -74,5 +76,6 @@ namespace Karl.Model
 		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
 		void AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
+		void Init();
 	}
 }

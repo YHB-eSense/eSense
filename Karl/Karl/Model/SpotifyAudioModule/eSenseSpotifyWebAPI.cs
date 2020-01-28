@@ -1,66 +1,104 @@
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.Net.Http;
-using System.Threading.Tasks;
-using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Enums;
-using SpotifyAPI.Web.Models;
+
 
 namespace Karl.Model
 {
-	class eSenseSpotifyWebAPI
+	public class eSenseSpotifyWebAPI
 	{
+		private static eSenseSpotifyWebAPI _instance;
+		public SpotifyWebAPI api { get; set; }
+		public PrivateProfile UsersProfile { get; set; }
+		public event EventHandler isauthed;
+
+		public static eSenseSpotifyWebAPI WebApiSingleton
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new eSenseSpotifyWebAPI();
+				}
+				return _instance;
+			}
+		}
+		private eSenseSpotifyWebAPI() { }
+		public OAuth2Authenticator AuthenticationState { get; private set; }
+
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
-		private string TokenType;
-		private string AccessToken;
-		private SpotifyWebAPI _api;
-		private PrivateProfile profile;
-		public eSenseSpotifyWebAPI()
-		{
-			Authorize();
-		}
-		private async void Authorize()
-		{
-			AuthorizationCodeAuth auth = new AuthorizationCodeAuth(
-				CLIENT_ID, CLIENT_SECRET, @"http://localhost:4002", @"http://localhost:4002",
-				Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative);
+		private const string SCOPE = "user-read-playback-state user-modify-playback-state";
+		private const string AUTHORIZE_URI = @"https://accounts.spotify.com/authorize";
+		private const string REDIRECT_URI = @"karl1.companyname.com:/oauth2redirect";
+		private const string ACCESSTOKEN_URI = @"https://accounts.spotify.com/api/token";
+		private Account _acc;
+		private HttpClient _client;
+		private OAuth2Authenticator auth;
 
-			auth.AuthReceived += async (sender, payload) =>
+		public void Auth()
+		{
+			Uri AuthURI = new Uri(AUTHORIZE_URI);
+			Uri RedirectURI = new Uri(REDIRECT_URI);
+			Uri AccessTokenUri = new Uri(ACCESSTOKEN_URI);
+			auth = new OAuth2Authenticator(
+				clientId: CLIENT_ID,
+				clientSecret: CLIENT_SECRET,
+				scope: SCOPE,
+				authorizeUrl: AuthURI,
+				redirectUrl: RedirectURI,
+				accessTokenUrl: AccessTokenUri);
+			auth.Completed += OnAuthAsync;
+			
+			OAuthLoginPresenter presenter = new OAuthLoginPresenter();
+			
+			presenter.Login(auth);
+			
+			_client = new HttpClient();
+			
+		}
+
+		public async void OnAuthAsync(object sender, AuthenticatorCompletedEventArgs args)
+		{
+			if (!args.IsAuthenticated) throw new HttpRequestException("Authentication failed!");
+			_acc = args.Account;
+			string[] serial = _acc.Serialize().Split('&');
+			string accessToken = serial[1].Split('=')[1];
+			_client.DefaultRequestHeaders.Authorization = new
+				System.Net.Http.Headers.AuthenticationHeaderValue(accessToken);
+			api = new SpotifyWebAPI
 			{
-				auth.Stop();
-				Token token = await auth.ExchangeCode(payload.Code);
-				_api = new SpotifyWebAPI()
-				{
-					TokenType = token.TokenType,
-					AccessToken = token.AccessToken
-				};
-				// Do requests with API client
+				AccessToken = accessToken,
+				TokenType = "Bearer"
 			};
-			auth.Start(); // Starts an internal HTTP Server
-			auth.OpenBrowser();
+			PrivateProfile profile = await api.GetPrivateProfileAsync();
+			if (!profile.HasError())
+			{
+				Console.WriteLine(profile.DisplayName);
+				UsersProfile = profile;
+				List <SimplePlaylist> playlists = api.GetUserPlaylists(profile.Id).Items;
+				foreach (var playlist in playlists) {
+					Debug.WriteLine(playlist.Name.ToString() + " ");
+					PlaylistTrack[] ab = api.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
+					foreach(var track in ab) {
+						Debug.WriteLine(track.Track.Name.ToString());
+					}
+				}
+				List <Device> devices = api.GetDevices().Devices;
+				Device nowdevice = new Device();
+				Debug.WriteLine(devices.Count);
+				foreach (var device in devices) {
+					Debug.WriteLine(device.Name+ " "+ device.IsActive);
+					nowdevice = device;
+				}
+				isauthed.Invoke(sender, args);
+			}
+		
 		}
 
-		private async void FetchProfile()
-		{
-			profile = await _api.GetPrivateProfileAsync();
-		}
 
-		public Paging<SimplePlaylist> FetchPlaylists()
-		{
-			return _api.GetUserPlaylists(profile.Id);
-		}
-
-		public Paging<PlaylistTrack> FetchPlaylistTracks(SimplePlaylist playlist)
-		{
-			return _api.GetPlaylistTracks(playlist.Id);
-		}
-
-		public Paging<PlaylistTrack> FetchPlaylistTracks(string playlistID)
-		{
-			return _api.GetPlaylistTracks(playlistID);
-		}
 	}
 }

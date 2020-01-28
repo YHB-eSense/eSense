@@ -148,7 +148,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
 				_properties.Add("audioModule", value.Tag);
 				_currentAudioModule = value;
-				AudioModuleChanged.Invoke(value);
+				AudioModuleChanged?.Invoke(value);
 			}
 		}
 
@@ -160,7 +160,7 @@ namespace Karl.Model
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
 				_colorManager.CurrentColor = value;
-				foreach(Microcharts.Entry entry in ChartEntries)
+				foreach (Microcharts.Entry entry in ChartEntries)
 				{
 					entry.Color = SKColor.Parse(_colorManager.CurrentColor.Color.ToHex());
 				}
@@ -188,6 +188,16 @@ namespace Karl.Model
 			Steps = 0;
 		}
 
+		public void changeAudioModuleToSpotify()
+		{
+			SpotifyAudioPlayer spota = new SpotifyAudioPlayer();
+			spota.api = eSenseSpotifyWebAPI.WebApiSingleton.api;
+			_currentAudioModule = new AudioModule(new SpotifyAudioLib(), spota
+				, typeof(SpotifyAudioTrack), "");
+			AudioPlayer.SingletonAudioPlayer.changeAudioToSpotify();
+
+		}
+
 		/// <summary>
 		/// The Constructor that builds a new SettingsHandler
 		/// </summary>
@@ -207,8 +217,9 @@ namespace Karl.Model
 			//Init AudioModules
 			AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-			/*AvailableAudioModules.Add("spotifyAudioModule",
-				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));*/
+
+			AvailableAudioModules.Add("spotifyAudioModule",
+				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));
 
 			//Load Color
 			Object val;
@@ -237,12 +248,14 @@ namespace Karl.Model
 				CurrentColor = Colors[0];
 			}
 
+			/*
 			//Init AudioModules
 			if (!AvailableAudioModules.ContainsKey("basicAudioModule"))
 			{
 				AvailableAudioModules.Add("basicAudioModule",
 				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
 			}
+			*/
 
 			//Load AudioModule
 			if (_properties.TryGetValue("audioModule", out val))
@@ -272,7 +285,7 @@ namespace Karl.Model
 			}
 
 			//Load Chosen Language
-			if(_properties.TryGetValue("lang", out val))
+			if (_properties.TryGetValue("lang", out val))
 			{
 				if (_langManager.ChooseLang(val.ToString()))
 					System.Diagnostics.Debug.WriteLine("LangChosen: " + val.ToString());
@@ -281,7 +294,8 @@ namespace Karl.Model
 					_langManager.ChooseLang("lang_english");
 					_properties.Add("lang", "lang_english");
 				}
-			} else
+			}
+			else
 			{
 				_langManager.ChooseLang("lang_english");
 				_properties.Add("lang", "lang_english");
@@ -294,19 +308,21 @@ namespace Karl.Model
 				try
 				{
 					_steps = int.Parse(Value);
-				} catch (FormatException e)
+				}
+				catch (FormatException e)
 				{
 					_steps = 0;
 					_properties.Remove("steps");
 					_properties.Add("steps", "0");
 				}
-			} else
+			}
+			else
 			{
 				_steps = 0;
 				_properties.Add("steps", "0");
 			}
 
-			//TODO
+			CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
 		}
 
 		private class StepDetectionObserver : IObserver<Output>
@@ -330,24 +346,23 @@ namespace Karl.Model
 			{
 				_parent.Steps = _parent._steps + value.StepCount;
 				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
-
 			}
 		}
-	}
 
-	internal struct AudioModule
-	{
-		internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
+		internal struct AudioModule
 		{
-			Tag = tag;
-			AudioLib = audioLib;
-			AudioPlayer = audioPlayer;
-			AudioTrack = audioTrack;
+			internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
+			{
+				Tag = tag;
+				AudioLib = audioLib;
+				AudioPlayer = audioPlayer;
+				AudioTrack = audioTrack;
+			}
+			public string Tag;
+			public IAudioLibImpl AudioLib;
+			public IAudioPlayerImpl AudioPlayer;
+			public Type AudioTrack;
 		}
-		public string Tag;
-		public IAudioLibImpl AudioLib;
-		public IAudioPlayerImpl AudioPlayer;
-		public Type AudioTrack;
-	}
 
+	}
 }

@@ -97,6 +97,7 @@ namespace Karl.ViewModel
 			_dragValue = 0;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
+			AudioPlayer.SingletonAudioPlayer.changeAudioToBasic();
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -151,7 +152,7 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
+			//_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 

@@ -69,6 +69,10 @@
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"
 						Command="{Binding ResetStepsCommand}"/>
+					<Button Text="Use Spotify"
+						BackgroundColor="#1ed761"
+						TextColor="White"
+						Command="{Binding ActivateSpotifyCommand}"/>
 				</StackLayout>
 			</Frame>
 		</Grid>

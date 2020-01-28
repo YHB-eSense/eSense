@@ -149,4 +149,7 @@ namespace Karl.Model
 	}
 
 }
+<<<<<<< HEAD:Karl/Karl/Model/LangManager.cs
 
+=======
+>>>>>>> origin/Spotify:Karl/Karl/Model/Lang.cs
