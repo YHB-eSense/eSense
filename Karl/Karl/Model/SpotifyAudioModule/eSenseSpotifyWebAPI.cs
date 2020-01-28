@@ -1,10 +1,12 @@
+using RestSharp.Authenticators;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-
+using Xamarin.Auth;
+using Xamarin.Auth.Presenters;
 
 namespace Karl.Model
 {
@@ -27,7 +29,7 @@ namespace Karl.Model
 			}
 		}
 		private eSenseSpotifyWebAPI() { }
-		public OAuth2Authenticator AuthenticationState { get; private set; }
+		public RestSharp.Authenticators.OAuth2Authenticator AuthenticationState { get; private set; }
 
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
@@ -37,14 +39,14 @@ namespace Karl.Model
 		private const string ACCESSTOKEN_URI = @"https://accounts.spotify.com/api/token";
 		private Account _acc;
 		private HttpClient _client;
-		private OAuth2Authenticator auth;
+		private RestSharp.Authenticators.OAuth2Authenticator auth;
 
 		public void Auth()
 		{
 			Uri AuthURI = new Uri(AUTHORIZE_URI);
 			Uri RedirectURI = new Uri(REDIRECT_URI);
 			Uri AccessTokenUri = new Uri(ACCESSTOKEN_URI);
-			auth = new OAuth2Authenticator(
+			auth = new RestSharp.Authenticators.OAuth2Authenticator(
 				clientId: CLIENT_ID,
 				clientSecret: CLIENT_SECRET,
 				scope: SCOPE,
