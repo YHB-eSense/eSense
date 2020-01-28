@@ -35,6 +35,11 @@ namespace Karl.Model
 			get { return _audioPlayerImp.CurrentTrack; }
 		}
 
+		public double Volume
+		{
+			get => _audioPlayerImp.Volume;
+			set => _audioPlayerImp.Volume = value;
+		}
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
@@ -168,6 +173,7 @@ namespace Karl.Model
 	{
 		AudioTrack CurrentTrack { get; set; }
 		double CurrentSongPos { get; }
+		double Volume { get; set; }
 		bool Paused { get; set; }
 		void PlayTrack(AudioTrack track);
 		void TogglePause();

@@ -33,6 +33,7 @@ namespace Karl.Model
 
 		public Queue<AudioTrack> Queue { get; set; }
 		public bool Paused { get; set;  }
+		public double Volume { get => 0; set => _ = value; }
 
 		public async void TogglePause()
 		{

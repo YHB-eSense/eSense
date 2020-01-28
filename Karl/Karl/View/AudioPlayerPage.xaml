@@ -85,13 +85,20 @@
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>
+					<Slider x:Name="sliderGUI"
+							HorizontalOptions="FillAndExpand"
+							VerticalOptions="Center"
+							MinimumTrackColor="{Binding CurrentColor.Color}"
+							MaximumTrackColor="Gray"
+							ThumbColor="{Binding CurrentColor.Color}"
+							IsVisible="True"
+							Value="{Binding Volume}"/>
+					<!--
 					<vs:VolumeSlider x:Name="volumeSlider"
-						Volume="0"
-						ThumbColor="{Binding CurrentColor.Color}"
-						HorizontalOptions="FillAndExpand"
-						VerticalOptions="Center"
-						MinimumTrackColor="{Binding CurrentColor.Color}"
-						MaximumTrackColor="Gray"/>
+									 HorizontalOptions="FillAndExpand"
+									 VerticalOptions="Center"
+									 IsVisible="False"/>
+					-->
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_on.png}"
 						WidthRequest="20"
 						HeightRequest="20"/>

@@ -4,6 +4,7 @@ using Karl.ViewModel;
 using FormsControls.Base;
 using VolumeSliderPlugin.Shared;
 using System;
+using System.ComponentModel;
 
 namespace Karl.View
 {

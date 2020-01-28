@@ -149,4 +149,3 @@ namespace Karl.Model
 	}
 
 }
-
