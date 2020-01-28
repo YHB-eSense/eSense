@@ -40,6 +40,17 @@ namespace Karl.ViewModel
 				return null;
 			}
 		}
+		public string StepFrequency
+		{
+			get
+			{
+				if (_connectivityHandler.EarableConnected)
+				{
+					return string.Format("{0}: {1}", _settingsHandler.CurrentLang.Get("frequency"), _settingsHandler.StepFrequency);
+				}
+				return null;
+			}
+		}
 		public ImageSource Icon
 		{
 			get
@@ -85,6 +96,7 @@ namespace Karl.ViewModel
 		private void RefreshLang(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
@@ -95,6 +107,7 @@ namespace Karl.ViewModel
 		private void RefreshSteps(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -106,6 +119,7 @@ namespace Karl.ViewModel
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepFrequency)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 

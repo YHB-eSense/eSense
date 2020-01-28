@@ -15,7 +15,7 @@ namespace Karl.Model
 		/// <summary>
 		/// If current step rate and current song BPM difer by more than this threshold, a new song will prematurely be chosen.
 		/// </summary>
-		public double MaxAllowedBPMDiff;
+		public double MaxAllowedBPMDiff = 20;
 
 		private Output? LastOutput;
 

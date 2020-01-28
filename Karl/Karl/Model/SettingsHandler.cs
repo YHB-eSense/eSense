@@ -19,6 +19,7 @@ namespace Karl.Model
 		private static readonly Object _padlock = new Object();
 		private AudioModule _currentAudioModule;
 		private int _steps;
+		private int _frequency;
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
 		internal IDictionary<string, AudioModule> AvailableAudioModules;
@@ -142,6 +143,18 @@ namespace Karl.Model
 			}
 		}
 
+		/// <summary>
+		/// The current step frequency (in steps per minute).
+		/// </summary>
+		public int StepFrequency
+		{
+			get => _frequency;
+			private set
+			{
+				_frequency = value;
+			}
+		}
+
 		internal AudioModule CurrentAudioModule
 		{
 			get => _currentAudioModule;
@@ -188,6 +201,7 @@ namespace Karl.Model
 		public void ResetSteps()
 		{
 			Steps = 0;
+			StepFrequency = 0;
 		}
 
 		public void changeAudioModuleToSpotify()
@@ -353,6 +367,7 @@ namespace Karl.Model
 			public void OnNext(Output value)
 			{
 				_parent.Steps = _parent._steps + value.StepCount;
+				_parent.StepFrequency = (int) (value.Frequency * 60);
 				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
 			}
 		}

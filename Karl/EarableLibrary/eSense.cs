@@ -100,12 +100,13 @@ namespace EarableLibrary
 		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> ConnectAsync()
 		{
+			if (_device.State != DeviceState.Disconnected) return false;
 			try
 			{
 				var parameters = new ConnectParameters(forceBleTransport: true);
 				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters);
 				await InitializeConnection();
-				Debug.WriteLine("Now connected to {0}", Name);
+				Debug.WriteLine("Now connected to {0}", args: Name);
 			}
 			catch (Exception)
 			{
@@ -120,7 +121,7 @@ namespace EarableLibrary
 		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> DisconnectAsync()
 		{
-			if (!IsConnected()) return false;
+			if (_device.State != DeviceState.Connected) return false;
 			try
 			{
 				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);

@@ -71,7 +71,7 @@ namespace Karl.Model
 			if (_connectedEarable == null) return false;
 
 			var imu = _connectedEarable.GetSensor<MotionSensor>();
-			imu.SamplingRate = _stepDetection.PreferredSamplingRate;
+			imu.SamplingRate = _stepDetection.SamplingRate;
 			imu.ValueChanged += _stepDetection.ValueChanged;
 			await imu.StartSamplingAsync();
 

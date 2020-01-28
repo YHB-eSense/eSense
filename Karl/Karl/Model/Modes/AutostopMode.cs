@@ -19,7 +19,8 @@ namespace Karl.Model
 			set
 			{
 				if (value == _autostopped) return;
-				if (value)
+				_autostopped = value;
+				if (_autostopped == true)
 				{
 					if (!SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();
 				}
@@ -27,7 +28,6 @@ namespace Karl.Model
 				{
 					if (SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();
 				}
-				_autostopped = value;
 			}
 		}
 
