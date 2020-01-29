@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -15,6 +17,9 @@ namespace Karl.Model
 		private bool _initDone;
 		private SpotifyWebAPI WebAPI;
 		private SimplePlaylist _playlist;
+
+		public event AudioLibEventHandler AudioLibChanged;
+
 		public PrivateProfile Profile { get; set; }
 
 		//List of all AudioTracks in chosen Playlist
@@ -69,6 +74,7 @@ namespace Karl.Model
 		}
 
 
+<<<<<<< HEAD
 		public void AddTrack(String storage, String title, double duration)
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
@@ -85,6 +91,9 @@ namespace Karl.Model
 		}
 
 		public void AddTrack(string storage, string title, string artist, int bpm)
+=======
+		public async Task AddTrack(string storage, string title, string artist, int bpm)
+>>>>>>> 9bca1560544b0bf360853cbbb3ca7696feee0d35
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}

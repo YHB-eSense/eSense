@@ -4,7 +4,6 @@ using static Karl.Model.AudioPlayer;
 using static Karl.Model.AudioLib;
 using static Karl.Model.LangManager;
 using static StepDetectionLibrary.OutputManager;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Karl.Model
@@ -17,7 +16,7 @@ namespace Karl.Model
 		/// <summary>
 		/// If current step rate and current song BPM difer by more than this threshold, a new song will prematurely be chosen.
 		/// </summary>
-		public double MaxAllowedBPMDiff = 20;
+		public double MaxAllowedBPMDiff = 15;
 
 		private uint CurrentBPM;
 
@@ -46,7 +45,11 @@ namespace Karl.Model
 		{
 			Debug.WriteLine("Deactivating mode '{0}'", args: Name);
 			SingletonAudioPlayer.NextSongEvent -= ChooseNextSong;
-			StepDetectionDisposable.Dispose();
+			if (StepDetectionDisposable != null)
+			{
+				StepDetectionDisposable.Dispose();
+				StepDetectionDisposable = null;
+			}
 			return true;
 		}
 

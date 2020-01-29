@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -52,7 +54,14 @@ namespace Karl.Model
 			//SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioLib;
 			_audioLibImp.Init();
 			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioLib;
+			_audioLibImp.AudioLibChanged += UpdateLib;
 
+		}
+
+		private void UpdateLib(object sender, EventArgs args)
+		{
+			AudioLibChanged?.Invoke(this, null);
+			System.Diagnostics.Debug.WriteLine("HEY");
 		}
 
 		/// <summary>
@@ -68,9 +77,9 @@ namespace Karl.Model
 		/// <summary>
 		/// Add a new Track to the current Library
 		/// </summary>
-		public void AddTrack(string storage, string title, string artist, int bpm)
+		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
-			_audioLibImp.AddTrack(storage, title, artist, bpm);
+			await _audioLibImp.AddTrack(storage, title, artist, bpm);
 			AudioLibChanged?.Invoke(this, null);
 		}
 
@@ -104,8 +113,10 @@ namespace Karl.Model
 		List<AudioTrack> AllAudioTracks { get; set; }
 	    SimplePlaylist[] AllPlaylists { get; }
 		SimplePlaylist SelectedPlaylist { get; set; }
-		void AddTrack(string storage, string title, string artist, int bpm);
+		Task AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
 		void Init();
+
+		event AudioLibEventHandler AudioLibChanged;
 	}
 }
