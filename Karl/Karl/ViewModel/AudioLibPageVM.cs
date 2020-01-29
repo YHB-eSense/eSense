@@ -41,7 +41,15 @@ namespace Karl.ViewModel
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
 		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
-		public SimplePlaylist SelectedPlaylist { get => _audioLib.SelectedPlaylist; set => _audioLib.SelectedPlaylist = value; }
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => _audioLib.SelectedPlaylist;
+			set
+			{
+				_audioLib.SelectedPlaylist = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			}
+		}
 		public List<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
@@ -167,6 +175,8 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
 		}
 
 		private void TitleSort()
