@@ -162,10 +162,11 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private void RefreshAudioModule(AudioModule module)
+		private void RefreshAudioModule(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 		}
 
 		private void TitleSort()
@@ -223,7 +224,7 @@ namespace Karl.ViewModel
 
 		private void SearchSong(string value)
 		{
-			if (_oldSongs == null){ _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
+			if (_oldSongs == null) { _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
 			if (value == null || value == "")
 			{
 				Songs = new List<AudioTrack>(_oldSongs);

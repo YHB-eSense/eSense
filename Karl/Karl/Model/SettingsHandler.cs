@@ -81,8 +81,10 @@ namespace Karl.Model
 		public event ColorEventHandler ColorChanged;
 		public delegate void ChartEventHandler(object source, EventArgs e);
 		public event ChartEventHandler ChartChanged;
+		public delegate void AudioModuleEventHandler(object source, EventArgs e);
+		public event AudioModuleEventHandler AudioModuleChanged;
 
-		internal event AudioModuleDelegate AudioModuleChanged;
+		//internal event AudioModuleDelegate AudioModuleChanged;
 
 		public bool UsingBasicAudio { get; set; }
 		public bool UsingSpotifyAudio { get; set; }
@@ -155,6 +157,7 @@ namespace Karl.Model
 			}
 		}
 
+		/*
 		internal AudioModule CurrentAudioModule
 		{
 			get => _currentAudioModule;
@@ -166,6 +169,7 @@ namespace Karl.Model
 				AudioModuleChanged?.Invoke(value);
 			}
 		}
+		*/
 
 		public CustomColor CurrentColor
 		{
@@ -210,6 +214,7 @@ namespace Karl.Model
 			AudioLib.SingletonAudioLib.changeToSpotifyLib();
 			UsingBasicAudio = false;
 			UsingSpotifyAudio = true;
+			AudioModuleChanged?.Invoke(this, null);
 		}
 
 		public void changeAudioModuleToBasic() {
@@ -217,6 +222,7 @@ namespace Karl.Model
 			AudioLib.SingletonAudioLib.changeToBasicLib();
 			UsingBasicAudio = true;
 			UsingSpotifyAudio = false;
+			AudioModuleChanged?.Invoke(this, null);
 
 		}
 
@@ -346,7 +352,7 @@ namespace Karl.Model
 				_properties.Add("steps", "0");
 			}
 
-			CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
+			//CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
 		}
 
 		private class StepDetectionObserver : IObserver<Output>

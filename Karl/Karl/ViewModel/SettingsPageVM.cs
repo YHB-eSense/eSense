@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
@@ -68,6 +69,7 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
 			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
@@ -89,6 +91,11 @@ namespace Karl.ViewModel
 		private void RefreshColor(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+		}
+
+		private void RefreshAudioModule(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
 		}
 
 		private void ChangeDeviceName()

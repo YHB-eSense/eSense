@@ -101,6 +101,7 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
+			_settingsHandler.AudioModuleChanged += RefreshAudio;
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
