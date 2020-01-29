@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using EarableLibrary;
 
 namespace Karl.Model
@@ -10,16 +7,21 @@ namespace Karl.Model
 	/// </summary>
 	public class EarableHandle
 	{
-		internal readonly IEarable handle;
+		internal readonly IEarable _handle;
+
+		/// <summary>
+		/// Creates controller for earable
+		/// </summary>
+		/// <param name="earable"></param>
 		internal EarableHandle(IEarable earable)
 		{
-			this.handle = earable;
+			_handle = earable;
 		}
 
 		/// <summary>
 		/// Provides read-only access to the device name
 		/// </summary>
-		public string Name => handle.Name;
+		public string Name => _handle.Name;
 
 	}
 }

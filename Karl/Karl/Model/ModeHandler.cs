@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Karl.Model
 {
@@ -10,35 +8,35 @@ namespace Karl.Model
 	public class ModeHandler 
 	{
 		private static ModeHandler _singletonModeHandler;
+
+		/// <summary>
+		/// The singleton object of ModeHandler
+		/// </summary>
 		public static ModeHandler SingletonModeHandler
 		{
 			get
 			{
-				if (_singletonModeHandler == null)
-				{
-					_singletonModeHandler = new ModeHandler();
-				}
+				if (_singletonModeHandler == null) { _singletonModeHandler = new ModeHandler(); }
 				return _singletonModeHandler;
 			}
 		}
+
 		/// <summary>
-		/// All registered modes.
+		/// List of all registered modes
 		/// </summary>
 		public List<Mode> Modes { get; private set; }
 
 		/// <summary>
-		/// Constructor of the mode handler.
+		/// Constructor of ModeHandler
 		/// </summary>
-		/// <param name="audioPlayer">The audioplayer that is the modes do stuff on.</param>
 		private ModeHandler()
 		{
-			Modes = new List<Mode>
-			{
-				new AutostopMode(),
-				new MotivationMode()
-			};
+			Modes = new List<Mode> { new AutostopMode(), new MotivationMode() };
 		}
 
+		/// <summary>
+		/// Reset all registered modes
+		/// </summary>
 		public void ResetModes()
 		{
 			if(Modes != null)
