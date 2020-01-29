@@ -14,8 +14,7 @@ namespace Karl.Model
 	{
 		private Timer _timer;
 		private AudioTrack _track;
-
-		public SpotifyWebAPI WebAPI { get; set; }
+		private SpotifyWebAPI _webAPI { get; set; }
 
 		public SpotifyAudioPlayer()
 		{
@@ -24,6 +23,7 @@ namespace Karl.Model
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
 			_track = new SpotifyAudioTrack(0, "", "", 0, "", null);
+			_webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 			Paused = true;
 		}
 		public double CurrentSongPos { get; set; }
@@ -37,41 +37,41 @@ namespace Karl.Model
 
 		public void TogglePause()
 		{
-			if (WebAPI.GetPlayback() == null) {
+			if (_webAPI.GetPlayback() == null) {
 				return;
 			}
-			if (Paused != WebAPI.GetPlayback().IsPlaying)
+			if (Paused != _webAPI.GetPlayback().IsPlaying)
 			{
 				Paused = !Paused;
 			}
 			var webClient = new WebClient();
 			string link;
-			if (WebAPI.GetPlayback().Item != null) link = WebAPI.GetPlayback().Item.Album.Images[0].Url;
+			if (_webAPI.GetPlayback().Item != null) link = _webAPI.GetPlayback().Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
-			Debug.WriteLine("asd " + WebAPI.GetPlayback().IsPlaying);
-			//if(_track.Duration == 0)
-			//{
-				_track = new SpotifyAudioTrack(WebAPI.GetPlayback().Item.DurationMs/1000
-				, WebAPI.GetPlayback().Item.Name, WebAPI.GetPlayback().Item.Artists[0].Name,
-				(int)WebAPI.GetAudioFeatures(WebAPI.GetPlayback().Item.Id).Tempo,
-				WebAPI.GetPlayback().Item.Id,imageBytes);
-			//}
-			if (WebAPI.GetPlayback().IsPlaying)
+			Debug.WriteLine("asd " + _webAPI.GetPlayback().IsPlaying);
+			if (_track.Duration == 0)
+			{
+				_track = new SpotifyAudioTrack(_webAPI.GetPlayback().Item.DurationMs / 1000
+				, _webAPI.GetPlayback().Item.Name, _webAPI.GetPlayback().Item.Artists[0].Name,
+				(int)_webAPI.GetAudioFeatures(_webAPI.GetPlayback().Item.Id).Tempo,
+				_webAPI.GetPlayback().Item.Id, imageBytes);
+			}
+			if (_webAPI.GetPlayback().IsPlaying)
 			{
 				_timer.Stop();
-				WebAPI.PausePlayback();
+				_webAPI.PausePlayback();
 			}
 			else
 			{
 				_timer.Start();
-				WebAPI.ResumePlayback("", "", null, "", 0);
+				_webAPI.ResumePlayback("", "", null, "", 0);
 			}
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
-			if (WebAPI.GetPlayback() == null)
+			if (_webAPI.GetPlayback() == null)
 			{
 				return;
 			}
@@ -79,15 +79,14 @@ namespace Karl.Model
 			List<String> list = new List<string>();
 			CurrentTrack = track;
 			list.Add("spotify:track:"+track.TextId);
-			if(WebAPI.ResumePlayback("", "", list, "", 0).HasError())
-			Debug.WriteLine(WebAPI.ResumePlayback("", "", list, "", 0).Error.Message);
+			if(_webAPI.ResumePlayback("", "", list, "", 0).HasError())
+			Debug.WriteLine(_webAPI.ResumePlayback("", "", list, "", 0).Error.Message);
 			Debug.WriteLine("bds Play "+track.Title);
 		}
 
 		private void Tick(object sender, EventArgs e)
 		{
-			if (WebAPI.GetPlayback() == null) return;
-			CurrentSongPos = WebAPI.GetPlayback().ProgressMs/1000;
+			CurrentSongPos = _webAPI.GetPlayback().ProgressMs/1000;
 		}
 
 	}

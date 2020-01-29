@@ -78,23 +78,7 @@ namespace Karl.Model
 			PrivateProfile profile = await api.GetPrivateProfileAsync();
 			if (!profile.HasError())
 			{
-				Console.WriteLine(profile.DisplayName);
 				UsersProfile = profile;
-				List <SimplePlaylist> playlists = api.GetUserPlaylists(profile.Id).Items;
-				foreach (var playlist in playlists) {
-					Debug.WriteLine(playlist.Name.ToString() + " ");
-					PlaylistTrack[] ab = api.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
-					foreach(var track in ab) {
-						Debug.WriteLine(track.Track.Name.ToString());
-					}
-				}
-				List <Device> devices = api.GetDevices().Devices;
-				Device nowdevice = new Device();
-				Debug.WriteLine(devices.Count);
-				foreach (var device in devices) {
-					Debug.WriteLine(device.Name+ " "+ device.IsActive);
-					nowdevice = device;
-				}
 				isauthed.Invoke(sender, args);
 			}
 		
