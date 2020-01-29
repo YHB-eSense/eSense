@@ -148,6 +148,7 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_audioLib.AudioLibChanged += RefreshAudioLib;
 			TitleSort();
 		}
 
@@ -177,6 +178,22 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
+			switch (type)
+			{
+				case _sortType.TITLESORT: TitleSort(); break;
+				case _sortType.ARTISTSORT: ArtistSort(); break;
+				case _sortType.BPMSORT: BPMSort(); break;
+			}
+		}
+
+		private void RefreshAudioLib(object sender, EventArgs args)
+		{
+			switch (type)
+			{
+				case _sortType.TITLESORT: TitleSort(); break;
+				case _sortType.ARTISTSORT: ArtistSort(); break;
+				case _sortType.BPMSORT: BPMSort(); break;
+			}
 		}
 
 		private void TitleSort()

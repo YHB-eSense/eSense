@@ -14,6 +14,9 @@ namespace Karl.Model
 		private IAudioLibImpl _audioLibImp;
 		private static AudioLib _singletonAudioLib;
 
+		public delegate void AudioLibEventHandler(object source, EventArgs e);
+		public event AudioLibEventHandler AudioLibChanged;
+
 		public static AudioLib SingletonAudioLib
 		{
 			get
@@ -68,6 +71,7 @@ namespace Karl.Model
 		public void AddTrack(string storage, string title, string artist, int bpm)
 		{
 			_audioLibImp.AddTrack(storage, title, artist, bpm);
+			AudioLibChanged?.Invoke(this, null);
 		}
 
 		public void DeleteTrack(AudioTrack track)
