@@ -3,7 +3,7 @@ using EarableLibrary;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using StepDetectionLibrary;
-using System.Collections.Generic;
+using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
 {
@@ -78,7 +78,8 @@ namespace Karl.Model
 			var button = _connectedEarable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
 			{
-				Debug.WriteLine("Button pushed: {0}", args.Pressed);
+				bool released = !args.Pressed;
+				if (released) SingletonAudioPlayer.TogglePause();
 			};
 			await button.StartSamplingAsync();
 

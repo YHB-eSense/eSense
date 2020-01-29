@@ -10,11 +10,10 @@ namespace Karl.Model
 	/// <summary>
 	/// The Autostop Mode.
 	/// </summary>
-	public class AutostopMode : IMode, IObserver<Output>
+	public class AutostopMode : Mode, IObserver<Output>
 	{
 		private IDisposable StepDetectionDisposable;
 		private bool _autostopped;
-		private bool _activated;
 		public bool Autostopped
 		{
 			get => _autostopped;
@@ -34,33 +33,23 @@ namespace Karl.Model
 			}
 		}
 
-		public bool Activated
-		{
-			get => _activated;
-			set
-			{
-				if (_activated) Deactivate();
-				else Activate();
-			}
-		}
-
-		public void Activate()
+		protected override bool Activate()
 		{
 			Debug.WriteLine("Activating mode '{0}'", args: Name);
 			_autostopped = false;
 			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
-			_activated = true;
+			return true;
 		}
 
-		public void Deactivate()
+		protected override bool Deactivate()
 		{
 			Debug.WriteLine("Deactivating mode '{0}'", args: Name);
 			_autostopped = false;
 			StepDetectionDisposable.Dispose();
-			_activated = false;
+			return true;
 		}
 
-		public string Name
+		public override string Name
 		{
 			get => SingletonLangManager.CurrentLang.Get("autostop_mode");
 		}

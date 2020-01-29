@@ -22,7 +22,7 @@ namespace Karl.ViewModel
 		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
-		public List<IMode> Modes { get => _modeHandler.Modes; }
+		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
 		{
 			get
