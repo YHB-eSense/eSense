@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StepDetectionLibrary
 {
@@ -17,7 +15,7 @@ namespace StepDetectionLibrary
 		/// Amount of chunks to be used for frequency calculation.
 		/// Larger values result in better precision but also in longer latency.
 		/// </summary>
-		public uint FrequencyResolution => 25; // TODO: make this configurable
+		public uint FrequencyResolution => 25 * 5; // TODO: make this configurable
 
 		public StepDetectionAlg()
 		{

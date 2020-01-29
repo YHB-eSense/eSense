@@ -44,7 +44,7 @@
 												TextColor="Black"
 												HorizontalOptions="Start"
 												VerticalOptions="Center"/>
-											<Switch IsToggled="{Binding Activated}" 
+											<Switch IsToggled="{Binding Active}" 
 													HorizontalOptions="EndAndExpand"
 													VerticalOptions="Center"
 													ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"

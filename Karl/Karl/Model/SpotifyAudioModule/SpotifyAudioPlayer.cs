@@ -33,7 +33,7 @@ namespace Karl.Model
 			set
 			{
 				_currentSongPosition = value;
-				_webAPI.SeekPlayback((int)_currentSongPosition);
+				_webAPI.SeekPlayback((int)_currentSongPosition*1000);
 			}
 		}
 		public Stack<AudioTrack> PlayedSongs { get; set; }
@@ -74,7 +74,7 @@ namespace Karl.Model
 			else
 			{
 				_timer.Start();
-				_webAPI.ResumePlayback("", "", null, "", 0);
+				_webAPI.ResumePlayback("", "", null, "",(int)_currentSongPosition*1000);
 			}
 		}
 

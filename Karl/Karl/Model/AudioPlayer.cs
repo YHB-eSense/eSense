@@ -123,7 +123,7 @@ namespace Karl.Model
 		/// </summary>
 		public void NextTrack()
 		{
-			if (_songsAfter.Count != 0)
+			if (_songsAfter.Count != 0 || SongsQueue.Count != 0)
 			{
 				Paused = false;
 				SongsBefore.Push(CurrentTrack);
