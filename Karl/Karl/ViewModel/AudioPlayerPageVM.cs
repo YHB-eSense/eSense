@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.Model;
 using System.Timers;
+using System.Diagnostics;
 
 namespace Karl.ViewModel
 {

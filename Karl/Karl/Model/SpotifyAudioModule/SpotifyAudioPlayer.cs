@@ -13,6 +13,7 @@ namespace Karl.Model
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
 		private Timer _timer;
+		private double _currentSongPosition;
 		private AudioTrack _track;
 		private SpotifyWebAPI _webAPI { get; set; }
 
@@ -26,18 +27,27 @@ namespace Karl.Model
 			_webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 			Paused = true;
 		}
-		public double CurrentSongPos { get; set; }
+		public double CurrentSongPos
+		{
+			get => _currentSongPosition;
+			set
+			{
+				_currentSongPosition = value;
+				_webAPI.SeekPlayback((int)_currentSongPosition);
+			}
+		}
 		public Stack<AudioTrack> PlayedSongs { get; set; }
 
 		public AudioTrack CurrentTrack { get => _track; set => _track = value; }
 
 		public Queue<AudioTrack> Queue { get; set; }
-		public bool Paused { get; set;  }
+		public bool Paused { get; set; }
 		public double Volume { get => 0; set => _ = 0; }
 
 		public void TogglePause()
 		{
-			if (_webAPI.GetPlayback() == null) {
+			if (_webAPI.GetPlayback() == null)
+			{
 				return;
 			}
 			if (Paused != _webAPI.GetPlayback().IsPlaying)
@@ -77,13 +87,13 @@ namespace Karl.Model
 			_timer.Start();
 			List<String> currentTrackList = new List<string>();
 			CurrentTrack = track;
-			currentTrackList.Add("spotify:track:"+track.TextId);
-			_webAPI.ResumePlayback("","",currentTrackList,"",0);
+			currentTrackList.Add("spotify:track:" + track.TextId);
+			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
 		}
 
 		private void Tick(object sender, EventArgs e)
 		{
-			CurrentSongPos = _webAPI.GetPlayback().ProgressMs/1000;
+			_currentSongPosition = _webAPI.GetPlayback().ProgressMs / 1000;
 		}
 
 	}
