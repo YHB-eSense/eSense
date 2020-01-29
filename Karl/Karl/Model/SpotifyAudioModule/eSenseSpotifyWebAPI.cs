@@ -1,8 +1,6 @@
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
@@ -10,6 +8,10 @@ using Xamarin.Forms;
 
 namespace Karl.Model
 {
+
+	/// <summary>
+	/// Class to get Connection to Spotify Web API
+	/// </summary>
 	public class eSenseSpotifyWebAPI
 	{
 		private static eSenseSpotifyWebAPI _instance;

@@ -18,10 +18,7 @@ namespace Karl.Model
 		public delegate void EventListener();
 
 		public event EventListener NextSongEvent;
-		private void InvokeNextSongEvent()
-		{
-			NextSongEvent?.Invoke();
-		}
+		
 
 		//Eventhandling
 		public delegate void AudioEventHandler(object source, EventArgs e);
@@ -58,6 +55,7 @@ namespace Karl.Model
 			set => _audioPlayerImp.Paused = value;
 		}
 
+
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
 		/// </summary>
@@ -69,7 +67,6 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
-
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
@@ -86,7 +83,7 @@ namespace Karl.Model
 
 		public void changeToSpotifyPlayer()
 		{
-			resetQueuedandPlayedTracks();
+			Clear();
 			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
 			_audioPlayerImp = new SpotifyAudioPlayer();
 			
@@ -94,7 +91,7 @@ namespace Karl.Model
 
 		public void changeToBasicPlayer()
 		{
-			resetQueuedandPlayedTracks();
+			Clear();
 			_audioPlayerImp = new BasicAudioPlayer();
 		}
 
@@ -174,11 +171,12 @@ namespace Karl.Model
 		}
 		*/
 
-		private void resetQueuedandPlayedTracks() {
-			SongsQueue = new Queue<AudioTrack>();
-			SongsBefore = new Stack<AudioTrack>();
-			_songsAfter = new Stack<AudioTrack>();
+		private void InvokeNextSongEvent()
+		{
+			NextSongEvent?.Invoke();
 		}
+
+		
 	}
 
 	interface IAudioPlayerImpl

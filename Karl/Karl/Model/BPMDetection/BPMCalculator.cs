@@ -12,9 +12,9 @@ namespace Karl.Model
 		private int _chunkSize;
 		private long _sampleCount;
 		private long _sampleCountFraction;
-		BpmDetect _detector;
-		int _bpmMax;
-		int _bpmMin;
+		private BpmDetect _detector;
+		private int _bpmMax;
+		private int _bpmMin;
 
 		public BPMCalculator(string file)
 		{
@@ -51,21 +51,6 @@ namespace Karl.Model
 				return (int)bpm;
 			}
 			return 0;
-			/*
-			using (WaveFileReader reader = new WaveFileReader(file))
-			{
-				long sampleCount = reader.SampleCount;
-				BpmDetect detector = new BpmDetect(1, 22050);
-				for (int i = 0; i < sampleCount; i++)
-				{
-					var sampleFrame = reader.ReadNextSampleFrame();
-					if (sampleFrame == null) { break; }
-					detector.InputSamples(sampleFrame, 2);
-					System.Diagnostics.Debug.WriteLine( i / sampleCount + "%" );
-				}
-				return (int)detector.GetBpm();
-			}
-			*/
 		}
 	}
 }

@@ -13,14 +13,15 @@ namespace Karl.Model
 	/// </summary>
 	public class MotivationMode : Mode, IObserver<Output>
 	{
+
+		private uint _currentBPM;
+
+		private IDisposable _stepDetectionDisposable;
+
 		/// <summary>
 		/// If current step rate and current song BPM difer by more than this threshold, a new song will prematurely be chosen.
 		/// </summary>
 		public double MaxAllowedBPMDiff = 15;
-
-		private uint CurrentBPM;
-
-		private IDisposable StepDetectionDisposable;
 
 		public override string Name
 		{
@@ -32,7 +33,7 @@ namespace Karl.Model
 			Debug.WriteLine("Activating mode '{0}'", args: Name);
 			SingletonAudioPlayer.Clear();
 			SingletonAudioPlayer.NextSongEvent += ChooseNextSong;
-			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
+			_stepDetectionDisposable = SingletonOutputManager.Subscribe(this);
 			if (SingletonAudioPlayer.Paused)
 			{
 				ChooseNextSong();
@@ -43,25 +44,24 @@ namespace Karl.Model
 
 		protected override bool Deactivate()
 		{
-			Debug.WriteLine("Deactivating mode '{0}'", args: Name);
 			SingletonAudioPlayer.NextSongEvent -= ChooseNextSong;
-			if (StepDetectionDisposable != null)
+			if (_stepDetectionDisposable != null)
 			{
-				StepDetectionDisposable.Dispose();
-				StepDetectionDisposable = null;
+				_stepDetectionDisposable.Dispose();
+				_stepDetectionDisposable = null;
 			}
 			return true;
 		}
 
 		public void OnNext(Output value)
 		{
-			CurrentBPM = (uint)(value.Frequency * 60);
+			_currentBPM = (uint)(value.Frequency * 60);
 
 			if (SingletonAudioPlayer.CurrentTrack == null)
 			{
 				ChooseNextSong();
 			}
-			else if (Math.Abs(SingletonAudioPlayer.CurrentTrack.BPM - CurrentBPM) > MaxAllowedBPMDiff)
+			else if (Math.Abs(SingletonAudioPlayer.CurrentTrack.BPM - _currentBPM) > MaxAllowedBPMDiff)
 			{
 				ChooseNextSong();
 			}
@@ -77,7 +77,7 @@ namespace Karl.Model
 				// if (SingletonAudioPlayer.SongsQueue.Contains(Track)) continue;
 				// if (SingletonAudioPlayer.SongsBefore.Contains(Track)) continue;
 
-				double ThisDiff = Math.Abs(Track.BPM - CurrentBPM);
+				double ThisDiff = Math.Abs(Track.BPM - _currentBPM);
 
 				if (ThisDiff <= MinDiff)
 				{
@@ -87,7 +87,6 @@ namespace Karl.Model
 			}
 			if (BestTrack != null)
 			{
-				Debug.WriteLine("... found one: {0} ({1} BPM-diff)", BestTrack.Title, MinDiff);
 				SingletonAudioPlayer.SongsQueue.Enqueue(BestTrack);
 				SingletonAudioPlayer.NextTrack();
 				if (SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();

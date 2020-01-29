@@ -2,10 +2,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using static Karl.Model.AudioLib;
 
@@ -74,7 +71,7 @@ namespace Karl.Model
 		}
 
 
-<<<<<<< HEAD
+
 		public void AddTrack(String storage, String title, double duration)
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
@@ -90,10 +87,7 @@ namespace Karl.Model
 			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
-		public void AddTrack(string storage, string title, string artist, int bpm)
-=======
 		public async Task AddTrack(string storage, string title, string artist, int bpm)
->>>>>>> 9bca1560544b0bf360853cbbb3ca7696feee0d35
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
