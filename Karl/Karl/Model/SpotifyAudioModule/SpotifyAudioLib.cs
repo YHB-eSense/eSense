@@ -11,18 +11,17 @@ namespace Karl.Model
 {
 	sealed class SpotifyAudioLib : IAudioLibImpl
 	{
+
+		private bool _initDone;
 		private SpotifyWebAPI WebAPI;
 		private SimplePlaylist _playlist;
 		public PrivateProfile Profile { get; set; }
-		private bool _initDone;
-		/// <summary>
-		/// This is the tag of the Spotify Playlist this Lib is based on.
-		/// </summary>
-		private String PlaylistTag;
 
+		//List of all AudioTracks in chosen Playlist
 		public List <AudioTrack> AllAudioTracks { get; set; }
-
+		//List of the Users Playlists
 		public SimplePlaylist[] AllPlaylists { get; set; }
+		//Playlist which is shown in the Lib
 		public SimplePlaylist SelectedPlaylist
 		{
 			get => _playlist;
@@ -32,7 +31,9 @@ namespace Karl.Model
 			}
 		}
 
-
+		/// <summary>
+		/// Loads all available Playlists and sets selected Playlist to the first Playlist
+		/// </summary>
 		public async void Init()
 		{
 			lock (this)
@@ -48,6 +49,10 @@ namespace Karl.Model
 			}
 		}
 
+		/// <summary>
+		/// Changes the Selected (used) Playlist to the param playlist
+		/// </summary>
+		/// <param name="playlist">New Selected Playlist</param>
 		private void ChangePlaylist(SimplePlaylist playlist)
 		{
 			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
@@ -60,38 +65,33 @@ namespace Karl.Model
 				AllAudioTracks.Add(new SpotifyAudioTrack(track.Track.DurationMs / 1000, track.Track.Name,
 					track.Track.Artists[0].Name, (int)WebAPI.
 					GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, imageBytes));
-				Debug.WriteLine(track.Track.Name);
 			}
 		}
 
-		public SpotifyAudioLib()
-		{
-
-		}
 
 		public void AddTrack(String storage, String title, double duration)
 		{
-			Debug.WriteLine("asd Add Track");
+			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
 		public void AddTrack(string storage)
 		{
-			Debug.WriteLine("asd Add Track");
+			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
 		public void AddTrack(string storage, string title)
 		{
-			Debug.WriteLine("asd Add Track");
+			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
 		public void AddTrack(string storage, string title, string artist, int bpm)
 		{
-			Debug.WriteLine("asd Add Track");
+			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
 		public void DeleteTrack(AudioTrack track)
 		{
-			Debug.WriteLine("asd Add Track");
+			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 	}
 

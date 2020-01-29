@@ -17,12 +17,10 @@ namespace Karl.Model
 		private ColorManager _colorManager;
 		private static SettingsHandler _singletonSettingsHandler;
 		private static readonly Object _padlock = new Object();
-		private AudioModule _currentAudioModule;
 		private int _steps;
 		private int _frequency;
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
-		internal IDictionary<string, AudioModule> AvailableAudioModules;
 		private int _stepslastmin;
 
 		private Timer timer;
@@ -67,8 +65,6 @@ namespace Karl.Model
 			}
 		}
 
-		//Delegates for EventHandling
-		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		//Eventhandling
 		public delegate void LangEventHandler(object source, EventArgs e);
@@ -157,20 +153,6 @@ namespace Karl.Model
 			}
 		}
 
-		/*
-		internal AudioModule CurrentAudioModule
-		{
-			get => _currentAudioModule;
-			private set
-			{
-				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
-				_properties.Add("audioModule", value.Tag);
-				_currentAudioModule = value;
-				AudioModuleChanged?.Invoke(value);
-			}
-		}
-		*/
-
 		public CustomColor CurrentColor
 		{
 			get => _colorManager.CurrentColor;
@@ -239,18 +221,11 @@ namespace Karl.Model
 			_langManager = LangManager.SingletonLangManager;
 			_colorManager = ColorManager.SingletonColorManager;
 			_properties = Application.Current.Properties;
-			AvailableAudioModules = new Dictionary<string, AudioModule>();
 			_stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
-			//Init AudioModules
-			AvailableAudioModules.Add("basicAudioModule",
-				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-
-			AvailableAudioModules.Add("spotifyAudioModule",
-				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));
-
+			
 			//Load Color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
@@ -276,44 +251,7 @@ namespace Karl.Model
 			{
 				_properties.Add("color", Colors[0].Color.ToHex());
 				CurrentColor = Colors[0];
-			}
-
-			/*
-			//Init AudioModules
-			if (!AvailableAudioModules.ContainsKey("basicAudioModule"))
-			{
-				AvailableAudioModules.Add("basicAudioModule",
-				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-			}
-			*/
-
-			//Load AudioModule
-			if (_properties.TryGetValue("audioModule", out val))
-			{
-				AudioModule audioModule;
-				if (AvailableAudioModules.TryGetValue(val.ToString(), out audioModule))
-				{
-					_currentAudioModule = audioModule;
-					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: " + val.ToString());
-				}
-				else
-				{
-					AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
-					_currentAudioModule = audioModule;
-					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
-					_properties.Remove("audioModule");
-					_properties.Add("audioModule", "basicAudioModule");
-				}
-			}
-			else
-			{
-				AudioModule audioModule;
-				AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
-				_currentAudioModule = audioModule;
-				System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
-				_properties.Add("audioModule", "basicAudioModule");
-			}
-
+			}	
 			//Load Chosen Language
 			if (_properties.TryGetValue("lang", out val))
 			{
@@ -380,20 +318,6 @@ namespace Karl.Model
 			}
 		}
 
-		internal struct AudioModule
-		{
-			internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
-			{
-				Tag = tag;
-				AudioLib = audioLib;
-				AudioPlayer = audioPlayer;
-				AudioTrack = audioTrack;
-			}
-			public string Tag;
-			public IAudioLibImpl AudioLib;
-			public IAudioPlayerImpl AudioPlayer;
-			public Type AudioTrack;
-		}
-
+		
 	}
 }

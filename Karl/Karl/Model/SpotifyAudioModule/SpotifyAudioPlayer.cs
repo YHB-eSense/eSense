@@ -46,6 +46,7 @@ namespace Karl.Model
 
 		public void TogglePause()
 		{
+			//Checks if users has started the playback(otherwise TogglePause isn't working)
 			if (_webAPI.GetPlayback() == null)
 			{
 				return;
@@ -54,11 +55,15 @@ namespace Karl.Model
 			{
 				Paused = !Paused;
 			}
+
+			//Load Cover of playing Song
 			var webClient = new WebClient();
 			string link;
 			if (_webAPI.GetPlayback().Item != null) link = _webAPI.GetPlayback().Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
+
+			//Reload Cover once
 			if (_track.Duration == 0)
 			{
 				_track = new SpotifyAudioTrack(_webAPI.GetPlayback().Item.DurationMs / 1000
@@ -66,11 +71,15 @@ namespace Karl.Model
 				(int)_webAPI.GetAudioFeatures(_webAPI.GetPlayback().Item.Id).Tempo,
 				_webAPI.GetPlayback().Item.Id, imageBytes);
 			}
+
+			//Pause Track 
 			if (_webAPI.GetPlayback().IsPlaying)
 			{
 				_timer.Stop();
 				_webAPI.PausePlayback();
 			}
+
+			//Play Track
 			else
 			{
 				_timer.Start();
@@ -80,6 +89,7 @@ namespace Karl.Model
 
 		public void PlayTrack(AudioTrack track)
 		{
+			//Checks if users has started the playback(otherwise TogglePause isn't working)
 			if (_webAPI.GetPlayback() == null)
 			{
 				return;
