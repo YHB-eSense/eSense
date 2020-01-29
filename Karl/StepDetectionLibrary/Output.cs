@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StepDetectionLibrary
 {
@@ -66,6 +65,14 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
+		/// Singleton -> Don't call.
+		/// </summary>
+		private OutputManager()
+		{
+			_observers = new List<IObserver<Output>>();
+		}
+
+		/// <summary>
 		/// method if provider finished sending data
 		/// </summary>
 		public void OnCompleted()
@@ -103,12 +110,18 @@ namespace StepDetectionLibrary
 			return new Unsubscriber(_observers, observer);
 
 		}
+
+
 		/// <summary>
-		/// Singleton -> Don't call.
+		/// method to update _observer with new data
 		/// </summary>
-		private OutputManager()
+		/// <param name="output">new stepfreq and count data</param>
+		public void Update(Output output)
 		{
-			_observers = new List<IObserver<Output>>();
+			foreach (var observer in _observers)
+			{
+				observer.OnNext(output);
+			}
 		}
 
 		/// <summary>
@@ -129,18 +142,6 @@ namespace StepDetectionLibrary
 			{
 				if (_observer != null && _observers.Contains(_observer))
 					_observers.Remove(_observer);
-			}
-		}
-
-		/// <summary>
-		/// method to update _observer with new data
-		/// </summary>
-		/// <param name="output">new stepfreq and count data</param>
-		public void Update(Output output)
-		{
-			foreach (var observer in _observers)
-			{
-				observer.OnNext(output);
 			}
 		}
 	}
