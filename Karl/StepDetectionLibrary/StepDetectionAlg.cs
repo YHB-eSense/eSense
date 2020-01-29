@@ -17,7 +17,7 @@ namespace StepDetectionLibrary
 		/// Amount of chunks to be used for frequency calculation.
 		/// Larger values result in better precision but also in longer latency.
 		/// </summary>
-		public uint FrequencyResolution => 5; // TODO: make this configurable
+		public uint FrequencyResolution => 25; // TODO: make this configurable
 
 		public StepDetectionAlg()
 		{
@@ -99,6 +99,8 @@ namespace StepDetectionLibrary
 			}
 		}
 
+		private bool threshhold_passed = false;
+
 		/// <summary>
 		/// method with algorithm to detect steps from acceleration and GyroData
 		/// </summary>
@@ -110,7 +112,6 @@ namespace StepDetectionLibrary
 			const double AVGMAG = 10; // TODO: value needs to be tested, should be configurable
 			const double THRESHHOLD = 6500; // TODO: value needs to be tested, should be configurable
 			int stepcount = 0;
-			bool threshhold_passed = false;
 
 			double[] netmag = new double[length];
 			for (int i = 0; i < length; i++)

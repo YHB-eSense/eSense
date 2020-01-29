@@ -32,9 +32,6 @@ namespace Karl.ViewModel
 			}
 		}
 
-		//Commands binded to ModesPage of View
-		public ICommand ActivateModeCommand { get; }
-
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ModeHandler of Model
 		/// </summary>
@@ -43,7 +40,6 @@ namespace Karl.ViewModel
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			ActivateModeCommand = new Command<IMode>(ActivateMode);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.ChartChanged += RefreshChart;
@@ -71,11 +67,6 @@ namespace Karl.ViewModel
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-		}
-
-		private void ActivateMode(IMode mode)
-		{
-			mode.Activate();
 		}
 
 	}

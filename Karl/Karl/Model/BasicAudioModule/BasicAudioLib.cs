@@ -12,14 +12,14 @@ namespace Karl.Model
 	{
 		private BasicAudioTrackDatabase _database;
 
-		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+		public List<AudioTrack> AllAudioTracks { get; set; }
 		public SimplePlaylist[] AllPlaylists { get => null; set => throw new NotImplementedException(); }
 		public SimplePlaylist SelectedPlaylist { get => null; set => throw new NotImplementedException(); }
 
 		public BasicAudioLib()
 		{
 			_database = BasicAudioTrackDatabase.SingletonDatabase;
-			AllAudioTracks = new ObservableCollection<AudioTrack>();
+			AllAudioTracks = new List<AudioTrack>();
 			GetTracks();
 			//testing
 			//AllAudioTracks = new ObservableCollection<AudioTrack>();

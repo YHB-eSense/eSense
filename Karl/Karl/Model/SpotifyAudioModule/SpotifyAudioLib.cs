@@ -20,7 +20,7 @@ namespace Karl.Model
 		/// </summary>
 		private String PlaylistTag;
 
-		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+		public List <AudioTrack> AllAudioTracks { get; set; }
 
 		public SimplePlaylist[] AllPlaylists { get; set; }
 		public SimplePlaylist SelectedPlaylist
@@ -49,7 +49,7 @@ namespace Karl.Model
 		private void ChangePlaylist(SimplePlaylist playlist)
 		{
 			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
-			AllAudioTracks = new ObservableCollection<AudioTrack>();
+			AllAudioTracks = new List<AudioTrack>();
 			foreach (var track in tracks)
 			{
 				var webClient = new WebClient();

@@ -93,7 +93,7 @@ namespace StepDetectionLibrary
 		/// <summary>
 		/// Amount of samples in one batch.
 		/// </summary>
-		public int DataLength { get => 25; } // TODO: make this configurable
+		public int DataLength { get => 1; } // TODO: make this configurable
 
 		public int SamplingRate { get => 25; } // TODO: make this configurable
 
@@ -156,6 +156,7 @@ namespace StepDetectionLibrary
 			int lost = args.SampleId - lastId - 1;
 			if (lost < 0) lost += 256;
 			int lastValid = _counter;
+			// if (lost > 0) Debug.WriteLine("Lost {0} samples!", args: lost)
 			while (lost > 0)
 			{
 				// TODO: Interpolate from known values
@@ -186,11 +187,6 @@ namespace StepDetectionLibrary
 				Update(_chunk);
 				_counter = 0;
 			}
-		}
-
-		private void AddFrame()
-		{
-
 		}
 	}
 }

@@ -25,6 +25,11 @@ namespace Karl.Model
 		{
 			get => SingletonLangManager.CurrentLang.Get("motivation_mode");
 		}
+		public bool Activated
+		{
+			get => false;
+			set { return; }
+		}
 
 		public void Activate()
 		{

@@ -44,16 +44,11 @@
 												TextColor="Black"
 												HorizontalOptions="Start"
 												VerticalOptions="Center"/>
-											<Switch IsToggled="false" 
+											<Switch IsToggled="{Binding Activated}" 
 													HorizontalOptions="EndAndExpand"
 													VerticalOptions="Center"
 													ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
 													OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
-												<Switch.Behaviors>
-													<b:EventToCommandBehavior EventName="Toggled"
-														Command="{Binding ActivateModeCommand}"
-														CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}" />
-												</Switch.Behaviors>
 											</Switch>
 										</StackLayout>
 									</Frame>

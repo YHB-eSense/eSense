@@ -56,7 +56,7 @@ namespace Karl.Model
 		/// The List of all AudioTracks in the Current Library
 		/// </summary>
 		/// <returns></returns>
-		public ObservableCollection<AudioTrack> AudioTracks
+		public List<AudioTrack> AudioTracks
 		{
 			get { return _audioLibImp.AllAudioTracks; }
 			set { _audioLibImp.AllAudioTracks = value; }
@@ -97,7 +97,7 @@ namespace Karl.Model
 
 	internal interface IAudioLibImpl
 	{
-		ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+		List<AudioTrack> AllAudioTracks { get; set; }
 	    SimplePlaylist[] AllPlaylists { get; }
 		SimplePlaylist SelectedPlaylist { get; set; }
 		void AddTrack(string storage, string title, string artist, int bpm);

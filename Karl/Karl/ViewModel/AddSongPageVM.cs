@@ -3,6 +3,7 @@ using Plugin.FilePicker;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
@@ -120,9 +121,10 @@ namespace Karl.ViewModel
 			var pick = await CrossFilePicker.Current.PickFile();
 			if (pick != null)
 			{
-				_picked = true;
 				_newSongFileLocation = pick.FilePath;
+				Debug.WriteLine("Audio file picked: {0}", args: _newSongFileLocation);
 				_file = TagLib.File.Create(_newSongFileLocation);
+				_picked = true;
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
 				NewSongBPM = GetBPM();

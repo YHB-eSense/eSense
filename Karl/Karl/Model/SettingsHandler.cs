@@ -208,15 +208,15 @@ namespace Karl.Model
 		{
 			AudioPlayer.SingletonAudioPlayer.changeToSpotifyPlayer();
 			AudioLib.SingletonAudioLib.changeToSpotifyLib();
-			UsingBasicAudio = true;
-			UsingSpotifyAudio = false;
+			UsingBasicAudio = false;
+			UsingSpotifyAudio = true;
 		}
 
 		public void changeAudioModuleToBasic() {
 			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
 			AudioLib.SingletonAudioLib.changeToBasicLib();
-			UsingBasicAudio = false;
-			UsingSpotifyAudio = true;
+			UsingBasicAudio = true;
+			UsingSpotifyAudio = false;
 
 		}
 
@@ -333,7 +333,7 @@ namespace Karl.Model
 				{
 					_steps = int.Parse(Value);
 				}
-				catch (FormatException e)
+				catch (FormatException)
 				{
 					_steps = 0;
 					_properties.Remove("steps");

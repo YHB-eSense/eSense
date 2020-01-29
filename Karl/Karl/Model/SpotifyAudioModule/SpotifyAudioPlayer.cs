@@ -49,7 +49,6 @@ namespace Karl.Model
 			if (_webAPI.GetPlayback().Item != null) link = _webAPI.GetPlayback().Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
-			Debug.WriteLine("asd " + _webAPI.GetPlayback().IsPlaying);
 			if (_track.Duration == 0)
 			{
 				_track = new SpotifyAudioTrack(_webAPI.GetPlayback().Item.DurationMs / 1000
@@ -76,12 +75,10 @@ namespace Karl.Model
 				return;
 			}
 			_timer.Start();
-			List<String> list = new List<string>();
+			List<String> currentTrackList = new List<string>();
 			CurrentTrack = track;
-			list.Add("spotify:track:"+track.TextId);
-			if(_webAPI.ResumePlayback("", "", list, "", 0).HasError())
-			Debug.WriteLine(_webAPI.ResumePlayback("", "", list, "", 0).Error.Message);
-			Debug.WriteLine("bds Play "+track.Title);
+			currentTrackList.Add("spotify:track:"+track.TextId);
+			_webAPI.ResumePlayback("","",currentTrackList,"",0);
 		}
 
 		private void Tick(object sender, EventArgs e)
