@@ -87,12 +87,13 @@ namespace Karl.Model
 		public void changeToSpotifyPlayer()
 		{
 			_audioPlayerImp = new SpotifyAudioPlayer();
+			resetQueuedandPlayedTracks();
 		}
 
 		public void changeToBasicPlayer()
 		{
 			_audioPlayerImp = new BasicAudioPlayer();
-			
+			resetQueuedandPlayedTracks();
 		}
 
 		/// <summary>
@@ -167,6 +168,12 @@ namespace Karl.Model
 		{
 			_audioPlayerImp = audioModule.AudioPlayer;
 			//TODO
+		}
+
+		private void resetQueuedandPlayedTracks() {
+			SongsQueue = new Queue<AudioTrack>();
+			SongsBefore = new Stack<AudioTrack>();
+			_songsAfter = new Stack<AudioTrack>();
 		}
 	}
 
