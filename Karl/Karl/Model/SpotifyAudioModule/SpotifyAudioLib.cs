@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -13,6 +15,9 @@ namespace Karl.Model
 	{
 		private SpotifyWebAPI WebAPI;
 		private SimplePlaylist _playlist;
+
+		public event AudioLibEventHandler AudioLibChanged;
+
 		public PrivateProfile Profile { get; set; }
 		private bool _initDone;
 		/// <summary>
@@ -69,22 +74,7 @@ namespace Karl.Model
 
 		}
 
-		public void AddTrack(String storage, String title, double duration)
-		{
-			Debug.WriteLine("asd Add Track");
-		}
-
-		public void AddTrack(string storage)
-		{
-			Debug.WriteLine("asd Add Track");
-		}
-
-		public void AddTrack(string storage, string title)
-		{
-			Debug.WriteLine("asd Add Track");
-		}
-
-		public void AddTrack(string storage, string title, string artist, int bpm)
+		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
 			Debug.WriteLine("asd Add Track");
 		}
