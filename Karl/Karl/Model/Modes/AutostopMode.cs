@@ -45,7 +45,11 @@ namespace Karl.Model
 		{
 			Debug.WriteLine("Deactivating mode '{0}'", args: Name);
 			_autostopped = false;
-			StepDetectionDisposable.Dispose();
+			if (StepDetectionDisposable != null)
+			{
+				StepDetectionDisposable.Dispose();
+				StepDetectionDisposable = null;
+			}
 			return true;
 		}
 
