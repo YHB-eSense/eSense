@@ -41,7 +41,8 @@
 			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{local:ImageResource Karl.Resources.Images.help.png}"
 					BackgroundColor="Transparent"
-					Command="{Binding HelpCommand}"/>
+					Command="{Binding HelpCommand}"
+					Aspect="AspectFit"/>
 			</Frame>
 
 			<!--Second Row-->
@@ -55,15 +56,20 @@
 
 			<!--Third Row-->
 			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
-				<Image Source="{local:ImageResource Karl.Resources.Images.modes.png}" IsVisible="{Binding HelpVisible}"/>
+				<Image Source="{local:ImageResource Karl.Resources.Images.modes.png}"
+				IsVisible="{Binding HelpVisible}"
+				Aspect="AspectFit"/>
 			</Frame>
 			<Frame Grid.Row="2" Grid.Column="2" CornerRadius="0" HasShadow="False">
 				<ImageButton Source="{Binding Icon}"
 					BackgroundColor="Transparent"
-					Command="{Binding TryConnectCommand}"/>
+					Command="{Binding TryConnectCommand}"
+					Aspect="AspectFit"/>
 			</Frame>
 			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
-				<Image Source="{local:ImageResource Karl.Resources.Images.audio_lib.png}" IsVisible="{Binding HelpVisible}"/>
+				<Image Source="{local:ImageResource Karl.Resources.Images.audio_lib.png}"
+					IsVisible="{Binding HelpVisible}"
+					Aspect="AspectFit"/>
 			</Frame>
 
 			<!--Fourth Row-->
@@ -79,7 +85,9 @@
 			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 			<Frame Grid.Row="4" Grid.Column="2" CornerRadius="0" HasShadow="False">
-				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}" IsVisible="{Binding HelpVisible}"/>
+				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}"
+					IsVisible="{Binding HelpVisible}"
+					Aspect="AspectFit"/>
 			</Frame>
 			<Frame Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>

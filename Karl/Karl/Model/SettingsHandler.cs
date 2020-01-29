@@ -12,23 +12,37 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
+		private static SettingsHandler _singletonSettingsHandler;
+		private static readonly Object _padlock = new Object();
+
 		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
 		private ColorManager _colorManager;
+<<<<<<< HEAD
 		private static SettingsHandler _singletonSettingsHandler;
 		private static readonly Object _padlock = new Object();
 		private int _steps;
 		private int _frequency;
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
+=======
+		private OutputManager _outputManager;
+		private IDictionary<string, Object> _properties;
+		internal IDictionary<string, AudioModule> AvailableAudioModules;
+		private int _steps;
+>>>>>>> 36ac8751646f7b8ce6ffb32804c1f5056050225e
 		private int _stepslastmin;
-
 		private Timer timer;
+		private AudioModule _currentAudioModule;
+
+		//Delegates for EventHandling
+		internal delegate void AudioModuleDelegate(AudioModule audioModule);
 
 		/// <summary>
 		/// List with Microchartentries to get a chart with steps in the last few minutes
 		/// </summary>
 		public List<Microcharts.Entry> ChartEntries;
+<<<<<<< HEAD
 		/// <summary>
 		/// timer to set time between each microchart entry
 		/// </summary>
@@ -66,6 +80,9 @@ namespace Karl.Model
 		}
 
 
+=======
+	
+>>>>>>> 36ac8751646f7b8ce6ffb32804c1f5056050225e
 		//Eventhandling
 		public delegate void LangEventHandler(object source, EventArgs e);
 		public event LangEventHandler LangChanged;
@@ -81,7 +98,6 @@ namespace Karl.Model
 		public event AudioModuleEventHandler AudioModuleChanged;
 
 		//internal event AudioModuleDelegate AudioModuleChanged;
-
 		public bool UsingBasicAudio { get; set; }
 		public bool UsingSpotifyAudio { get; set; }
 		/// <summary>
@@ -144,14 +160,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The current step frequency (in steps per minute).
 		/// </summary>
-		public int StepFrequency
-		{
-			get => _frequency;
-			private set
-			{
-				_frequency = value;
-			}
-		}
+		public int StepFrequency { get; private set; }
 
 		public CustomColor CurrentColor
 		{
@@ -291,6 +300,42 @@ namespace Karl.Model
 			}
 
 			//CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
+		}
+
+		/// <summary>
+		/// timer to set time between each microchart entry
+		/// </summary>
+		private void InitTimer()
+		{
+			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+			timer.AutoReset = true;
+			timer.Elapsed += new ElapsedEventHandler(AddChartEvent);
+			timer.Start();
+		}
+
+		/// <summary>
+		/// method to add microchartentries
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void AddChartEvent(object sender, ElapsedEventArgs e)
+		{
+			if (_connectivityHandler.EarableConnected)
+			{
+				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+				{
+					Color = SKColor.Parse(CurrentColor.Color.ToHex()),
+					Label = DateTime.Now.ToString("HH:mm"),
+					ValueLabel = _stepslastmin.ToString()
+				};
+				ChartEntries.Add(entry);
+				_stepslastmin = 0;
+				if (ChartEntries.Count > 10)
+				{
+					ChartEntries.RemoveAt(0);
+				}
+				ChartChanged?.Invoke(this, null);
+			}
 		}
 
 		private class StepDetectionObserver : IObserver<Output>
