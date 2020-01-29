@@ -15,6 +15,7 @@ namespace Karl.ViewModel
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
+		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
 
 		//Eventhandling
@@ -56,7 +57,14 @@ namespace Karl.ViewModel
 		}
 		public string DeviceName
 		{
-			get => _settingsHandler.DeviceName;
+			get
+			{
+				if (_connectivityHandler.EarableConnected)
+				{
+					return _settingsHandler.DeviceName;
+				}
+				return null;
+			}
 			set => _deviceName = value; 
 		}
 
@@ -71,6 +79,7 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
 			ChangeAudioModuleCommand = new Command(ChangeAudioModule);
@@ -78,6 +87,7 @@ namespace Karl.ViewModel
 			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
@@ -107,6 +117,11 @@ namespace Karl.ViewModel
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
 		private void ChangeDeviceName()

@@ -37,7 +37,7 @@
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<ViewCell>
-									<Frame>
+									<Frame CornerRadius="0" HasShadow="False">
 										<StackLayout Orientation="Horizontal">
 											<Label Text="{Binding Name}"
 												FontSize="Large"
@@ -45,10 +45,10 @@
 												HorizontalOptions="Start"
 												VerticalOptions="Center"/>
 											<Switch IsToggled="{Binding Active}" 
-													HorizontalOptions="EndAndExpand"
-													VerticalOptions="Center"
-													ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
-													OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
+												HorizontalOptions="EndAndExpand"
+												VerticalOptions="Center"
+												ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
+												OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
 											</Switch>
 										</StackLayout>
 									</Frame>
