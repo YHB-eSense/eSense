@@ -31,7 +31,15 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_settingsHandler.UsingBasicAudio) { return _settingsHandler.CurrentLang.Get("use_spotify"); }
-				else { return _settingsHandler.CurrentLang.Get("use_basic"); }
+				return _settingsHandler.CurrentLang.Get("use_basic");
+			}
+		}
+		public Color UseAudioModuleColor
+		{
+			get
+			{
+				if (_settingsHandler.UsingBasicAudio) { return Color.FromHex("#1ed761"); }
+				return CurrentColor.Color;
 			}
 		}
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
@@ -81,6 +89,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
 		}
 
 		private void RefreshDeviceName(object sender, EventArgs args)
@@ -91,11 +100,13 @@ namespace Karl.ViewModel
 		private void RefreshColor(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
 		}
 
 		private void RefreshAudioModule(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
 		}
 
 		private void ChangeDeviceName()
