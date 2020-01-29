@@ -28,7 +28,7 @@ namespace Karl.Model
 			get => _playlist;
 			set {
 				_playlist = value;
-				ChangePlaylist(value);
+				if(value != null) { ChangePlaylist(value); }
 			}
 		}
 
@@ -40,8 +40,10 @@ namespace Karl.Model
 				if (_initDone) return;
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
-				AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
-				SelectedPlaylist = AllPlaylists[0];
+				if(WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0) { AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
+				else { AllPlaylists = null; }
+				if (AllPlaylists != null) { SelectedPlaylist = AllPlaylists[0]; }
+				else { SelectedPlaylist = null; }
 				_initDone = true;
 			}
 		}

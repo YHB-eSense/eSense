@@ -75,8 +75,8 @@ namespace Karl.Model
 		/// </summary>
 		private AudioPlayer()
 		{
-			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
-			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
+			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
+			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			_audioPlayerImp = new BasicAudioPlayer();
 			SongsQueue = new Queue<AudioTrack>();
 			SongsBefore = new Stack<AudioTrack>();
@@ -166,11 +166,13 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
+		/*
 		private void UpdateAudioModule(SettingsHandler.AudioModule audioModule)
 		{
 			_audioPlayerImp = audioModule.AudioPlayer;
 			//TODO
 		}
+		*/
 
 		private void resetQueuedandPlayedTracks() {
 			SongsQueue = new Queue<AudioTrack>();
