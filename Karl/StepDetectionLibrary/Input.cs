@@ -1,22 +1,45 @@
 using EarableLibrary;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace StepDetectionLibrary
 {
 
 	/// <summary>
-	/// struct with accerleration and gyro data for all 3 axes
+	/// class with accerleration and gyro data for all 3 axes
 	/// </summary>
 	public class AccGyroData
 	{
+		/// <summary>
+		/// acceleration data of 3 axis
+		/// </summary>
 		public readonly AccData AccData;
+
+		/// <summary>
+		/// gyroscope data of 3 axis
+		/// </summary>
 		public readonly GyroData GyroData;
+
+		/// <summary>
+		/// datalength
+		/// </summary>
 		public readonly int DataLength;
+
+		/// <summary>
+		/// samplingrate
+		/// </summary>
 		public int SamplingRate;
+
+		/// <summary>
+		/// length in seconds
+		/// </summary>
 		public double LengthInSeconds => (double) DataLength / SamplingRate;
 
+		/// <summary>
+		/// constructor for accgyrodata
+		/// </summary>
+		/// <param name="dataLength"> datalength of data</param>
+		/// <param name="samplingRate">samplingrate</param>
 		public AccGyroData(int dataLength, int samplingRate)
 		{
 			DataLength = dataLength;
@@ -77,11 +100,13 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public class Input : IObservable<AccGyroData>
 	{
-
-
 		private List<IObserver<AccGyroData>> _observers;
 		private AccGyroData _chunk;
 		private int _counter;
+
+		/// <summary>
+		/// contructor for input
+		/// </summary>
 		public Input()
 		{
 			_observers = new List<IObserver<AccGyroData>>();
@@ -119,12 +144,20 @@ namespace StepDetectionLibrary
 			private List<IObserver<AccGyroData>> _observers;
 			private IObserver<AccGyroData> _observer;
 
+			/// <summary>
+			/// constructor for unsubscriber
+			/// </summary>
+			/// <param name="observers">list of observers</param>
+			/// <param name="observer">observer</param>
 			public Unsubscriber(List<IObserver<AccGyroData>> observers, IObserver<AccGyroData> observer)
 			{
 				this._observers = observers;
 				this._observer = observer;
 			}
 
+			/// <summary>
+			/// dispose
+			/// </summary>
 			public void Dispose()
 			{
 				if (_observer != null && _observers.Contains(_observer))

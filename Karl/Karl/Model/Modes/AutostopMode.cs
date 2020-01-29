@@ -12,7 +12,7 @@ namespace Karl.Model
 	/// </summary>
 	public class AutostopMode : Mode, IObserver<Output>
 	{
-		private IDisposable StepDetectionDisposable;
+		private IDisposable _stepDetectionDisposable;
 		private bool _autostopped;
 		public bool Autostopped
 		{
@@ -21,7 +21,6 @@ namespace Karl.Model
 			{
 				if (value == _autostopped) return;
 				_autostopped = value;
-				Debug.WriteLine("Performing auto-{0}", args: _autostopped ? "stop" : "resume");
 				if (_autostopped == true)
 				{
 					if (!SingletonAudioPlayer.Paused) SingletonAudioPlayer.TogglePause();
@@ -33,30 +32,30 @@ namespace Karl.Model
 			}
 		}
 
+		public override string Name
+		{
+			get => SingletonLangManager.CurrentLang.Get("autostop_mode");
+		}
+
 		protected override bool Activate()
 		{
-			Debug.WriteLine("Activating mode '{0}'", args: Name);
 			_autostopped = false;
-			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
+			_stepDetectionDisposable = SingletonOutputManager.Subscribe(this);
 			return true;
 		}
 
 		protected override bool Deactivate()
 		{
-			Debug.WriteLine("Deactivating mode '{0}'", args: Name);
 			_autostopped = false;
-			if (StepDetectionDisposable != null)
+			if (_stepDetectionDisposable != null)
 			{
-				StepDetectionDisposable.Dispose();
-				StepDetectionDisposable = null;
+				_stepDetectionDisposable.Dispose();
+				_stepDetectionDisposable = null;
 			}
 			return true;
 		}
 
-		public override string Name
-		{
-			get => SingletonLangManager.CurrentLang.Get("autostop_mode");
-		}
+		
 
 		public void OnNext(Output value)
 		{

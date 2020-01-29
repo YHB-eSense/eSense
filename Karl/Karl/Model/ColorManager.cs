@@ -5,9 +5,16 @@ using Xamarin.Forms;
 
 namespace Karl.Model
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class ColorManager
 	{
 		private static ColorManager _singletonColorManager;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public static ColorManager SingletonColorManager
 		{
 			get
@@ -18,7 +25,14 @@ namespace Karl.Model
 				}
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
 		public List<CustomColor> Colors { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public CustomColor CurrentColor { get; set; }
 
 		private ColorManager()
@@ -29,6 +43,9 @@ namespace Karl.Model
 			Colors.Add(new CustomColor(Color.DarkRed));
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public void ResetColors()
 		{
 			if (Colors != null)
@@ -41,14 +58,28 @@ namespace Karl.Model
 
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class CustomColor
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public Color Color { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public string Name
 		{
 			get => LangManager.SingletonLangManager.CurrentLang.Get("col_" + Color.ToHex());
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="color"></param>
 		public CustomColor(Color color)
 		{
 			Color = color;

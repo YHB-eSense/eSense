@@ -16,9 +16,6 @@ namespace Karl.Model
 		private IAudioLibImpl _audioLibImp;
 		private static AudioLib _singletonAudioLib;
 
-		public delegate void AudioLibEventHandler(object source, EventArgs e);
-		public event AudioLibEventHandler AudioLibChanged;
-
 		public static AudioLib SingletonAudioLib
 		{
 			get
@@ -47,6 +44,21 @@ namespace Karl.Model
 			set => _audioLibImp.SelectedPlaylist = value;
 		}
 
+		/// <summary>
+		/// The List of all AudioTracks in the Current Library
+		/// </summary>
+		/// <returns></returns>
+		public List<AudioTrack> AudioTracks
+		{
+			get { return _audioLibImp.AllAudioTracks; }
+			set { _audioLibImp.AllAudioTracks = value; }
+		}
+
+
+		public delegate void AudioLibEventHandler(object source, EventArgs e);
+		public event AudioLibEventHandler AudioLibChanged;
+
+
 		private AudioLib()
 		{
 			_singletonAudioLib = this;
@@ -57,22 +69,6 @@ namespace Karl.Model
 			_audioLibImp.AudioLibChanged += UpdateLib;
 
 		}
-
-		private void UpdateLib(object sender, EventArgs args)
-		{
-			AudioLibChanged?.Invoke(this, null);
-			System.Diagnostics.Debug.WriteLine("HEY");
-		}
-
-		/// <summary>
-		/// The List of all AudioTracks in the Current Library
-		/// </summary>
-		/// <returns></returns>
-		public List<AudioTrack> AudioTracks
-		{
-			get { return _audioLibImp.AllAudioTracks; }
-			set { _audioLibImp.AllAudioTracks = value; }
-		} 
 
 		/// <summary>
 		/// Add a new Track to the current Library
@@ -88,14 +84,7 @@ namespace Karl.Model
 			_audioLibImp.DeleteTrack(track);
 		}
 
-		private void UpdateAudioLib(object sender, EventArgs e)
-		{
-			/*
-			audioModule.AudioLib.Init();
-			_audioLibImp = audioModule.AudioLib;
-			//TODO
-			*/
-		}
+		
 
 		public void changeToSpotifyLib()
 		{
@@ -106,6 +95,14 @@ namespace Karl.Model
 		public void changeToBasicLib() {
 			_audioLibImp = new BasicAudioLib();
 		}
+
+		private void UpdateLib(object sender, EventArgs args)
+		{
+			AudioLibChanged?.Invoke(this, null);
+			System.Diagnostics.Debug.WriteLine("HEY");
+		}
+
+		
 	}
 
 	internal interface IAudioLibImpl
