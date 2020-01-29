@@ -69,7 +69,7 @@
 						TextColor="White"
 						Command="{Binding ResetStepsCommand}"/>
 					<Button Text="{Binding UseAudioModuleLabel}"
-						BackgroundColor="#1ed761"
+						BackgroundColor="{Binding UseAudioModuleColor}"
 						TextColor="White"
 						Command="{Binding ChangeAudioModuleCommand}"/>
 				</StackLayout>
