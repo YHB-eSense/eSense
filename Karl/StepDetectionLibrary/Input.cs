@@ -156,10 +156,7 @@ namespace StepDetectionLibrary
 			int lost = args.SampleId - lastId - 1;
 			if (lost < 0) lost += 256;
 			int lastValid = _counter;
-			if (lost > 0)
-			{
-				Debug.WriteLine("Lost {0} samples!", args: lost);
-			}
+			// if (lost > 0) Debug.WriteLine("Lost {0} samples!", args: lost)
 			while (lost > 0)
 			{
 				// TODO: Interpolate from known values

@@ -11,13 +11,8 @@ namespace Karl.Model
 		string Name { get; }
 
 		/// <summary>
-		/// Activate this mode.
+		/// Whether this mode is currently activated or not
 		/// </summary>
-		void Activate();
-
-		/// <summary>
-		/// Deactivate this mode.
-		/// </summary>
-		void Deactivate();
+		bool Activated { get; set; }
 	}
 }

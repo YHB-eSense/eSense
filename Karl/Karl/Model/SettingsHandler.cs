@@ -333,7 +333,7 @@ namespace Karl.Model
 				{
 					_steps = int.Parse(Value);
 				}
-				catch (FormatException e)
+				catch (FormatException)
 				{
 					_steps = 0;
 					_properties.Remove("steps");
