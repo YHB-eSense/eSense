@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
+using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -64,7 +65,11 @@ namespace Karl.Model
 
 		public async void OnAuthAsync(object sender, AuthenticatorCompletedEventArgs args)
 		{
-			if (!args.IsAuthenticated) throw new HttpRequestException("Authentication failed!");
+			if (!args.IsAuthenticated)
+			{
+				Application.Current.MainPage.DisplayAlert("", "Spotify auth failed", "OK");
+				return;
+			}
 			_acc = args.Account;
 			string[] serial = _acc.Serialize().Split('&');
 			string accessToken = serial[1].Split('=')[1];

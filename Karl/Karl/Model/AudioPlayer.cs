@@ -86,14 +86,16 @@ namespace Karl.Model
 
 		public void changeToSpotifyPlayer()
 		{
-			_audioPlayerImp = new SpotifyAudioPlayer();
 			resetQueuedandPlayedTracks();
+			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
+			_audioPlayerImp = new SpotifyAudioPlayer();
+			
 		}
 
 		public void changeToBasicPlayer()
 		{
-			_audioPlayerImp = new BasicAudioPlayer();
 			resetQueuedandPlayedTracks();
+			_audioPlayerImp = new BasicAudioPlayer();
 		}
 
 		/// <summary>
