@@ -163,12 +163,6 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
-
-		private void InvokeNextSongEvent()
-		{
-			NextSongEvent?.Invoke();
-		}
-
 		/// <summary>
 		/// If something is changed in spotify, this will update the app
 		/// </summary>
