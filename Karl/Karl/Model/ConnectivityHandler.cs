@@ -61,12 +61,8 @@ namespace Karl.Model
 			get
 			{
 				if (_connectedEarable == null) return false;
-				if (!_connectedEarable.IsConnected())
-				{
-					_connectedEarable = null;
-					return false;
-				}
-				return true;
+				if (_connectedEarable.State == ConnectionState.Disconnected) _connectedEarable = null;
+				return _connectedEarable.State == ConnectionState.Connected;
 			}
 		}
 

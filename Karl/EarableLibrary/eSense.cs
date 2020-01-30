@@ -1,4 +1,3 @@
-using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Device id.
 		/// </summary>
-		public Guid Id { get => _conn.Id; }
+		public Guid Id => _conn.Id;
 
 		/// <summary>
 		/// Connect to the device and initialize sensors.
@@ -84,10 +83,7 @@ namespace EarableLibrary
 		/// Retrieve current connection state.
 		/// </summary>
 		/// <returns>Whether the device is currently connected or not</returns>
-		public bool IsConnected()
-		{
-			return _conn.Established;
-		}
+		public ConnectionState State => _conn.State;
 
 		/// <summary>
 		/// Retrieve one of the builtin sensors.

@@ -18,6 +18,12 @@ namespace EarableLibrary
 		/// </summary>
 		Guid Id { get; }
 
+
+		/// <summary>
+		/// Current connection state.
+		/// </summary>
+		ConnectionState State { get; }
+
 		/// <summary>
 		/// Retrieve an object for one of the builtin sensors.
 		/// </summary>
@@ -36,12 +42,5 @@ namespace EarableLibrary
 		/// </summary>
 		/// <returns>true on success, false if already disconnected (or never connected)</returns>
 		Task<bool> DisconnectAsync();
-
-
-		/// <summary>
-		/// Retrieve connection state.
-		/// </summary>
-		/// <returns>Whether the earable is connected or not</returns>
-		bool IsConnected();
 	}
 }

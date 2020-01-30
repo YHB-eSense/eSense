@@ -32,7 +32,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Whether this connection is currently open or not.
 		/// </summary>
-        public bool Established { get; private set; }
+		public ConnectionState State { get; private set; } = ConnectionState.Disconnected;
 
 		/// <summary>
 		/// Unique id of the connected device.
@@ -54,24 +54,24 @@ namespace EarableLibrary
 		/// <returns>Whether the connection could be opened or not</returns>
 		public async Task<bool> Open()
 		{
+			if (State != ConnectionState.Disconnected) return false;
+			State = ConnectionState.Connecting;
 			try
 			{
-				if (_device.State != DeviceState.Disconnected) return false;
-				// Establish connection
-				var parameters = new ConnectParameters(forceBleTransport: true);
-				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters, _connectionToken.Token);
-				// Start up message dispatcher
 				_operationQueue = new BlockingCollection<BLEOperation>();
 				_messageDispatcher = new Thread(new ThreadStart(DispatchOperation))
 				{
 					IsBackground = true
 				};
-				Established = true;
+				var parameters = new ConnectParameters(forceBleTransport: true);
+				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters, _connectionToken.Token);
+				State = ConnectionState.Connected;
 				_messageDispatcher.Start();
 				return true;
 			}
 			catch (Exception e)
 			{
+				State = ConnectionState.Disconnected;
 				Debug.WriteLine("Connection could not be opened: {0}", e.Message);
 				return false;
 			}
@@ -85,10 +85,11 @@ namespace EarableLibrary
 		/// <returns></returns>
 		public async Task<bool> Close(bool force = false)
 		{
-			if (_device.State == DeviceState.Connecting)
+			if (State == ConnectionState.Connecting)
 			{
 				_connectionToken.Cancel(); // cancel current connection process
 			}
+			State = ConnectionState.Disconnecting;
 			if (_operationQueue != null && _messageDispatcher != null) {
 				_operationQueue.CompleteAdding();
 				if (force)
@@ -106,8 +107,8 @@ namespace EarableLibrary
 			}
 			try
 			{
-				if (_device.State == DeviceState.Connected) await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
-				Established = false;
+				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
+				State = ConnectionState.Disconnected;
 				return true;
 			}
 			catch (Exception)
@@ -193,7 +194,18 @@ namespace EarableLibrary
 
 		internal void UpdateState()
 		{
-			Established = _device.State == DeviceState.Connected;
+			switch (_device.State)
+			{
+				case DeviceState.Connected:
+					State = ConnectionState.Connected;
+					break;
+				case DeviceState.Connecting:
+					State = ConnectionState.Connecting;
+					break;
+				default:
+					State = ConnectionState.Disconnected;
+					break;
+			}
 		}
 
 		public void Subscribe(Guid charId, SubscriptionHandler handler)
@@ -207,6 +219,7 @@ namespace EarableLibrary
 					characteristic.ValueUpdated += CharacteristicValueUpdated;
 					new SubscriptionOperation(characteristic, subscribe: true);
 				}
+				_subscriptions[charId].Add(handler);
 			}
 		}
 
