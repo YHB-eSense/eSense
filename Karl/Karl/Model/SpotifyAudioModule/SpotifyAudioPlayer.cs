@@ -9,7 +9,7 @@ namespace Karl.Model
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
 		//Getting the Songposition from Spotify takes to long, so the player
-		//tiks to with the timer to imitate the changing Song position
+		//tiks to with the timer to imitate the changing SongPosition
 		private Timer _timer;
 
 		private double _currentSongPosition;

@@ -250,7 +250,7 @@ namespace Karl.Model
 		/// </summary>
 		public void changeAudioModuleToSpotify()
 		{
-			AudioPlayer.SingletonAudioPlayer.changeToSpotifyPlayer();
+			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
 			AudioLib.SingletonAudioLib.changeToSpotifyLib();
 			UsingBasicAudio = false;
 			UsingSpotifyAudio = true;
@@ -262,8 +262,8 @@ namespace Karl.Model
 		/// </summary>
 		public void changeAudioModuleToBasic()
 		{
-			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
-			AudioLib.SingletonAudioLib.changeToBasicLib();
+			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
+			AudioLib.SingletonAudioLib.ChangeToBasicLib();
 			UsingBasicAudio = true;
 			UsingSpotifyAudio = false;
 			AudioModuleChanged?.Invoke(this, null);
