@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Timers;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Models;
 
 namespace Karl.Model
 {
@@ -43,9 +44,9 @@ namespace Karl.Model
 		public bool Paused { get; set; }
 		public double Volume { get => 0; set => _ = 0; }
 
-		public void TogglePause()
+		public async void TogglePause()
 		{
-			var playback = _webAPI.GetPlayback();
+			var playback = await _webAPI.GetPlaybackAsync();
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
 			if (playback == null)
 			{
@@ -87,12 +88,13 @@ namespace Karl.Model
 			}
 		}
 
-		public void PlayTrack(AudioTrack track)
+		public async void PlayTrack(AudioTrack track)
 		{
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
 			if (_webAPI.GetPlayback() == null)
 			{
-				return;
+				AvailabeDevices devices = await _webAPI.GetDevicesAsync();
+				_webAPI.TransferPlayback(devices.Devices[0].Id, true);
 			}
 			_timer.Start();
 			List<String> currentTrackList = new List<string>();
