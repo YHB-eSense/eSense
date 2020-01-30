@@ -15,9 +15,9 @@ namespace EarableLibrary
 	{
 		private readonly IDevice _device;
 
-		private readonly Dictionary<Guid, ICharacteristic> _characteristics = new Dictionary<Guid, ICharacteristic>();
+		private readonly ConcurrentDictionary<Guid, ICharacteristic> _characteristics = new ConcurrentDictionary<Guid, ICharacteristic>();
 
-		private readonly Dictionary<Guid, List<SubscriptionHandler>> _subscriptions = new Dictionary<Guid, List<SubscriptionHandler>>();
+		private readonly ConcurrentDictionary<Guid, List<SubscriptionHandler>> _subscriptions = new ConcurrentDictionary<Guid, List<SubscriptionHandler>>();
 
 		private readonly CancellationTokenSource _connectionToken = new CancellationTokenSource();
 
@@ -105,6 +105,14 @@ namespace EarableLibrary
 				_operationQueue = null;
 				_messageDispatcher = null;
 			}
+			// Cancel subscriptions
+			foreach (var subscription in _subscriptions)
+			{
+				if (subscription.Value.Count == 0) continue;
+				var characteristic = _characteristics[subscription.Key];
+				characteristic.ValueUpdated -= CharacteristicValueUpdated;
+				await characteristic.StopUpdatesAsync();
+			}
 			try
 			{
 				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
@@ -160,7 +168,7 @@ namespace EarableLibrary
 					var service = await _device.GetServiceAsync(serviceId);
 					if (service == null) return false;
 					var characteristics = await service.GetCharacteristicsAsync();
-					foreach (var c in characteristics) _characteristics.Add(c.Id, c);
+					foreach (var c in characteristics) _characteristics[c.Id] = c;
 				}
 				return true;
 			}
@@ -210,46 +218,37 @@ namespace EarableLibrary
 
 		public void Subscribe(Guid charId, SubscriptionHandler handler)
 		{
-			lock (_subscriptions)
+			if (!_subscriptions.ContainsKey(charId))
 			{
-				if (!_subscriptions.ContainsKey(charId))
-				{
-					_subscriptions[charId] = new List<SubscriptionHandler>();
-					var characteristic = _characteristics[charId];
-					characteristic.ValueUpdated += CharacteristicValueUpdated;
-					new SubscriptionOperation(characteristic, subscribe: true);
-				}
-				_subscriptions[charId].Add(handler);
+				_subscriptions[charId] = new List<SubscriptionHandler>();
+				var characteristic = _characteristics[charId];
+				characteristic.ValueUpdated += CharacteristicValueUpdated;
+				EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: true));
 			}
+			_subscriptions[charId].Add(handler);
 		}
 
 		public void Unsubscribe(Guid charId, SubscriptionHandler handler)
 		{
-			lock (_subscriptions)
+			if (_subscriptions.ContainsKey(charId))
 			{
-				if (_subscriptions.ContainsKey(charId))
+				_subscriptions[charId].Remove(handler);
+				if (_subscriptions.Count == 0)
 				{
-					_subscriptions[charId].Remove(handler);
-					if (_subscriptions.Count == 0)
-					{
-						var characteristic = _characteristics[charId];
-						characteristic.ValueUpdated += CharacteristicValueUpdated;
-						new SubscriptionOperation(characteristic, subscribe: true);
-					}
+					var characteristic = _characteristics[charId];
+					characteristic.ValueUpdated += CharacteristicValueUpdated;
+					EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: false));
 				}
 			}
 		}
 
 		private void CharacteristicValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			lock (_subscriptions)
+			if (_subscriptions.ContainsKey(e.Characteristic.Id))
 			{
-				if (_subscriptions.ContainsKey(e.Characteristic.Id))
+				foreach (var handler in _subscriptions[e.Characteristic.Id])
 				{
-					foreach (var handler in _subscriptions[e.Characteristic.Id])
-					{
-						handler(e.Characteristic.Value);
-					}
+					handler(e.Characteristic.Value);
 				}
 			}
 		}

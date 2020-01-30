@@ -92,6 +92,7 @@ namespace Karl.Model
 			var button = _connectedEarable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
 			{
+				Debug.WriteLine(args.Pressed ? "Pushed :)" : "Released :(");
 				bool released = !args.Pressed;
 				if (released) SingletonAudioPlayer.TogglePause();
 			};
