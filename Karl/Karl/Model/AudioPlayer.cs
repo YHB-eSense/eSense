@@ -169,7 +169,14 @@ namespace Karl.Model
 			NextSongEvent?.Invoke();
 		}
 
-		
+		/// <summary>
+		/// If something is changed in spotify, this will update the app
+		/// </summary>
+		public void RefreshAfterSleep()
+		{
+			AudioChanged?.Invoke(this, null);
+		}
+
 	}
 
 	interface IAudioPlayerImpl
