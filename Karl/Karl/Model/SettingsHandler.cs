@@ -267,7 +267,6 @@ namespace Karl.Model
 			UsingBasicAudio = true;
 			UsingSpotifyAudio = false;
 			AudioModuleChanged?.Invoke(this, null);
-
 		}
 
 		/// <summary>

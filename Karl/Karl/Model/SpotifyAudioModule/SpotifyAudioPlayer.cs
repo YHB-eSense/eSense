@@ -15,7 +15,7 @@ namespace Karl.Model
 
 		private double _currentSongPosition;
 		private AudioTrack _track;
-		private SpotifyWebAPI _webAPI { get; set; }
+		private SpotifyWebAPI _webAPI;
 
 		public SpotifyAudioPlayer()
 		{
