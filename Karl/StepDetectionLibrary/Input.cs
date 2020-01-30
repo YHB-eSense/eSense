@@ -105,6 +105,16 @@ namespace StepDetectionLibrary
 		private int _counter;
 
 		/// <summary>
+		/// Amount of samples in one batch.
+		/// </summary>
+		public int DataLength { get => 1; } // TODO: make this configurable
+
+		/// <summary>
+		/// SamplingRate
+		/// </summary>
+		public int SamplingRate { get => 25; } // TODO: make this configurable
+
+		/// <summary>
 		/// contructor for input
 		/// </summary>
 		public Input()
@@ -114,13 +124,7 @@ namespace StepDetectionLibrary
 			_chunk = new AccGyroData(DataLength, SamplingRate);
 			Subscribe(new StepDetectionAlg());
 		}
-
-		/// <summary>
-		/// Amount of samples in one batch.
-		/// </summary>
-		public int DataLength { get => 1; } // TODO: make this configurable
-
-		public int SamplingRate { get => 25; } // TODO: make this configurable
+		
 
 		/// <summary>
 		/// method for subscribing to input
