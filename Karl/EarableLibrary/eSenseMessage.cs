@@ -40,14 +40,8 @@ namespace EarableLibrary
 
 		/// <summary>
 		/// Consecutive packet counter used in some messages.
-		/// Meaningless if <see cref="HasPacketIndex"/> is false.
 		/// </summary>
-		public byte PacketIndex { get; set; }
-
-		/// <summary>
-		/// Whether this message contains an packet index or not.
-		/// </summary>
-		public bool HasPacketIndex { get; set; }
+		public byte? PacketIndex { get; set; }
 
 		/// <summary>
 		/// Construct a new ESenseMessage.
@@ -70,7 +64,6 @@ namespace EarableLibrary
 		public ESenseMessage(byte[] received, bool hasPacketIndex = false)
 		{
 			int i = 0; // parsing index
-			HasPacketIndex = hasPacketIndex;
 			Header = received[i++];
 			if (hasPacketIndex) PacketIndex = received[i++];
 			var receivedChecksum = received[i++];
@@ -88,11 +81,11 @@ namespace EarableLibrary
 		public byte[] ToByteArray()
 		{
 			var size = Data.Length + 3;
-			if (HasPacketIndex) size++;
+			if (PacketIndex.HasValue) size++;
 			var bytes = new byte[size];
 			int i = 0; // count written bytes
 			bytes[i++] = Header;
-			if (HasPacketIndex) bytes[i++] = PacketIndex;
+			if (PacketIndex.HasValue) bytes[i++] = PacketIndex.Value;
 			bytes[i++] = Checksum;
 			bytes[i++] = (byte)Data.Length;
 			Data.CopyTo(bytes, i);
@@ -115,29 +108,6 @@ namespace EarableLibrary
 		public static explicit operator ESenseMessage(byte[] array)
 		{
 			return new ESenseMessage(array, false);
-		}
-
-		public static short[] ByteToShortArray(byte[] bytes, bool bigEndian = true)
-		{
-			short[] result = new short[bytes.Length / 2];
-			for (int i = 0; i < result.Length; i++)
-				if (bigEndian)
-					result[i] = (short)(bytes[i] << 8 + bytes[i + 1]);
-				else
-					result[i] = (short)(bytes[i + 1] << 8 + bytes[i]);
-			return result;
-		}
-
-		public static byte[] ShortToByteArray(short[] shorts, bool bigEndian = true)
-		{
-			byte[] result = new byte[shorts.Length * 2];
-			for (int i = 0; i < shorts.Length; i++)
-				if (bigEndian)
-				{
-					result[2 * i] = (byte)(shorts[i]);
-					result[2 * i + 1] = (byte)(shorts[i] >> 8);
-				}
-			return result;
 		}
 	}
 

@@ -19,7 +19,7 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="read">Characteristic which allows read-access to the name</param>
 		/// <param name="write">Characteristic which allows write-access to the name</param>
-		public EarableName(ICharacteristic read, ICharacteristic write)
+		internal EarableName(ICharacteristic read, ICharacteristic write)
 		{
 			_read = read;
 			_write = write;
@@ -28,7 +28,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Initialize the names local copy by retrieving its current remote value.
 		/// </summary>
-		public async Task Initialize()
+		internal async Task Initialize()
 		{
 			var bytes = await _read.ReadAsync();
 			_name = Encoding.ASCII.GetString(bytes);
@@ -40,7 +40,7 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="value">New device name</param>
 		/// <returns>true if write succeeded, false otherwise</returns>
-		public async Task<bool> SetAsync(string value)
+		internal async Task<bool> SetAsync(string value)
 		{
 			var success = await _write.WriteAsync(Encoding.ASCII.GetBytes(value));
 			if (success) _name = value;
@@ -51,7 +51,7 @@ namespace EarableLibrary
 		/// Retrieve the device names local copy.
 		/// </summary>
 		/// <returns>Device name or null if uninitialized</returns>
-		public string Get()
+		internal string Get()
 		{
 			return _name;
 		}

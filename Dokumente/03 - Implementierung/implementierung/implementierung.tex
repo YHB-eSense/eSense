@@ -24,12 +24,15 @@
 \usepackage{svg}
 % Glossar
 \usepackage[nonumberlist]{glossaries}
+% Benutzerdefinierte Unicode-Zeichen
+\usepackage{amssymb}
 
 %% Farben
 %\usepackage{xcolor}
 
 % Deutsche Anführungszeichen
 \renewcommand{\quote}[1]{\glqq#1\grqq}
+
 
 % Link-Farben
 \hypersetup
@@ -73,6 +76,7 @@
 \newcommand{\remove}[1]{\item[-]{#1}}
 \newcommand{\changed}[1]{\item[\#]{#1}}
 \newcommand{\change}{geändert}
+\newcommand{\changeto}{$\rightarrow$}
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries

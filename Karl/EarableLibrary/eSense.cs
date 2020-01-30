@@ -86,7 +86,6 @@ namespace EarableLibrary
 				var characteristics = await GetCharacteristicsAsync(ServiceUuids);
 				_name = new EarableName(read: characteristics[CHAR_NAME_R], write: characteristics[CHAR_NAME_W]);
 				await _name.Initialize();
-				new IntervalConfiguration(characteristics[CHAR_INTERVALS]);
 				_sensors = CreateSensors(characteristics);
 			}
 			catch (Exception e)
