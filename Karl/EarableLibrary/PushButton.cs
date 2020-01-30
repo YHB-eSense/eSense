@@ -80,7 +80,7 @@ namespace EarableLibrary
 
 		private void OnValueUpdated(byte[] value)
 		{
-			ValueChanged?.Invoke(this, ParseMessage(value));
+			ValueChanged.Invoke(this, ParseMessage(value));
 		}
 	}
 }

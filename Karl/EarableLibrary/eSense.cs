@@ -58,7 +58,7 @@ namespace EarableLibrary
 		{
 			if (await _conn.Open())
 			{
-				if (!await _conn.Initialize(ServiceUuids)) return false;
+				if (!await _conn.Validate(ServiceUuids)) return false;
 				_name = new EarableName(_conn);
 				_sensors.Clear();
 				AddSensor(new MotionSensor(_conn));

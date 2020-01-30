@@ -11,26 +11,34 @@ using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
+	/// <summary>
+	/// This class is used for safe communication with an BLE device.
+	/// It keeps an internal queue of read- and write operations, to ensure serial operation-execution.
+	/// </summary>
 	public class BLEConnection
 	{
 		private readonly IDevice _device;
 
 		private readonly ConcurrentDictionary<Guid, ICharacteristic> _characteristics = new ConcurrentDictionary<Guid, ICharacteristic>();
 
-		private readonly ConcurrentDictionary<Guid, List<SubscriptionHandler>> _subscriptions = new ConcurrentDictionary<Guid, List<SubscriptionHandler>>();
+		private readonly Dictionary<Guid, List<DataReceiver>> _subscriptions = new Dictionary<Guid, List<DataReceiver>>();
 
-		private readonly CancellationTokenSource _connectionToken = new CancellationTokenSource();
+		private readonly object _connectionStateLock = new object();
 
-		private readonly CancellationTokenSource _operationToken = new CancellationTokenSource();
+		private CancellationTokenSource _connectionToken;
 
 		private BlockingCollection<BLEOperation> _operationQueue;
 
 		private Thread _messageDispatcher;
 
-		public delegate void SubscriptionHandler(byte[] data);
+		/// <summary>
+		/// Delegate for accepting data that comes from the BLE device.
+		/// </summary>
+		/// <param name="data">Binary data</param>
+		public delegate void DataReceiver(byte[] data);
 
 		/// <summary>
-		/// Whether this connection is currently open or not.
+		/// Whether this connection is open, closed or in a state inbetween.
 		/// </summary>
 		public ConnectionState State { get; private set; } = ConnectionState.Disconnected;
 
@@ -54,27 +62,56 @@ namespace EarableLibrary
 		/// <returns>Whether the connection could be opened or not</returns>
 		public async Task<bool> Open()
 		{
-			if (State != ConnectionState.Disconnected) return false;
-			State = ConnectionState.Connecting;
+			lock (_connectionStateLock)
+			{
+				if (State != ConnectionState.Disconnected) return false;
+				State = ConnectionState.Connecting;
+				_connectionToken = new CancellationTokenSource();
+			}
 			try
 			{
+				var parameters = new ConnectParameters(forceBleTransport: true);
+				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters, _connectionToken.Token);
+				lock (_connectionStateLock)
+				{
+					if (_connectionToken.IsCancellationRequested)
+					{
+						State = ConnectionState.Disconnected;
+						return false;
+					}
+					_connectionToken = null;
+				}
+				await LoadCharacteristics();
 				_operationQueue = new BlockingCollection<BLEOperation>();
 				_messageDispatcher = new Thread(new ThreadStart(DispatchOperation))
 				{
 					IsBackground = true
 				};
-				var parameters = new ConnectParameters(forceBleTransport: true);
-				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters, _connectionToken.Token);
-				State = ConnectionState.Connected;
 				_messageDispatcher.Start();
+				State = ConnectionState.Connected;
 				return true;
 			}
 			catch (Exception e)
 			{
+				Debug.WriteLine("Connection could not be opened: {0}", args: e.Message);
 				State = ConnectionState.Disconnected;
-				Debug.WriteLine("Connection could not be opened: {0}", e.Message);
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Validate this connection based on whether the given services are available or not.
+		/// </summary>
+		/// <param name="serviceIds">Service ids to check for</param>
+		/// <returns>true if all given services are available, false otherwise</returns>
+		public async Task<bool> Validate(Guid[] serviceIds)
+		{
+			foreach (Guid serviceId in serviceIds)
+			{
+				var service = await _device.GetServiceAsync(serviceId);
+				if (service == null) return false;
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -82,57 +119,123 @@ namespace EarableLibrary
 		/// By default this method will wait for already scheduled operations to complete.
 		/// </summary>
 		/// <param name="force">Do not wait for scheduled operations to complete</param>
-		/// <returns></returns>
+		/// <returns>Whether the connection was closed or not</returns>
 		public async Task<bool> Close(bool force = false)
 		{
-			if (State == ConnectionState.Connecting)
+			lock (_connectionStateLock)
 			{
-				_connectionToken.Cancel(); // cancel current connection process
-			}
-			State = ConnectionState.Disconnecting;
-			if (_operationQueue != null && _messageDispatcher != null) {
-				_operationQueue.CompleteAdding();
-				if (force)
+				if (State == ConnectionState.Connecting && _connectionToken != null)
 				{
-					_operationQueue.Dispose();
-					_operationToken.Cancel();
-					_messageDispatcher.Abort();
+					_connectionToken.Cancel();
+					return true;
 				}
-				else
-				{
-					_messageDispatcher.Join();
-				}
-				_operationQueue = null;
-				_messageDispatcher = null;
+				else if (State != ConnectionState.Connected) return false;
+				State = ConnectionState.Disconnecting;
 			}
-			// Cancel subscriptions
-			foreach (var subscription in _subscriptions)
+			// Shut down message dispatcher
+			_operationQueue.CompleteAdding();
+			if (force)
 			{
-				if (subscription.Value.Count == 0) continue;
-				var characteristic = _characteristics[subscription.Key];
-				characteristic.ValueUpdated -= CharacteristicValueUpdated;
-				await characteristic.StopUpdatesAsync();
+				_operationQueue.Dispose();
+				_messageDispatcher.Abort();
+			}
+			else
+			{
+				_messageDispatcher.Join();
 			}
 			try
 			{
+				// Unsubscribe everything
+				await UnsubscribeAll();
 				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
+				_characteristics.Clear();
 				State = ConnectionState.Disconnected;
 				return true;
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				Debug.WriteLine("Could not disconnect: {0}", args: e.Message);
+				State = ConnectionState.Connected;
 				return false;
 			}
 		}
 
-		public bool Write(Guid charId, byte[] msg)
+		/// <summary>
+		/// Write to a characteristic.
+		/// </summary>
+		/// <param name="charId">Characteristic id</param>
+		/// <param name="val">Value to write</param>
+		/// <returns>false if the connection doesn't allow write-operations right now</returns>
+		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
+		public bool Write(Guid charId, byte[] val)
 		{
-			return EnqueueOperation(new WriteOperation(_characteristics[charId], msg));
+			return EnqueueOperation(new WriteOperation(_characteristics[charId], val));
 		}
 
-		public bool Read(Guid charId, SubscriptionHandler handler)
+		/// <summary>
+		/// Start reading from a characteristic and invoke a handler, when the value is available.
+		/// </summary>
+		/// <param name="charId">Characteristic id</param>
+		/// <param name="handler">Handler to receive the value once available</param>
+		/// <returns>false if the connection doesn't allow read-operations right now</returns>
+		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
+		public bool Read(Guid charId, DataReceiver handler)
 		{
 			return EnqueueOperation(new ReadOperation(_characteristics[charId], handler));
+		}
+
+		/// <summary>
+		/// Subscribe to a characteristic.
+		/// </summary>
+		/// <param name="charId">Characteristic id</param>
+		/// <param name="handler">Handler to be notified when an update occurs</param>
+		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
+		public void Subscribe(Guid charId, DataReceiver handler)
+		{
+			if (!_subscriptions.ContainsKey(charId))
+			{
+				_subscriptions[charId] = new List<DataReceiver>();
+				var characteristic = _characteristics[charId];
+				characteristic.ValueUpdated += CharacteristicValueUpdated;
+				EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: true));
+			}
+			_subscriptions[charId].Add(handler);
+		}
+
+		/// <summary>
+		/// Unsubscribe from an characteristic.
+		/// </summary>
+		/// <param name="charId">Characteristic id</param>
+		/// <param name="handler">Handler that has been previously subscribed</param>
+		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
+		public void Unsubscribe(Guid charId, DataReceiver handler)
+		{
+			if (_subscriptions.ContainsKey(charId))
+			{
+				_subscriptions[charId].Remove(handler);
+				if (_subscriptions[charId].Count == 0)
+				{
+					_subscriptions.Remove(charId);
+					var characteristic = _characteristics[charId];
+					characteristic.ValueUpdated -= CharacteristicValueUpdated;
+					EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: false));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Can be called to indicate, that the device state has changed due to outer circumstances.
+		/// </summary>
+		internal void UpdateState()
+		{
+			if (State == ConnectionState.Connected && _device.State == DeviceState.Disconnected)
+			{
+				State = ConnectionState.Disconnected;
+			}
+			else if (State == ConnectionState.Disconnected && _device.State == DeviceState.Connected)
+			{
+				State = ConnectionState.Connected;
+			}
 		}
 
 		/// <summary>
@@ -141,13 +244,13 @@ namespace EarableLibrary
 		/// </summary>
 		private bool EnqueueOperation(BLEOperation op)
 		{
-			Debug.WriteLine("Enqueing operation ({0})", op.GetType());
+			Debug.WriteLine("Enqueing operation ({0})", args: op.GetType());
 			try
 			{
 				_operationQueue.Add(op);
 				return true;
 			}
-			catch(NullReferenceException)
+			catch (NullReferenceException)
 			{
 				return false;
 			}
@@ -157,93 +260,33 @@ namespace EarableLibrary
 			}
 		}
 
-		public async Task<bool> Initialize(Guid[] serviceIds)
+		/// <summary>
+		/// Unsubscribe from all Characteristics.
+		/// </summary>
+		private async Task UnsubscribeAll()
 		{
-			_subscriptions.Clear();
+			foreach (var subscription in _subscriptions)
+			{
+				var characteristic = _characteristics[subscription.Key];
+				characteristic.ValueUpdated -= CharacteristicValueUpdated;
+				await characteristic.StopUpdatesAsync();
+			}
+		}
+
+		private async Task LoadCharacteristics()
+		{
 			_characteristics.Clear();
-			try
+			var services = await _device.GetServicesAsync();
+			foreach (var service in services)
 			{
-				foreach (Guid serviceId in serviceIds)
-				{
-					var service = await _device.GetServiceAsync(serviceId);
-					if (service == null) return false;
-					var characteristics = await service.GetCharacteristicsAsync();
-					foreach (var c in characteristics) _characteristics[c.Id] = c;
-				}
-				return true;
-			}
-			catch (Exception e)
-			{
-				Debug.WriteLine("Connection could not be initialized: {0}", e.Message);
-				return false;
-			}
-		}
-
-		private async void DispatchOperation()
-		{
-			foreach (BLEOperation operation in _operationQueue.GetConsumingEnumerable())
-			{
-				Debug.WriteLine("Dispatching operation ({0})", operation.GetType());
-				try
-				{
-					await operation.Execute(_operationToken.Token);
-				}
-				catch(ThreadAbortException)
-				{
-					return;
-				}
-				catch(Exception)
-				{
-					// TODO: retry / notify operation-source / etc.
-					continue;
-				}
-			}
-		}
-
-		internal void UpdateState()
-		{
-			switch (_device.State)
-			{
-				case DeviceState.Connected:
-					State = ConnectionState.Connected;
-					break;
-				case DeviceState.Connecting:
-					State = ConnectionState.Connecting;
-					break;
-				default:
-					State = ConnectionState.Disconnected;
-					break;
-			}
-		}
-
-		public void Subscribe(Guid charId, SubscriptionHandler handler)
-		{
-			if (!_subscriptions.ContainsKey(charId))
-			{
-				_subscriptions[charId] = new List<SubscriptionHandler>();
-				var characteristic = _characteristics[charId];
-				characteristic.ValueUpdated += CharacteristicValueUpdated;
-				EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: true));
-			}
-			_subscriptions[charId].Add(handler);
-		}
-
-		public void Unsubscribe(Guid charId, SubscriptionHandler handler)
-		{
-			if (_subscriptions.ContainsKey(charId))
-			{
-				_subscriptions[charId].Remove(handler);
-				if (_subscriptions.Count == 0)
-				{
-					var characteristic = _characteristics[charId];
-					characteristic.ValueUpdated += CharacteristicValueUpdated;
-					EnqueueOperation(new SubscriptionOperation(characteristic, subscribe: false));
-				}
+				var characteristics = await service.GetCharacteristicsAsync();
+				foreach (var c in characteristics) _characteristics[c.Id] = c;
 			}
 		}
 
 		private void CharacteristicValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
 		{
+			Debug.WriteLine("A value of {0} has been updated", args: e.Characteristic.Uuid);
 			if (_subscriptions.ContainsKey(e.Characteristic.Id))
 			{
 				foreach (var handler in _subscriptions[e.Characteristic.Id])
@@ -252,11 +295,32 @@ namespace EarableLibrary
 				}
 			}
 		}
+
+		private async void DispatchOperation()
+		{
+			foreach (BLEOperation operation in _operationQueue.GetConsumingEnumerable())
+			{
+				Debug.WriteLine("Dispatching operation ({0})", args: operation.GetType());
+				try
+				{
+					await operation.Execute();
+				}
+				catch (ThreadAbortException)
+				{
+					return;
+				}
+				catch (Exception)
+				{
+					// TODO: retry / notify operation-source / etc.
+					continue;
+				}
+			}
+		}
 	}
 
 	internal interface BLEOperation
 	{
-		Task Execute(CancellationToken token);
+		Task Execute();
 	}
 
 	internal class WriteOperation : BLEOperation
@@ -268,9 +332,9 @@ namespace EarableLibrary
 			Characteristic = characteristic;
 			Message = message;
 		}
-		public async Task Execute(CancellationToken token)
+		public async Task Execute()
 		{
-			await Characteristic.WriteAsync(Message, token);
+			await Characteristic.WriteAsync(Message);
 		}
 	}
 
@@ -283,7 +347,7 @@ namespace EarableLibrary
 			Characteristic = characteristic;
 			Subscribe = subscribe;
 		}
-		public async Task Execute(CancellationToken token)
+		public async Task Execute()
 		{
 			if (Subscribe) await Characteristic.StartUpdatesAsync();
 			else await Characteristic.StopUpdatesAsync();
@@ -293,15 +357,15 @@ namespace EarableLibrary
 	internal class ReadOperation : BLEOperation
 	{
 		public ICharacteristic Characteristic;
-		private BLEConnection.SubscriptionHandler handler;
+		private BLEConnection.DataReceiver handler;
 
-		public ReadOperation(ICharacteristic characteristic, BLEConnection.SubscriptionHandler handler)
+		public ReadOperation(ICharacteristic characteristic, BLEConnection.DataReceiver handler)
 		{
 			Characteristic = characteristic;
 			this.handler = handler;
 		}
 
-		public async Task Execute(CancellationToken token)
+		public async Task Execute()
 		{
 			var data = await Characteristic.ReadAsync();
 			handler(data);
