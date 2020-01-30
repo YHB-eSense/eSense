@@ -163,13 +163,6 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
-		/*
-		private void UpdateAudioModule(SettingsHandler.AudioModule audioModule)
-		{
-			_audioPlayerImp = audioModule.AudioPlayer;
-			//TODO
-		}
-		*/
 
 		private void InvokeNextSongEvent()
 		{
