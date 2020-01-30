@@ -128,5 +128,14 @@ namespace Karl.Model
 			await _connectedEarable.SetNameAsync(name);
 		}
 
+		/// <summary>
+		/// If bluetooth is turned of while app is sleeping, this will update the app
+		/// </summary>
+		public async void RefreshAfterSleep()
+		{
+			if (Plugin.BLE.CrossBluetoothLE.Current.IsOn) { Debug.WriteLine("STILL CONNECTED"); }
+			else { await Disconnect(); }	
+		}
+
 	}
 }
