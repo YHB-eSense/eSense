@@ -22,7 +22,7 @@ namespace Karl.Model
 
 		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
 
-		public SimplePlaylist[] AllPlaylists { get => WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
+		public SimplePlaylist[] AllPlaylists { get; private set; }
 		public SimplePlaylist SelectedPlaylist
 		{
 			get => _playlist;
@@ -40,7 +40,12 @@ namespace Karl.Model
 				if (_initDone) return;
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				AllAudioTracks = new ObservableCollection<AudioTrack>();
+				/*
+				if (WebAPI == null) Debug.WriteLine("HEY");
+				if (WebAPI == null) Debug.WriteLine("HEY");
+				AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
 				SelectedPlaylist = AllPlaylists[0];
+				*/
 				_initDone = true;
 			}
 		}
