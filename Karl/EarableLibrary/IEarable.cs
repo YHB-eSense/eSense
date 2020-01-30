@@ -9,16 +9,9 @@ namespace EarableLibrary
 	public interface IEarable
 	{
 		/// <summary>
-		/// Get the device name.
+		/// Device name.
 		/// </summary>
-		string Name { get; }
-
-		/// <summary>
-		/// Asynchronously update the device name.
-		/// </summary>
-		/// <param name="name">New name</param>
-		/// <returns>Whether the name could be changed successfully or not</returns>
-		Task<bool> SetNameAsync(string name);
+		string Name { get; set; }
 
 		/// <summary>
 		/// The unique device id.

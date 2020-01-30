@@ -1,5 +1,4 @@
-using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -14,32 +13,6 @@ namespace EarableLibrary
 		/// The three shorts making up the triple.
 		/// </summary>
 		public short x, y, z;
-
-		/// <summary>
-		/// Parse a TripleShort from an array of bytes.
-		/// The first three pairs of bytes are converted to one short each (in the order x, y, z).
-		/// </summary>
-		/// <param name="array">The array of bytes</param>
-		/// <param name="offset">Offset of the first byte</param>
-		/// <param name="bigEndian">Whether to use big-endian (MSB first) or little-endian</param>
-		/// <returns>The parsed TripleShort</returns>
-		public static TripleShort FromByteArray(byte[] array, int offset=0, bool bigEndian=true)
-		{
-			TripleShort t;
-			if (bigEndian)
-			{
-				t.x = (short)((array[0 + offset] << 8) + array[1 + offset]);
-				t.y = (short)((array[2 + offset] << 8) + array[3 + offset]);
-				t.z = (short)((array[4 + offset] << 8) + array[5 + offset]);
-			}
-			else
-			{
-				t.x = (short)((array[1 + offset] << 8) + array[0 + offset]);
-				t.y = (short)((array[3 + offset] << 8) + array[2 + offset]);
-				t.z = (short)((array[5 + offset] << 8) + array[4 + offset]);
-			}
-			return t;
-		}
 
 		/// <summary>
 		/// Construct a new TripleShort from three shorts.
@@ -93,14 +66,18 @@ namespace EarableLibrary
 	/// <summary>
 	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample> //, IReadableSensor<MotionSensorSample>
 	{
 		// Command used to enable and disable IMU sampling
 		private static readonly byte CMD_IMU_ENABLE = 0x53;
 		private static readonly byte ENABLE = 0x01;
 		private static readonly byte DISABLE = 0x00;
+		private static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
+		private static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
+		private static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
+		private static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
 
-		private readonly ICharacteristic _data, _enable, _config, _offset;
+		private readonly BLEConnection _connection;
 
 		/// <summary>
 		/// Invoked when a new sample is available.
@@ -115,60 +92,46 @@ namespace EarableLibrary
 		/// <summary>
 		/// Construct a new MotionSensor.
 		/// </summary>
-		/// <param name="data">Characteristic giving access to the sensor readings</param>
-		/// <param name="enable">Characteristic giving access to the enable-flag</param>
-		/// <param name="config">Characteristic giving access to the sensor configuration</param>
-		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
+		/// <param name="connection">BLE connection handle</param>
+		public MotionSensor(BLEConnection connection)
 		{
-			_data = data;
-			_enable = enable;
-			_config = config;
-			_offset = offset;
-			data.ValueUpdated += OnValueUpdated;
+			_connection = connection;
 			SamplingRate = 50;
 		}
 
 		/// <summary>
 		/// Start sampling at the configured rate (<see cref="SamplingRate"/>).
 		/// </summary>
-		public async Task StartSamplingAsync()
+		public void StartSampling()
 		{
-			await _data.StartUpdatesAsync();
+			_connection.Subscribe(CHAR_IMU_DATA, ValueUpdated);
 			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte) SamplingRate);
-			await _enable.WriteAsync(msg);
+			_connection.Write(CHAR_IMU_ENABLE, msg);
 		}
 
 		/// <summary>
 		/// Stop sampling.
 		/// </summary>
-		public async Task StopSamplingAsync()
+		public void StopSampling()
 		{
-			await _data.StopUpdatesAsync();
+			_connection.Unsubscribe(CHAR_IMU_DATA, ValueUpdated);
 			var msg = new ESenseMessage(CMD_IMU_ENABLE, DISABLE, 0);
-			await _enable.WriteAsync(msg);
-		}
-
-		/// <summary>
-		/// Manually retrieve the current sensor reading.
-		/// </summary>
-		/// <returns>Sensor reading</returns>
-		public async Task<MotionSensorSample> ReadAsync()
-		{
-			var message = await _data.ReadAsync();
-			return ParseMessage(message);
+			_connection.Write(CHAR_IMU_ENABLE, msg);
 		}
 
 		private MotionSensorSample ParseMessage(byte[] bytes)
 		{
-			var message = new ESenseMessage(received: bytes, hasPacketIndex: true);
-			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
-			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
+			var message = new IndexedESenseMessage();
+			message.Decode(bytes);
+			var readings = message.DataAsShortArray();
+			var gyro = new TripleShort(readings[0], readings[1], readings[2]);
+			var acc = new TripleShort(readings[3], readings[4], readings[5]);
 			return new MotionSensorSample(gyro, acc, message.PacketIndex);
 		}
 
-		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
+		private void ValueUpdated(byte[] value)
 		{
-			ValueChanged?.Invoke(this, ParseMessage(e.Characteristic.Value));
+			ValueChanged?.Invoke(this, ParseMessage(value));
 		}
 	}
 }

@@ -1,4 +1,5 @@
-using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,40 +12,39 @@ namespace EarableLibrary
 	/// </summary>
 	internal class EarableName
 	{
+		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
+		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
+
 		private string _name;
-		private readonly ICharacteristic _read, _write;
+		private readonly BLEConnection _conn;
 
 		/// <summary>
 		/// Construct a new EarableName.
 		/// </summary>
 		/// <param name="read">Characteristic which allows read-access to the name</param>
 		/// <param name="write">Characteristic which allows write-access to the name</param>
-		public EarableName(ICharacteristic read, ICharacteristic write)
+		public EarableName(BLEConnection conn)
 		{
-			_read = read;
-			_write = write;
+			_conn = conn;
+			_conn.Read(CHAR_NAME_R, ValueAvailable);
+		}
+
+		private void ValueAvailable(byte[] data)
+		{
+			_name = Encoding.ASCII.GetString(data);
 		}
 
 		/// <summary>
-		/// Initialize the names local copy by retrieving its current remote value.
-		/// </summary>
-		public async Task Initialize()
-		{
-			var bytes = await _read.ReadAsync();
-			_name = Encoding.ASCII.GetString(bytes);
-		}
-
-		/// <summary>
-		/// Asynchronously update the remote device name.
-		/// If successful, the local copy is updated too.
+		/// Update the remote device name and it's local copy.
 		/// </summary>
 		/// <param name="value">New device name</param>
-		/// <returns>true if write succeeded, false otherwise</returns>
-		public async Task<bool> SetAsync(string value)
+		public void Set(string value)
 		{
-			var success = await _write.WriteAsync(Encoding.ASCII.GetBytes(value));
-			if (success) _name = value;
-			return success;
+			var msg = new RawMessage()
+			{
+				Data = Encoding.ASCII.GetBytes(value)
+			};
+			_conn.Write(CHAR_NAME_W, msg);
 		}
 
 		/// <summary>

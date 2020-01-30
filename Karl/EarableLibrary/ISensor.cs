@@ -32,12 +32,12 @@ namespace EarableLibrary
 		/// <summary>
 		/// Start sampling process.
 		/// </summary>
-		Task StartSamplingAsync();
+		void StartSampling();
 
 		/// <summary>
 		/// Stop sampling process.
 		/// </summary>
-		Task StopSamplingAsync();
+		void StopSampling();
 
 	}
 
@@ -47,10 +47,5 @@ namespace EarableLibrary
 	/// <typeparam name="T">Type of returned sensor readings</typeparam>
 	public interface IReadableSensor<T> : ISensor
 	{
-		/// <summary>
-		/// Query the sensor for its current value.
-		/// </summary>
-		/// <returns>Current sensor reading</returns>
-		Task<T> ReadAsync();
 	}
 }

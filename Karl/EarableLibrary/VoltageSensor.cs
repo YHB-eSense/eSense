@@ -1,4 +1,5 @@
-using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.Extensions;
+using System;
 using System.Threading.Tasks;
 
 namespace EarableLibrary
@@ -23,30 +24,27 @@ namespace EarableLibrary
 	/// </summary>
 	public class VoltageSensor : IReadableSensor<BatteryState>
 	{
-		private readonly ICharacteristic _read;
+		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
 
+		private BLEConnection _conn;
 
 		/// <summary>
 		/// Construct a new VoltageSensor.
 		/// </summary>
 		/// <param name="read">Characteristic, which provides read-access to the current battery state</param>
-		public VoltageSensor(ICharacteristic read)
+		public VoltageSensor(BLEConnection conn)
 		{
-			_read = read;
+			_conn = conn;
 		}
 
-		/// <summary>
-		/// Query the earable for its current battery state.
-		/// </summary>
-		/// <returns>Current battery state</returns>
-		public async Task<BatteryState> ReadAsync()
+		private void OnReadCompleted(byte[] data)
 		{
-			var bytes = await _read.ReadAsync();
-			var message = new ESenseMessage(received: bytes);
-			return new BatteryState()
+			var message = new ESenseMessage();
+			message.Decode(data);
+			new BatteryState()
 			{
 				Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f,
-				Charging = (message.Data[0] & 1) == 1
+				Charging = (message.Data[2] & 1) == 1
 			};
 		}
 	}

@@ -91,7 +91,7 @@ namespace Karl.Model
 			var imu = _connectedEarable.GetSensor<MotionSensor>();
 			imu.SamplingRate = _stepDetection.SamplingRate;
 			imu.ValueChanged += _stepDetection.ValueChanged;
-			await imu.StartSamplingAsync();
+			imu.StartSampling();
 
 			var button = _connectedEarable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
@@ -99,7 +99,7 @@ namespace Karl.Model
 				bool released = !args.Pressed;
 				if (released) SingletonAudioPlayer.TogglePause();
 			};
-			await button.StartSamplingAsync();
+			button.StartSampling();
 
 			ConnectionChanged?.Invoke(this, null);
 
@@ -125,7 +125,7 @@ namespace Karl.Model
 		public async Task SetDeviceNameAsync(string name)
 		{
 			if (!EarableConnected) return;
-			await _connectedEarable.SetNameAsync(name);
+			_connectedEarable.Name = name;
 		}
 
 	}
