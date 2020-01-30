@@ -188,6 +188,7 @@ namespace Karl.ViewModel
 
 		private void RefreshAudioLib(object sender, EventArgs args)
 		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;
@@ -272,10 +273,13 @@ namespace Karl.ViewModel
 				foreach(AudioTrack song in _deleteList)
 				{
 					_audioLib.DeleteTrack(song);
-					if(_audioPlayer.CurrentTrack == song) { _audioPlayer.TogglePause(); }
+					if(_audioPlayer.CurrentTrack == song)
+					{
+						_audioPlayer.TogglePause();
+						_audioPlayer.CurrentTrack = null;
+					}
 				}
 			}
-			RefreshAudioLib(null, null);
 		}
 
 	}
