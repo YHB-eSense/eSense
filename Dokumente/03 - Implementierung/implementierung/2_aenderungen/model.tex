@@ -1,4 +1,15 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
-
+	\section{Model}
+		\subsection{AudioLib}
+			\begin{itemize}
+				\item Verändert: Signatur von AddTrack(...) Hat nun \code{string storage} als parameter.
+				\item Hinzugekommen: ChangeToSpotifyLib() \& ChangeToBasicLib() \& UpdateLib()
+			\end{itemize}
+		\subsection{AudioPlayer}
+			\begin{itemize}
+				\add{Event AudioChanged}
+				\changed{Stack<AudioTrack> SongsQueue -> Queue<AudioTrack> SongsQueue}
+				\remove{Clear() Clears Queue and PlayedSongs Stack}
+			\end{itemize}
 \end{document}
