@@ -74,6 +74,7 @@ namespace Karl.ViewModel
 			get => AudioPlayer.SingletonAudioPlayer.Volume;
 			set => AudioPlayer.SingletonAudioPlayer.Volume = value;
 		}
+		public bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
 
 		//Commands binded to AudioPlayerPage of View
 		public ICommand PausePlayCommand { get; }
@@ -119,6 +120,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 		}
 
 		private void PausePlay()

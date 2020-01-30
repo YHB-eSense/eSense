@@ -35,10 +35,10 @@
 			<!--First Row-->
 			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="0" Grid.Column="2" CornerRadius="0" HasShadow="False" Padding="15">
 				<Image Source="{local:ImageResource Karl.Resources.Images.settings.png}" IsVisible="{Binding HelpVisible}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False" Padding="15">
 				<ImageButton Source="{local:ImageResource Karl.Resources.Images.help.png}"
 					BackgroundColor="Transparent"
 					Command="{Binding HelpCommand}"
@@ -55,7 +55,7 @@
 			</Frame>
 
 			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False" Padding="15">
 				<Image Source="{local:ImageResource Karl.Resources.Images.modes.png}"
 				IsVisible="{Binding HelpVisible}"
 				Aspect="AspectFit"/>
@@ -66,7 +66,7 @@
 					Command="{Binding TryConnectCommand}"
 					Aspect="AspectFit"/>
 			</Frame>
-			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False" Padding="15">
 				<Image Source="{local:ImageResource Karl.Resources.Images.audio_lib.png}"
 					IsVisible="{Binding HelpVisible}"
 					Aspect="AspectFit"/>
@@ -84,7 +84,7 @@
 			<!--Fifth Row-->
 			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
-			<Frame Grid.Row="4" Grid.Column="2" CornerRadius="0" HasShadow="False">
+			<Frame Grid.Row="4" Grid.Column="2" CornerRadius="0" HasShadow="False" Padding="15">
 				<Image Source="{local:ImageResource Karl.Resources.Images.audio_player.png}"
 					IsVisible="{Binding HelpVisible}"
 					Aspect="AspectFit"/>

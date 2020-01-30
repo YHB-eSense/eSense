@@ -32,7 +32,8 @@
 
 			<!--Second Row-->
 			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
-				<Label Text="{Binding AudioTrack.Title}" VerticalOptions="Center" HorizontalOptions="Center"/>
+				<Label Text="{Binding AudioTrack.Title}" VerticalOptions="Center" HorizontalOptions="Center"
+					MaxLines="1"/>
 			</Frame>
 
 			<!--Third Row-->
@@ -81,7 +82,7 @@
 
 			<!--Fifth Row-->
 			<Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0" HasShadow="False">
-				<StackLayout Orientation="Horizontal" Margin="20,0,20,0">
+				<StackLayout Orientation="Horizontal" Margin="20,0,20,0" IsVisible="{Binding UsingBasicAudio}">
 					<Image Source="{local:ImageResource Karl.Resources.Images.volume_off.png}"
 						WidthRequest="20"
 						HeightRequest="20"
