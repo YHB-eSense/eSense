@@ -3,6 +3,7 @@ using Plugin.FilePicker;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
@@ -69,10 +70,10 @@ namespace Karl.ViewModel
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and AudioLib of Model
 		/// </summary>
-		/// <param name="handler"> For navigation</param>
-		public AddSongPageVM(NavigationHandler handler)
+		/// <param name="navHandler"> For navigation</param>
+		public AddSongPageVM(NavigationHandler navHandler)
 		{
-			_navHandler = handler;
+			_navHandler = navHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			AddSongCommand = new Command(AddSong);
@@ -120,9 +121,10 @@ namespace Karl.ViewModel
 			var pick = await CrossFilePicker.Current.PickFile();
 			if (pick != null)
 			{
-				_picked = true;
 				_newSongFileLocation = pick.FilePath;
+				Debug.WriteLine("Audio file picked: {0}", args: _newSongFileLocation);
 				_file = TagLib.File.Create(_newSongFileLocation);
+				_picked = true;
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
 				NewSongBPM = GetBPM();

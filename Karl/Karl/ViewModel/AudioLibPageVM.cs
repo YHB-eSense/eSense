@@ -41,8 +41,16 @@ namespace Karl.ViewModel
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
 		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
-		public SimplePlaylist SelectedPlaylist { get => _audioLib.SelectedPlaylist; set => _audioLib.SelectedPlaylist = value; }
-		public ObservableCollection<AudioTrack> Songs
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => _audioLib.SelectedPlaylist;
+			set
+			{
+				_audioLib.SelectedPlaylist = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			}
+		}
+		public List<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
 			set
@@ -140,6 +148,7 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_audioLib.AudioLibChanged += RefreshAudioLib;
 			TitleSort();
 		}
 
@@ -162,15 +171,34 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private void RefreshAudioModule(AudioModule module)
+		private void RefreshAudioModule(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
+			switch (type)
+			{
+				case _sortType.TITLESORT: TitleSort(); break;
+				case _sortType.ARTISTSORT: ArtistSort(); break;
+				case _sortType.BPMSORT: BPMSort(); break;
+			}
+		}
+
+		private void RefreshAudioLib(object sender, EventArgs args)
+		{
+			switch (type)
+			{
+				case _sortType.TITLESORT: TitleSort(); break;
+				case _sortType.ARTISTSORT: ArtistSort(); break;
+				case _sortType.BPMSORT: BPMSort(); break;
+			}
 		}
 
 		private void TitleSort()
 		{
-			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Title)); }
+			if (Songs != null) { Songs = new List<AudioTrack>(Songs.OrderBy(s => s.Title)); }
 			TitleSortColor = CurrentColor.Color;
 			ArtistSortColor = Color.Transparent;
 			BPMSortColor = Color.Transparent;
@@ -182,7 +210,7 @@ namespace Karl.ViewModel
 
 		private void ArtistSort()
 		{
-			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.Artist)); }
+			if (Songs != null) { Songs = new List<AudioTrack>(Songs.OrderBy(s => s.Artist)); }
 			TitleSortColor = Color.Transparent;
 			ArtistSortColor = CurrentColor.Color;
 			BPMSortColor = Color.Transparent;
@@ -194,7 +222,7 @@ namespace Karl.ViewModel
 
 		private void BPMSort()
 		{
-			if (Songs != null) { Songs = new ObservableCollection<AudioTrack>(Songs.OrderBy(s => s.BPM)); }
+			if (Songs != null) { Songs = new List<AudioTrack>(Songs.OrderBy(s => s.BPM)); }
 			TitleSortColor = Color.Transparent;
 			ArtistSortColor = Color.Transparent;
 			BPMSortColor = CurrentColor.Color;
@@ -223,13 +251,13 @@ namespace Karl.ViewModel
 
 		private void SearchSong(string value)
 		{
-			if (_oldSongs == null){ _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
+			if (_oldSongs == null) { _oldSongs = new ObservableCollection<AudioTrack>(Songs); }
 			if (value == null || value == "")
 			{
-				Songs = new ObservableCollection<AudioTrack>(_oldSongs);
+				Songs = new List<AudioTrack>(_oldSongs);
 				_oldSongs = null;
 			}
-			else { Songs = new ObservableCollection<AudioTrack>(_oldSongs.Where(song =>
+			else { Songs = new List<AudioTrack>(_oldSongs.Where(song =>
 				song.Title.ToLower().Contains(value.ToLower()) ||
 				song.Artist.ToLower().Contains(value.ToLower()))); }
 		}

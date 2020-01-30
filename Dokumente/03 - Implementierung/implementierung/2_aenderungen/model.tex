@@ -1,0 +1,80 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+	\section{Model}
+		\subsection{\# AudioLib}
+			\begin{itemize}
+				\add{ChangeToSpotifyLib() \& ChangeToBasicLib() \& UpdateLib()}
+				\changed{Signatur von AddTrack(...) Hat nun \code{string storage} als parameter.}
+			\end{itemize}
+		\subsection{\# AudioPlayer}
+			\begin{itemize}
+				\add{Event AudioChanged: Neues Lied}
+				\add{ChangeToSpotifyPlayer() Wechselt zum Spotify Modus}
+				\add{ChangeToBasicPlayer()Wechselt zum Standart Modus}
+				\changed{Stack<AudioTrack> SongsQueue -> Queue<AudioTrack> SongsQueue}
+				\remove{Clear() Clears Queue and PlayedSongs Stack}
+			\end{itemize}
+		\subsection{\# AudioTrack}
+			\begin{itemize}
+				\add{String StorageLocation: Speicherort des Songs}
+				\add{String TextId: SpotifyId des Songs}
+			\end{itemize}
+		\subsection{+ ColorManager}
+			Verwaltet die Farbeinstellungen der App. Singleton-Muster
+			\paragraph{Attribute}
+				\begin{itemize}
+					\add{Colors: Alle verfügbaren Farben \sign{public List$<$CustomColor$>$ Colors}}
+					\add{CurrentColor: Aktuelle Farbe \sign{public CustomColor CurrentColor}}
+					\add{ResetColors: Setzt Farb Thema zurück \sign{public void ResetColors()}}
+				\end{itemize}
+		\subsection{+ CustomColor}
+			Wrapper Klasse um eine Xamarin Color.
+			\begin{itemize}
+				\add{Color: Die Grund Farbe \sign{public Color Color}}
+				\add{Name: Name der Farbe \sign{public string Name}}
+			\end{itemize}
+		\subsection{\# ConnectivityHandler}
+			Der Connectivity Handler hat zusätzlich die Funtionalitäten \& Aufgaben von BluetoothDevice übernommen.
+			Falls nicht mit Bluetooth Standard eine Verbindung besteht, wird Bluetooth in den Geräte-Einstellungen 
+			geöffnet. Ansonsten wird mit den verbundenen Earables eine BLE Verbindung hergestellt.
+			\begin{itemize}
+				\add{event ConnectionChanged: Verbindungsstatus geändert}
+				\add{Connect(): Verbindet sich asynchron mit den Earables oder öffnet Einstellungen.}
+				\remove{SearchDevices()}
+				\remove{CurrentDevice}
+			\end{itemize}
+		\subsection{- BluetoothDevice}
+			Nicht mehr benötigt.
+		\subsection{\# LangManager}
+			\begin{itemize}
+				\add{AvailableLangs: Liste verfügbarer Sprachen.}
+				\add{LangMap: HashMap welche die Tags eine Sprache als keys und die Sprache als Value hat}
+			\end{itemize}
+		\subsection{\# Lang}
+			\begin{itemize}
+				\add{Init: Falls die Sprache nicht Initialisiert ist, wird die Sprache initialisiert.}
+			\end{itemize}
+		\subsection{\# ModeHandler}
+			\begin{itemize}
+				\add{ResetModes(): Setzt alle Modi zurück}
+			\end{itemize}
+		\subsection{\# SettingsHandler}
+			Der SettingsHandler hat zusätlich die Aufgabe übernommen Graph-Darstellungen von gesammelten Daten 
+			anzuzeigen. Desweiteren sind auch die Audio-Module und das Wechseln zwischen diesen fest implementiert.
+			\begin{itemize}
+				\add{event LangChanged: Sprache ändert sich}
+				\add{event DeviceNameChanged: GeräteName der Earables geändert}
+				\add{event StepsChanged: Schritt-Anzahl geändert}
+				\add{event ColorChanged: Farb-Thema geändert}
+				\add{event ChartChanged: Anzeige-Graph geändert}
+				\add{event AudioModuleChanged: Audio-Modul \change}
+				\add{ChartEntries: Die Graphen-Einträge}
+				\add{UsingBasicAudio: Boolean, True wenn Standard Audio-Modul verwendet wird}
+				\add{UsingSpotifyAudio: Boolean, True wenn Spotify Audio-Modul verwendet wird}
+				\add{Colors: Liste von verfügbaren Farb-Themen}
+				\add{changeAudioModuleToSpotify(): Wechselt das AudioModul zu Spotify}
+				\add{changeAudioModuleToBasic(): Wechselt das Audio-Modul zu Standard}
+				\add{InitTimer(): Timer zum Einstellen der Zeit zwischen den einzelnen Microchart-Einträgen}
+				\add{AddChartEvent(...): Methode zum Hinzufügen von microchartentries}
+			\end{itemize}
+\end{document}

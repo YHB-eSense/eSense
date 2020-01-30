@@ -1,0 +1,18 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+\subsection{\# Interface Mode}
+\begin{itemize}
+\remove{  Wurde nicht benötigt. \sign{protected abstract String UpdateName(Lang value)}}
+\end{itemize}
+\subsection{\# AutostopMode}
+Implementiert jetzt auch \sign{IObserver<Output>}, um Daten von der StepDetectionLibrary zu erhalten.
+\begin{itemize}
+\add{Wenn die Property gesetzt wird, wird das Playback des Users gestoppt/weiter abgespielt. \sign{public bool Autostopped}}
+\end{itemize}
+\subsection{\# MotivationMode}
+Implementiert jetzt auch \sign{IObserver <Output>}, um Daten von der StepDetectionLibrary zu erhalten.
+\begin{itemize}
+\add{Wenn die aktuelle Schrittfrequenz und die BPM des laufenden Songs sich um mehr als den Schwellwert(also MaxAllowedBPMDiff) unterscheiden wird ein neuer (passender) Song abgespielt.\sign{public double MaxAllowedBPMDiff = 15} }
+\add{ Wählt einen Song aus dessen BPM zur Schrittfrequenz des Users passt. \sign{public void ChooseNextSong()}}
+\end{itemize}
+\end{document}

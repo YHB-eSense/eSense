@@ -1,5 +1,6 @@
 using StepDetectionLibrary;
 using System;
+using System.Diagnostics;
 using static Karl.Model.AudioPlayer;
 using static Karl.Model.LangManager;
 using static StepDetectionLibrary.OutputManager;
@@ -9,9 +10,9 @@ namespace Karl.Model
 	/// <summary>
 	/// The Autostop Mode.
 	/// </summary>
-	class AutostopMode : IMode, IObserver<Output>
+	public class AutostopMode : Mode, IObserver<Output>
 	{
-		private IDisposable StepDetectionDisposable;
+		private IDisposable _stepDetectionDisposable;
 		private bool _autostopped;
 		public bool Autostopped
 		{
@@ -31,22 +32,30 @@ namespace Karl.Model
 			}
 		}
 
-		public void Activate()
-		{
-			_autostopped = false;
-			StepDetectionDisposable = SingletonOutputManager.Subscribe(this);
-		}
-
-		public void Deactivate()
-		{
-			StepDetectionDisposable.Dispose();
-			_autostopped = false;
-		}
-
-		public string Name
+		public override string Name
 		{
 			get => SingletonLangManager.CurrentLang.Get("autostop_mode");
 		}
+
+		protected override bool Activate()
+		{
+			_autostopped = false;
+			_stepDetectionDisposable = SingletonOutputManager.Subscribe(this);
+			return true;
+		}
+
+		protected override bool Deactivate()
+		{
+			_autostopped = false;
+			if (_stepDetectionDisposable != null)
+			{
+				_stepDetectionDisposable.Dispose();
+				_stepDetectionDisposable = null;
+			}
+			return true;
+		}
+
+		
 
 		public void OnNext(Output value)
 		{

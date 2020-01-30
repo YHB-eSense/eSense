@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StepDetectionLibrary
 {
@@ -10,23 +8,29 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
 	{
-		private Queue<int> steps;
-		private int stepsum;
+
+		private Queue<int> _steps;
+		private int _stepsum;
+		private bool _threshholdpassed = false;
+		private List<IObserver<Output>> _observer;
 
 		/// <summary>
 		/// Amount of chunks to be used for frequency calculation.
 		/// Larger values result in better precision but also in longer latency.
 		/// </summary>
-		public uint FrequencyResolution => 5; // TODO: make this configurable
+		public uint FrequencyResolution => 25 * 5; // TODO: make this configurable
 
+		/// <summary>
+		/// constructor for stepdetectionalg
+		/// </summary>
 		public StepDetectionAlg()
 		{
 			_observer = new List<IObserver<Output>>();
 			Subscribe(OutputManager.SingletonOutputManager);
-			steps = new Queue<int>();
-			stepsum = 0;
+			_steps = new Queue<int>();
+			_stepsum = 0;
 		}
-		private List<IObserver<Output>> _observer;
+
 		/// <summary>
 		/// method if provider finished sending data
 		/// </summary>
@@ -67,27 +71,6 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// Unsubscriber
-		/// </summary>
-		private class Unsubscriber : IDisposable
-		{
-			private List<IObserver<Output>> _observers;
-			private IObserver<Output> _observer;
-
-			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
-			{
-				this._observers = observers;
-				this._observer = observer;
-			}
-
-			public void Dispose()
-			{
-				if (_observer != null && _observers.Contains(_observer))
-					_observers.Remove(_observer);
-			}
-		}
-
-		/// <summary>
 		/// method to update _observer
 		/// </summary>
 		/// <param name="output">new data thats been calculated by the algorithm</param>
@@ -110,7 +93,6 @@ namespace StepDetectionLibrary
 			const double AVGMAG = 10; // TODO: value needs to be tested, should be configurable
 			const double THRESHHOLD = 6500; // TODO: value needs to be tested, should be configurable
 			int stepcount = 0;
-			bool threshhold_passed = false;
 
 			double[] netmag = new double[length];
 			for (int i = 0; i < length; i++)
@@ -123,23 +105,52 @@ namespace StepDetectionLibrary
 				//Console.WriteLine(netmag[i]);
 				if (netmag[i] > THRESHHOLD)
 				{
-					threshhold_passed = true;
-				} else if (threshhold_passed) {
-					threshhold_passed = false;
+					_threshholdpassed = true;
+				} else if (_threshholdpassed) {
+					_threshholdpassed = false;
 					stepcount++;
 				}
 			}
 
-			steps.Enqueue(stepcount);
-			stepsum += stepcount;
-			if(steps.Count > FrequencyResolution)
+			_steps.Enqueue(stepcount);
+			_stepsum += stepcount;
+			if(_steps.Count > FrequencyResolution)
 			{
-				stepsum -= steps.Dequeue();
+				_stepsum -= _steps.Dequeue();
 			}
-			double frequency = stepsum / (data.LengthInSeconds * steps.Count); 
+			double frequency = _stepsum / (data.LengthInSeconds * _steps.Count); 
 			Output output = new Output(frequency, stepcount);
 
 			return output;
+		}
+
+		/// <summary>
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<Output>> _observers;
+			private IObserver<Output> _observer;
+
+			/// <summary>
+			/// constructor for unsubscriber
+			/// </summary>
+			/// <param name="observers">observers</param>
+			/// <param name="observer">observer</param>
+			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			/// <summary>
+			/// dipsose
+			/// </summary>
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
 		}
 	}
 

@@ -12,29 +12,9 @@ namespace Karl.Model
 	public class LangManager : IObservable<Lang>
 	{
 		private static LangManager _singletonLangManager;
-		private readonly List<IObserver<Lang>> _observers;
-		private Lang _currentLang;
 
-		public List<Lang> AvailableLangs { get; }
-		public Dictionary<string, Lang> LangMap { get; private set; }
 		/// <summary>
-		/// The Language obj. currently selected.
-		/// </summary>
-		public Lang CurrentLang
-		{
-			get => _currentLang;
-			set
-			{
-				_currentLang = value;
-				value.Init();
-				foreach (IObserver<Lang> observer in _observers)
-				{
-					observer.OnNext(value);
-				}
-			}
-		}
-		/// <summary>
-		/// The singleton object of LangManager.
+		/// The singleton object of LangManager
 		/// </summary>
 		public static LangManager SingletonLangManager
 		{
@@ -48,19 +28,32 @@ namespace Karl.Model
 				return _singletonLangManager;
 			}
 		}
+
+		private readonly List<IObserver<Lang>> _observers;
+		private Lang _currentLang;
+
 		/// <summary>
-		/// This tries to find a lang with the tag specified.
+		/// List of available languages
 		/// </summary>
-		/// <param name="tag">The language tag</param>
-		/// <returns>true if lang was found. False otherwise.</returns>
-		public bool ChooseLang(string tag)
+		public List<Lang> AvailableLangs { get; }
+
+		/// <summary>
+		/// Dictionary of available languages
+		/// </summary>
+		public Dictionary<string, Lang> LangMap { get; private set; }
+
+		/// <summary>
+		/// The Language obj. currently selected.
+		/// </summary>
+		public Lang CurrentLang
 		{
-			if (LangMap.TryGetValue(tag, out Lang lang))
+			get => _currentLang;
+			set
 			{
-				CurrentLang = lang;
-				return true;
+				_currentLang = value;
+				value.Init();
+				foreach (IObserver<Lang> observer in _observers) { observer.OnNext(value); }
 			}
-			else { return false; }
 		}
 
 		/// <summary>
@@ -69,7 +62,7 @@ namespace Karl.Model
 		private LangManager()
 		{
 			AvailableLangs = new List<Lang>();
-			LangMap = new Dictionary<String, Lang>();
+			LangMap = new Dictionary<string, Lang>();
 
 			//LocalApplicationData
 			string directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -119,12 +112,26 @@ namespace Karl.Model
 			_observers = new List<IObserver<Lang>>();
 		}
 
-		//todo https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1?view=netframework-4.8
 		/// <summary>
-		/// Usual Subscribe method.
+		/// Tries to find a lang with the tag specified
 		/// </summary>
-		/// <param name="observer">The Observer you want to register.</param>
-		/// <returns>The IDisposable for Unsubscribing.</returns>
+		/// <param name="tag">The language tag</param>
+		/// <returns>true if lang was found, false otherwise</returns>
+		public bool ChooseLang(string tag)
+		{
+			if (LangMap.TryGetValue(tag, out Lang lang))
+			{
+				CurrentLang = lang;
+				return true;
+			}
+			else { return false; }
+		}
+
+		/// <summary>
+		/// Usual subscribe method
+		/// </summary>
+		/// <param name="observer">The observer you want to register</param>
+		/// <returns>The IDisposable for unsubscribing</returns>
 		public IDisposable Subscribe(IObserver<Lang> observer)
 		{
 			//todo
@@ -132,6 +139,9 @@ namespace Karl.Model
 			return new Unsubscriber(this, observer);
 		}
 
+		/// <summary>
+		/// Usual unsubscriber
+		/// </summary>
 		private class Unsubscriber : IDisposable
 		{
 			private LangManager _parent;

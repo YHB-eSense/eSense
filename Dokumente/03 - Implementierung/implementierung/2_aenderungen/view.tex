@@ -1,0 +1,33 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+\section{View}
+Aus allen View Klassen wurde die Methode OnAppearing() entfernt. Aktualisierungen finden nur nach
+ Änderungen von Werten der UI Elemente statt.
+\subsection{\# MainPage} 
+\begin{itemize}
+\add{Ein Button hinzugefügt, der durch Drücken Hilfssymbole sichtbar/unsichtbar macht, die anzeigen durch welche Geste man zu welcher Seite der App navigiert}
+\add{Vier Images (Hilfssymbole) , die anzeigen durch welche Geste man zu welcher Seite der App navigiert}
+\end{itemize}
+\subsection{- ConnectionPage} Wurde komplett gelöscht, da es bei iOS nicht möglich ist sich über eine App mit Bluetooth Geräten zu verbinden.
+\subsection{\# AddSongsPage}
+\begin{itemize}
+\add{Ein Button, um die BPM des ausgewählten Songs zu berechnen}
+\end{itemize}
+\subsection{\# AudioLibPage}
+\begin{itemize}
+\add{Ein Picker für Playlist, die aus der Spotify Audio Lib angezeigt werden soll, wurde hinzugefügt}
+\end{itemize}
+\subsection{\# AudioPlayerPage} 
+\begin{itemize}
+\add{Ein Textfeld für den Titel eines Songs}
+\end{itemize}
+\subsection{\# ModesPage} 
+\begin{itemize}
+\add{Ein ChartView zum Anzeigen der Schritte in einem festgelegten Zeitraum }
+\end{itemize}
+\subsection{\# SettingsPage}
+\begin{itemize}
+\add{ Ein Button zum Wechseln zwischen der BasicAudioLib und der SpotifyAudioLib }
+\add{ Es wurde ein Picker zum Wechseln der Farbe der UI Elemente der App und ein Label mit der Aufschrift "Farbe" ( 'Farbe' in der ausgewählten Sprache) hinzugefügt }
+\end{itemize}
+\end{document}

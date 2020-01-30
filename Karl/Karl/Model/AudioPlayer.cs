@@ -18,10 +18,7 @@ namespace Karl.Model
 		public delegate void EventListener();
 
 		public event EventListener NextSongEvent;
-		private void InvokeNextSongEvent()
-		{
-			NextSongEvent?.Invoke();
-		}
+		
 
 		//Eventhandling
 		public delegate void AudioEventHandler(object source, EventArgs e);
@@ -58,6 +55,7 @@ namespace Karl.Model
 			set => _audioPlayerImp.Paused = value;
 		}
 
+
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
 		/// </summary>
@@ -69,14 +67,13 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
-
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
 		private AudioPlayer()
 		{
-			_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
-			SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
+			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
+			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			_audioPlayerImp = new BasicAudioPlayer();
 			SongsQueue = new Queue<AudioTrack>();
 			SongsBefore = new Stack<AudioTrack>();
@@ -84,15 +81,18 @@ namespace Karl.Model
 
 		}
 
-		public void changeToSpotifyPlayer()
+		public void ChangeToSpotifyPlayer()
 		{
+			Clear();
+			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
 			_audioPlayerImp = new SpotifyAudioPlayer();
+			
 		}
 
-		public void changeToBasicPlayer()
+		public void ChangeToBasicPlayer()
 		{
+			Clear();
 			_audioPlayerImp = new BasicAudioPlayer();
-			
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace Karl.Model
 		/// </summary>
 		public void NextTrack()
 		{
-			if (_songsAfter.Count != 0)
+			if (_songsAfter.Count != 0 || SongsQueue.Count != 0)
 			{
 				Paused = false;
 				SongsBefore.Push(CurrentTrack);
@@ -163,11 +163,14 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
-		private void UpdateAudioModule(SettingsHandler.AudioModule audioModule)
+		/// <summary>
+		/// If something is changed in spotify, this will update the app
+		/// </summary>
+		public void RefreshAfterSleep()
 		{
-			_audioPlayerImp = audioModule.AudioPlayer;
-			//TODO
+			AudioChanged?.Invoke(this, null);
 		}
+
 	}
 
 	interface IAudioPlayerImpl

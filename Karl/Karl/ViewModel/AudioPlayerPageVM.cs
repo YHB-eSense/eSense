@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.Model;
 using System.Timers;
+using System.Diagnostics;
 
 namespace Karl.ViewModel
 {
@@ -73,6 +74,7 @@ namespace Karl.ViewModel
 			get => AudioPlayer.SingletonAudioPlayer.Volume;
 			set => AudioPlayer.SingletonAudioPlayer.Volume = value;
 		}
+		public bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
 
 		//Commands binded to AudioPlayerPage of View
 		public ICommand PausePlayCommand { get; }
@@ -101,6 +103,7 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
+			_settingsHandler.AudioModuleChanged += RefreshAudio;
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
@@ -117,6 +120,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 		}
 
 		private void PausePlay()
@@ -156,6 +160,7 @@ namespace Karl.ViewModel
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
 			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
+			CurrentPosition = _audioPlayer.CurrentSecInTrack;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 

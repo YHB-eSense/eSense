@@ -1,0 +1,58 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+    \section{StepDetection-Library}
+        \subsection{\#Input}
+            \begin{itemize}
+                \add{Datalength: Datenlänge eines Paktes welches zum Algorithmus geschickt wird \sign{public int Datalength}}
+                \add{SamplingRate: Anzahl der Datenmessungen pro Sekunde \sign{public int SamplingRate}}
+                \add{Input: Kontruktor \sign{public Input()}}
+            \end{itemize}
+
+        \subsection{\# AccGyroData}   
+            Ist jetzt eine Klasse
+            \begin{itemize}
+                \remove{short[] xacc, yacc, zacc, xgyro, ygyro: Wurden ersetzt durch AccData und GyroData}
+                \add{AccData: Enthält Beschleuningsdaten \sign{public readonly AccData AccData}}
+                \add{GyroData: Enthält Gyroscopedaten \sign{public readonly GyroData GyroData}}
+                \add{Datalength: Datenlänge eines Paktes welches zum Algorithmus geschickt wird \sign{public int Datalength}}
+                \add{SamplingRate: Anzahl der Datenmessungen pro Sekunde \sign{public int SamplingRate}} 
+                \add{LengthInSeconds: Länge eines Datenpakets in Sekunden \sign{public double LengthInSeconds}}
+                \add{AccGyroData: Kontruktor \sign{public AccGyroData(int dataLength, int samplingRate)}}
+            \end{itemize}
+            
+
+        \subsection{+ AccData}
+            Neues Struct mit Beschleuningsdaten
+            \begin{itemize}
+                \add{Xacc: Beschleuninigunsdaten x-Achse \sign{public double[] Xacc}}
+                \add{Yacc: Beschleuninigunsdaten y-Achse \sign{public double[] Yacc}}
+                \add{Zacc: Beschleuninigunsdaten z-Achse \sign{public double[] Zacc}}
+                \add{public AccData(int a): Kontruktor mit Länge des Datenpakets}
+                \add{public AccData(double[] xacc, double[] yacc, double[] zacc): Konstruktor mit Arrays}
+            \end{itemize}
+            
+            
+            
+        \subsection{+ GyroData}
+            Neues Struct mit Gyroscopedaten
+            \begin{itemize}
+                \add{Xgyro: Gyroscopedaten x-Achse \sign{public double[] Xgyro}}
+                \add{Ygyro: Gyroscopedaten y-Achse \sign{public double[] Ygyro}}
+                \add{Zgyro: Gyroscopedaten z-Achse \sign{public double[] Zgyro}}
+                \add{public GyroData(int a): Kontruktor mit Länge des Datenpakets}
+                \add{public GyroData(double[] xgyro, double[] ygyro, double[] zgyro): Konstruktor mit Arrays}
+            \end{itemize}
+        
+        \subsection{\# StepDetectionAlg}
+            \begin{itemize}
+                \add{public uint FrequencyResolution: Anzahl der Datenpakete aus denen die Frequenz berechnet wird}
+                \add{public StepDetectionAlg(): Konstruktor für StepDetectionAlg}
+            \end{itemize}
+        
+        \subsection{Output}
+            Keine Änderungen
+
+        \subsection{Outputmanager}
+            Keine Änderungen
+
+\end{document}

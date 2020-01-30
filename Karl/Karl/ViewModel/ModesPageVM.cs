@@ -22,18 +22,15 @@ namespace Karl.ViewModel
 		//Properties binded to ModesPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
-		public List<IMode> Modes { get => _modeHandler.Modes; }
+		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
-		{
+		{		
 			get
 			{
 				if(_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
 				return null;
 			}
 		}
-
-		//Commands binded to ModesPage of View
-		public ICommand ActivateModeCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ModeHandler of Model
@@ -43,7 +40,6 @@ namespace Karl.ViewModel
 			_modeHandler = ModeHandler.SingletonModeHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			ActivateModeCommand = new Command<IMode>(ActivateMode);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_settingsHandler.ChartChanged += RefreshChart;
@@ -71,11 +67,6 @@ namespace Karl.ViewModel
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
-		}
-
-		private void ActivateMode(IMode mode)
-		{
-			mode.Activate();
 		}
 
 	}

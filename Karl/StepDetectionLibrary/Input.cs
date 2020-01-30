@@ -1,22 +1,45 @@
 using EarableLibrary;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace StepDetectionLibrary
 {
 
 	/// <summary>
-	/// struct with accerleration and gyro data for all 3 axes
+	/// class with accerleration and gyro data for all 3 axes
 	/// </summary>
 	public class AccGyroData
 	{
+		/// <summary>
+		/// acceleration data of 3 axis
+		/// </summary>
 		public readonly AccData AccData;
+
+		/// <summary>
+		/// gyroscope data of 3 axis
+		/// </summary>
 		public readonly GyroData GyroData;
+
+		/// <summary>
+		/// datalength
+		/// </summary>
 		public readonly int DataLength;
+
+		/// <summary>
+		/// samplingrate
+		/// </summary>
 		public int SamplingRate;
+
+		/// <summary>
+		/// length in seconds
+		/// </summary>
 		public double LengthInSeconds => (double) DataLength / SamplingRate;
 
+		/// <summary>
+		/// constructor for accgyrodata
+		/// </summary>
+		/// <param name="dataLength"> datalength of data</param>
+		/// <param name="samplingRate">samplingrate</param>
 		public AccGyroData(int dataLength, int samplingRate)
 		{
 			DataLength = dataLength;
@@ -77,11 +100,24 @@ namespace StepDetectionLibrary
 	/// </summary>
 	public class Input : IObservable<AccGyroData>
 	{
-
-
 		private List<IObserver<AccGyroData>> _observers;
 		private AccGyroData _chunk;
 		private int _counter;
+		private byte _lastId = 255;
+
+		/// <summary>
+		/// Amount of samples in one batch.
+		/// </summary>
+		public int DataLength { get => 1; } // TODO: make this configurable
+
+		/// <summary>
+		/// SamplingRate
+		/// </summary>
+		public int SamplingRate { get => 25; } // TODO: make this configurable
+
+		/// <summary>
+		/// contructor for input
+		/// </summary>
 		public Input()
 		{
 			_observers = new List<IObserver<AccGyroData>>();
@@ -89,13 +125,7 @@ namespace StepDetectionLibrary
 			_chunk = new AccGyroData(DataLength, SamplingRate);
 			Subscribe(new StepDetectionAlg());
 		}
-
-		/// <summary>
-		/// Amount of samples in one batch.
-		/// </summary>
-		public int DataLength { get => 25; } // TODO: make this configurable
-
-		public int SamplingRate { get => 25; } // TODO: make this configurable
+		
 
 		/// <summary>
 		/// method for subscribing to input
@@ -119,12 +149,20 @@ namespace StepDetectionLibrary
 			private List<IObserver<AccGyroData>> _observers;
 			private IObserver<AccGyroData> _observer;
 
+			/// <summary>
+			/// constructor for unsubscriber
+			/// </summary>
+			/// <param name="observers">list of observers</param>
+			/// <param name="observer">observer</param>
 			public Unsubscriber(List<IObserver<AccGyroData>> observers, IObserver<AccGyroData> observer)
 			{
 				this._observers = observers;
 				this._observer = observer;
 			}
 
+			/// <summary>
+			/// dispose
+			/// </summary>
 			public void Dispose()
 			{
 				if (_observer != null && _observers.Contains(_observer))
@@ -144,7 +182,7 @@ namespace StepDetectionLibrary
 			}
 		}
 
-		byte lastId = 255;
+		
 
 		/// <summary>
 		/// method to get data from sensors
@@ -153,9 +191,10 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, MotionSensorSample args)
 		{
-			int lost = args.SampleId - lastId - 1;
+			int lost = args.SampleId - _lastId - 1;
 			if (lost < 0) lost += 256;
 			int lastValid = _counter;
+			// if (lost > 0) Debug.WriteLine("Lost {0} samples!", args: lost)
 			while (lost > 0)
 			{
 				// TODO: Interpolate from known values
@@ -173,7 +212,7 @@ namespace StepDetectionLibrary
 				}
 				lost--;
 			}
-			lastId = args.SampleId;
+			_lastId = args.SampleId;
 			_chunk.AccData.Xacc[_counter] = args.Acc.x;
 			_chunk.AccData.Yacc[_counter] = args.Acc.y;
 			_chunk.AccData.Zacc[_counter] = args.Acc.z;
@@ -186,11 +225,6 @@ namespace StepDetectionLibrary
 				Update(_chunk);
 				_counter = 0;
 			}
-		}
-
-		private void AddFrame()
-		{
-
 		}
 	}
 }

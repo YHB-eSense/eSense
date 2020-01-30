@@ -4,6 +4,8 @@ using Karl.ViewModel;
 using FormsControls.Base;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System.Diagnostics;
+using Karl.Model;
 
 namespace Karl
 {
@@ -45,11 +47,14 @@ namespace Karl
 		protected override void OnSleep()
 		{
 			// Handle when your app sleeps
+			Debug.WriteLine("OnSleep");
 		}
 
 		protected override void OnResume()
 		{
-			// Handle when your app resumes
+			Debug.WriteLine("OnResume");
+			ConnectivityHandler.SingletonConnectivityHandler.RefreshAfterSleep();
+			AudioPlayer.SingletonAudioPlayer.RefreshAfterSleep();
 		}
 
 		private async void GetPermissions()

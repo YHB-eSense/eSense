@@ -35,6 +35,8 @@ namespace EarableLibrary
 
 		private EarableName _name;
 
+		private bool _connected;
+
 		/// <summary>
 		/// Ids of all services which are used for BLE communication with the earables.
 		/// If one of these services is not present, communication will most likely fail.
@@ -106,6 +108,7 @@ namespace EarableLibrary
 				var parameters = new ConnectParameters(forceBleTransport: true);
 				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters);
 				await InitializeConnection();
+				_connected = true;
 				Debug.WriteLine("Now connected to {0}", args: Name);
 			}
 			catch (Exception)
@@ -125,6 +128,7 @@ namespace EarableLibrary
 			try
 			{
 				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
+				_connected = false;
 			}
 			catch (Exception)
 			{
@@ -139,7 +143,7 @@ namespace EarableLibrary
 		/// <returns>Whether the device is currently connected or not</returns>
 		public bool IsConnected()
 		{
-			return _device.State == DeviceState.Connected;
+			return _connected;
 		}
 
 		/// <summary>

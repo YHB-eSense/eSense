@@ -12,64 +12,35 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
+		private static SettingsHandler _singletonSettingsHandler;
+
+		/// <summary>
+		/// The singleton object of SettingsHandler
+		/// </summary>
+		public static SettingsHandler SingletonSettingsHandler
+		{
+			get
+			{
+				lock (_padlock)
+				{
+					if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
+					return _singletonSettingsHandler;
+				}
+			}
+		}
+
+		private static readonly Object _padlock = new Object();
+
 		private LangManager _langManager;
 		private ConnectivityHandler _connectivityHandler;
 		private ColorManager _colorManager;
-		private static SettingsHandler _singletonSettingsHandler;
-		private static readonly Object _padlock = new Object();
-		private AudioModule _currentAudioModule;
 		private int _steps;
 		private int _frequency;
 		private OutputManager _outputManager;
 		private IDictionary<string, Object> _properties;
-		internal IDictionary<string, AudioModule> AvailableAudioModules;
 		private int _stepslastmin;
-
 		private Timer timer;
-
-		/// <summary>
-		/// List with Microchartentries to get a chart with steps in the last few minutes
-		/// </summary>
-		public List<Microcharts.Entry> ChartEntries;
-		/// <summary>
-		/// timer to set time between each microchart entry
-		/// </summary>
-		private void InitTimer()
-		{
-			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
-			timer.AutoReset = true;
-			timer.Elapsed += new ElapsedEventHandler(AddChartEvent);
-			timer.Start();
-		}
-
-		/// <summary>
-		/// method to add microchartentries
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void AddChartEvent(object sender, ElapsedEventArgs e)
-		{
-			if (_connectivityHandler.EarableConnected)
-			{
-				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
-				{
-					Color = SKColor.Parse(CurrentColor.Color.ToHex()),
-					Label = DateTime.Now.ToString("HH:mm"),
-					ValueLabel = _stepslastmin.ToString()
-				};
-				ChartEntries.Add(entry);
-				_stepslastmin = 0;
-				if (ChartEntries.Count > 10)
-				{
-					ChartEntries.RemoveAt(0);
-				}
-				ChartChanged?.Invoke(this, null);
-			}
-		}
-
-		//Delegates for EventHandling
-		internal delegate void AudioModuleDelegate(AudioModule audioModule);
-
+		
 		//Eventhandling
 		public delegate void LangEventHandler(object source, EventArgs e);
 		public event LangEventHandler LangChanged;
@@ -81,20 +52,36 @@ namespace Karl.Model
 		public event ColorEventHandler ColorChanged;
 		public delegate void ChartEventHandler(object source, EventArgs e);
 		public event ChartEventHandler ChartChanged;
+		public delegate void AudioModuleEventHandler(object source, EventArgs e);
+		public event AudioModuleEventHandler AudioModuleChanged;
 
-		internal event AudioModuleDelegate AudioModuleChanged;
-
-		public bool UsingBasicAudio { get; set; }
-		public bool UsingSpotifyAudio { get; set; }
 		/// <summary>
-		/// The List of registered Languages.
+		/// List with Microchartentries to get a chart with steps in the last few minutes
+		/// </summary>
+		public List<Microcharts.Entry> ChartEntries;
+
+		/// <summary>
+		/// Gives info whether BasicAudioPlayer and BasicAudioLib are used
+		/// </summary>
+		public bool UsingBasicAudio { get; set; }
+
+		/// <summary>
+		/// Gives info whether SpotifyAudioPlayer and SpotifyAudioLib are used
+		/// </summary>
+		public bool UsingSpotifyAudio { get; set; }
+
+		/// <summary>
+		/// The List of registered languages
 		/// </summary>
 		public List<Lang> Languages { get => _langManager.AvailableLangs; }
 
+		/// <summary>
+		/// List of available colors
+		/// </summary>
 		public List<CustomColor> Colors { get => _colorManager.Colors; }
 
 		/// <summary>
-		/// The currently selected Language.
+		/// The currently selected language
 		/// </summary>
 		public Lang CurrentLang
 		{
@@ -110,7 +97,7 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The Name of the currently connected Device.
+		/// The Name of the currently connected device
 		/// </summary>
 		public string DeviceName
 		{
@@ -129,7 +116,7 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The total Steps done.
+		/// The total steps done
 		/// </summary>
 		public int Steps
 		{
@@ -144,29 +131,13 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The current step frequency (in steps per minute).
+		/// The current step frequency (in steps per minute)
 		/// </summary>
-		public int StepFrequency
-		{
-			get => _frequency;
-			private set
-			{
-				_frequency = value;
-			}
-		}
+		public int StepFrequency { get; private set; }
 
-		internal AudioModule CurrentAudioModule
-		{
-			get => _currentAudioModule;
-			private set
-			{
-				if (_properties.ContainsKey("audioModule")) _properties.Remove("audioModule");
-				_properties.Add("audioModule", value.Tag);
-				_currentAudioModule = value;
-				AudioModuleChanged?.Invoke(value);
-			}
-		}
-
+		/// <summary>
+		/// The color currently selected
+		/// </summary>
 		public CustomColor CurrentColor
 		{
 			get => _colorManager.CurrentColor;
@@ -183,20 +154,8 @@ namespace Karl.Model
 			}
 		}
 
-		public static SettingsHandler SingletonSettingsHandler
-		{
-			get
-			{
-				lock (_padlock)
-				{
-					if (_singletonSettingsHandler == null) { _singletonSettingsHandler = new SettingsHandler(); }
-					return _singletonSettingsHandler;
-				}
-			}
-		}
-
 		/// <summary>
-		/// Resets the Step Counter.
+		/// Resets the step counter
 		/// </summary>
 		public void ResetSteps()
 		{
@@ -204,24 +163,8 @@ namespace Karl.Model
 			StepFrequency = 0;
 		}
 
-		public void changeAudioModuleToSpotify()
-		{
-			AudioPlayer.SingletonAudioPlayer.changeToSpotifyPlayer();
-			AudioLib.SingletonAudioLib.changeToSpotifyLib();
-			UsingBasicAudio = true;
-			UsingSpotifyAudio = false;
-		}
-
-		public void changeAudioModuleToBasic() {
-			AudioPlayer.SingletonAudioPlayer.changeToBasicPlayer();
-			AudioLib.SingletonAudioLib.changeToBasicLib();
-			UsingBasicAudio = false;
-			UsingSpotifyAudio = true;
-
-		}
-
 		/// <summary>
-		/// The Constructor that builds a new SettingsHandler
+		/// The constructor that builds a new SettingsHandler
 		/// </summary>
 		private SettingsHandler()
 		{
@@ -233,19 +176,11 @@ namespace Karl.Model
 			_langManager = LangManager.SingletonLangManager;
 			_colorManager = ColorManager.SingletonColorManager;
 			_properties = Application.Current.Properties;
-			AvailableAudioModules = new Dictionary<string, AudioModule>();
 			_stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
-			//Init AudioModules
-			AvailableAudioModules.Add("basicAudioModule",
-				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-
-			AvailableAudioModules.Add("spotifyAudioModule",
-				new AudioModule(new SpotifyAudioLib(), new SpotifyAudioPlayer(), typeof(SpotifyAudioTrack), "spotifyAudioModule"));
-
-			//Load Color
+			//Load color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
 			{
@@ -270,45 +205,8 @@ namespace Karl.Model
 			{
 				_properties.Add("color", Colors[0].Color.ToHex());
 				CurrentColor = Colors[0];
-			}
-
-			/*
-			//Init AudioModules
-			if (!AvailableAudioModules.ContainsKey("basicAudioModule"))
-			{
-				AvailableAudioModules.Add("basicAudioModule",
-				new AudioModule(new BasicAudioLib(), new BasicAudioPlayer(), typeof(BasicAudioTrack), "basicAudioModule"));
-			}
-			*/
-
-			//Load AudioModule
-			if (_properties.TryGetValue("audioModule", out val))
-			{
-				AudioModule audioModule;
-				if (AvailableAudioModules.TryGetValue(val.ToString(), out audioModule))
-				{
-					_currentAudioModule = audioModule;
-					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: " + val.ToString());
-				}
-				else
-				{
-					AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
-					_currentAudioModule = audioModule;
-					System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
-					_properties.Remove("audioModule");
-					_properties.Add("audioModule", "basicAudioModule");
-				}
-			}
-			else
-			{
-				AudioModule audioModule;
-				AvailableAudioModules.TryGetValue("basicAudioModule", out audioModule);
-				_currentAudioModule = audioModule;
-				System.Diagnostics.Debug.WriteLine("AudioModule Chosen: basicAudioModule");
-				_properties.Add("audioModule", "basicAudioModule");
-			}
-
-			//Load Chosen Language
+			}	
+			//Load chosen language
 			if (_properties.TryGetValue("lang", out val))
 			{
 				if (_langManager.ChooseLang(val.ToString()))
@@ -325,7 +223,7 @@ namespace Karl.Model
 				_properties.Add("lang", "lang_english");
 			}
 
-			//Load Steps
+			//Load steps
 			if (_properties.TryGetValue("steps", out val))
 			{
 				string Value = val.ToString();
@@ -333,7 +231,7 @@ namespace Karl.Model
 				{
 					_steps = int.Parse(Value);
 				}
-				catch (FormatException e)
+				catch (FormatException)
 				{
 					_steps = 0;
 					_properties.Remove("steps");
@@ -345,10 +243,71 @@ namespace Karl.Model
 				_steps = 0;
 				_properties.Add("steps", "0");
 			}
-
-			CurrentAudioModule = AvailableAudioModules["spotifyAudioModule"];
 		}
 
+		/// <summary>
+		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
+		/// </summary>
+		public void changeAudioModuleToSpotify()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
+			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+			UsingBasicAudio = false;
+			UsingSpotifyAudio = true;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		/// <summary>
+		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
+		/// </summary>
+		public void changeAudioModuleToBasic()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
+			AudioLib.SingletonAudioLib.ChangeToBasicLib();
+			UsingBasicAudio = true;
+			UsingSpotifyAudio = false;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		/// <summary>
+		/// Timer to set time between each microchart entry
+		/// </summary>
+		private void InitTimer()
+		{
+			timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+			timer.AutoReset = true;
+			timer.Elapsed += new ElapsedEventHandler(AddChartEvent);
+			timer.Start();
+		}
+
+		/// <summary>
+		/// Method to add microchartentries
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void AddChartEvent(object sender, ElapsedEventArgs e)
+		{
+			if (_connectivityHandler.EarableConnected)
+			{
+				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+				{
+					Color = SKColor.Parse(CurrentColor.Color.ToHex()),
+					Label = DateTime.Now.ToString("HH:mm"),
+					ValueLabel = _stepslastmin.ToString()
+				};
+				ChartEntries.Add(entry);
+				_stepslastmin = 0;
+				if (ChartEntries.Count > 10)
+				{
+					ChartEntries.RemoveAt(0);
+				}
+				ChartChanged?.Invoke(this, null);
+			}
+		}
+
+		/// <summary>
+		/// Observer for the stepdetection
+		/// </summary>
 		private class StepDetectionObserver : IObserver<Output>
 		{
 			private SettingsHandler _parent;
@@ -374,20 +333,6 @@ namespace Karl.Model
 			}
 		}
 
-		internal struct AudioModule
-		{
-			internal AudioModule(IAudioLibImpl audioLib, IAudioPlayerImpl audioPlayer, Type audioTrack, string tag)
-			{
-				Tag = tag;
-				AudioLib = audioLib;
-				AudioPlayer = audioPlayer;
-				AudioTrack = audioTrack;
-			}
-			public string Tag;
-			public IAudioLibImpl AudioLib;
-			public IAudioPlayerImpl AudioPlayer;
-			public Type AudioTrack;
-		}
-
+		
 	}
 }

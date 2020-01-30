@@ -3,7 +3,7 @@ using EarableLibrary;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using StepDetectionLibrary;
-using System.Collections.Generic;
+using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
 {
@@ -15,10 +15,9 @@ namespace Karl.Model
 
 		private static ConnectivityHandler _connectivityHandler;
 
-		//Eventhandling
-		public delegate void ConnectionEventHandler(object source, EventArgs e);
-		public event ConnectionEventHandler ConnectionChanged;
-
+		/// <summary>
+		/// 
+		/// </summary>
 		public static ConnectivityHandler SingletonConnectivityHandler
 		{
 			get
@@ -35,12 +34,28 @@ namespace Karl.Model
 		private readonly StepDetectionLibrary.Input _stepDetection;
 		private IEarable _connectedEarable;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		public delegate void ConnectionEventHandler(object source, EventArgs e);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public event ConnectionEventHandler ConnectionChanged;
+
+
 		private ConnectivityHandler()
 		{
 			_earableManager = new EarableLibrary.EarableLibrary();
 			_stepDetection = new Input();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool EarableConnected
 		{
 			get
@@ -55,6 +70,9 @@ namespace Karl.Model
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public string EarableName
 		{
 			get => _connectedEarable.Name;
@@ -78,7 +96,8 @@ namespace Karl.Model
 			var button = _connectedEarable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
 			{
-				Debug.WriteLine("Button pushed: {0}", args.Pressed);
+				bool released = !args.Pressed;
+				if (released) SingletonAudioPlayer.TogglePause();
 			};
 			await button.StartSamplingAsync();
 
@@ -87,6 +106,10 @@ namespace Karl.Model
 			return true;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public async Task Disconnect()
 		{
 			if (!EarableConnected) return;
@@ -103,6 +126,15 @@ namespace Karl.Model
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.SetNameAsync(name);
+		}
+
+		/// <summary>
+		/// If bluetooth is turned of while app is sleeping, this will update the app
+		/// </summary>
+		public async void RefreshAfterSleep()
+		{
+			if (Plugin.BLE.CrossBluetoothLE.Current.IsOn) { Debug.WriteLine("STILL CONNECTED"); }
+			else { await Disconnect(); }	
 		}
 
 	}

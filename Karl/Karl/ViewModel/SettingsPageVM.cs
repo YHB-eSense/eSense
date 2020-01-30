@@ -8,12 +8,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
+		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
 
 		//Eventhandling
@@ -30,7 +32,15 @@ namespace Karl.ViewModel
 			get
 			{
 				if (_settingsHandler.UsingBasicAudio) { return _settingsHandler.CurrentLang.Get("use_spotify"); }
-				else { return _settingsHandler.CurrentLang.Get("use_basic"); }
+				return _settingsHandler.CurrentLang.Get("use_basic");
+			}
+		}
+		public Color UseAudioModuleColor
+		{
+			get
+			{
+				if (_settingsHandler.UsingBasicAudio) { return Color.FromHex("#1ed761"); }
+				return CurrentColor.Color;
 			}
 		}
 		public List<Lang> Languages { get => _settingsHandler.Languages; }
@@ -47,7 +57,14 @@ namespace Karl.ViewModel
 		}
 		public string DeviceName
 		{
-			get => _settingsHandler.DeviceName;
+			get
+			{
+				if (_connectivityHandler.EarableConnected)
+				{
+					return _settingsHandler.DeviceName;
+				}
+				return null;
+			}
 			set => _deviceName = value; 
 		}
 
@@ -62,12 +79,15 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
 			ChangeAudioModuleCommand = new Command(ChangeAudioModule);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
 			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
@@ -79,6 +99,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
 		}
 
 		private void RefreshDeviceName(object sender, EventArgs args)
@@ -89,6 +110,18 @@ namespace Karl.ViewModel
 		private void RefreshColor(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
+		}
+
+		private void RefreshAudioModule(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
 		private void ChangeDeviceName()
@@ -110,7 +143,7 @@ namespace Karl.ViewModel
 			else
 			{
 				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
-				eSenseSpotifyWebAPI.WebApiSingleton.isauthed += (sender, args) =>
+				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
 				{
 					SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
 				};

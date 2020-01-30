@@ -54,8 +54,6 @@ namespace Karl.Model
 				}
 			}
 			output.Close();
-			System.Diagnostics.Debug.WriteLine(_wordPairs.Count);
-			System.Diagnostics.Debug.WriteLine(_wordPairs.ContainsKey("title"));
 			_initDone = true;
 		}
 	}

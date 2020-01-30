@@ -26,4 +26,8 @@ col_#FF87CEEB=Himmelblau
 col_#FF8B0000=Dunkelrot
 unknown=Unbekannt
 autostop_mode=AutostopModus
-motivation_mode=MotivierungsModus
+motivation_mode=Motivationsmodus
+playlists=Playlists
+use_spotify=Use Spotify
+use_basic=Use Integrated Audio
+

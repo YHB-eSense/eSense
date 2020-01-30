@@ -1,0 +1,105 @@
+\documentclass[12pt,a4paper,titlepage,ngerman]{article}
+
+% UTF-8-Encoding
+\usepackage[utf8]{inputenc}
+% Deutsche Silbentrennung und Beschriftungen
+\usepackage[ngerman]{babel}
+% Links im Dokument
+\usepackage[bookmarks,colorlinks]{hyperref}
+% Kapitel einzeln kompilierbar machen
+\usepackage{subfiles}
+% PDFs einbinden
+\usepackage{pdfpages}
+% Parallele Spalten
+\usepackage{parallel,enumitem}
+% Spitze Klammern
+\usepackage{textcomp}
+% Line Breaks bei \code
+\usepackage[htt]{hyphenat}
+% Page Breaks nach \part
+\usepackage{etoolbox}
+%pdf einbinden
+\usepackage{pdfpages}
+%svg einbinden
+\usepackage{svg}
+% Glossar
+\usepackage[nonumberlist]{glossaries}
+
+%% Farben
+%\usepackage{xcolor}
+
+% Deutsche Anführungszeichen
+\renewcommand{\quote}[1]{\glqq#1\grqq}
+
+% Link-Farben
+\hypersetup
+{
+	linkcolor=gray,
+	urlcolor=blue
+}
+
+% Jeden Part auf neuer Seite beginnen
+\preto{\part}{\clearpage}
+
+% Titel, Author, etc.
+\title{PSE Implementierungsdokument YHB eSense}
+\author{Jonas Koch, Maximilian Burzer, Leonardo Weng, \\ Simon Zimmermann, Yunus Demirag}
+\date{Dezember 2019}
+
+% Einstellungen für PDF Datei
+\makeatletter
+\hypersetup
+{
+	pdftitle={\@title},
+	pdfauthor={\@author}
+}
+\makeatother
+
+% Grafiksuchpfade: relativ zur Hauptdatei, relativ zu den jeweiligen Kapiteln
+\graphicspath{{graphics/}{../graphics/}}
+
+
+% Praeambel bekommt Kapitel 0
+%\setcounter{section}{-1}
+
+
+% Nützliche Befehle für alle Kapitel
+\newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\sign}[1]{\paragraph{Signatur:}{\code{#1}}\par\noindent}
+\renewcommand{\i}[1]{\item \code{#1}}
+\newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
+\newcommand{\add}[1]{\item[+]{#1}}
+\newcommand{\remove}[1]{\item[-]{#1}}
+\newcommand{\changed}[1]{\item[\#]{#1}}
+\newcommand{\change}{geändert}
+
+% Definitionen in allen Kapiteln verfügbar machen
+\makenoidxglossaries
+\IfFileExists{6_glossar/glossar_definitionen.tex}
+{
+	%\input{4_glossar/glossar_definitionen.tex}
+}
+{
+	%\input{../4_glossar/glossar_definitionen.tex}
+}
+
+\begin{document}
+	\subfile{0_vorderseite/vorderseite.tex}
+	\part{Einleitung}
+	\subfile{1_einleitung/einleitung.tex}
+	\part{Änderungen am Entwurf}
+	\subfile{2_aenderungen/view.tex}
+	\subfile{2_aenderungen/viewmodel.tex}
+	\subfile{2_aenderungen/model.tex}
+	\subfile{2_aenderungen/basicAudio.tex}
+	\subfile{2_aenderungen/spotify.tex}
+	\subfile{2_aenderungen/modes.tex}
+	\subfile{2_aenderungen/navToSettings.tex}
+	\subfile{2_aenderungen/stepdetection_lib.tex}
+	\subfile{2_aenderungen/earable_lib.tex}
+	\part{Anhang}
+	\subfile{3_anhang/anhang.tex}
+	\part{Glossar}
+	\subfile{4_glossar/glossar.tex}
+\end{document}

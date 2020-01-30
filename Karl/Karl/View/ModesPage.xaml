@@ -37,23 +37,18 @@
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<ViewCell>
-									<Frame>
+									<Frame CornerRadius="0" HasShadow="False">
 										<StackLayout Orientation="Horizontal">
 											<Label Text="{Binding Name}"
 												FontSize="Large"
 												TextColor="Black"
 												HorizontalOptions="Start"
 												VerticalOptions="Center"/>
-											<Switch IsToggled="false" 
-													HorizontalOptions="EndAndExpand"
-													VerticalOptions="Center"
-													ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
-													OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
-												<Switch.Behaviors>
-													<b:EventToCommandBehavior EventName="Toggled"
-														Command="{Binding ActivateModeCommand}"
-														CommandParameter="{Binding SelectedItem, Source={x:Reference listView}}" />
-												</Switch.Behaviors>
+											<Switch IsToggled="{Binding Active}" 
+												HorizontalOptions="EndAndExpand"
+												VerticalOptions="Center"
+												ThumbColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}"
+												OnColor="{Binding BindingContext.CurrentColor.Color, Source={x:Reference modespage}}">
 											</Switch>
 										</StackLayout>
 									</Frame>

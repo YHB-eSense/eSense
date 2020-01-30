@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -12,14 +14,16 @@ namespace Karl.Model
 	{
 		private BasicAudioTrackDatabase _database;
 
-		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
-		public SimplePlaylist[] AllPlaylists { get => null; set => throw new NotImplementedException(); }
-		public SimplePlaylist SelectedPlaylist { get => null; set => throw new NotImplementedException(); }
+		public List<AudioTrack> AllAudioTracks { get; set; }
+		public SimplePlaylist[] AllPlaylists { get => null; set => _ = 0; }
+		public SimplePlaylist SelectedPlaylist { get => null; set => _ = 0; }
+
+		public event AudioLibEventHandler AudioLibChanged;
 
 		public BasicAudioLib()
 		{
 			_database = BasicAudioTrackDatabase.SingletonDatabase;
-			AllAudioTracks = new ObservableCollection<AudioTrack>();
+			AllAudioTracks = new List<AudioTrack>();
 			GetTracks();
 			//testing
 			//AllAudioTracks = new ObservableCollection<AudioTrack>();
@@ -32,9 +36,10 @@ namespace Karl.Model
 			var data = await _database.GetTracksAsync();
 			ObservableCollection<AudioTrack> tracks = new ObservableCollection<AudioTrack>(data);
 			foreach(AudioTrack track in tracks) { AllAudioTracks.Add(track); }
+			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public async void AddTrack(string storage, string title, string artist, int bpm)
+		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
 			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
 			await _database.SaveTrackAsync(newTrack);

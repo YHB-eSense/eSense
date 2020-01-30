@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
-using System.Text;
 using System.Timers;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
 	sealed class SpotifyAudioPlayer : IAudioPlayerImpl
 	{
+		//Getting the Songposition from Spotify takes to long, so the player
+		//tiks to with the timer to imitate the changing SongPosition
 		private Timer _timer;
-		private AudioTrack _track;
 
-		public SpotifyWebAPI WebAPI { get; set; }
+		private double _currentSongPosition;
+		private AudioTrack _track;
+		private SpotifyWebAPI _webAPI;
 
 		public SpotifyAudioPlayer()
 		{
@@ -24,70 +24,88 @@ namespace Karl.Model
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
 			_track = new SpotifyAudioTrack(0, "", "", 0, "", null);
+			_webAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 			Paused = true;
 		}
-		public double CurrentSongPos { get; set; }
+		public double CurrentSongPos
+		{
+			get => _currentSongPosition;
+			set
+			{
+				_currentSongPosition = value;
+				_webAPI.SeekPlayback((int)_currentSongPosition*1000);
+			}
+		}
 		public Stack<AudioTrack> PlayedSongs { get; set; }
 
 		public AudioTrack CurrentTrack { get => _track; set => _track = value; }
 
 		public Queue<AudioTrack> Queue { get; set; }
-		public bool Paused { get; set;  }
+		public bool Paused { get; set; }
 		public double Volume { get => 0; set => _ = 0; }
 
-		public void TogglePause()
+		public async void TogglePause()
 		{
-			if (WebAPI.GetPlayback() == null) {
+			var playback = await _webAPI.GetPlaybackAsync();
+			//Checks if users has started the playback(otherwise TogglePause isn't working)
+			if (playback == null)
+			{
 				return;
 			}
-			if (Paused != WebAPI.GetPlayback().IsPlaying)
+			if (Paused != playback.IsPlaying)
 			{
 				Paused = !Paused;
 			}
+
+			//Load Cover of playing Song
 			var webClient = new WebClient();
 			string link;
-			if (WebAPI.GetPlayback().Item != null) link = WebAPI.GetPlayback().Item.Album.Images[0].Url;
+			if (playback.Item != null) link =playback.Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
-			Debug.WriteLine("asd " + WebAPI.GetPlayback().IsPlaying);
-			//if(_track.Duration == 0)
-			//{
-				_track = new SpotifyAudioTrack(WebAPI.GetPlayback().Item.DurationMs/1000
-				, WebAPI.GetPlayback().Item.Name, WebAPI.GetPlayback().Item.Artists[0].Name,
-				(int)WebAPI.GetAudioFeatures(WebAPI.GetPlayback().Item.Id).Tempo,
-				WebAPI.GetPlayback().Item.Id,imageBytes);
-			//}
-			if (WebAPI.GetPlayback().IsPlaying)
+
+			//Reload Cover once
+			if (_track.Duration == 0)
+			{
+				_track = new SpotifyAudioTrack(playback.Item.DurationMs / 1000
+				, playback.Item.Name, playback.Item.Artists[0].Name,
+				(int)_webAPI.GetAudioFeatures(playback.Item.Id).Tempo,
+				playback.Item.Id, imageBytes);
+			}
+
+			//Pause Track 
+			if (playback.IsPlaying)
 			{
 				_timer.Stop();
-				WebAPI.PausePlayback();
+				_webAPI.PausePlayback();
 			}
+
+			//Play Track
 			else
 			{
 				_timer.Start();
-				WebAPI.ResumePlayback("", "", null, "", 0);
+				_webAPI.ResumePlayback("", "", null, "",(int)_currentSongPosition*1000);
 			}
 		}
 
-		public void PlayTrack(AudioTrack track)
+		public async void PlayTrack(AudioTrack track)
 		{
-			if (WebAPI.GetPlayback() == null)
+			//Checks if users has started the playback(otherwise TogglePause isn't working)
+			if (_webAPI.GetPlayback() == null)
 			{
-				return;
+				AvailabeDevices devices = await _webAPI.GetDevicesAsync();
+				_webAPI.TransferPlayback(devices.Devices[0].Id, true);
 			}
 			_timer.Start();
-			List<String> list = new List<string>();
+			List<String> currentTrackList = new List<string>();
 			CurrentTrack = track;
-			list.Add("spotify:track:"+track.TextId);
-			if(WebAPI.ResumePlayback("", "", list, "", 0).HasError())
-			Debug.WriteLine(WebAPI.ResumePlayback("", "", list, "", 0).Error.Message);
-			Debug.WriteLine("bds Play "+track.Title);
+			currentTrackList.Add("spotify:track:" + track.TextId);
+			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
 		}
 
-		private void Tick(object sender, EventArgs e)
+		private async void Tick(object sender, EventArgs e)
 		{
-			if (WebAPI.GetPlayback() == null) return;
-			CurrentSongPos = WebAPI.GetPlayback().ProgressMs/1000;
+			_currentSongPosition = (await _webAPI.GetPlaybackAsync()).ProgressMs / 1000;
 		}
 
 	}

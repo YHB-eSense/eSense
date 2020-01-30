@@ -1,19 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using SpotifyAPI.Web.Auth;
-using Karl.Model;
-using Xamarin.Auth;
 
 namespace Karl.Droid
 {
@@ -21,7 +11,7 @@ namespace Karl.Droid
 	[IntentFilter(
 		new[] { Intent.ActionView },
 		Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-		DataSchemes = new[] { @"karl1.companyname.com" },
+		DataSchemes = new[] { @"karl2.companyname.com" },
 		DataPath = "/oauth2redirect")]
 	public class CustomURLSchemeInterceptorActivity : Activity
 	{
