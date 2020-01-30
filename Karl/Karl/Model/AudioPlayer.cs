@@ -81,7 +81,7 @@ namespace Karl.Model
 
 		}
 
-		public void changeToSpotifyPlayer()
+		public void ChangeToSpotifyPlayer()
 		{
 			Clear();
 			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
@@ -89,7 +89,7 @@ namespace Karl.Model
 			
 		}
 
-		public void changeToBasicPlayer()
+		public void ChangeToBasicPlayer()
 		{
 			Clear();
 			_audioPlayerImp = new BasicAudioPlayer();
@@ -163,13 +163,6 @@ namespace Karl.Model
 			_songsAfter.Clear();
 		}
 
-		/*
-		private void UpdateAudioModule(SettingsHandler.AudioModule audioModule)
-		{
-			_audioPlayerImp = audioModule.AudioPlayer;
-			//TODO
-		}
-		*/
 
 		private void InvokeNextSongEvent()
 		{

@@ -92,7 +92,7 @@ namespace Karl.Model
 			_audioLibImp.Init();
 		}
 
-		public void changeToBasicLib() {
+		public void ChangeToBasicLib() {
 			_audioLibImp = new BasicAudioLib();
 		}
 
