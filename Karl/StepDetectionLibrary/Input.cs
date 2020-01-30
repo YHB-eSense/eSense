@@ -103,6 +103,7 @@ namespace StepDetectionLibrary
 		private List<IObserver<AccGyroData>> _observers;
 		private AccGyroData _chunk;
 		private int _counter;
+		private byte _lastId = 255;
 
 		/// <summary>
 		/// Amount of samples in one batch.
@@ -181,7 +182,7 @@ namespace StepDetectionLibrary
 			}
 		}
 
-		byte lastId = 255;
+		
 
 		/// <summary>
 		/// method to get data from sensors
@@ -190,7 +191,7 @@ namespace StepDetectionLibrary
 		/// <param name="args">parameter</param>
 		public void ValueChanged(object sender, MotionSensorSample args)
 		{
-			int lost = args.SampleId - lastId - 1;
+			int lost = args.SampleId - _lastId - 1;
 			if (lost < 0) lost += 256;
 			int lastValid = _counter;
 			// if (lost > 0) Debug.WriteLine("Lost {0} samples!", args: lost)
@@ -211,7 +212,7 @@ namespace StepDetectionLibrary
 				}
 				lost--;
 			}
-			lastId = args.SampleId;
+			_lastId = args.SampleId;
 			_chunk.AccData.Xacc[_counter] = args.Acc.x;
 			_chunk.AccData.Yacc[_counter] = args.Acc.y;
 			_chunk.AccData.Zacc[_counter] = args.Acc.z;
