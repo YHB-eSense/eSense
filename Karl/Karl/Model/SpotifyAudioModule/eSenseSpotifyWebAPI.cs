@@ -70,6 +70,7 @@ namespace Karl.Model
 			auth.Completed += OnAuthAsync;
 			OAuthLoginPresenter presenter = new OAuthLoginPresenter();
 			presenter.Login(auth);
+
 		}
 
 
