@@ -267,7 +267,15 @@ namespace Karl.ViewModel
 			bool answer = await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
 					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
 					_settingsHandler.CurrentLang.Get("question_no"));
-			if (answer) { foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }}
+			if (answer)
+			{
+				foreach(AudioTrack song in _deleteList)
+				{
+					_audioLib.DeleteTrack(song);
+					if(_audioPlayer.CurrentTrack == song) { _audioPlayer.TogglePause(); }
+				}
+			}
+			RefreshAudioLib(null, null);
 		}
 
 	}

@@ -76,7 +76,6 @@ namespace Karl.ViewModel
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
 			_settingsHandler.StepsChanged += RefreshSteps;
-			_settingsHandler.ColorChanged += RefreshColor;
 			_connectivityHandler.ConnectionChanged += RefreshConnection;
 			HelpVisible = false;
 		}
@@ -94,11 +93,6 @@ namespace Karl.ViewModel
 		private void RefreshSteps(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
-		}
-
-		private void RefreshColor(object sender, EventArgs args)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void RefreshConnection(object sender, EventArgs args)

@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Karl.Model
 {
-	public static class BPMCalculator
+	public class BPMCalculator
 	{
 		private static string _file;
 		private static WaveFileReader _reader;
@@ -16,7 +16,7 @@ namespace Karl.Model
 		private static int _bpmMax;
 		private static int _bpmMin;
 
-		public static BPMCalculator(string file)
+		public BPMCalculator(string file)
 		{
 			_file = file;
 			_reader = new WaveFileReader(_file);
