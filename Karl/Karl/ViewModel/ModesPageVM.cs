@@ -24,7 +24,7 @@ namespace Karl.ViewModel
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
-		{
+		{		
 			get
 			{
 				if(_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }

@@ -19,7 +19,6 @@ namespace Karl.ViewModel
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to MainPage of View
-		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string DeviceName
 		{
 			get
