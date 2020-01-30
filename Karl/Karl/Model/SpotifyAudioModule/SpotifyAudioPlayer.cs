@@ -101,9 +101,9 @@ namespace Karl.Model
 			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
 		}
 
-		private void Tick(object sender, EventArgs e)
+		private async void Tick(object sender, EventArgs e)
 		{
-			_currentSongPosition = _webAPI.GetPlayback().ProgressMs / 1000;
+			_currentSongPosition = (await _webAPI.GetPlaybackAsync()).ProgressMs / 1000;
 		}
 
 	}

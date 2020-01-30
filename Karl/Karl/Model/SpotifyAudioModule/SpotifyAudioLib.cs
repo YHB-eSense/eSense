@@ -59,14 +59,14 @@ namespace Karl.Model
 		{
 			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
 			AllAudioTracks = new List<AudioTrack>();
+			var webClient = new WebClient();
 			foreach (var track in tracks)
 			{
-				var webClient = new WebClient();
-				string link = track.Track.Album.Images[0].Url;
-				byte[] imageBytes = webClient.DownloadData(link);
+				//string link = track.Track.Album.Images[0].Url;
+				//byte[] imageBytes = webClient.DownloadData(link);
 				AllAudioTracks.Add(new SpotifyAudioTrack(track.Track.DurationMs / 1000, track.Track.Name,
 					track.Track.Artists[0].Name, (int)WebAPI.
-					GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, imageBytes));
+					GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, /*imageBytes*/ null));
 			}
 		}
 
