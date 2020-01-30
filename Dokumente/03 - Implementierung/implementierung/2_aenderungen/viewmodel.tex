@@ -1,4 +1,52 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
-
+	\section{ViewModel}
+		\subsection{AddSongsPageVM}
+			Folgende Properties sind hinzugekommen:
+			\begin{itemize}
+				\add CustomColor CurrentColor bestimmt die Farbe der Buttons in der AddSongPage (readonly).
+				\add string TitleLabel bestimmt welcher Text über dem Entry zum Titel angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string ArtistLabel bestimmt welcher Text über dem Entry zum Künstler angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string BPMLabel bestimmt welcher Text über dem Entry zur BPM angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string PickFileLabel bestimmt welchen Text der PickFileButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string AddSongLabel bestimmt welchen Text der AddSongButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add ICommand GetBPMCommand ist ein Command, welcher private Methoden aufruft um die BPM einer ausgewählten Audiodatei zu berechnen (readonly).
+			\end{itemize}
+			Es wurden keine Properties verändert.
+			Folgende Properties sind nicht mehr vorhanden:
+			\begin{itemize}
+				\remove string NewSongFileLocation wurde entfernt, da diese nun durch private Methoden gesetzt wird.
+			\end{itemize}
+			Es sind keine Methoden hinzugekommen, entfernt oder verändert wurden.
+		\subsection{AudioLibPageVM}
+			Folgende Properties sind hinzugekommen:
+			\begin{itemize}
+				\add CustomColor CurrentColor bestimmt die Farbe der ausgewählten Sortierung und der Checkboyes in der AddSongPage (readonly).
+				\add string TitleLabel bestimmt welchen Text der TitleSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string ArtistLabel bestimmt welchen Text der ArtistSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string BPMLabel bestimmt welchen Text der BPMSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add string PlaylistsLabel bestimmt welcher Text über dem PlaylistPicker, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).
+				\add SimplePlaylist[] Playlists ist ein Array von Spotify-Playlists, welches in der PlaylistPicker geladen wird (readonly).
+				\add SimplePlaylist SelectedPlaylist ist die momentan im PlaylistPicker ausgewählte Playlist.
+				\add Color TitleSortColor ist die momentane Farbe des TitleSortButtons.
+				\add Color TitleSortTextColor ist die momentane Farbe des Texts des TitleSortButtons.
+				\add Color ArtistSortColor ist die momentane Farbe des ArtistSortButtons.
+				\add Color ArtistSortTextColor ist die momentane Farbe des Texts des ArtistSortButtons.
+				\add Color BPMSortColor ist die momentane Farbe des BPMSortButtons.
+				\add Color BPMSortTextColor ist die momentane Farbe des Texts des BPMSortButtons.
+				\add bool UsingBasicAudio ist ein Boolean, welcher angibt ob momentan der BasicAudioPlayer und die BasicAudioLib verwendet werden (readonly).
+				\add bool UsingSpotifyAudio ist ein Boolean, welcher angibt ob momentan der SpotifyAudioPlayer und die SpotifyAudioLib verwendet werden (readonly).
+				\add ICommand DeleteSongsCommand ist ein Command, welcher die ausgewählten Lieder in der AudioLibPage löscht (readonly).
+				\add ICommand EditDeleteListCommand ist ein Command, welcher das ausgewählte Lied zu einer Liste von zu löschenden Lieder hinzufügt (readonly).
+			\end{itemize}
+			Folgende Properties wurden verändert:
+			\begin{itemize}
+				\changed List$<$AudioTrack$>$ Songs war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	
+			\end{itemize}
+			Es wurden keine Properties entfernt.
+			Es sind keine Methoden hizugekommen.
+			Folgende Methoden wurden entfernt:
+			\begin{itemize}
+				\remove void GetSongs() wird nicht mehr benötigt, da Songs direkt auf die Lieder im Model zugreift.	
+			\end{itemize}
 \end{document}
