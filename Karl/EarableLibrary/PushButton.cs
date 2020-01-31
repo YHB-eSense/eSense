@@ -46,7 +46,7 @@ namespace EarableLibrary
 		/// Construct a new PushButton.
 		/// </summary>
 		/// <param name="read">Characteristic, which provides read-access to the current button state</param>
-		public PushButton(ICharacteristic read)
+		internal PushButton(ICharacteristic read)
 		{
 			_read = read;
 			_read.ValueUpdated += OnValueUpdated;

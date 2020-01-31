@@ -118,7 +118,7 @@ namespace EarableLibrary
 		/// <param name="data">Characteristic giving access to the sensor readings</param>
 		/// <param name="enable">Characteristic giving access to the enable-flag</param>
 		/// <param name="config">Characteristic giving access to the sensor configuration</param>
-		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
+		internal MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
 		{
 			_data = data;
 			_enable = enable;
@@ -163,7 +163,7 @@ namespace EarableLibrary
 			var message = new ESenseMessage(received: bytes, hasPacketIndex: true);
 			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
 			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
-			return new MotionSensorSample(gyro, acc, message.PacketIndex);
+			return new MotionSensorSample(gyro, acc, message.PacketIndex.GetValueOrDefault());
 		}
 
 		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)

@@ -107,7 +107,7 @@ namespace Karl.ViewModel
 					_settingsHandler.CurrentLang.Get("alert_text"), _settingsHandler.CurrentLang.Get("alert_ok"));
 				return;
 			}
-			_audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
+			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
 			_navHandler.GoBack();
 			NewSongTitle = null;
 			NewSongArtist = null;

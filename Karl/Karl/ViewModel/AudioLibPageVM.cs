@@ -188,6 +188,7 @@ namespace Karl.ViewModel
 
 		private void RefreshAudioLib(object sender, EventArgs args)
 		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;
@@ -267,7 +268,18 @@ namespace Karl.ViewModel
 			bool answer = await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
 					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
 					_settingsHandler.CurrentLang.Get("question_no"));
-			if (answer) { foreach(AudioTrack song in _deleteList) { _audioLib.DeleteTrack(song); }}
+			if (answer)
+			{
+				foreach(AudioTrack song in _deleteList)
+				{
+					_audioLib.DeleteTrack(song);
+					if(_audioPlayer.CurrentTrack == song)
+					{
+						_audioPlayer.TogglePause();
+						_audioPlayer.CurrentTrack = null;
+					}
+				}
+			}
 		}
 
 	}

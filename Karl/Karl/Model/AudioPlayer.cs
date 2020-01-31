@@ -29,7 +29,12 @@ namespace Karl.Model
 		/// </summary>
 		public AudioTrack CurrentTrack
 		{
-			get { return _audioPlayerImp.CurrentTrack; }
+			get => _audioPlayerImp.CurrentTrack; 
+			set
+			{
+				_audioPlayerImp.CurrentTrack = value;
+				AudioChanged?.Invoke(this, null);
+			}
 		}
 
 		public double Volume

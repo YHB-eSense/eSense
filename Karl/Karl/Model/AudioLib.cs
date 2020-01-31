@@ -82,9 +82,8 @@ namespace Karl.Model
 		public void DeleteTrack(AudioTrack track)
 		{
 			_audioLibImp.DeleteTrack(track);
+			AudioLibChanged?.Invoke(this, null);
 		}
-
-		
 
 		public void changeToSpotifyLib()
 		{
@@ -99,7 +98,6 @@ namespace Karl.Model
 		private void UpdateLib(object sender, EventArgs args)
 		{
 			AudioLibChanged?.Invoke(this, null);
-			System.Diagnostics.Debug.WriteLine("HEY");
 		}
 
 		

@@ -30,7 +30,7 @@ namespace EarableLibrary
 		/// Construct a new VoltageSensor.
 		/// </summary>
 		/// <param name="read">Characteristic, which provides read-access to the current battery state</param>
-		public VoltageSensor(ICharacteristic read)
+		internal VoltageSensor(ICharacteristic read)
 		{
 			_read = read;
 		}

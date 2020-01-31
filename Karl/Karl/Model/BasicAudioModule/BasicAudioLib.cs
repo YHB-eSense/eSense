@@ -44,12 +44,14 @@ namespace Karl.Model
 			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
 			await _database.SaveTrackAsync(newTrack);
 			AllAudioTracks.Add(newTrack);
+			AudioLibChanged?.Invoke(this, null);
 		}
 
 		public async void DeleteTrack(AudioTrack track)
 		{	
 			await _database.DeleteTrackAsync(track);
 			AllAudioTracks.Remove(track);
+			AudioLibChanged?.Invoke(this, null);
 		}
 
 		public void Init()
