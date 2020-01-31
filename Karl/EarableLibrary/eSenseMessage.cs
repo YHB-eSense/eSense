@@ -52,7 +52,7 @@ namespace EarableLibrary
 		{
 			Header = header;
 			Data = data;
-			PacketIndex = 0;
+			PacketIndex = null;
 		}
 
 		/// <summary>

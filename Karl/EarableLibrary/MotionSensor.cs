@@ -163,7 +163,7 @@ namespace EarableLibrary
 			var message = new ESenseMessage(received: bytes, hasPacketIndex: true);
 			var gyro = TripleShort.FromByteArray(message.Data, offset: 0);
 			var acc = TripleShort.FromByteArray(message.Data, offset: 6);
-			return new MotionSensorSample(gyro, acc, message.PacketIndex.GetValueOrDefault());
+			return new MotionSensorSample(gyro, acc, message.PacketIndex.Value);
 		}
 
 		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
