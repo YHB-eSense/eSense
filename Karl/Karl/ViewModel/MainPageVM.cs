@@ -98,7 +98,7 @@ namespace Karl.ViewModel
 
 		private void RefreshColor(object sender, EventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			//PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		private void RefreshConnection(object sender, EventArgs args)
