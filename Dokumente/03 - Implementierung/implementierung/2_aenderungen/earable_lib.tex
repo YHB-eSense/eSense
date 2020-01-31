@@ -10,12 +10,12 @@
 			Wie sich heraus stellte, besitzt die iOS-Plattform jedoch Einschränkungen, welche es unmöglich machen, programmgesteuert eine BC-Verbindung
 			mit einem der gefundenen Geräte einzugehen.
 
-			Um diese Einschränkung zu umgehen, muss der Benutzer selbsständig (über die Systemeinstellungen) eine BC-Verbindung mit
+			Um diese Einschränkung zu umgehen, muss der Benutzer selbstständig (über die Systemeinstellungen) eine BC-Verbindung mit
 			den gewünschten Earables herstellen, bevor über die Earables Musik abgespielt werden kann.
 			Da der Benutzer nun sowieso das gewünschte Gerät in den Systemeinstellungen auswählen muss, hat es sich als nutzerfreundlicher erwiesen,
-			beim Verbinden seitens der EarableLibrary auf einen Scan zu verzichten und das momentan über BC verbundene Gerät als Earable zu verbinden.
+			beim Verbinden seitens der EarableLibrary auf einen Scan zu verzichten und stattdessen das momentan über BC verbundene Gerät als Earable zu verbinden.
 
-			Infolgedessen wurde der IEarableScanner zum IEarableManager umfunktioniert und bietet nun die folgenden Funktionen.
+			Infolgedessen wurde der IEarableScanner als IEarableManager mit verändertem Funktionsumfang neu gestaltet.
 
 			\begin{itemize}
 				\elremove{event EventHandler<EarableEventArgs> EarableDiscovered}
@@ -71,10 +71,10 @@
 			\begin{itemize}
 				\eladd{event EventHandler<T> ValueChanged}
 				\item[+]{\code{int SamplingRate} Legt die Frequenz (in Hz) fest, in welcher neue Samples
-					empfangen werden sollen. Unterstützt ein Sensor das Festlegen eines solchen Wertes nicht,
+					empfangen werden sollen. Unterstützt ein Sensor das Festlegen einer solchen Frequenz nicht,
 					wird dies durch den Wert \code{-1} signalisiert.}
-				\eladd{Task StartSamplingAsync}
-				\eladd{Task StopSamplingAsync}
+				\eladd{Task StartSamplingAsync()}
+				\eladd{Task StopSamplingAsync()}
 			\end{itemize}
 
 		\subsection{+ IReadableSensor}
@@ -103,7 +103,7 @@
 			Struktur, welche drei 16-Bit Zahlen (\code{short}s) zusammenfasst.
 			\begin{itemize}
 				\item[+]{\code{public short x, y, z} Die drei 16-Bit Zahlen.}
-				\item[+]{\code{public static TripleShort FromByteArray(byte[],int,bool)} Hilfsfunktion, welche ein TripleShort
+				\item[+]{\code{public static TripleShort FromByteArray(byte[] array, int offset, bool bigEndian)} Hilfsfunktion, welche ein TripleShort
 					aus einem Byte-Array ausliest.}
 			\end{itemize}
 
@@ -139,14 +139,14 @@
 		\subsection{+ ESenseMessage}
 			\sign{public class ESenseMessage}
 			Diese Hilfsklasse repräsentiert eine decodierte (bzw. eine noch nicht codierte) Nachricht in der Form,
-			wie diese vom eSense-Earable empfangen oder zu diesem gesendet werden können.
+			wie diese vom eSense-Earable empfangen oder zu diesem gesendet werden kann.
 			\begin{itemize}
-				\item[+]{\code{public ESenseMessage(byte header, byte[] data)} Legt eine neue eSense-Nachricht mit übergebenem Kopf und Rumpf an.}
+				\item[+]{\code{public ESenseMessage(byte header, byte[] data)} Legt eine neue eSense-Nachricht mit angegebenem Kopf und Rumpf an.}
 				\item[+]{\code{public ESenseMessage(byte[] received, bool hasPacketIndex = false)} Decodiert ein Byte-Array in eine neue eSense-Nachricht.}
 				\item[+]{\code{public byte Header} Der Nachrichten-Kopf}
 				\item[+]{\code{public byte[] Data} Der Nachrichten-Rump}
 				\item[+]{\code{public byte Checksum} Aus dem Nachrichten-Rumpf berechnete Prüfsumme}
-				\item[+]{\code{public byte? PacketIndex} Paketzähler, welcher auch ungesetzt sein kann}
+				\item[+]{\code{public byte? PacketIndex} Paketzähler, welcher auch undefiniert sein kann}
 				\item[+]{\code{public byte[] ToByteArray()} (Re-)Codiert die Nachricht in ein Byte-Array}
 			\end{itemize}
 
