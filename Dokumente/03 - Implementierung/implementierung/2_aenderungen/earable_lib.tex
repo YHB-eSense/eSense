@@ -141,6 +141,8 @@
 			Diese Hilfsklasse repräsentiert eine decodierte (bzw. eine noch nicht codierte) Nachricht in der Form,
 			wie diese vom eSense-Earable empfangen oder zu diesem gesendet werden können.
 			\begin{itemize}
+				\item[+]{\code{public ESenseMessage(byte header, byte[] data)} Legt eine neue eSense-Nachricht mit übergebenem Kopf und Rumpf an.}
+				\item[+]{\code{public ESenseMessage(byte[] received, bool hasPacketIndex = false)} Decodiert ein Byte-Array in eine neue eSense-Nachricht.}
 				\item[+]{\code{public byte Header} Der Nachrichten-Kopf}
 				\item[+]{\code{public byte[] Data} Der Nachrichten-Rump}
 				\item[+]{\code{public byte Checksum} Aus dem Nachrichten-Rumpf berechnete Prüfsumme}

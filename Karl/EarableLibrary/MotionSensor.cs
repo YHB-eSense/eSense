@@ -118,7 +118,7 @@ namespace EarableLibrary
 		/// <param name="data">Characteristic giving access to the sensor readings</param>
 		/// <param name="enable">Characteristic giving access to the enable-flag</param>
 		/// <param name="config">Characteristic giving access to the sensor configuration</param>
-		public MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
+		internal MotionSensor(ICharacteristic data, ICharacteristic enable, ICharacteristic config, ICharacteristic offset)
 		{
 			_data = data;
 			_enable = enable;
