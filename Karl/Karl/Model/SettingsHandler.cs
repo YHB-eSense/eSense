@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using Xamarin.Forms;
+using static Karl.Model.ConnectivityHandler;
+using static Karl.Model.LangManager;
+using static Karl.Model.ColorManager;
+using static StepDetectionLibrary.OutputManager;
 
 namespace Karl.Model
 {
@@ -31,13 +35,8 @@ namespace Karl.Model
 
 		private static readonly Object _padlock = new Object();
 
-		private LangManager _langManager;
-		private ConnectivityHandler _connectivityHandler;
-		private ColorManager _colorManager;
+		private readonly IDictionary<string, Object> _properties = Application.Current.Properties;
 		private int _steps;
-		private int _frequency;
-		private OutputManager _outputManager;
-		private IDictionary<string, Object> _properties;
 		private int _stepslastmin;
 		private Timer timer;
 		
@@ -73,25 +72,25 @@ namespace Karl.Model
 		/// <summary>
 		/// The List of registered languages
 		/// </summary>
-		public List<Lang> Languages { get => _langManager.AvailableLangs; }
+		public List<Lang> Languages { get => SingletonLangManager.AvailableLangs; }
 
 		/// <summary>
 		/// List of available colors
 		/// </summary>
-		public List<CustomColor> Colors { get => _colorManager.Colors; }
+		public List<CustomColor> Colors { get => SingletonColorManager.Colors; }
 
 		/// <summary>
 		/// The currently selected language
 		/// </summary>
 		public Lang CurrentLang
 		{
-			get => _langManager.CurrentLang;
+			get => SingletonLangManager.CurrentLang;
 			set
 			{
 				if (_properties.ContainsKey("lang")) _properties.Remove("lang");
 				_properties.Add("lang", value.Tag);
-				_langManager.CurrentLang = value;
-				_colorManager.ResetColors();
+				SingletonLangManager.CurrentLang = value;
+				SingletonColorManager.ResetColors();
 				LangChanged?.Invoke(this, null);
 			}
 		}
@@ -103,12 +102,12 @@ namespace Karl.Model
 		{
 			get
 			{
-				if (_connectivityHandler.EarableConnected) { return _connectivityHandler.EarableName; }
+				if (SingletonConnectivityHandler.EarableConnected) { return SingletonConnectivityHandler.EarableName; }
 				return null;
 			}
 			set
 			{
-				_connectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
+				SingletonConnectivityHandler.SetDeviceNameAsync(value).GetAwaiter().OnCompleted(() =>
 				{
 					DeviceNameChanged?.Invoke(this, null);
 				});
@@ -140,15 +139,15 @@ namespace Karl.Model
 		/// </summary>
 		public CustomColor CurrentColor
 		{
-			get => _colorManager.CurrentColor;
+			get => SingletonColorManager.CurrentColor;
 			set
 			{
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
-				_colorManager.CurrentColor = value;
+				SingletonColorManager.CurrentColor = value;
 				foreach (Microcharts.Entry entry in ChartEntries)
 				{
-					entry.Color = SKColor.Parse(_colorManager.CurrentColor.Color.ToHex());
+					entry.Color = SKColor.Parse(SingletonColorManager.CurrentColor.Color.ToHex());
 				}
 				ColorChanged?.Invoke(this, null);
 			}
@@ -170,12 +169,7 @@ namespace Karl.Model
 		{
 			UsingSpotifyAudio = false;
 			UsingBasicAudio = true;
-			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			_outputManager = OutputManager.SingletonOutputManager;
-			_outputManager.Subscribe(new StepDetectionObserver(this));
-			_langManager = LangManager.SingletonLangManager;
-			_colorManager = ColorManager.SingletonColorManager;
-			_properties = Application.Current.Properties;
+			SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
 			_stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
@@ -209,17 +203,17 @@ namespace Karl.Model
 			//Load chosen language
 			if (_properties.TryGetValue("lang", out val))
 			{
-				if (_langManager.ChooseLang(val.ToString()))
+				if (SingletonLangManager.ChooseLang(val.ToString()))
 					System.Diagnostics.Debug.WriteLine("LangChosen: " + val.ToString());
 				else
 				{
-					_langManager.ChooseLang("lang_english");
+					SingletonLangManager.ChooseLang("lang_english");
 					_properties.Add("lang", "lang_english");
 				}
 			}
 			else
 			{
-				_langManager.ChooseLang("lang_english");
+				SingletonLangManager.ChooseLang("lang_english");
 				_properties.Add("lang", "lang_english");
 			}
 
@@ -287,7 +281,7 @@ namespace Karl.Model
 		/// <param name="e"></param>
 		private void AddChartEvent(object sender, ElapsedEventArgs e)
 		{
-			if (_connectivityHandler.EarableConnected)
+			if (SingletonConnectivityHandler.EarableConnected)
 			{
 				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
 				{
