@@ -13,11 +13,10 @@
 				\add{\textbf{\textit{ICommand GetBPMCommand}} ruft private Methoden auf um die BPM einer ausgewählten Audiodatei zu berechnen (readonly).}
 				\remove{\textbf{\textit{string NewSongFileLocation}} wurde entfernt, da diese nun durch private Methoden gesetzt wird.}
 			\end{itemize}
-			An den Methoden wurde nichts verändert.
+			An den Methoden hat sich nichts verändert.
 		\subsection{\# AudioLibPageVM}
 			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
-				\changed{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der ausgewählten Sortierung und der Checkboxes in der AudioLibPage (readonly).}
 				\add{\textbf{\textit{string TitleLabel}} bestimmt welchen Text der TitleSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{string ArtistLabel}} bestimmt welchen Text der ArtistSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
@@ -35,13 +34,14 @@
 				\add{\textbf{\textit{bool UsingSpotifyAudio}} ist ein Boolean, welcher angibt ob momentan der SpotifyAudioPlayer und die SpotifyAudioLib verwendet werden (readonly).}
 				\add{\textbf{\textit{ICommand DeleteSongsCommand}} ist ein Command, welcher die ausgewählten Lieder in der AudioLibPage löscht (readonly).}
 				\add{\textbf{\textit{ICommand EditDeleteListCommand}} ist ein Command, welcher das ausgewählte Lied zu einer Liste von zu löschenden Lieder hinzufügt (readonly).}
+				\changed{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void GetSongs()}} wird nicht mehr benötigt, da Songs direkt auf die Lieder im Model zugreift.}
 			\end{itemize}
 		\subsection{\# AudioPlayerPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der Slider in der AudioPlayerPage (readonly).}
 				\add{\textbf{\textit{string TimePlayed}} gibt die bereits abgespielte Zeit im Song an (readonly).}
@@ -50,16 +50,11 @@
 				\add{\textbf{\textit{bool UsingBasicAudio}} ist ein Boolean, welcher angibt ob momentan der BasicAudioPlayer und die BasicAudioLib verwendet werden (readonly).}
 				\add{\textbf{\textit{ICommand PositionDragStartedCommand}} pausiert mithilfe von privaten Methoden das momentane Lied und bereitet das Positionsänderung vor (readonly).}
 				\add{\textbf{\textit{ICommand PositionDragCompletedCommand}} verwirklicht mithilfe von privaten Methoden die Positionsänderung und gibt das momentane Lied anschließend wieder (readonly).}
-			\end{itemize}
-			Es wurden keine Properties verändert. \newline
-			Folgende Properties wurden entfernt:
-			\begin{itemize}
 				\remove{\textbf{\textit{bool PausePlayBoolean}} wurde entfernt, da nicht mehr benötigt.}
 				\remove{\textbf{\textit{ICommand ChangeVolumeCommand}} wurde entfernt, da Volume nun direkt über die Property gesetzt wird (readonly).}
 				\remove{\textbf{\textit{ICommand MoveInSongCommand}} wurde entfernt, stattdessen gibt es nun zwei Commands für das ändern der Position im Lied um weitere Funktionalität zu ermöglichen (readonly).}
 			\end{itemize}
-			Es wurden keine Methoden hinzugefügt oder verändert. \newline
-			Folgende Methoden wurde entfernt:
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void GetAudioTrack()}} wurde entfernt, da AudioTrack direkt auf den momentane Song im Model zugreift.}
 				\remove{\textbf{\textit{void GetPausePlayBoolean()}} wurde entfernt, da PausePlayBoolean nicht mehr benötigt wird.}
@@ -68,45 +63,33 @@
 		\subsection{- ConnectionPageVM}
 			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des ConnectionButtons der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über BC zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des ConnectionButtons der MainPage direkt mit den in den Settings verbundenen Earables über BLE verbunden. 
 		\subsection{\# MainPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
 				\add{\textbf{\textit{bool HelpVisible}} bestimmt ob die Hilfsicons sichtbar sein sollen.}
 				\add{\textbf{\textit{ICommand HelpCommand}} setzt HelpVisible auf true/false (readonly).}
-			\end{itemize}
-			Folgende Properties wurden verändert:
-			\begin{itemize}
-				\changed{\textbf{\textit{ICommand TryConnectCommand}} war ursprünglich ConnectionPageCommand, wurde aber umbenannt, da die ConnectionPage entfernt wurde (readonly).}
-			\end{itemize}
-			Folgende Properties wurden entfernt:
-			\begin{itemize}
 				\remove{\textbf{\textit{bool ConnectBoolean}} wurde entfernt, da nicht mehr benötigt.}
+				\changed{\textbf{\textit{ICommand TryConnectCommand}} war ursprünglich ConnectionPageCommand, wurde aber umbenannt, da die ConnectionPage entfernt wurde (readonly).}	
 			\end{itemize}
-			Es wurden keine Methoden hinzugefügt oder verändert. \newline
-			Folgende Methoden wurde entfernt:
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void GetDeviceName()}} wurde entfernt, da DeviceName direkt auf das Model zugreift.}
 				\remove{\textbf{\textit{void GetStepsAmount()}} wurde entfernt, da StepsAmount direkt auf das Model zugreift.}
 				\remove{\textbf{\textit{void GetConnectBoolean()}} wurde entfernt, da ConnectBoolean entfernt wurde.}
 			\end{itemize}
 		\subsection{\# ModesPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der Switches in der ModesPage (readonly).}
 				\add{\textbf{\textit{string ModesLabel}} bestimmt welcher Text über der Liste der Modes angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{LineChart StepChart}} zeigt an, zu welcher Uhrzeit der Nutzer wie viele Schritte gemacht hat. Sie wird jede Minute aktualisiert (readonly).}
-			\end{itemize}
-			Folgende Properties wurden verändert:
-			\begin{itemize}
 				\changed{\textbf{\textit{List$<$Mode$>$ Modes}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
 			\end{itemize}
-			Es wurden keine Properties entfernt. \newline
-			Es wurden keine Methoden hinzugefügt oder verändert. \newline
-			Folgende Methoden wurde entfernt:
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void GetModes()}} wurde entfernt, da Modes nun direkt aufs Model zugreift.}
 			\end{itemize}
 		\subsection{\# SettingsPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der Buttons in der ModesPage und die momentan ausgewählte Farbe im ColorPicker (readonly).}
 				\add{\textbf{\textit{string LanguageLabel}} bestimmt welcher Text über dem LanguagePicker angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
@@ -117,29 +100,20 @@
 				\add{\textbf{\textit{Color UseAudioModuleColor}} bestimmt die Farbe des UseAudioModuleButtons (readonly).}
 				\add{\textbf{\textit{List$<$CustomColor$>$ Colors}} enthält die Farben die im ColorPicker angezeigt werden sollen (readonly).}
 				\add{\textbf{\textit{ICommand ChangeAudioModuleCommand}} führt private Methoden aus um den momentan genutzten AudioPlayer bzw. AudioLib zu ändern.}
-			\end{itemize}
-			Folgende Properties wurden verändert:
-			\begin{itemize}
+				\remove{\textbf{\textit{ICommand ChangeLanguageCommand}} wurde entfernt, da die Sprache direkt über Language gesetzt wird (readonly).}
 				\changed{\textbf{\textit{List$<$Lang$>$}} Languages war zuvor eine ObservableCollection vom Typ Language, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste vom Typ Lang geändert, da Language zu Lang umbenannt wurde (readonly).}
 				\changed{\textbf{\textit{Lang SelectedLanguage}} hat immer noch die gleiche Funktion, ist jedoch jetzt vom Typ Lang anstatt Language (readonly).}
 			\end{itemize}	
-			Folgende Properties wurden entfernt:
-			\begin{itemize}
-				\changed{\textbf{\textit{ICommand ChangeLanguageCommand}} wurde entfernt, da die Sprache direkt über Language gesetzt wird (readonly).}
-			\end{itemize}
-			Es wurden keine Methoden hinzugefügt oder verändert. \newline
-			Folgende Methoden wurde entfernt:
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void RefreshLanguages()}} wurde entfernt, da Languages nun direkt aufs Model zugreift.	}
 				\remove{\textbf{\textit{void GetSelectedLanguage()}} wurde entfernt, da SelectedLanguage nun direkt aufs Model zugreift.}
 				\remove{\textbf{\textit{void GetDeviceName()}} wurde entfernt, da DeviceName nun direkt aufs Model zugreift.}
 			\end{itemize}
 		\subsection{\# NavigationHandler}
-			Es wurden keine Properties hinzugefügt, verändert oder entfernt. \newline
-			Er wurden keine Methoden hinzugefügt. \newline
-			Folgende Methoden wurden verändert:
+			An den Properties hat sich nichts verändert. \\
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\changed{\textbf{\textit{async void GotoPage$<$T$>$() where T : ContentPage}} nahm ursprünglich einen String entgegen, dies wurde aus Schönheitsgründen geändert.}
 			\end{itemize}
-			Es wurden keine Methoden entfernt.
 \end{document}
