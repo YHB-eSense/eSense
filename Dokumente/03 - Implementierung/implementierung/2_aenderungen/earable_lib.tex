@@ -1,20 +1,12 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
 
-\section{Earable Library}
+\section{Earable-Library}
 
 \subsection{\# IEarableScanner \changeto{} IEarableManager}
-	Eine wesentliche Änderung im Prinzip der Library hat sich beim Herstellen der erstmaligen Verbindung zu einem Earable ergeben.
-	Ursprünglich sollte die EarableLibrary in der Lage sein, zu einem gefundenen Gerät eine BLE- und eine BC-Verbindung aufzubauen.
-	Wie sich heraus stellte, besitzt die iOS-Plattform jedoch Einschränkungen, welche es unmöglich machen, programmgesteuert eine BC-Verbindung
-	mit einem der gefundenen Geräte einzugehen.
-
-	Um diese Einschränkung zu umgehen, muss der Benutzer selbstständig (über die Systemeinstellungen) eine BC-Verbindung mit
-	den gewünschten Earables herstellen, bevor über die Earables Musik abgespielt werden kann.
-	Da der Benutzer nun sowieso das gewünschte Gerät in den Systemeinstellungen auswählen muss, hat es sich als nutzerfreundlicher erwiesen,
-	beim Verbinden seitens der EarableLibrary auf einen Scan zu verzichten und stattdessen das momentan über BC verbundene Gerät als Earable zu verbinden.
-
-	Infolgedessen wurde der IEarableScanner als IEarableManager mit verändertem Funktionsumfang neu gestaltet.
+	Gemäß den konzeptuellen Änderungen an der App, wurde auch in der Earable-Library das Prinzip der Verbindungsherstellung verändert:
+	Anstelle einer allgemeinen Scan-Schnittstelle sind nun nur noch bereits über die Systemeinstellungen gekoppelte Geräte verfügbar.
+	Entsprechend wurde auch die Benennung des Interfaces angepasst.
 	\begin{itemize}
 		\remove[event EventHandler<EarableEventArgs> EarableDiscovered]{}
 		\remove[void StartScanning()]{}
