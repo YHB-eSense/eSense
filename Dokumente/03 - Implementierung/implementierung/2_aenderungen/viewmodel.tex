@@ -34,7 +34,7 @@
 				\add{\textbf{\textit{bool UsingSpotifyAudio}} ist ein Boolean, welcher angibt ob momentan der SpotifyAudioPlayer und die SpotifyAudioLib verwendet werden (readonly).}
 				\add{\textbf{\textit{ICommand DeleteSongsCommand}} ist ein Command, welcher die ausgewählten Lieder in der AudioLibPage löscht (readonly).}
 				\add{\textbf{\textit{ICommand EditDeleteListCommand}} ist ein Command, welcher das ausgewählte Lied zu einer Liste von zu löschenden Lieder hinzufügt (readonly).}
-				\changed{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
+				\change{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
@@ -68,7 +68,7 @@
 				\add{\textbf{\textit{bool HelpVisible}} bestimmt ob die Hilfsicons sichtbar sein sollen.}
 				\add{\textbf{\textit{ICommand HelpCommand}} setzt HelpVisible auf true/false (readonly).}
 				\remove{\textbf{\textit{bool ConnectBoolean}} wurde entfernt, da nicht mehr benötigt.}
-				\changed{\textbf{\textit{ICommand TryConnectCommand}} war ursprünglich ConnectionPageCommand, wurde aber umbenannt, da die ConnectionPage entfernt wurde (readonly).}	
+				\change{\textbf{\textit{ICommand TryConnectCommand}} war ursprünglich ConnectionPageCommand, wurde aber umbenannt, da die ConnectionPage entfernt wurde (readonly).}	
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
@@ -82,7 +82,7 @@
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der Switches in der ModesPage (readonly).}
 				\add{\textbf{\textit{string ModesLabel}} bestimmt welcher Text über der Liste der Modes angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{LineChart StepChart}} zeigt an, zu welcher Uhrzeit der Nutzer wie viele Schritte gemacht hat. Sie wird jede Minute aktualisiert (readonly).}
-				\changed{\textbf{\textit{List$<$Mode$>$ Modes}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
+				\change{\textbf{\textit{List$<$Mode$>$ Modes}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
@@ -101,8 +101,8 @@
 				\add{\textbf{\textit{List$<$CustomColor$>$ Colors}} enthält die Farben die im ColorPicker angezeigt werden sollen (readonly).}
 				\add{\textbf{\textit{ICommand ChangeAudioModuleCommand}} führt private Methoden aus um den momentan genutzten AudioPlayer bzw. AudioLib zu ändern.}
 				\remove{\textbf{\textit{ICommand ChangeLanguageCommand}} wurde entfernt, da die Sprache direkt über Language gesetzt wird (readonly).}
-				\changed{\textbf{\textit{List$<$Lang$>$}} Languages war zuvor eine ObservableCollection vom Typ Language, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste vom Typ Lang geändert, da Language zu Lang umbenannt wurde (readonly).}
-				\changed{\textbf{\textit{Lang SelectedLanguage}} hat immer noch die gleiche Funktion, ist jedoch jetzt vom Typ Lang anstatt Language (readonly).}
+				\change{\textbf{\textit{List$<$Lang$>$}} Languages war zuvor eine ObservableCollection vom Typ Language, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste vom Typ Lang geändert, da Language zu Lang umbenannt wurde (readonly).}
+				\change{\textbf{\textit{Lang SelectedLanguage}} hat immer noch die gleiche Funktion, ist jedoch jetzt vom Typ Lang anstatt Language (readonly).}
 			\end{itemize}	
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
@@ -114,6 +114,6 @@
 			An den Properties hat sich nichts verändert. \\
 			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
-				\changed{\textbf{\textit{async void GotoPage$<$T$>$() where T : ContentPage}} nahm ursprünglich einen String entgegen, dies wurde aus Schönheitsgründen geändert.}
+				\change{\textbf{\textit{async void GotoPage$<$T$>$() where T : ContentPage}} nahm ursprünglich einen String entgegen, dies wurde aus Schönheitsgründen geändert.}
 			\end{itemize}
 \end{document}
