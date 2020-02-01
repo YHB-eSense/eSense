@@ -8,6 +8,7 @@ using static Karl.Model.ConnectivityHandler;
 using static Karl.Model.LangManager;
 using static Karl.Model.ColorManager;
 using static StepDetectionLibrary.OutputManager;
+using System.Diagnostics;
 
 namespace Karl.Model
 {
@@ -324,6 +325,7 @@ namespace Karl.Model
 				_parent.Steps = _parent._steps + value.StepCount;
 				_parent.StepFrequency = (int) (value.Frequency * 60);
 				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
+				Debug.WriteLine("HEY");
 			}
 		}
 

@@ -2,7 +2,7 @@
 \begin{document}
 	\section{ViewModel}
 		\subsection{\# AddSongsPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der Buttons in der AddSongPage (readonly).}
 				\add{\textbf{\textit{string TitleLabel}} bestimmt welcher Text über der Entry zum Titel angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
@@ -11,16 +11,13 @@
 				\add{\textbf{\textit{string PickFileLabel}} bestimmt welchen Text der PickFileButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{string AddSongLabel}} bestimmt welchen Text der AddSongButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{ICommand GetBPMCommand}} ruft private Methoden auf um die BPM einer ausgewählten Audiodatei zu berechnen (readonly).}
-			\end{itemize}
-			Es wurden keine Properties verändert. \newline
-			Folgende Properties wurden entfernt:
-			\begin{itemize}
 				\remove{\textbf{\textit{string NewSongFileLocation}} wurde entfernt, da diese nun durch private Methoden gesetzt wird.}
 			\end{itemize}
-			Es sind keine Methoden hinzugekommen, entfernt oder verändert worden.
+			An den Methoden wurde nichts verändert.
 		\subsection{\# AudioLibPageVM}
-			Folgende Properties sind hinzugekommen:
+			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
+				\changed{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
 				\add{\textbf{\textit{CustomColor CurrentColor}} bestimmt die Farbe der ausgewählten Sortierung und der Checkboxes in der AudioLibPage (readonly).}
 				\add{\textbf{\textit{string TitleLabel}} bestimmt welchen Text der TitleSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
 				\add{\textbf{\textit{string ArtistLabel}} bestimmt welchen Text der ArtistSortButton anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern (readonly).}
@@ -39,13 +36,7 @@
 				\add{\textbf{\textit{ICommand DeleteSongsCommand}} ist ein Command, welcher die ausgewählten Lieder in der AudioLibPage löscht (readonly).}
 				\add{\textbf{\textit{ICommand EditDeleteListCommand}} ist ein Command, welcher das ausgewählte Lied zu einer Liste von zu löschenden Lieder hinzufügt (readonly).}
 			\end{itemize}
-			Folgende Properties wurden verändert:
-			\begin{itemize}
-				\changed{\textbf{\textit{List$<$AudioTrack$>$ Songs}} war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.	}
-			\end{itemize}
-			Es wurden keine Properties entfernt. \newline
-			Es sind keine Methoden hizugekommen. \newline
-			Folgende Methoden wurden entfernt:
+			An den Methoden hat sich folgendes verändert:
 			\begin{itemize}
 				\remove{\textbf{\textit{void GetSongs()}} wird nicht mehr benötigt, da Songs direkt auf die Lieder im Model zugreift.}
 			\end{itemize}
