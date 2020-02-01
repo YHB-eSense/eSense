@@ -93,8 +93,7 @@ namespace Karl.Model
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
 			if (_webAPI.GetPlayback() == null)
 			{
-				AvailabeDevices devices = await _webAPI.GetDevicesAsync();
-				_webAPI.TransferPlayback(devices.Devices[0].Id, true);
+				return;
 			}
 			_timer.Start();
 			List<String> currentTrackList = new List<string>();

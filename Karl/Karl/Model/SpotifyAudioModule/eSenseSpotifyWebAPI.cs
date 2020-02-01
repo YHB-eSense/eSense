@@ -36,7 +36,7 @@ namespace Karl.Model
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
 		private const string SCOPE = "user-read-playback-state user-modify-playback-state";
 		private const string AUTHORIZE_URI = @"https://accounts.spotify.com/authorize";
-		private const string REDIRECT_URI = @"karl1.companyname.com:/oauth2redirect";
+		private const string REDIRECT_URI = @"karl2.companyname.com:/oauth2redirect";
 		private const string ACCESSTOKEN_URI = @"https://accounts.spotify.com/api/token";
 
 		/// <summary>
@@ -103,6 +103,7 @@ namespace Karl.Model
 				TokenType = "Bearer"
 			};
 			PrivateProfile profile = await api.GetPrivateProfileAsync();
+			AvailabeDevices devices = await api.GetDevicesAsync();
 
 			//If Authentification worked properly
 			if (!profile.HasError())
