@@ -13,7 +13,7 @@
 	\end{itemize}
 
 \subsection{\# MotivationMode}
-	Implementiert jetzt auch \sign{IObserver <Output>}, um Daten von der StepDetectionLibrary zu erhalten.
+	Implementiert jetzt auch \code{IObserver <Output>}, um Daten von der StepDetectionLibrary zu erhalten.
 	\begin{itemize}
 		\add[public double MaxAllowedBPMDiff = 15]{Wenn die aktuelle Schrittfrequenz und die BPM des laufenden Songs sich um mehr als den Schwellwert (also \code{MaxAllowedBPMDiff}) unterscheiden wird ein neuer (passender) Song abgespielt.}
 		\add[public void ChooseNextSong()]{Wählt einen Song aus dessen BPM zur Schrittfrequenz des Users passt.}
