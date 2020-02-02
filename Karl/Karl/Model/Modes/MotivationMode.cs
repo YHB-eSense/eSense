@@ -55,7 +55,7 @@ namespace Karl.Model
 
 		public void OnNext(Output value)
 		{
-			_currentBPM = (uint)(value.Frequency * 60);
+			_currentBPM = (uint)(value.Log.AverageStepFrequency(duration: TimeSpan.FromSeconds(10)) * 60);
 
 			if (SingletonAudioPlayer.CurrentTrack == null)
 			{

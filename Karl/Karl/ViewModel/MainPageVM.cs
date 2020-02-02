@@ -4,6 +4,7 @@ using Karl.Model;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Karl.View;
+using StepDetectionLibrary;
 
 namespace Karl.ViewModel
 {
@@ -36,8 +37,8 @@ namespace Karl.ViewModel
 			{
 				if (_connectivityHandler.EarableConnected)
 				{
-					return _settingsHandler.CurrentLang.Get("steps") + ": " +Convert.ToString(_settingsHandler.Steps) + "     " +
-						string.Format("{0}: {1}", _settingsHandler.CurrentLang.Get("frequency"), _settingsHandler.StepFrequency);
+					var spm = OutputManager.SingletonOutputManager.Log.AverageStepFrequency(TimeSpan.FromSeconds(10)) * 60;
+					return string.Format("{0}: {1} ({2} SPM)", _settingsHandler.CurrentLang.Get("steps"), _settingsHandler.Steps, spm);
 				}
 				return null;
 			}

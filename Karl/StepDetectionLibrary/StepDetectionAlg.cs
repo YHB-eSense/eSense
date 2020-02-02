@@ -1,3 +1,4 @@
+using EarableLibrary;
 using System;
 using System.Collections.Generic;
 
@@ -6,19 +7,15 @@ namespace StepDetectionLibrary
 	/// <summary>
 	/// This class takes the raw gyro and acceleration data form the input, detects steps and then pushes them to the outputmanager
 	/// </summary>
-	public class StepDetectionAlg : IObserver<AccGyroData>, IObservable<Output>
+	public class StepDetectionAlg : IObserver<AccelerationSample>, IObservable<Output>
 	{
-
-		private Queue<int> _steps;
-		private int _stepsum;
-		private bool _threshholdpassed = false;
 		private List<IObserver<Output>> _observer;
 
 		/// <summary>
 		/// Amount of chunks to be used for frequency calculation.
 		/// Larger values result in better precision but also in longer latency.
 		/// </summary>
-		public uint FrequencyResolution => 25 * 5; // TODO: make this configurable
+		public uint FrequencyResolution => 25 * 1; // TODO: make this configurable
 
 		/// <summary>
 		/// constructor for stepdetectionalg
@@ -27,8 +24,6 @@ namespace StepDetectionLibrary
 		{
 			_observer = new List<IObserver<Output>>();
 			Subscribe(OutputManager.SingletonOutputManager);
-			_steps = new Queue<int>();
-			_stepsum = 0;
 		}
 
 		/// <summary>
@@ -52,9 +47,9 @@ namespace StepDetectionLibrary
 		/// method when recieving new data
 		/// </summary>
 		/// <param name="value">accleration + gyro data</param>
-		public void OnNext(AccGyroData value)
+		public void OnNext(AccelerationSample value)
 		{
-			Update(StepDetecAlg(value));
+			Update(StepDetectAlg(value.Acceleration, value.Time));
 		}
 
 		/// <summary>
@@ -82,46 +77,61 @@ namespace StepDetectionLibrary
 			}
 		}
 
+		private Step _currentStep;
+
+
 		/// <summary>
-		/// method with algorithm to detect steps from acceleration and GyroData
+		/// Value which corresponds to the uncalibrated acceleration-intensity when the earables are not in motion.
 		/// </summary>
-		/// <param name="data">acceleration and gyro data</param>
-		private Output StepDetecAlg(AccGyroData data)
+		public double IntensityOffset = 10;
+
+		/// <summary>
+		/// Threshold above which the calibrated acceleration-intensity will be counted as a step.
+		/// </summary>
+		public double IntensityThreshold = 6500;
+
+		/// <summary>
+		/// Calculate the current acceleration-intensity from the measured acceleration.
+		/// Calibration is applied by substraction of <see cref="IntensityOffset"/> as the last step of calculation.
+		/// </summary>
+		/// <param name="acc">Measured acceleration</param>
+		/// <returns>Acceleration-Intensity</returns>
+		public double CalculateIntensity(TripleShort acc)
 		{
-			int length = data.DataLength;
-			AccData accdata = data.AccData;
-			const double AVGMAG = 10; // TODO: value needs to be tested, should be configurable
-			const double THRESHHOLD = 6500; // TODO: value needs to be tested, should be configurable
-			int stepcount = 0;
+			return Math.Sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z) - IntensityOffset;
+		}
 
-			double[] netmag = new double[length];
-			for (int i = 0; i < length; i++)
-			{
-				netmag[i] = Math.Sqrt((accdata.Xacc[i]) * (accdata.Xacc[i]) + (accdata.Yacc[i]) * (accdata.Yacc[i]) + (accdata.Zacc[i]) * (accdata.Zacc[i])) - AVGMAG;
-			}
 
-			for (int i = 0; i < length; i++)
+		/// <summary>
+		/// Algorithm to detect steps from acceleration data.
+		/// Samples must be passed in chronological order.
+		/// </summary>
+		/// <param name="acceleration">One acceleration sample</param>
+		/// <param name="sampleTaken">Time (in UTC!) at which the sample was recorded</param>
+		public Output StepDetectAlg(TripleShort acceleration, DateTime sampleTaken)
+		{
+			var intensity = CalculateIntensity(acceleration);
+			if (intensity > IntensityThreshold)
 			{
-				//Console.WriteLine(netmag[i]);
-				if (netmag[i] > THRESHHOLD)
+				if (_currentStep == null)
 				{
-					_threshholdpassed = true;
-				} else if (_threshholdpassed) {
-					_threshholdpassed = false;
-					stepcount++;
+					_currentStep = new Step
+					{
+						Taken = sampleTaken,
+						Intensity = intensity
+					};
 				}
 			}
-
-			_steps.Enqueue(stepcount);
-			_stepsum += stepcount;
-			if(_steps.Count > FrequencyResolution)
+			else
 			{
-				_stepsum -= _steps.Dequeue();
+				if (_currentStep != null)
+				{
+					_currentStep.Duration = sampleTaken - _currentStep.Taken;
+					OutputManager.SingletonOutputManager.Log.Add(_currentStep);
+					_currentStep = null;
+				}
 			}
-			double frequency = _stepsum / (data.LengthInSeconds * _steps.Count); 
-			Output output = new Output(frequency, stepcount);
-
-			return output;
+			return new Output();
 		}
 
 		/// <summary>

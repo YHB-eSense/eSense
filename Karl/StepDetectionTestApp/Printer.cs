@@ -21,7 +21,7 @@ namespace StepDetectionTestApp
 
 		public void OnNext(Output value)
 		{
-			Console.WriteLine(value.StepCount);
+			Console.WriteLine(value.Log.CountSteps());
 		}
 	}
 }

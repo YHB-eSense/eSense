@@ -50,7 +50,7 @@ namespace Karl.Model
 				string[] seperated = langWord.Split('=');
 				if (seperated.Length > 1)
 				{
-					_wordPairs.Add(seperated[0], seperated[1]); System.Diagnostics.Debug.WriteLine(seperated[0] + seperated[1]);
+					_wordPairs.Add(seperated[0], seperated[1]);
 				}
 			}
 			output.Close();

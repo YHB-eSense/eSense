@@ -59,7 +59,7 @@ namespace Karl.Model
 
 		public void OnNext(Output value)
 		{
-			Autostopped = value.Frequency == 0;
+			Autostopped = value.Log.CountSteps(duration: TimeSpan.FromSeconds(1)) == 0;
 		}
 
 		public void OnCompleted()

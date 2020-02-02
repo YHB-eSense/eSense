@@ -7,8 +7,8 @@ Aus allen View Klassen wurde die Methode \code{OnAppearing()} entfernt. Aktualis
 
 \subsection{\# MainPage}
 	\begin{itemize}
-		\add[Button \_helpButton]{macht durch Drücken die vier Hilfsicons sichtbar/unsichtbar.}
-		\add{Vier Hilfsicons zeigen an, durch welche Geste man zu welcher Seite der App navigiert.}
+		\add[ImageButton \_helpButton]{macht durch Drücken die vier Hilfsicons sichtbar/unsichtbar.}
+		\add{Vier Hilfsicons(Images) zeigen an, durch welche Geste man zu welcher Seite der App navigiert.}
 	\end{itemize}
 
 \subsection{- ConnectionPage}
@@ -17,16 +17,21 @@ Aus allen View Klassen wurde die Methode \code{OnAppearing()} entfernt. Aktualis
 \subsection{\# AddSongsPage}
 	\begin{itemize}
 		\add[Button \_calculateBPMButton]{berechnet beim Drücken die BPM der durch den AudioFilePicker ausgewählten Audiodatei.}
+		\add[Label \_songTitleLabel]{Label zum \_songTitleEntry.}
+		\add[Label \_songArtistLabel]{Label zum \_songArtistEntry.}
+		\add[Label \_songBPMLabel]{Label zum \_songBPMEntry.}
 	\end{itemize}
 
 \subsection{\# AudioLibPage}
 	\begin{itemize}
 		\add[Picker \_playlistPicker]{ermöglicht es, eine Playlist der SpotifyAudioLib auszuwählen, deren AudioTracks anschließend in die AudioLib geladen werden.}
+		\add[ImageButton \_deleteSongButton] {Button zum Löschen eines Songs aus der BasicAudioLib.}
+		\change[ImageButton \_addSongButton] {Typ wurde von Button auf ImageButton geändert.}
 	\end{itemize}
-
 \subsection{\# AudioPlayerPage}
 	\begin{itemize}
 		\add[Entry \_titleEntry]{ermöglicht es den Titel eines neu hinzuzufügenden Songs festzulegen.}
+		\change[ImageButton \_nextSongButton, \_playPauseSongButton, \_previousSongButton]{Typ wurde von Button auf ImageButton geändert.}
 	\end{itemize}
 
 \subsection{\# ModesPage}
@@ -39,6 +44,7 @@ Aus allen View Klassen wurde die Methode \code{OnAppearing()} entfernt. Aktualis
 		\add[Button \_changeAudioModuleButton]{ermöglicht das Wechseln zwischen der BasicAudioLib und der SpotifyAudioLib bzw. dem BasicAudioPlayer und dem SpotifyAudioPlayer.}
 		\add[Picker \_colorPicker]{ermöglicht das Wechseln der Farbe vieler UI-Elemente der App.}
 		\add[Label \_colorPickerLabel]{fungiert als Titel für den ColorPicker und passt sich an die momentan ausgewählte Sprache an.}
+		\add[Label \_changeDeviceNameLabel]{Label zum \_changeDeviceNameEntry.}
 	\end{itemize}
 
 \end{document}

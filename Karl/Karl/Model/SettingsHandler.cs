@@ -38,7 +38,6 @@ namespace Karl.Model
 
 		private readonly IDictionary<string, Object> _properties = Application.Current.Properties;
 		private int _steps;
-		private int _stepslastmin;
 		private Timer timer;
 		
 		//Eventhandling
@@ -131,11 +130,6 @@ namespace Karl.Model
 		}
 
 		/// <summary>
-		/// The current step frequency (in steps per minute)
-		/// </summary>
-		public int StepFrequency { get; private set; }
-
-		/// <summary>
 		/// The color currently selected
 		/// </summary>
 		public CustomColor CurrentColor
@@ -159,8 +153,8 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetSteps()
 		{
+			OutputManager.SingletonOutputManager.Log.Reset();
 			Steps = 0;
-			StepFrequency = 0;
 		}
 
 		/// <summary>
@@ -171,7 +165,7 @@ namespace Karl.Model
 			UsingSpotifyAudio = false;
 			UsingBasicAudio = true;
 			SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
-			_stepslastmin = 0;
+			// _stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
@@ -284,14 +278,14 @@ namespace Karl.Model
 		{
 			if (SingletonConnectivityHandler.EarableConnected)
 			{
-				Microcharts.Entry entry = new Microcharts.Entry(_stepslastmin)
+				var stepslastmin = SingletonOutputManager.Log.CountSteps(duration: TimeSpan.FromMinutes(1));
+				Microcharts.Entry entry = new Microcharts.Entry(stepslastmin)
 				{
 					Color = SKColor.Parse(CurrentColor.Color.ToHex()),
 					Label = DateTime.Now.ToString("HH:mm"),
-					ValueLabel = _stepslastmin.ToString()
+					ValueLabel = stepslastmin.ToString()
 				};
 				ChartEntries.Add(entry);
-				_stepslastmin = 0;
 				if (ChartEntries.Count > 10)
 				{
 					ChartEntries.RemoveAt(0);
@@ -322,9 +316,7 @@ namespace Karl.Model
 
 			public void OnNext(Output value)
 			{
-				_parent.Steps = _parent._steps + value.StepCount;
-				_parent.StepFrequency = (int) (value.Frequency * 60);
-				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
+				_parent.Steps = value.Log.CountSteps();
 			}
 		}
 

@@ -1,6 +1,7 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
 	\section{ViewModel}
+	Jedes ViewModel implementiert nun das Interface \textbf{\textit{INotifyPropertyChanged}} aus System.ComponentModel und besitzt somit auch \textbf{\textit{event PropertyChangedEventHandler PropertyChanged\glsnote{event}}}, wodurch das Benachrichtigen der dazugehörigen ContentPage bei Änderung einer Property\glsnote{property} bewerkstelligt wird.
 		\subsection{\# AddSongsPageVM}
 			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
@@ -68,7 +69,7 @@
 			\end{itemize}
 		\subsection{- ConnectionPageVM}
 
-			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des \_connectionButtons der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des \_connectionButtons der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
+			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
 		\subsection{\# MainPageVM}
 			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
@@ -90,6 +91,7 @@
 
 				\add[string ModesLabel\glsnote{ro}]{bestimmt welcher Text im \_modesListLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
 				\add[LineChart StepChart\glsnote{ro}]{ist die Quelle der \_stepChart der ModesPage, welche angibt, zu welcher Uhrzeit der Nutzer wie viele Schritte gemacht hat. Sie wird jede Minute aktualisiert.}
+				\remove[ICommand ActivateModeCommand\glsnote{ro}]{wurde entfernt, da Modi nun über eine interne Property aktiviert werden können.}
 				\change[List$<$Mode$>$ Modes]{war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
@@ -126,6 +128,6 @@
 			\begin{itemize}
 
 				\change[async void GotoPage$<$T$>$() where T : ContentPage]{nahm ursprünglich einen String entgegen, dies wurde geändert um weniger fehleranfällig zu sein.}
->>>>>>> 6d83eff567ea028e46660e7a639a4e45fbc7327c
+
 			\end{itemize}
 \end{document}

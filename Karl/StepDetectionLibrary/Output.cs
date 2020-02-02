@@ -1,40 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace StepDetectionLibrary
 {
 	/// <summary>
 	/// struct for dataoutput
 	/// </summary>
-	public struct Output
+	public class Output
 	{
-		private double _freq;
-		private int _stepcount;
-
-		/// <summary>
-		/// constructor for output
-		/// </summary>
-		/// <param name="freq">frequency</param>
-		/// <param name="stepcount">step count</param>
-		public Output(double freq, int stepcount)
-		{
-			this._freq = freq;
-			this._stepcount = stepcount;
-		}
-
-		/// <summary>
-		/// freqency property in Hz
-		/// </summary>
-		public double Frequency
-		{ get { return this._freq; } }
-
-		/// <summary>
-		/// step count property
-		/// </summary>
-		public int StepCount
-		{ get { return this._stepcount; } }
-
+		public ActivityLog Log => OutputManager.SingletonOutputManager.Log;
 	}
 	/// <summary>
 	/// gets data from stepdetectionalg and handles the output of data
@@ -71,12 +47,16 @@ namespace StepDetectionLibrary
 		private OutputManager()
 		{
 			_observers = new List<IObserver<Output>>();
+			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ActivityLog.db3");
+			Log = new ActivityLog(path);
 		}
 
-		/// <summary>
-		/// method if provider finished sending data
-		/// </summary>
-		public void OnCompleted()
+        public ActivityLog Log { get; }
+
+        /// <summary>
+        /// method if provider finished sending data
+        /// </summary>
+        public void OnCompleted()
 		{
 			throw new NotImplementedException();
 		}
