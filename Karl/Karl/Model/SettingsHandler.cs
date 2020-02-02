@@ -325,7 +325,6 @@ namespace Karl.Model
 				_parent.Steps = _parent._steps + value.StepCount;
 				_parent.StepFrequency = (int) (value.Frequency * 60);
 				_parent._stepslastmin = _parent._stepslastmin + value.StepCount;
-				Debug.WriteLine("HEY");
 			}
 		}
 
