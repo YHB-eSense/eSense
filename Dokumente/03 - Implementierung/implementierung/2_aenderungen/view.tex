@@ -7,37 +7,38 @@ Aus allen View Klassen wurde die Methode \code{OnAppearing()} entfernt. Aktualis
 
 \subsection{\# MainPage}
 	\begin{itemize}
-		\add{Ein Button hinzugefügt, der durch Drücken Hilfssymbole sichtbar/unsichtbar macht, die anzeigen durch welche Geste man zu welcher Seite der App navigiert}
-		\add{Vier Images (Hilfssymbole) , die anzeigen durch welche Geste man zu welcher Seite der App navigiert}
+		\add[Button \_helpButton]{macht durch Drücken die vier Hilfsicons sichtbar/unsichtbar.}
+		\add{Vier Hilfsicons zeigen an, durch welche Geste man zu welcher Seite der App navigiert.}
 	\end{itemize}
 
 \subsection{- ConnectionPage}
-	Wurde komplett gelöscht, da es bei iOS nicht möglich ist sich über eine App mit Bluetooth Geräten zu verbinden.
+	Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des ConnectionButtons der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des ConnectionButtons der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
 
 \subsection{\# AddSongsPage}
 	\begin{itemize}
-		\add{Ein Button, um die BPM des ausgewählten Songs zu berechnen}
+		\add[Button \_calculateBPMButton]{berechnet beim Drücken die BPM der durch den AudioFilePicker ausgewählten Audiodatei.}
 	\end{itemize}
 
 \subsection{\# AudioLibPage}
 	\begin{itemize}
-		\add{Ein Picker für Playlist, die aus der Spotify Audio Lib angezeigt werden soll, wurde hinzugefügt}
+		\add[Picker \_playlistPicker]{ermöglicht es, eine Playlist der SpotifyAudioLib auszuwählen, deren AudioTracks anschließend in die AudioLib geladen werden.}
 	\end{itemize}
 
 \subsection{\# AudioPlayerPage}
 	\begin{itemize}
-		\add{Ein Textfeld für den Titel eines Songs}
+		\add[Entry \_titleEntry]{ermöglicht es den Titel eines neu hinzuzufügenden Songs festzulegen.}
 	\end{itemize}
 
 \subsection{\# ModesPage}
 	\begin{itemize}
-		\add{Ein ChartView zum Anzeigen der Schritte in einem festgelegten Zeitraum}
+		\add[ChartView \_stepChart]{zeigt für die letzten 10 Minuten an, wie viele Schritte jede Minute gemacht wurden.}
 	\end{itemize}
 
 \subsection{\# SettingsPage}
 	\begin{itemize}
-		\add{Ein Button zum Wechseln zwischen der BasicAudioLib und der SpotifyAudioLib}
-		\add{Es wurde ein Picker zum Wechseln der Farbe der UI Elemente der App und ein Label mit der Aufschrift "Farbe" ( 'Farbe' in der ausgewählten Sprache) hinzugefügt}
+		\add[Button \_changeAudioModuleButton]{ermöglicht das Wechseln zwischen der BasicAudioLib und der SpotifyAudioLib bzw. dem BasicAudioPlayer und dem SpotifyAudioPlayer.}
+		\add[Picker \_colorPicker]{ermöglicht das Wechseln der Farbe vieler UI-Elemente der App.}
+		\add[Label \_colorPickerLabel]{fungiert als Titel für den ColorPicker und passt sich an die momentan ausgewählte Sprache an.}
 	\end{itemize}
 
 \end{document}
