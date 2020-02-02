@@ -4,11 +4,10 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using static Android.Content.PM.PackageManager;
 
 namespace Karl.Droid
 {
-	[Activity(Name = "com.companyname.karl2.Karl.Droid.CustomURLSchemeInterceptor", Label = "ActivityCustomUrlSchemeInterceptor", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
+	[Activity(Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
 	[IntentFilter(
 		new[] { Intent.ActionView },
 		Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
@@ -23,7 +22,7 @@ namespace Karl.Droid
 			// Convert Android.Net.Url to Uri
 			var uri = new Uri(Intent.Data.ToString());
 
-			System.Diagnostics.Debug.WriteLine(uri.OriginalString);
+			System.Diagnostics.Debug.WriteLine("CustomURLSchemeInterceptor read this URI: " + uri.OriginalString);
 			Intent launchIntent = PackageManager.GetLaunchIntentForPackage("com.spotify.music");
 			if (launchIntent != null)
 			{

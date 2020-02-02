@@ -2,15 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.karl" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<application android:label="Karl.Android">
-		<activity android:name="com.companyname.karl2.Karl.Droid.CustomURLSchemeInterceptorActivity" android:label="ActivityCustomUrlSchemeInterceptor" android:launchMode="singleTop" android:noHistory="true">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:path="/oauth2redirect" />
-				<data android:scheme="karl2.companyname.com" />
-			</intent-filter>
-		</activity>
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
