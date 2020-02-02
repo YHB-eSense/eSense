@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Timers;
 using SpotifyAPI.Web;
@@ -60,18 +61,15 @@ namespace Karl.Model
 			//Load Cover of playing Song
 			var webClient = new WebClient();
 			string link;
-			if (playback.Item != null) link =playback.Item.Album.Images[0].Url;
+			if (playback.Item != null) link = playback.Item.Album.Images[0].Url;
 			else return;
 			byte[] imageBytes = webClient.DownloadData(link);
 
-			//Reload Cover once
-			if (_track.Duration == 0)
-			{
-				_track = new SpotifyAudioTrack(playback.Item.DurationMs / 1000
-				, playback.Item.Name, playback.Item.Artists[0].Name,
-				(int)_webAPI.GetAudioFeatures(playback.Item.Id).Tempo,
-				playback.Item.Id, imageBytes);
-			}
+			//Reload Cover
+			_track = new SpotifyAudioTrack(playback.Item.DurationMs / 1000
+			, playback.Item.Name, playback.Item.Artists[0].Name,
+			(int)_webAPI.GetAudioFeatures(playback.Item.Id).Tempo,
+			playback.Item.Id, imageBytes);
 
 			//Pause Track 
 			if (playback.IsPlaying)
@@ -91,15 +89,16 @@ namespace Karl.Model
 		public async void PlayTrack(AudioTrack track)
 		{
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
-			if (_webAPI.GetPlayback() == null)
+			if (await _webAPI.GetPlaybackAsync() == null)
 			{
 				return;
 			}
 			_timer.Start();
-			List<String> currentTrackList = new List<string>();
+			List<string> currentTrackList = new List<string>();
 			CurrentTrack = track;
 			currentTrackList.Add("spotify:track:" + track.TextId);
 			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
+			Debug.WriteLine("UPdating2");
 		}
 
 		private async void Tick(object sender, EventArgs e)

@@ -31,7 +31,7 @@ namespace Karl.ViewModel
 				return null;
 			}
 		}
-		public string StepsAmountAndFreq
+		public string StepsAmount
 		{
 			get
 			{
@@ -83,7 +83,7 @@ namespace Karl.ViewModel
 
 		private void RefreshLang(object sender, EventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
@@ -93,13 +93,13 @@ namespace Karl.ViewModel
 		}
 		private void RefreshSteps(object sender, EventArgs args)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 		}
 
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmountAndFreq)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 

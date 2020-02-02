@@ -145,7 +145,7 @@ namespace Karl.ViewModel
 				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
 				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
 				{
-					SettingsHandler.SingletonSettingsHandler.changeAudioModuleToSpotify();
+					SingletonSettingsHandler.changeAudioModuleToSpotify();
 				};
 			}
 		}

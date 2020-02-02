@@ -76,7 +76,7 @@
 			<Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>
 			<Frame Grid.Row="3" Grid.Column="2" CornerRadius="0" HasShadow="False">
-				<Label Text="{Binding StepsAmountAndFreq}" VerticalOptions="Center" HorizontalOptions="Center"/>
+				<Label Text="{Binding StepsAmount}" VerticalOptions="Center" HorizontalOptions="Center"/>
 			</Frame>
 			<Frame Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 			</Frame>

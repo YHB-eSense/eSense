@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
 {
@@ -175,7 +177,6 @@ namespace Karl.Model
 		{
 			AudioChanged?.Invoke(this, null);
 		}
-
 	}
 
 	interface IAudioPlayerImpl

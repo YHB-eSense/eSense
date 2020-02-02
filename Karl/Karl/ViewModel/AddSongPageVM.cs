@@ -33,6 +33,7 @@ namespace Karl.ViewModel
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PickFileLabel { get => _settingsHandler.CurrentLang.Get("pick_file"); }
+		public string GetBPMLabel { get => _settingsHandler.CurrentLang.Get("get_bpm"); }
 		public string AddSongLabel { get => _settingsHandler.CurrentLang.Get("add_song"); }
 		public string NewSongTitle
 		{
@@ -89,6 +90,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PickFileLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GetBPMLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddSongLabel)));
 		}
 

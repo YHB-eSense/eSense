@@ -24,11 +24,14 @@ color=Color
 col_#FF4169E1=Royal Blue
 col_#FF87CEEB=Sky Blue
 col_#FF8B0000=Dark Red
+col_#FF228B22=Forest Green
+col_#FFFFA500=Orange
 unknown=Unknown
 autostop_mode=AutostopMode
 motivation_mode=MotivationMode
 playlists=Playlists
-use_spotify=Spotify Benutzen
-use_basic=Integriertes Audio Benutzen
+use_spotify=Use Spotify
+use_basic=Use integrated audio
+get_bpm=Calculate BPM
 
 

@@ -130,6 +130,11 @@ namespace Karl.ViewModel
 			if (_audioPlayer.Paused) { _timer.Stop(); }
 			else { _timer.Start(); }
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+			if (!UsingBasicAudio)
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
+			}
 		}
 
 		private void PlayPrev()

@@ -55,7 +55,7 @@
 						Command="{Binding PickFileCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"
 						TextColor="White"/>
-					<Button Text="Get BPM" 
+					<Button Text="{Binding GetBPMLabel}" 
 						TextColor="White" 
 						Command="{Binding GetBPMCommand}"
 						BackgroundColor="{Binding CurrentColor.Color}"/>
