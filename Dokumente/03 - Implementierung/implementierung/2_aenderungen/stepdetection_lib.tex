@@ -53,9 +53,11 @@
             Keine Änderungen
 
         \subsection{\# Outputmanager}
-            \add[IDisposable Subscribe(IOutputObserver)]{Hier liegt eine erlaubte Kovarianz vor. Der OutputManager kann somit allen Subscribern die 
-            Frequenz über einen individuell anpassbaren Zeitraum anbieten.}
-            
+        	\begin{itemize}
+	            \add[IDisposable Subscribe(IOutputObserver)]{Hier liegt eine erlaubte Kovarianz vor. Der OutputManager kann somit allen Subscribern 
+	            die Frequenz über einen individuell anpassbaren Zeitraum anbieten.}
+        	\end{itemize}
+           
         \subsection{+ IOutputObserver}
         	Dieses Interface hat einen DesiredFrequencyInterval Um anzugeben, auf welche Zeiträume die Frequenz berechnet werden soll.
         	\sign{public interface IOutputObserver : Observer$<$Output$>$}
