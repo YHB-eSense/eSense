@@ -12,12 +12,6 @@ namespace StepDetectionLibrary
 		private List<IObserver<Output>> _observer;
 
 		/// <summary>
-		/// Amount of chunks to be used for frequency calculation.
-		/// Larger values result in better precision but also in longer latency.
-		/// </summary>
-		public uint FrequencyResolution => 25 * 1; // TODO: make this configurable
-
-		/// <summary>
 		/// constructor for stepdetectionalg
 		/// </summary>
 		public StepDetectionAlg()

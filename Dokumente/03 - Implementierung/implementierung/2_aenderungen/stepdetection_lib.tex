@@ -1,68 +1,64 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
-    \section{StepDetection-Library}
-        \subsection{\#Input}
-            \begin{itemize}
-                \add[public int Datalength]{Datenlänge eines Paktes welches zum Algorithmus geschickt wird}
-                \add[public int SamplingRate]{Anzahl der Datenmessungen pro Sekunde}
-                \add[public Input()]{Konstruktor}
-            \end{itemize}
 
-        \subsection{\# AccGyroData}
-            Ist jetzt eine Klasse
-            \begin{itemize}
-                \remove[short\array{} xacc, yacc, zacc, xgyro, ygyro, zgyro]{Wurden ersetzt durch \code{AccData} und \code{GyroData}}
-                \add[public readonly AccData AccData]{Enthält Beschleuningsdaten}
-                \add[public readonly GyroData GyroData]{Enthält Gyroscopedaten}
-                \add[public int Datalength]{Datenlänge eines Paktes welches zum Algorithmus geschickt wird}
-                \add[public int SamplingRate]{Anzahl der Datenmessungen pro Sekunde}
-                \add[public double LengthInSeconds]{Länge eines Datenpakets in Sekunden}
-                \add[public AccGyroData(int dataLength, int samplingRate)]{Konstruktor}
-            \end{itemize}
+\section{StepDetection-Library}
 
+\subsection{\# Input}
+	\begin{itemize}
+		\add[public int SamplingRate]{Anzahl der Datenmessungen pro Sekunde}
+		\add[public Input()]{Konstruktor}
+	\end{itemize}
 
-        \subsection{+ AccData}
-            Neues Struct mit Beschleuningsdaten
-            \begin{itemize}
-                \add[public double\array{} Xacc]{Beschleuninigunsdaten x-Achse}
-                \add[public double\array{} Yacc]{Beschleuninigunsdaten y-Achse}
-                \add[public double\array{} Zacc]{Beschleuninigunsdaten z-Achse}
-                \add[public AccData(int a)]{Konstruktor mit Länge des Datenpakets}
-                \add[public AccData(double\array{} xacc, double\array{} yacc, double\array{} zacc)]{Konstruktor mit Arrays}
-            \end{itemize}
+\subsection{\# AccGyroData \changeto AccelerationSample}
+	Um eine niedrigstmögliche Latzen zu erzielen, ist der Schriterkennungs-Algorithmus so implementiert, dass jeder neuen Messwert unmittelbar verarbeitet wird.
+	Anstelle von mehreren Messwerten muss also nur jeweils einer an den Algorithmus übermittelt werden.
+	Des weiteren ergibt sich durch die gewählte Implementierung ein Hinzukommen von Zeit-Informationen aber ein Wegfallen der Gyroskop-Daten.
+	Die Struktur \code{AccGyroData} wurde dementsprechend verändert.
+	\begin{itemize}
+		\remove[short\array{} xacc, yacc, zacc, xgyro, ygyro, zgyro]{}
+		\add[public TripleShort Acceleration]{Beschleuningungsdaten aller drei Achsen}
+		\add[public DateTime Time]{Erfassungs-Zeitpunkt}
+	\end{itemize}
 
+\subsection{\# StepDetectionAlg}
+	\begin{itemize}
+		\add[public double IntensityOffset]{Wert, welcher im Verarbeitungsprozess des Algorithmus von der summierten Beschleuningung abgezogen wird}
+		\add[public double IntensityThreshold]{Grenzwert oberhalb von welcher ein Peak als Schritt erkannt wird}
+		\add[public StepDetectionAlg()]{Konstruktor für StepDetectionAlg}
+	\end{itemize}
 
+\subsection{Output}
+	\begin{itemize}
+		\remove[public Output(...)]{Output verwendet den Standardkonstruktor, da die Daten direkt aus dem \code{ActivityLog} des \code{SingletonOutputManager} ausgelesen werden können}
+		\add[public ActivityLog Log]{}
+	\end{itemize}
 
-        \subsection{+ GyroData}
-            Neues Struct mit Gyroscopedaten
-            \begin{itemize}
-                \add[public double\array{} Xgyro]{Gyroscopedaten x-Achse}
-                \add[public double\array{} Ygyro]{Gyroscopedaten y-Achse}
-                \add[public double\array{} Zgyro]{Gyroscopedaten z-Achse}
-                \add[public GyroData(int a)]{Konstruktor mit Länge des Datenpakets}
-                \add[public GyroData(double\array{} xgyro, double\array{} ygyro, double\array{} zgyro)]{Konstruktor mit Arrays}
-            \end{itemize}
+\subsection{\# OutputManager}
+	\begin{itemize}
+		\add[public ActivityLog Log]{Protokoll aller getätigten Schritte}
+	\end{itemize}
 
-        \subsection{\# StepDetectionAlg}
-            \begin{itemize}
-                \add[public uint FrequencyResolution]{Anzahl der Datenpakete aus denen die Frequenz berechnet wird}
-                \add[public StepDetectionAlg()]{Konstruktor für StepDetectionAlg}
-            \end{itemize}
+\subsection{+ ActivityLog}
+	Diese Klasse wurde nachträglich hinzugefügt, um fremden Komponenten eine größere Flexibilität im Zugriff auf die Schritt-Daten zu ermöglichen.
+	So profitiert etwa der \code{AutoStopMode} von einer geringen Latenz, wohingegen der \code{MotivationMode} eine hohe Genauigkeit bei der berechneten Schrittfrequenz benötigt.
+	Da beide Kriterien gleichzeitig nicht zu erfüllen sind, kann die Schritt-Frequenz nun auf unterschiedliche Weise berechnet werden.
+	\sign{public class ActivityLog}
+	\begin{itemize}
+		\add[public ActivityLog(string dbPath)]{Legt einen ActivityLog mit einer Datenbank an gegebener Stelle an}
+		\add[public int CountSteps(DateTime? since = null, DateTime? until = null)]{Zählt protokollierte Schritte in angegebenem Zeitraum}
+		\add[public int CountSteps(TimeSpan duration)+]{Zählt protokollierte Schritte in angegebener Zeitspanne}
+		\add[public List<Step> LastSteps(int n)]{Gibt einzelne Schritte zurück}
+		\add[public void Add(Step step)]{Protokolliert einen neuen Schritt}
+		\add[public double AverageStepFrequency(TimeSpan duration)]{Berechnet die Schritt-Frequenz über eine angegebene Zeitspanne}
+		\add[public void Reset()]{Löscht das Protokoll}
+	\end{itemize}
 
-        \subsection{Output}
-            Keine Änderungen
-
-        \subsection{\# Outputmanager}
-        	\begin{itemize}
-	            \add[IDisposable Subscribe(IOutputObserver)]{Hier liegt eine erlaubte Kovarianz vor. Der OutputManager kann somit allen Subscribern 
-	            die Frequenz über einen individuell anpassbaren Zeitraum anbieten.}
-        	\end{itemize}
-           
-        \subsection{+ IOutputObserver}
-        	Dieses Interface hat einen DesiredFrequencyInterval Um anzugeben, auf welche Zeiträume die Frequenz berechnet werden soll.
-        	\sign{public interface IOutputObserver : Observer$<$Output$>$}
-        	\begin{itemize}
-        		\add[int DesiredFrequencyInterval]{Definiert eine Get Property}
-        	\end{itemize}
+\subsection{+ Step}
+	\sign{public class Step}
+	\begin{itemize}
+		\add[public TimeSpan Duration]{Mess-Zeitpunkt des Schrittes}
+		\add[public TimeSpan Duration]{Länge des gemessenen Peaks}
+		\add[public double Intensity]{Stärke des gemessenen Peaks}
+	\end{itemize}
 
 \end{document}

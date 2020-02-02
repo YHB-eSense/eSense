@@ -11,6 +11,9 @@ namespace StepDetectionLibrary
 	public class Output
 	{
 		public ActivityLog Log => OutputManager.SingletonOutputManager.Log;
+
+		public double StepCount() => Log.CountSteps();
+		public double Frequency() => Log.AverageStepFrequency(TimeSpan.FromSeconds(10));
 	}
 	/// <summary>
 	/// gets data from stepdetectionalg and handles the output of data
