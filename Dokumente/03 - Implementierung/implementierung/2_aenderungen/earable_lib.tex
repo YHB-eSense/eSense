@@ -1,161 +1,151 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
-	\newcommand{\eladd}[2][]{\item[+]{\code{#2} #1}}
-	\newcommand{\elremove}[2][]{\item[-]{\code{#2} #1}}
-	\newcommand{\elchange}[2][]{\item[\#]{\code{#2} #1}}
-	\section{Earable Library}
-		\subsection{\# IEarableScanner \changeto IEarableManager}
-			Eine wesentliche Änderung im Prinzip der Library hat sich beim Herstellen der erstmaligen Verbindung zu einem Earable ergeben.
-			Ursprünglich sollte die EarableLibrary in der Lage sein, zu einem gefundenen Gerät eine BLE- und eine BC-Verbindung aufzubauen.
-			Wie sich heraus stellte, besitzt die iOS-Plattform jedoch Einschränkungen, welche es unmöglich machen, programmgesteuert eine BC-Verbindung
-			mit einem der gefundenen Geräte einzugehen.
 
-			Um diese Einschränkung zu umgehen, muss der Benutzer selbstständig (über die Systemeinstellungen) eine BC-Verbindung mit
-			den gewünschten Earables herstellen, bevor über die Earables Musik abgespielt werden kann.
-			Da der Benutzer nun sowieso das gewünschte Gerät in den Systemeinstellungen auswählen muss, hat es sich als nutzerfreundlicher erwiesen,
-			beim Verbinden seitens der EarableLibrary auf einen Scan zu verzichten und stattdessen das momentan über BC verbundene Gerät als Earable zu verbinden.
+\section{Earable-Library}
 
-			Infolgedessen wurde der IEarableScanner als IEarableManager mit verändertem Funktionsumfang neu gestaltet.
+\subsection{\# IEarableScanner \changeto{} IEarableManager}
+	Gemäß den konzeptuellen Änderungen an der App, wurde auch in der Earable-Library das Prinzip der Verbindungsherstellung verändert:
+	Anstelle einer allgemeinen Scan-Schnittstelle sind nun nur noch bereits über die Systemeinstellungen gekoppelte Geräte verfügbar.
+	Entsprechend wurde auch die Benennung des Interfaces angepasst.
+	\begin{itemize}
+		\remove[event EventHandler<EarableEventArgs> EarableDiscovered]{}
+		\remove[void StartScanning()]{}
+		\remove[void StopScanning()]{}
+		\add[List<IEarable> ListEarables()]{}
+		\add[Task<IEarable> ConnectEarableAsync()]{}
+	\end{itemize}
 
-			\begin{itemize}
-				\elremove{event EventHandler<EarableEventArgs> EarableDiscovered}
-				\elremove{void StartScanning()}
-				\elremove{void StopScanning()}
-				\eladd{List<IEarable> ListEarables()}
-				\eladd{Task<IEarable> ConnectEarableAsync()}
-			\end{itemize}
+\subsection{\# EarableLibrary}
+	\sign{public class EarableLibrary : IEarableManager}
+	Implementiert \code{IEarableManager}.
 
-		\subsection{\# EarableLibrary}
-			\sign{public class EarableLibrary : IEarableManager}
-			Implementiert \code{IEarableManager}.
+\subsection{EarableEventArgs}
+	Keine Änderungen.
 
-		\subsection{EarableEventArgs}
-			Keine Änderungen.
+\subsection{\# IEarable}
+	Der AudioStream fällt weg, da die Audio-Ausgabe nun vom Betriebssystem verwaltet wird.
+	Des weiteren musste der Schreibzugriff auf den Gerätenamen in eine separate Methode verschoben werden, damit dieser asynchron erfolgen kann.
+	Zuletzt wurde der Zugriff auf die Sensoren leicht abgeändert, um diesen bequemer zu gestalten.
+	\begin{itemize}
+		\remove[IAudioStream AudioStream]{}
+		\change[string Name \{ set; \} \changeto{} void SetNameAsync(string)]{}
+		\change[ReadOnlyCollection<ISensor> sensors \changeto{} T GetSensor<T>() where T : ISensor]{}
+	\end{itemize}
 
-		\subsection{\# IEarable}
-			Der AudioStream fällt weg, da die Audio-Ausgabe nun vom Betriebssystem verwaltet wird.
-			Des weiteren musste der Schreibzugriff auf den Gerätenamen in eine separate Methode verschoben werden, damit dieser asynchron erfolgen kann.
-			Zuletzt wurde der Zugriff auf die Sensoren leicht abgeändert, um diesen bequemer zu gestalten.
-			\begin{itemize}
-				\elremove{IAudioStream AudioStream}
-				\elchange{string Name \{ set; \} \changeto void SetNameAsync(string)}
-				\elchange{ReadOnlyCollection<ISensor> sensors \changeto T GetSensor<T>() where T : ISensor}
-			\end{itemize}
+\subsection{\# ESense}
+	\sign{public class ESense : IEarable}
+	Implementiert \code{IEarable}.
+	Die folgenden Sensoren sind verfügbar: \code{MotionSensor}, \code{PushButton}, \code{VoltageSensor}
+	\begin{itemize}
+		\add[public static Guid\array{} ServiceUuids]{Enthält die eindeutigen IDs derjenigen BLE-Services,
+			welche vom verbundenen BT-Gerät unterstützt werden müssen, um die uneingeschränkte Funktionalität
+			der Klasse zu gewährleisten.}
+		\add[protected async Task InitializeConnection()]{Wird unmittelbar nach erfolgreicher Verbindung
+			durch die \code{ConnectAsync()}-Methode aufgerufen, um Sensoren und ähnliches zu initialisieren.}
+	\end{itemize}
 
-		\subsection{\# ESense}
-			\sign{public class ESense : IEarable}
-			Implementiert \code{IEarable}.
-			Die folgenden Sensoren sind verfügbar: \code{MotionSensor}, \code{PushButton}, \code{VoltageSensor}
-			\begin{itemize}
-				\item[+]{\code{public static Guid[] ServiceUuids} Enthält die eindeutigen IDs derjenigen BLE-Services,
-					welche vom verbundenen BT-Gerät unterstützt werden müssen, um die uneingeschränkte Funktionalität
-					der Klasse zu gewährleisten.}
-				\item[+]{\code{protected async Task InitializeConnection()} Wird unmittelbar nach erfolgreicher Verbindung
-					durch die \code{ConnectAsync()}-Methode aufgerufen, um Sensoren und ähnliches zu initialisieren.}
-			\end{itemize}
+\subsection{\# ISensor}
+	Es erwies sich als sinnvoll, zwischen Event-basierten und asynchron auslesbaren Sensoren zu unterscheiden.
+	Um einen generischen Typ zu besitzen, welcher in Klassen wie \code{List} oder \code{Dictionary} angegeben werden kann,
+	existiert dieses Interface weiterhin als (ansonsten funktionslose) Überkategorie aller Sensoren.
+	\begin{itemize}
+		\remove[event EventHandler ValueChanged]{}
+		\remove[void StartSampling()]{}
+		\remove[void StopSampling()]{}
+	\end{itemize}
 
-		\subsection{\# ISensor}
-			Es erwies sich als sinnvoll, zwischen Event-basierten und asynchron auslesbaren Sensoren zu unterscheiden.
-			Um einen generischen Typ zu besitzen, welcher in Klassen wie \code{List} oder \code{Dictionary} angegeben werden kann,
-			existiert dieses Interface weiterhin als (ansonsten funktionslose) Überkategorie aller Sensoren.
-			\begin{itemize}
-				\elremove{event EventHandler ValueChanged}
-				\elremove{void StartSampling()}
-				\elremove{void StopSampling()}
-			\end{itemize}
+\subsection{+ ISubscribableSensor}
+	\sign{public interface ISubscribableSensor<T> : ISensor}
+	Repräsentiert einen Sensor, welcher Event-basiertes Auslesen unterstützt.
+	Verfügt über alle Funktionen, die zuvor durch \code{ISensor} definiert wurden.
+	\begin{itemize}
+		\add[event EventHandler<T> ValueChanged]{}
+		\add[int SamplingRate]{Legt die Frequenz (in Hz) fest, in welcher neue Samples
+			empfangen werden sollen. Unterstützt ein Sensor das Festlegen einer solchen Frequenz nicht,
+			wird dies durch den Wert \code{-1} signalisiert.}
+		\add[Task StartSamplingAsync()]{}
+		\add[Task StopSamplingAsync()]{}
+	\end{itemize}
 
-		\subsection{+ ISubscribableSensor}
-			\sign{public interface ISubscribableSensor<T> : ISensor}
-			Repräsentiert einen Sensor, welcher Event-basiertes Auslesen unterstützt.
-			Verfügt über alle Funktionen, die zuvor durch \code{ISensor} definiert wurden.
-			\begin{itemize}
-				\eladd{event EventHandler<T> ValueChanged}
-				\item[+]{\code{int SamplingRate} Legt die Frequenz (in Hz) fest, in welcher neue Samples
-					empfangen werden sollen. Unterstützt ein Sensor das Festlegen einer solchen Frequenz nicht,
-					wird dies durch den Wert \code{-1} signalisiert.}
-				\eladd{Task StartSamplingAsync()}
-				\eladd{Task StopSamplingAsync()}
-			\end{itemize}
+\subsection{+ IReadableSensor}
+	\sign{public interface IReadableSensor<T> : ISensor}
+	Repräsentiert einen asynchron auslesbaren Sensor.
+	\begin{itemize}
+		\add[Task<T> ReadAsync()]{Liest asynchron den aktuellen Messwert aus.}
+	\end{itemize}
 
-		\subsection{+ IReadableSensor}
-			\sign{public interface IReadableSensor<T> : ISensor}
-			Repräsentiert einen asynchron auslesbaren Sensor.
-			\begin{itemize}
-				\item[+]{\code{Task<T> ReadAsync()} Liest asynchron den aktuellen Messwert aus.}
-			\end{itemize}
+\subsection{\# MotionSensor}
+	\sign{public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>}
+	Repräsentiert die im Earable verbauten Bewegungssensoren (Gyroskop, Accelerometer).
+	Sowohl \code{ISubscribableSensor}, als auch \code{IReadableSensor} werden implementiert.
 
-		\subsection{\# MotionSensor}
-			\sign{public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>}
-			Repräsentiert die im Earable verbauten Bewegungssensoren (Gyroskop, Accelerometer).
-			Sowohl \code{ISubscribableSensor}, als auch \code{IReadableSensor} werden implementiert.
+\subsection{+ MotionSensorSample}
+	\sign{public class MotionSensorSample : EventArgs}
+	Speichert einen Momentan-Messwert des Beweungssensors.
+	\begin{itemize}
+		\add[public TripleShort Gyro]{Messwert des Gyroskops}
+		\add[public TripleShort Acc]{Messwert des Accelerometers}
+		\add[public byte SampleId]{Paketzähler, welcher mit jedem neuen Messwert hochzählt oder überläuft}
+	\end{itemize}
 
-		\subsection{+ MotionSensorSample}
-			\sign{public class MotionSensorSample : EventArgs}
-			Speichert einen Momentan-Messwert des Beweungssensors.
-			\begin{itemize}
-				\item[+]{\code{public TripleShort Gyro} Messwert des Gyroskops}
-				\item[+]{\code{public TripleShort Acc} Messwert des Accelerometers}
-				\item[+]{\code{public byte SampleId} Paketzähler, welcher mit jedem neuen Messwert hochzählt oder überläuft}
-			\end{itemize}
+\subsection{+ TripleShort}
+	\sign{public class TripleShort}
+	Struktur, welche drei 16-Bit Zahlen (\code{short}s) zusammenfasst.
+	\begin{itemize}
+		\add[public short x, y, z]{Die drei 16-Bit Zahlen.}
+		\add[public static TripleShort FromByteArray(byte\array{} array, int offset, bool bigEndian)]{Hilfsfunktion, welche ein TripleShort
+			aus einem Byte-Array ausliest.}
+	\end{itemize}
 
-		\subsection{+ TripleShort}
-			\sign{public class TripleShort}
-			Struktur, welche drei 16-Bit Zahlen (\code{short}s) zusammenfasst.
-			\begin{itemize}
-				\item[+]{\code{public short x, y, z} Die drei 16-Bit Zahlen.}
-				\item[+]{\code{public static TripleShort FromByteArray(byte[] array, int offset, bool bigEndian)} Hilfsfunktion, welche ein TripleShort
-					aus einem Byte-Array ausliest.}
-			\end{itemize}
+\subsection{\# PushButton}
+	\sign{public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>}
+	Repräsentiert den im Earable verbauten Zwei-Zustands-Knopf.
+	Sowohl \code{ISubscribableSensor}, als auch \code{IReadableSensor} werden implementiert.
 
-		\subsection{\# PushButton}
-			\sign{public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>}
-			Repräsentiert den im Earable verbauten Zwei-Zustands-Knopf.
-			Sowohl \code{ISubscribableSensor}, als auch \code{IReadableSensor} werden implementiert.
+\subsection{+ ButtonState}
+	\sign{public class ButtonState : EventArgs}
+	Speichert einen Zustand des Zwei-Zustand-Knopfes: Gedrückt oder Nicht-Gedrückt.
+	\begin{itemize}
+		\add[public bool Pressed]{Der Zustand des Knopfes}
+	\end{itemize}
 
-		\subsection{+ ButtonState}
-			\sign{public class ButtonState : EventArgs}
-			Speichert einen Zustand des Zwei-Zustand-Knopfes: Gedrückt oder Nicht-Gedrückt.
-			\begin{itemize}
-				\item[+]{\code{public bool Pressed} Der Zustand des Knopfes}
-			\end{itemize}
+\subsection{+ VoltageSensor}
+	\sign{public class VoltageSensor : IReadableSensor<BatteryState>}
+	Repräsentiert das im Earable verbaute Voltmeter, welches die am Akku anliegende Spannung misst.
+	Implementiert \code{IReadableSensor}.
 
-		\subsection{+ VoltageSensor}
-			\sign{public class VoltageSensor : IReadableSensor<BatteryState>}
-			Repräsentiert das im Earable verbaute Voltmeter, welches die am Akku anliegende Spannung misst.
-			Implementiert \code{IReadableSensor}.
-
-		\subsection{+ BatteryState}
-			\sign{public class ButtonState : EventArgs}
-			Struktur, welche den Messwert des Voltmeters mit dem Ladezustand (Aufladen oder Entladen) zusammenfasst.
-			\begin{itemize}
-				\item[+]{\code{public float Voltage} Die Spannung in Volt}
-				\item[+]{\code{public bool Charging} Der Ladezustand}
-			\end{itemize}
+\subsection{+ BatteryState}
+	\sign{public class ButtonState : EventArgs}
+	Struktur, welche den Messwert des Voltmeters mit dem Ladezustand (Aufladen oder Entladen) zusammenfasst.
+	\begin{itemize}
+		\add[public float Voltage]{Die Spannung in Volt}
+		\add[public bool Charging]{Der Ladezustand}
+	\end{itemize}
 
 
-		\subsection{- IAudioStream}
-			Klasse nicht mehr benötigt.
+\subsection{- IAudioStream}
+	Klasse nicht mehr benötigt.
 
-		\subsection{+ ESenseMessage}
-			\sign{public class ESenseMessage}
-			Diese Hilfsklasse repräsentiert eine decodierte (bzw. eine noch nicht codierte) Nachricht in der Form,
-			wie diese vom eSense-Earable empfangen oder zu diesem gesendet werden kann.
-			\begin{itemize}
-				\item[+]{\code{public ESenseMessage(byte header, byte[] data)} Legt eine neue eSense-Nachricht mit angegebenem Kopf und Rumpf an.}
-				\item[+]{\code{public ESenseMessage(byte[] received, bool hasPacketIndex = false)} Decodiert ein Byte-Array in eine neue eSense-Nachricht.}
-				\item[+]{\code{public byte Header} Der Nachrichten-Kopf}
-				\item[+]{\code{public byte[] Data} Der Nachrichten-Rump}
-				\item[+]{\code{public byte Checksum} Aus dem Nachrichten-Rumpf berechnete Prüfsumme}
-				\item[+]{\code{public byte? PacketIndex} Paketzähler, welcher auch undefiniert sein kann}
-				\item[+]{\code{public byte[] ToByteArray()} (Re-)Codiert die Nachricht in ein Byte-Array}
-			\end{itemize}
+\subsection{+ ESenseMessage}
+	\sign{public class ESenseMessage}
+	Diese Hilfsklasse repräsentiert eine decodierte (bzw. eine noch nicht codierte) Nachricht in der Form,
+	wie diese vom eSense-Earable empfangen oder zu diesem gesendet werden kann.
+	\begin{itemize}
+		\add[public ESenseMessage(byte header, byte\array{} data)]{Legt eine neue eSense-Nachricht mit angegebenem Kopf und Rumpf an.}
+		\add[public ESenseMessage(byte\array{} received, bool hasPacketIndex = false)]{Decodiert ein Byte-Array in eine neue eSense-Nachricht.}
+		\add[public byte Header]{Der Nachrichten-Kopf}
+		\add[public byte\array{} Data]{Der Nachrichten-Rump}
+		\add[public byte Checksum]{Aus dem Nachrichten-Rumpf berechnete Prüfsumme}
+		\add[public byte? PacketIndex]{Paketzähler, welcher auch undefiniert sein kann}
+		\add[public byte\array{} ToByteArray()]{(Re-)Codiert die Nachricht in ein Byte-Array}
+	\end{itemize}
 
-		\subsection{+ MessageError}
-			\sign{public class MessageError : Exception}
-			Repräsentiert einen Fehler, welcher durch ungültige Nachrichten hervorgerufen werden kann.
+\subsection{+ MessageError}
+	\sign{public class MessageError : Exception}
+	Repräsentiert einen Fehler, welcher durch ungültige Nachrichten hervorgerufen werden kann.
 
-		\subsection{+ EarableName}
-			\sign{internal class EarableName}
-			Interne Hilfsklasse, welche die Funktionalitäten des Geräte-Namen-Lesens und -Schreibens bündelt.
+\subsection{+ EarableName}
+	\sign{internal class EarableName}
+	Interne Hilfsklasse, welche die Funktionalitäten des Geräte-Namen-Lesens und -Schreibens bündelt.
 
 \end{document}

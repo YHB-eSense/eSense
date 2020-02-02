@@ -24,12 +24,15 @@
 \usepackage{svg}
 % Glossar
 \usepackage[nonumberlist]{glossaries}
+% Benutzerdefinierte Unicode-Zeichen
+\usepackage{amssymb}
 
 %% Farben
 %\usepackage{xcolor}
 
 % Deutsche Anführungszeichen
 \renewcommand{\quote}[1]{\glqq#1\grqq}
+
 
 % Link-Farben
 \hypersetup
@@ -44,7 +47,7 @@
 % Titel, Author, etc.
 \title{PSE Implementierungsdokument YHB eSense}
 \author{Jonas Koch, Maximilian Burzer, Leonardo Weng, \\ Simon Zimmermann, Yunus Demirag}
-\date{Dezember 2019}
+\date{Januar 2020}
 
 % Einstellungen für PDF Datei
 \makeatletter
@@ -67,21 +70,21 @@
 \newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\sign}[1]{\paragraph{Signatur:}{\code{#1}}\par\noindent}
-\renewcommand{\i}[1]{\item \code{#1}}
 \newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
-\newcommand{\add}[1]{\item[+]{#1}}
-\newcommand{\remove}[1]{\item[-]{#1}}
-\newcommand{\changed}[1]{\item[\#]{#1}}
-\newcommand{\change}{geändert}
+\newcommand{\add}[2][]{\item[+]{\code{#1} #2}}
+\newcommand{\remove}[2][]{\item[-]{\code{#1} #2}}
+\newcommand{\change}[2][]{\item[\#]{\code{#1} #2}}
+\newcommand{\changeto}{$\rightarrow$}
+\renewcommand{\array}{\lbrack\rbrack}
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries
-\IfFileExists{6_glossar/glossar_definitionen.tex}
+\IfFileExists{4_glossar/glossar_definitionen.tex}
 {
-	%\input{4_glossar/glossar_definitionen.tex}
+	\input{4_glossar/glossar_definitionen.tex}
 }
 {
-	%\input{../4_glossar/glossar_definitionen.tex}
+	\input{../4_glossar/glossar_definitionen.tex}
 }
 
 \begin{document}

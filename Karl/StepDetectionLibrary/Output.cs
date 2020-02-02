@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace StepDetectionLibrary
 {
@@ -122,6 +123,7 @@ namespace StepDetectionLibrary
 			{
 				observer.OnNext(output);
 			}
+			Debug.WriteLine("HEY");
 		}
 
 		/// <summary>
