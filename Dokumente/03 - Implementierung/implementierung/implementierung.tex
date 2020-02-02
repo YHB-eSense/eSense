@@ -26,6 +26,12 @@
 \usepackage[nonumberlist]{glossaries}
 % Benutzerdefinierte Unicode-Zeichen
 \usepackage{amssymb}
+<<<<<<< HEAD
+=======
+% Checkmarks
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+>>>>>>> 6d83eff567ea028e46660e7a639a4e45fbc7327c
 
 %% Farben
 %\usepackage{xcolor}
@@ -68,12 +74,21 @@
 
 % Nützliche Befehle für alle Kapitel
 \newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
+<<<<<<< HEAD
 \newcommand{\code}[1]{\texttt{#1}}
+=======
+\newcommand{\code}[1]{\textbf{\textit{#1}}}
+>>>>>>> 6d83eff567ea028e46660e7a639a4e45fbc7327c
 \newcommand{\sign}[1]{\paragraph{Signatur:}{\code{#1}}\par\noindent}
 \newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
 \newcommand{\add}[2][]{\item[+]{\code{#1} #2}}
 \newcommand{\remove}[2][]{\item[-]{\code{#1} #2}}
 \newcommand{\change}[2][]{\item[\#]{\code{#1} #2}}
+<<<<<<< HEAD
+=======
+\renewcommand{\check}[1]{\item[\checkmark]{#1}}
+\newcommand{\ftsio}[1]{\item[$\times$]{#1}}
+>>>>>>> 6d83eff567ea028e46660e7a639a4e45fbc7327c
 \newcommand{\changeto}{$\rightarrow$}
 \renewcommand{\array}{\lbrack\rbrack}
 

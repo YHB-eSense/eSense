@@ -1,6 +1,7 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EarableLibrary

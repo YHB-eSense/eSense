@@ -123,7 +123,6 @@ namespace StepDetectionLibrary
 			{
 				observer.OnNext(output);
 			}
-			Debug.WriteLine("HEY");
 		}
 
 		/// <summary>
