@@ -1,6 +1,7 @@
 \documentclass[../implementierung.tex]{subfiles}
 \begin{document}
 	\section{ViewModel}
+	Jedes ViewModel implementiert nun das Interface \textbf{\textit{INotifyPropertyChanged}} aus System.ComponentModel und besitzt somit auch \textbf{\textit{event PropertyChangedEventHandler PropertyChanged\glsnote{event}}}, wodurch das Benachrichtigen der dazugehörigen ContentPage bei Änderung einer Property\glsnote{property} bewerkstelligt wird.
 		\subsection{\# AddSongsPageVM}
 			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
@@ -61,7 +62,7 @@
 				\remove[void GetVolume()]{wurde entfernt, da Volume direkt auf das Model zugreift.}
 			\end{itemize}
 		\subsection{- ConnectionPageVM}
-			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des \_connectionButtons der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des \_connectionButtons der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
+			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
 		\subsection{\# MainPageVM}
 			An den Properties hat sich folgendes verändert:
 			\begin{itemize}
@@ -82,6 +83,7 @@
 				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der Switches in der ModesPage.}
 				\add[string ModesLabel\glsnote{ro}]{bestimmt welcher Text im \_modesListLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
 				\add[LineChart StepChart\glsnote{ro}]{ist die Quelle der \_stepChart der ModesPage, welche angibt, zu welcher Uhrzeit der Nutzer wie viele Schritte gemacht hat. Sie wird jede Minute aktualisiert.}
+				\remove[ICommand ActivateModeCommand\glsnote{ro}]{wurde entfernt, da Modi nun über eine interne Property aktiviert werden können.}
 				\change[List$<$Mode$>$ Modes]{war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
 			\end{itemize}
 			An den Methoden hat sich folgendes verändert:
