@@ -7,14 +7,14 @@ namespace Karl.Model
 {
 	public class BPMCalculator
 	{
-		private static string _file;
-		private static WaveFileReader _reader;
-		private static int _chunkSize;
-		private static long _sampleCount;
-		private static long _sampleCountFraction;
-		private static BpmDetect _detector;
-		private static int _bpmMax;
-		private static int _bpmMin;
+		private string _file;
+		private WaveFileReader _reader;
+		private int _chunkSize;
+		private long _sampleCount;
+		private long _sampleCountFraction;
+		private BpmDetect _detector;
+		private int _bpmMax;
+		private int _bpmMin;
 
 		public BPMCalculator(string file)
 		{

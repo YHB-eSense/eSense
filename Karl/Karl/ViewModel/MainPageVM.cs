@@ -96,6 +96,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 		}
 
+
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
