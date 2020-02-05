@@ -1,26 +1,25 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
-	public interface IEarableScanner
+	/// <summary>
+	/// Interface which provides access to earables.
+	/// </summary>
+	public interface IEarableManager
 	{
-		event EventHandler<EarableEventArgs> EarableDiscovered;
+		/// <summary>
+		/// List earables which are available (can be connected to).
+		/// </summary>
+		/// <returns>List of all available earables</returns>
+		List<IEarable> ListEarables();
 
-		void StartScanning();
 
-		void StopScanning();
-	}
-
-	public class EarableEventArgs : System.EventArgs
-	{
-
-		public IEarable Earable;
-
-		public EarableEventArgs(IEarable earable)
-		{
-			Earable = earable;
-		}
+		/// <summary>
+		/// Try connecting to one of the available earable.
+		/// Implementation determines which available earable is chosen.
+		/// </summary>
+		/// <returns>Earable which has been successfully connected or null</returns>
+		Task<IEarable> ConnectEarableAsync();
 	}
 }

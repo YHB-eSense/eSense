@@ -1,19 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
+using FormsControls.Base;
+using VolumeSliderPlugin.Shared;
+using System;
+using System.ComponentModel;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AudioPlayerPage : ContentPage
+	public partial class AudioPlayerPage : ContentPage, IAnimationPage
 	{
 		private AudioPlayerPageVM _audioPlayerPageVM;
+
+		public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromBottom };
 
 		public AudioPlayerPage(AudioPlayerPageVM audioPlayerPageVM)
 		{
@@ -22,10 +22,12 @@ namespace Karl.View
 			BindingContext = _audioPlayerPageVM;
 		}
 
-		protected override void OnAppearing()
+		public void OnAnimationStarted(bool isPopAnimation)
 		{
-			base.OnAppearing();
-			_audioPlayerPageVM.RefreshPage();
+		}
+
+		public void OnAnimationFinished(bool isPopAnimation)
+		{
 		}
 
 	}

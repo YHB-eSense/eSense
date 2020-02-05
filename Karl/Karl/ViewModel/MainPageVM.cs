@@ -1,108 +1,61 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using Karl.Model;
-using Karl.View;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Karl.View;
+using StepDetectionLibrary;
 
 namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private NavigationHandler _handler;
-		private ConnectivityHandler _connectivityHandler;
+		private NavigationHandler _navHandler;
 		private SettingsHandler _settingsHandler;
-		private string _iconOn;
-		private string _iconOff;
-		private string _deviceName;
-		private string _stepsAmount;
-		private Boolean _connectBoolean;
-		private string _icon;
+		private ConnectivityHandler _connectivityHandler;
+		private ImageSource _iconOn;
+		private ImageSource _iconOff;
 
-		/**
-		 Properties binded to MainPage of View
-		**/
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		//Properties binded to MainPage of View
 		public string DeviceName
 		{
 			get
 			{
-				return _deviceName;
-			}
-			set
-			{
-				if (_deviceName != value)
+				if (_connectivityHandler.EarableConnected)
 				{
-					_deviceName = value;
-					OnPropertyChanged("DeviceName");
+					return _settingsHandler.CurrentLang.Get("device_name") + ": " + _settingsHandler.DeviceName;
 				}
+				return null;
 			}
 		}
-
 		public string StepsAmount
 		{
 			get
 			{
-				return _stepsAmount;
-			}
-			set
-			{
-				if (_stepsAmount != value)
+				if (_connectivityHandler.EarableConnected)
 				{
-					_stepsAmount = value;
-					OnPropertyChanged("StepsAmount");
+					var spm = OutputManager.SingletonOutputManager.Log.AverageStepFrequency(TimeSpan.FromSeconds(10)) * 60;
+					return string.Format("{0}: {1} ({2} SPM)", _settingsHandler.CurrentLang.Get("steps"), _settingsHandler.Steps, spm);
 				}
+				return null;
 			}
 		}
-
-		public Boolean ConnectBoolean
+		public ImageSource Icon
 		{
-			get
-			{
-				return _connectBoolean;
-			}
-			set
-			{
-				if (_connectBoolean != value)
-				{
-					_connectBoolean = value;
-					if (ConnectBoolean)
-					{
-						Icon = _iconOn;
-					}
-					else
-					{
-						Icon = _iconOff;
-					}
-				}
-			}
+			get => _connectivityHandler.EarableConnected ? _iconOn : _iconOff; 
 		}
-		
-		public string Icon
-		{
-			get
-			{
-				return _icon;
-			}
-			set
-			{
-				if (_icon != value)
-				{
-					_icon = value;
-					OnPropertyChanged("Icon");
-				}
-			}
-		}
+		public bool HelpVisible { get; set; }
 
-		/**
-		 Commands binded to MainPage of View
-		**/
+		//Commands binded to MainPage of View
 		public ICommand AudioPlayerPageCommand { get; }
 		public ICommand AudioLibPageCommand { get; }
-		public ICommand ConnectionPageCommand { get; }
+		public ICommand TryConnectCommand { get; }
 		public ICommand ModesPageCommand { get; }
 		public ICommand SettingsPageCommand { get; }
+		public ICommand HelpCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ConnectivityHandler, SettingsHandler of Model
@@ -110,76 +63,86 @@ namespace Karl.ViewModel
 		/// <param name="handler">For navigation</param>
 		public MainPageVM(NavigationHandler handler)
 		{
-			_handler = handler;
+			_navHandler = handler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
-			ConnectionPageCommand = new Command(GotoConnectionPage);
+			TryConnectCommand = new Command(TryConnect);
 			ModesPageCommand = new Command(GotoModesPage);
 			SettingsPageCommand = new Command(GotoSettingsPage);
-			_iconOn = "bluetooth_on.png";
-			_iconOff = "bluetooth_off.png";
-			Icon = _iconOn;
+			HelpCommand = new Command(HelpOnOff);
+			_iconOn = ImageSource.FromResource("Karl.Resources.Images.bluetooth_on.png");
+			_iconOff = ImageSource.FromResource("Karl.Resources.Images.bluetooth_off.png");
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.StepsChanged += RefreshSteps;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
+			HelpVisible = false;
+		}
+
+		private void RefreshLang(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+
+		private void RefreshDeviceName(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+		private void RefreshSteps(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+		}
+
+
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
 		}
 
 		private void GotoAudioPlayerPage()
 		{
-			_handler.GotoPage(_handler._pages[0]);
+			_navHandler.GotoPage<AudioPlayerPage>();
 		}
 
 		private void GotoAudioLibPage()
 		{
-			_handler.GotoPage(_handler._pages[1]);
+			_navHandler.GotoPage<AudioLibPage>();
 		}
 
-		private void GotoConnectionPage()
+		private async void TryConnect()
 		{
-			if(ConnectBoolean)
-			{
-				_connectivityHandler.Disconnect();
-			}
+			if (_connectivityHandler.EarableConnected) { await _connectivityHandler.Disconnect(); }
 			else
 			{
-				_handler.GotoPage(_handler._pages[2]);
+				var success = await _connectivityHandler.Connect();
+				if (!success)
+				{
+					INavToSettings navigator = DependencyService.Get<INavToSettings>();
+					navigator.NavToSettings();
+				}
 			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}
 
 		private void GotoModesPage()
 		{
-			_handler.GotoPage(_handler._pages[3]);
+			_navHandler.GotoPage<ModesPage>();
 		}
 
 		private void GotoSettingsPage()
 		{
-			_handler.GotoPage(_handler._pages[4]);
+			_navHandler.GotoPage<SettingsPage>();
 		}
 
-		public void GetDeviceName()
+		private void HelpOnOff()
 		{
-			//DeviceName = _connectivityHandler.CurrentDevice.Name;
-		}
-
-		public void GetStepsAmount()
-		{
-			//StepsAmount = Convert.ToString(_settingsHandler.Steps);
-		}
-
-		public void GetConnectBoolean()
-		{
-			//ConnectBoolean = _connectivityHandler.Connected;
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			HelpVisible = !HelpVisible;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HelpVisible)));
 		}
 	}
 }

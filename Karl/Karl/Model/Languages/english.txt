@@ -1,0 +1,37 @@
+name=English
+steps=Steps
+device_name=Device
+modes=Available Modes
+language=Language
+change_device_name=Change Device Name
+reset_steps=Reset Steps Amount
+title=Title
+artist=Artist
+bpm=BPM
+question_title=Queston:
+question_text=Are you sure you want to delete the selected Songs?
+question_no=No
+question_yes=Yes
+pick_file=Pick Audio File
+add_song=Add New Song
+alert_title=Alert:
+alert_text=You must assign a value to every entry and pick a file first!
+alert_text_2=You must pick a file first!
+alert_text_3=The picked file ist not of the .wav format!
+alert_ok=Ok
+devices=Available Devices:
+color=Color
+col_#FF4169E1=Royal Blue
+col_#FF87CEEB=Sky Blue
+col_#FF8B0000=Dark Red
+col_#FF228B22=Forest Green
+col_#FFFFA500=Orange
+unknown=Unknown
+autostop_mode=AutostopMode
+motivation_mode=MotivationMode
+playlists=Playlists
+use_spotify=Use Spotify
+use_basic=Use integrated audio
+get_bpm=Calculate BPM
+
+

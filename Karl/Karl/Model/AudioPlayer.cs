@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
 {
@@ -11,40 +13,55 @@ namespace Karl.Model
 	{
 		private static AudioPlayer _singletonAudioPlayer;
 		private IAudioPlayerImpl _audioPlayerImp;
-		private Stack<AudioTrack> _songsBefore;
 		private Stack<AudioTrack> _songsAfter;
+		public Stack<AudioTrack> SongsBefore { get; private set; }
+		public Queue<AudioTrack> SongsQueue { get; private set; }
+
+		public delegate void EventListener();
+
+		public event EventListener NextSongEvent;
+		
+
+		//Eventhandling
+		public delegate void AudioEventHandler(object source, EventArgs e);
+		public event AudioEventHandler AudioChanged;
 
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
 		public AudioTrack CurrentTrack
 		{
-			get { return _audioPlayerImp.CurrentTrack; }
-			set { _audioPlayerImp.CurrentTrack = value; }
+			get => _audioPlayerImp.CurrentTrack; 
+			set
+			{
+				_audioPlayerImp.CurrentTrack = value;
+				AudioChanged?.Invoke(this, null);
+			}
 		}
 
-		/// <summary>
-		/// The current system volume.
-		/// </summary>
 		public double Volume
 		{
-			get { return _audioPlayerImp.Volume; }
-			set { _audioPlayerImp.Volume = value; }
+			get => _audioPlayerImp.Volume;
+			set => _audioPlayerImp.Volume = value;
 		}
-
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
 		public double CurrentSecInTrack
 		{
-			get { return _audioPlayerImp.CurrentSongPos; }
-			set { _audioPlayerImp.CurrentSongPos = value; }
-		} 
+			get => _audioPlayerImp.CurrentSongPos;
+			set => _audioPlayerImp.CurrentSongPos = value;
+		}
 
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
-		public bool Paused { get; set; }
+		public bool Paused
+		{
+			get => _audioPlayerImp.Paused;
+			set => _audioPlayerImp.Paused = value;
+		}
+
 
 		/// <summary>
 		/// This is a Singleton that enables using the AudioPlayer Model.
@@ -57,16 +74,32 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
-
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
 		private AudioPlayer()
 		{
-			//testing BasicAudioPlayer
+			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
+			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
 			_audioPlayerImp = new BasicAudioPlayer();
-			_songsBefore = new Stack<AudioTrack>();
+			SongsQueue = new Queue<AudioTrack>();
+			SongsBefore = new Stack<AudioTrack>();
 			_songsAfter = new Stack<AudioTrack>();
+
+		}
+
+		public void ChangeToSpotifyPlayer()
+		{
+			Clear();
+			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
+			_audioPlayerImp = new SpotifyAudioPlayer();
+			
+		}
+
+		public void ChangeToBasicPlayer()
+		{
+			Clear();
+			_audioPlayerImp = new BasicAudioPlayer();
 		}
 
 		/// <summary>
@@ -74,9 +107,10 @@ namespace Karl.Model
 		/// </summary>
 		public void PlayTrack(AudioTrack track)
 		{
-			if (CurrentTrack != null) { _songsBefore.Push(CurrentTrack); }
+			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;
 			_audioPlayerImp.PlayTrack(track);
+			AudioChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -93,11 +127,13 @@ namespace Karl.Model
 		/// </summary>
 		public void NextTrack()
 		{
-			if (_songsAfter.Count != 0)
+			if (_songsAfter.Count != 0 || SongsQueue.Count != 0)
 			{
 				Paused = false;
-				_songsBefore.Push(CurrentTrack);
-				_audioPlayerImp.PlayTrack(_songsAfter.Pop());
+				SongsBefore.Push(CurrentTrack);
+				if (SongsQueue.Count != 0) _audioPlayerImp.PlayTrack(SongsQueue.Dequeue());
+				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
+				AudioChanged?.Invoke(this, null);
 			}
 		}
 
@@ -106,11 +142,12 @@ namespace Karl.Model
 		/// </summary>
 		public void PrevTrack()
 		{
-			if (_songsBefore.Count != 0)
+			if (SongsBefore.Count != 0)
 			{
 				Paused = false;
 				_songsAfter.Push(CurrentTrack);
-				_audioPlayerImp.PlayTrack(_songsBefore.Pop());
+				_audioPlayerImp.PlayTrack(SongsBefore.Pop());
+				AudioChanged?.Invoke(this, null);
 			}
 		}
 
@@ -123,14 +160,33 @@ namespace Karl.Model
 			//todo
 		}
 
+		/// <summary>
+		/// Clears Songs played and queue
+		/// </summary>
+		public void Clear()
+		{
+			SongsBefore.Clear();
+			SongsQueue.Clear();
+			_songsAfter.Clear();
+		}
+
+		/// <summary>
+		/// If something is changed in spotify, this will update the app
+		/// </summary>
+		public void RefreshAfterSleep()
+		{
+			AudioChanged?.Invoke(this, null);
+		}
 	}
 
 	interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
-		double Volume { get; set; }
 		double CurrentSongPos { get; set; }
+		double Volume { get; set; }
+		bool Paused { get; set; }
 		void PlayTrack(AudioTrack track);
 		void TogglePause();
 	}
+
 }

@@ -1,70 +1,103 @@
+using EarableLibrary;
 using System;
+using System.Collections.Generic;
 
 namespace StepDetectionLibrary
 {
-
-	/// <summary>
-	/// struct with accerleration and gyro data for all 3 axes
-	/// </summary>
-	public struct AccGyroData
+	public struct AccelerationSample
 	{
-		public AccData accdata;
-		public GyroData gyrodata;
+		public TripleShort Acceleration;
+		public DateTime Time;
 	}
 
 	/// <summary>
-	/// struct with acceleration data for 3 axes
+	/// Takes motion-samples as input and sends them to an instance of <see cref="StepDetectionAlg"/>.
 	/// </summary>
-	public struct AccData
+	public class Input : IObservable<AccelerationSample>
 	{
-		public short[] xacc;
-		public short[] yacc;
-		public short[] zacc;
-	}
+		private readonly StepDetectionAlg _algorithm = new StepDetectionAlg();
+		private List<IObserver<AccelerationSample>> _observers;
 
-	/// <summary>
-	/// struct with gyroscope data for 3 axes
-	/// </summary>
-	public struct GyroData
-	{
-		public short[] xgyro;
-		public short[] ygyro;
-		public short[] zgyro;
-	}
+		/// <summary>
+		/// contructor for input
+		/// </summary>
+		public Input()
+		{
+			_observers = new List<IObserver<AccelerationSample>>();
+			Subscribe(_algorithm);
+		}
+		
+		public int SamplingRate { get => 25; } // TODO: make this configurable
 
-	/// <summary>
-	/// gets data from earables and sends them to stepdetectionalg class
-	/// </summary>
-	public class Input : IObservable<AccGyroData>
-
-	{
-		private System.Collections.Generic.List<IObserver<Output>> observers;
 		/// <summary>
 		/// method for subscribing to input
 		/// </summary>
 		/// <param name="observer">object that wants to observe input</param>
 		/// <returns>disposable for unsubscribing</returns>
-		public IDisposable Subscribe(IObserver<AccGyroData> observer)
+		public IDisposable Subscribe(IObserver<AccelerationSample> observer)
 		{
-			throw new NotImplementedException();
+			{
+				if (!_observers.Contains(observer))
+					_observers.Add(observer);
+				return new Unsubscriber(_observers, observer);
+			}
 		}
+
 		/// <summary>
-		/// method to update observers
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<AccelerationSample>> _observers;
+			private IObserver<AccelerationSample> _observer;
+
+			/// <summary>
+			/// constructor for unsubscriber
+			/// </summary>
+			/// <param name="observers">list of observers</param>
+			/// <param name="observer">observer</param>
+			public Unsubscriber(List<IObserver<AccelerationSample>> observers, IObserver<AccelerationSample> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			/// <summary>
+			/// dispose
+			/// </summary>
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
+			}
+		}
+
+		/// <summary>
+		/// method to update _observer
 		/// </summary>
 		/// <param name="data">new accleration + gyro data</param>
-		public void Update(AccGyroData data)
+		public void Update(AccelerationSample data)
 		{
-			throw new NotImplementedException();
+			foreach (var observer in _observers)
+			{
+				observer.OnNext(data);
+			}
 		}
+
+		
 
 		/// <summary>
 		/// method to get data from sensors
 		/// </summary>
 		/// <param name="sender">sender object</param>
 		/// <param name="args">parameter</param>
-		public void ValueChanged(object sender, EventArgs args)
-		{
-			throw new NotImplementedException();
+		public void ValueChanged(object sender, MotionSensorSample args)		{
+			var acc = new AccelerationSample
+			{
+				Acceleration = args.Acc,
+				Time = DateTime.UtcNow
+			};
+			Update(acc);
 		}
 	}
 }

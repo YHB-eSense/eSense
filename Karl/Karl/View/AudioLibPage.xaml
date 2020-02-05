@@ -4,30 +4,37 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+			 xmlns:local="clr-namespace:Karl.View"
              mc:Ignorable="d"
              x:Class="Karl.View.AudioLibPage"
 			 x:Name="audiolibpage">
 	
     <ContentPage.Content>
 
-		<Grid RowSpacing="0" ColumnSpacing="0">
+		<Grid RowSpacing="0" ColumnSpacing="0" Padding="0" BackgroundColor="White">
 			
 			<Grid.RowDefinitions>
+				<RowDefinition Height="1.5*"/>
+				<RowDefinition Height="0.75*"/>
+				<RowDefinition Height="8*"/>
 				<RowDefinition Height="2*"/>
-				<RowDefinition Height="10*"/>
-				<RowDefinition Height="3*"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="8*"/>
+				<ColumnDefinition Width="8*"/>
+				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="0.5*"/>
 			</Grid.ColumnDefinitions>
 
 			<!--First Row-->
-			<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+			<Frame Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" CornerRadius="0" HasShadow="False"></Frame>
+			<Frame Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="0" HasShadow="False">
 				<SearchBar x:Name="searchBar"
-					Placeholder="Title"
+					Placeholder="{Binding TitleLabel}"
+					VerticalOptions="Center"
+					HorizontalOptions="Start"
 					SearchCommand="{Binding SearchSongCommand}"
 					SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}">
 					<SearchBar.Behaviors>
@@ -37,36 +44,59 @@
 					</SearchBar.Behaviors>
 				</SearchBar>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="2" Padding="10">
-				<ImageButton Source="add.png"
+			<Frame Grid.Row="0" Grid.Column="3" Padding="10" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.add.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
-					Command="{Binding AddSongCommand}"/>
+					Command="{Binding AddSongCommand}"
+					IsVisible="{Binding UsingBasicAudio}"/>
 			</Frame>
-			<Frame Grid.Row="0" Grid.Column="3" Padding="10">
-				<ImageButton Source="delete.png"
+			<Frame Grid.Row="0" Grid.Column="4" Padding="10" CornerRadius="0" HasShadow="False">
+				<ImageButton Source="{local:ImageResource Karl.Resources.Images.delete.png}"
 					Aspect="AspectFit"
 					BackgroundColor="White"
-					Command="{Binding DeleteSongsCommand}"/>
+					Command="{Binding DeleteSongsCommand}"
+					IsVisible="{Binding UsingBasicAudio}"/>
+			</Frame>
+			<Frame Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" CornerRadius="0" HasShadow="False"></Frame>
+			
+			<!--Second Row-->
+			<Frame Grid.Row="1" Grid.Column="1" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
+				<Button Text="{Binding TitleLabel}"
+					TextColor="{Binding TitleSortTextColor}"
+					Command="{Binding TitleSortCommand}"
+					BackgroundColor="{Binding TitleSortColor}"/>
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
+				<Button Text="{Binding ArtistLabel}"
+					Command="{Binding ArtistSortCommand}"
+					TextColor="{Binding ArtistSortTextColor}"
+					BackgroundColor="{Binding ArtistSortColor}"/>
+			</Frame>
+			<Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" BorderColor="{Binding CurrentColor.Color}" CornerRadius="0" HasShadow="False">
+				<Button Text="{Binding BPMLabel}"
+					BackgroundColor="{Binding BPMSortColor}"
+					TextColor="{Binding BPMSortTextColor}"
+					Command="{Binding BPMSortCommand}"/>
 			</Frame>
 
-			<!--Second Row-->
-			<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+			<!--Third Row-->
+			<Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" CornerRadius="0" HasShadow="False">
 				<ListView x:Name="listView"
 					HasUnevenRows="True"
 					ItemsSource="{Binding Songs}">
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>
-								<Frame>
+								<Frame CornerRadius="0" HasShadow="False">
 									<StackLayout Orientation="Horizontal">
 										<StackLayout Orientation="Vertical" VerticalOptions="Center">
 											<Label Text="{Binding Title}" VerticalOptions="Center"/>
 											<Label Text="{Binding Artist}" VerticalOptions="Center"/>
 											<Label Text="{Binding BPM}" VerticalOptions="Center"/>
 										</StackLayout>
-										<CheckBox Color="SkyBlue"
-										HorizontalOptions="EndAndExpand">
+										<CheckBox Color="{Binding BindingContext.CurrentColor.Color, Source={x:Reference audiolibpage}}"
+											HorizontalOptions="EndAndExpand">
 											<CheckBox.Behaviors>
 												<b:EventToCommandBehavior EventName="CheckedChanged"
 												Command="{Binding BindingContext.EditDeleteListCommand, Source={x:Reference audiolibpage}}"
@@ -86,18 +116,17 @@
 				</ListView>
 			</Frame>
 
-			<!--Third Row-->
-			<Frame Grid.Row="2" Grid.Column="0">
-				<Button Text="Sort&#x0a;after&#x0a;Title"
-					Command="{Binding TitleSortCommand}"/>
-			</Frame>
-			<Frame Grid.Row="2" Grid.Column="1">
-				<Button Text="Sort&#x0a;after&#x0a;Artist"
-					Command="{Binding ArtistSortCommand}"/>
-			</Frame>
-			<Frame Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
-				<Button Text="Sort&#x0a;after&#x0a;BPM"
-					Command="{Binding BPMSortCommand}"/>
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" Padding="5" CornerRadius="0" HasShadow="False">
+				<StackLayout Orientation="Vertical" IsVisible="{Binding UsingSpotifyAudio}">
+					<Label Text="{Binding PlaylistsLabel}"
+						   TextColor="Black"
+						   FontSize="Large"/>
+					<Picker ItemsSource="{Binding Playlists}"
+						SelectedItem="{Binding SelectedPlaylist}"
+						ItemDisplayBinding="{Binding Name}">
+					</Picker>
+				</StackLayout>
 			</Frame>
 
 		</Grid>

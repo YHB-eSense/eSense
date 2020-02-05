@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Karl.Model
 {
@@ -10,33 +8,44 @@ namespace Karl.Model
 	public class ModeHandler 
 	{
 		private static ModeHandler _singletonModeHandler;
+
+		/// <summary>
+		/// The singleton object of ModeHandler
+		/// </summary>
 		public static ModeHandler SingletonModeHandler
 		{
 			get
 			{
-				if (_singletonModeHandler == null)
-				{
-					_singletonModeHandler = new ModeHandler();
-				}
+				if (_singletonModeHandler == null) { _singletonModeHandler = new ModeHandler(); }
 				return _singletonModeHandler;
 			}
 		}
-		private AudioPlayer _audioPlayer;
-		/// <summary>
-		/// All registered modes.
-		/// </summary>
-		public IList<Mode> Modes { get; private set; }
 
 		/// <summary>
-		/// Constructor of the mode handler.
+		/// List of all registered modes
 		/// </summary>
-		/// <param name="audioPlayer">The audioplayer that is the modes do stuff on.</param>
+		public List<Mode> Modes { get; private set; }
+
+		/// <summary>
+		/// Constructor of ModeHandler
+		/// </summary>
 		private ModeHandler()
 		{
-			this._audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			Modes = new List<Mode>();
-			Modes.Add(new AutostopMode());
-			Modes.Add(new MotivateMode());
+			Modes = new List<Mode> { new AutostopMode(), new MotivationMode() };
 		}
+
+		/// <summary>
+		/// Reset all registered modes
+		/// </summary>
+		public void ResetModes()
+		{
+			if(Modes != null)
+			{
+				List<Mode> newModes = new List<Mode>(Modes);
+				Modes.Clear();
+				Modes = newModes;
+			}
+		}
+
 	}
 }

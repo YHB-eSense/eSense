@@ -1,0 +1,134 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+	\section{ViewModel}
+	Jedes ViewModel implementiert nun das Interface \textbf{\textit{INotifyPropertyChanged}} aus System.ComponentModel und besitzt somit auch \textbf{\textit{event PropertyChangedEventHandler PropertyChanged\glsnote{event}}}, wodurch das Benachrichtigen der dazugehörigen ContentPage bei Änderung einer Property\glsnote{property} bewerkstelligt wird.
+		\subsection{\# AddSongsPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der Buttons in der AddSongPage.}
+
+				\add[string TitleLabel\glsnote{ro}]{bestimmt welcher Text im \_titleEntryLabel der AddSongPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string ArtistLabel\glsnote{ro}]{bestimmt welcher Text im \_artistEntryLabel der AddSongPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string BPMLabel\glsnote{ro}]{bestimmt welcher Text im \_bpmEntryLabel der AddSongPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string GetBPMLabel\glsnote{ro}]{bestimmt welcher Text der \_getBPMButton der AddSongPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string PickFileLabel\glsnote{ro}]{bestimmt welchen Text der \_pickFileButton der AddSongPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string AddSongLabel\glsnote{ro}]{bestimmt welchen Text der \_addSongButton der AddSongPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+
+				\add[ICommand GetBPMCommand\glsnote{ro}]{ruft private Methoden auf um die BPM einer ausgewählten Audiodatei zu berechnen.}
+				\remove[string NewSongFileLocation]{wurde entfernt, da diese nun durch private Methoden gesetzt wird.}
+			\end{itemize}
+			An den Methoden hat sich nichts verändert.
+		\subsection{\# AudioLibPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der ausgewählten Sortierung und der Checkboxes in der AudioLibPage.}
+
+				\add[string TitleLabel\glsnote{ro}]{bestimmt welchen Text der \_titleSortButton der AudioLibPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string ArtistLabel\glsnote{ro}]{bestimmt welchen Text der \_artistSortButton der AudioLibPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string BPMLabel\glsnote{ro}]{bestimmt welchen Text der \_bpmSortButton der AudioLibPage anzeigt, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string PlaylistsLabel\glsnote{ro}]{bestimmt welcher Text im \_playlistPickerLabel der AudioLibPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[SimplePlaylis\array{} Playlists\glsnote{ro}]{ist ein Array von Spotify-Playlists, welches in der \_playlistPicker der AudioLibPage geladen wird.}
+				\add[SimplePlaylist SelectedPlaylist]{ist die momentan im \_playlistPicker der AudioLibPage ausgewählte Playlist.}
+				\add[Color TitleSortColor]{ist die momentane Farbe des \_titleSortButtons der AudioLibPage.}
+				\add[Color TitleSortTextColor]{ist die momentane Farbe des Texts des \_titleSortButtons der AudioLibPage.}
+				\add[Color ArtistSortColor]{ist die momentane Farbe des \_artistSortButtons der AudioLibPage.}
+				\add[Color ArtistSortTextColor]{ist die momentane Farbe des Texts des \_artistSortButtons der AudioLibPage.}
+				\add[Color BPMSortColor]{ist die momentane Farbe des \_bpmSortButtons der AudioLibPage.}
+				\add[Color BPMSortTextColor]{ist die momentane Farbe des Texts des \_bpmSortButtons der AudioLibPage.}
+
+				\add[bool UsingBasicAudio\glsnote{ro}]{ist ein Boolean, welcher angibt ob momentan der BasicAudioPlayer und die BasicAudioLib verwendet werden.}
+				\add[bool UsingSpotifyAudio\glsnote{ro}]{ist ein Boolean, welcher angibt ob momentan der SpotifyAudioPlayer und die SpotifyAudioLib verwendet werden.}
+				\add[ICommand DeleteSongsCommand\glsnote{ro}]{ist ein Command, welcher die ausgewählten Lieder in der AudioLibPage löscht.}
+				\add[ICommand EditDeleteListCommand\glsnote{ro}]{ist ein Command, welcher das ausgewählte Lied zu einer Liste von zu löschenden Lieder hinzufügt.}
+				\change[List$<$AudioTrack$>$ Songs]{war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
+			\end{itemize}
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+				\remove[void GetSongs()]{wird nicht mehr benötigt, da Songs direkt auf die Lieder im Model zugreift.}
+			\end{itemize}
+		\subsection{\# AudioPlayerPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der Slider in der AudioPlayerPage.}
+				\add[string TimePlayed\glsnote{ro}]{gibt die bereits abgespielte Zeit im Song an.}
+				\add[string TimeLeft\glsnote{ro}]{gibt die noch übrige Zeit im Song an.}
+
+				\add[ImageSource Cover\glsnote{ro}]{ist die Quelle für das \_songCoverArt der AudioPlayerPage, falls es keins besitzt, wird ein Standard-Cover-Art genutzt.}
+				\add[bool UsingBasicAudio\glsnote{ro}]{ist ein Boolean, welcher angibt ob momentan der BasicAudioPlayer und die BasicAudioLib verwendet werden.}
+				\add[ICommand PositionDragStartedCommand\glsnote{ro}]{pausiert mithilfe von privaten Methoden das momentane Lied und bereitet das Positionsändern vor.}
+
+				\add[ICommand PositionDragCompletedCommand\glsnote{ro}]{verwirklicht mithilfe von privaten Methoden die Positionsänderung und gibt das momentane Lied anschließend wieder.}
+				\remove[bool PausePlayBoolean\glsnote{ro}]{wurde entfernt, da nicht mehr benötigt.}
+				\remove[ICommand ChangeVolumeCommand\glsnote{ro}]{wurde entfernt, da Volume nun direkt über die Property gesetzt wird.}
+				\remove[ICommand MoveInSongCommand\glsnote{ro}]{wurde entfernt, stattdessen gibt es nun zwei Commands für das ändern der Position im Lied um weitere Funktionalität zu ermöglichen.}
+			\end{itemize}
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+				\remove[void GetAudioTrack()]{wurde entfernt, da AudioTrack direkt auf den momentane Song im Model zugreift.}
+				\remove[void GetPausePlayBoolean()]{wurde entfernt, da PausePlayBoolean nicht mehr benötigt wird.}
+				\remove[void GetVolume()]{wurde entfernt, da Volume direkt auf das Model zugreift.}
+			\end{itemize}
+		\subsection{- ConnectionPageVM}
+
+			Diese Klasse wurde komplett entfernt. Der Nutzer wird bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage stattdessen zu den Settings des Smartphones geleitet um dort sich mit einem Earable über Bluetooth-Classic zu verbinden, sollte noch keine Verbindung bestehen. Andernfalls wird sich bei Betätigung des \textbf{\textit{\_connectionButtons}} der MainPage direkt mit den in den Settings verbundenen Earables über Bluetooth-Low-Energy verbunden.
+		\subsection{\# MainPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[bool HelpVisible]{bestimmt ob die Hilfsicons der MainPage sichtbar sein sollen.}
+				\add[ICommand HelpCommand\glsnote{ro}]{setzt HelpVisible auf true/false.}
+				\remove[bool ConnectBoolean]{wurde entfernt, da nicht mehr benötigt.}
+				\change[ICommand TryConnectCommand\glsnote{ro}]{war ursprünglich ConnectionPageCommand, wurde aber umbenannt, da die ConnectionPage entfernt wurde.}
+			\end{itemize}
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+				\remove[void GetDeviceName()]{wurde entfernt, da DeviceName direkt auf das Model zugreift.}
+				\remove[void GetStepsAmount()]{wurde entfernt, da StepsAmount direkt auf das Model zugreift.}
+				\remove[void GetConnectBoolean()]{wurde entfernt, da ConnectBoolean entfernt wurde.}
+			\end{itemize}
+		\subsection{\# ModesPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der Switches in der ModesPage.}
+
+				\add[string ModesLabel\glsnote{ro}]{bestimmt welcher Text im \_modesListLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[LineChart StepChart\glsnote{ro}]{ist die Quelle der \_stepChart der ModesPage, welche angibt, zu welcher Uhrzeit der Nutzer wie viele Schritte gemacht hat. Sie wird jede Minute aktualisiert.}
+				\remove[ICommand ActivateModeCommand\glsnote{ro}]{wurde entfernt, da Modi nun über eine interne Property aktiviert werden können.}
+				\change[List$<$Mode$>$ Modes]{war zuvor eine ObservableCollection, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste geändert.}
+			\end{itemize}
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+				\remove[void GetModes()]{wurde entfernt, da Modes nun direkt aufs Model zugreift.}
+			\end{itemize}
+		\subsection{\# SettingsPageVM}
+			An den Properties hat sich folgendes verändert:
+			\begin{itemize}
+				\add[CustomColor CurrentColor\glsnote{ro}]{bestimmt die Farbe der Buttons in der ModesPage und die momentan ausgewählte Farbe im ColorPicker.}
+
+				\add[string LanguageLabel\glsnote{ro}]{bestimmt welcher Text im \_languagePickerLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string ColorLabel\glsnote{ro}]{bestimmt welcher Text im \_colorPickerLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string ResetStepsLabel\glsnote{ro}]{bestimmt welcher Text im \_resetStepsButton der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string ChangeDeviceNameLabel\glsnote{ro}]{bestimmt welcher Text im \_deviceNameEntryLabel der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[string UseAudioModuleLabel\glsnote{ro}]{bestimmt welcher Text im \_useAudioModuleButton der ModesPage angezeigt wird, dieser kann sich durch das Auswählen einer anderen Sprache ändern.}
+				\add[Color UseAudioModuleColor\glsnote{ro}]{bestimmt die Farbe des \_useAudioModuleButtons der ModesPage.}
+				\add[List$<$CustomColor$>$ Colors\glsnote{ro}]{enthält die Farben die mit dem \_colorPicker der ModesPage ausgewählt werden können sollen.}
+
+				\add[ICommand ChangeAudioModuleCommand]{führt private Methoden aus um den momentan genutzten AudioPlayer bzw. AudioLib zu ändern.}
+				\remove[ICommand ChangeLanguageCommand\glsnote{ro}]{wurde entfernt, da die Sprache direkt über Language gesetzt wird.}
+				\change[List$<$Lang$>$\glsnote{ro}]{Languages war zuvor eine ObservableCollection vom Typ Language, jedoch wurden ihre speziellen Funktionalitäten nicht benötigt und deshalb zu einer einfachen Liste vom Typ Lang geändert, da Language zu Lang umbenannt wurde.}
+				\change[Lang SelectedLanguage\glsnote{ro}]{hat immer noch die gleiche Funktion, ist jedoch jetzt vom Typ Lang anstatt Language.}
+			\end{itemize}
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+				\remove[void RefreshLanguages()]{wurde entfernt, da Languages nun direkt aufs Model zugreift.}
+				\remove[void GetSelectedLanguage()]{wurde entfernt, da SelectedLanguage nun direkt aufs Model zugreift.}
+				\remove[void GetDeviceName()]{wurde entfernt, da DeviceName nun direkt aufs Model zugreift.}
+			\end{itemize}
+		\subsection{\# NavigationHandler}
+			An den Properties hat sich nichts verändert. \\
+			An den Methoden hat sich folgendes verändert:
+			\begin{itemize}
+
+				\change[async void GotoPage$<$T$>$() where T : ContentPage]{nahm ursprünglich einen String entgegen, dies wurde geändert um weniger fehleranfällig zu sein.}
+
+			\end{itemize}
+\end{document}

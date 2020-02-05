@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Karl.ViewModel;
+using FormsControls.Base;
 
 namespace Karl.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AudioLibPage : ContentPage
+	public partial class AudioLibPage : ContentPage, IAnimationPage
 	{
 		private AudioLibPageVM _audioLibPageVM;
+
+		public IPageAnimation PageAnimation { get; } = new SlidePageAnimation { Duration = AnimationDuration.Short, Subtype = AnimationSubtype.FromRight };
 
 		public AudioLibPage(AudioLibPageVM audioLibPageVM)
 		{
@@ -22,11 +25,12 @@ namespace Karl.View
 			BindingContext = _audioLibPageVM;
 		}
 
-		protected override void OnAppearing()
+		public void OnAnimationStarted(bool isPopAnimation)
 		{
-			base.OnAppearing();
-			_audioLibPageVM.RefreshPage();
 		}
 
+		public void OnAnimationFinished(bool isPopAnimation)
+		{
+		}
 	}
 }

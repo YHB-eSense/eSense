@@ -1,0 +1,32 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+
+\subsection{\# SpotifyWebAPI \changeto{} eSenseSpotifyWebAPI}
+	Der Name wurde geändert, da zum Verbindungsaufbau eine Bibliothek verwendet wird in der eine Klasse mit dem Namen ' SpotifyWebAPI ' existiert.
+	\begin{itemize}
+		\add[SpotifyWebAPI api]{Property über die Anfragen an Spotify gestellt werden.}
+		\add[public PrivateProfile UsersProfile]{Property für das Profil des bei Spotify angemeldeten User.}
+		\add[public event EventHandler authentificationFinished]{Event das ausgelöst wird wenn die Spotify Authentifizierung beendet wurde.}
+		\add[public OAuth2Authenticator AuthenticationState]{Property für den Status der Authentifizierung.}
+		\add[public void Auth()]{startet den Spotify Authentifizierungsprozess.}
+	\end{itemize}
+
+\subsection{\# SpotifyAudioPlayer}
+	\begin{itemize}
+		\add[public PrivateProfile UsersProfile]{Property für das Profil des bei Spotify angemeldeten User.}
+	\end{itemize}
+
+\subsection{\# SpotifyAudioLib}
+	\begin{itemize}
+		\change[public async void TogglePause()]{Ist jetzt async, das Senden des Befehls an die API lange dauert.}
+		\change[public async void PlayTrack(AudioTrack track)]{Ist jetzt async, das Senden des Befehls an die API lange dauert.}
+	\end{itemize}
+
+\subsection{+ BPMCalculator}
+	Berechnet die BPM zu einer .wav File, die im Konstruktor übergeben wird.
+	\begin{itemize}
+		\add[public BPMCalculator(string file)]{Speichert den Path der Datei für die spätere Berechnung der BPM.}
+		\add[public int Calculate()]{Berechnet die BPM der vorher gewählten Datei.}
+	\end{itemize}
+
+\end{document}

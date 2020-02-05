@@ -1,39 +1,46 @@
 using Plugin.BLE;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {
-	public class EarableLibrary : IEarableScanner
+	/// <summary>
+	/// This class serves as the libraries 'entry-point'.
+	/// Once you have created an instance of it, IEarabe objects can be retrieved to work with.
+	/// </summary>
+	public class EarableLibrary : IEarableManager
 	{
-		public event EventHandler<EarableEventArgs> EarableDiscovered;
-
-		public EarableLibrary()
+		/// <summary>
+		/// Try establishing a BLE connection to an earable:
+		/// Connections to all available earables (<see cref="ListEarables"/>) will be opened successively until one succeeds.
+		/// </summary>
+		/// <returns>The first successfully connected earable or null if all failed</returns>
+		public async Task<IEarable> ConnectEarableAsync()
 		{
-			CrossBluetoothLE.Current.Adapter.DeviceDiscovered += DeviceDiscovered;
-		}
-
-		private async void DeviceDiscovered(object sender, Plugin.BLE.Abstractions.EventArgs.DeviceEventArgs e)
-		{
-			ESense device = new ESense(e.Device);
-			bool valid = await device.ValidateServicesAsync();
-			if (valid)
-			{
-				EarableEventArgs args = new EarableEventArgs(device);
-				EarableDiscovered.Invoke(this, args);
+			var earables = ListEarables();
+			if (earables.Count == 0) return null;
+			foreach (var earable in earables) {
+				if (await earable.ConnectAsync()) return earable;
 			}
+			return null;
 		}
 
-		public void StartScanning()
+		/// <summary>
+		/// List earables which are or can be connected.
+		/// Earables must have been paired in system settings to show up here.
+		/// A filter is applied, trying to sort out incompatible devices (non-earables).
+		/// Whatsoever, no guarantee is given that the returned devices are really compatible. 
+		/// </summary>
+		/// <returns>List of available earables</returns>
+		public List<IEarable> ListEarables()
 		{
-			CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
-		}
-
-		public void StopScanning()
-		{
-			CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync();
+			var adapter = CrossBluetoothLE.Current.Adapter;
+			var devices = adapter.GetSystemConnectedOrPairedDevices(services: ESense.ServiceUuids);
+			var earables = new List<IEarable>(devices.Count);
+			foreach (var dev in devices) {
+				earables.Add(new ESense(dev));
+			}
+			return earables;
 		}
 	}
 }

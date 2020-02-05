@@ -1,8 +1,11 @@
 using Karl.Data;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -11,11 +14,16 @@ namespace Karl.Model
 	{
 		private BasicAudioTrackDatabase _database;
 
-		public ObservableCollection<AudioTrack> AllAudioTracks { get; set; }
+		public List<AudioTrack> AllAudioTracks { get; set; }
+		public SimplePlaylist[] AllPlaylists { get => null; set => _ = 0; }
+		public SimplePlaylist SelectedPlaylist { get => null; set => _ = 0; }
+
+		public event AudioLibEventHandler AudioLibChanged;
 
 		public BasicAudioLib()
 		{
 			_database = BasicAudioTrackDatabase.SingletonDatabase;
+			AllAudioTracks = new List<AudioTrack>();
 			GetTracks();
 			//testing
 			//AllAudioTracks = new ObservableCollection<AudioTrack>();
@@ -26,31 +34,29 @@ namespace Karl.Model
 		private async void GetTracks()
 		{
 			var data = await _database.GetTracksAsync();
-			AllAudioTracks = new ObservableCollection<AudioTrack>(data);
+			ObservableCollection<AudioTrack> tracks = new ObservableCollection<AudioTrack>(data);
+			foreach(AudioTrack track in tracks) { AllAudioTracks.Add(track); }
+			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public async void AddTrack(String storage)
+		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
-			await _database.SaveTrackAsync(new BasicAudioTrack(storage));
-			GetTracks();
-		}
-
-		public async void AddTrack(string storage, string title)
-		{
-			await _database.SaveTrackAsync(new BasicAudioTrack(storage, title));
-			GetTracks();
-		}
-
-		public async void AddTrack(string storage, string title, string artist, int bpm)
-		{
-			await _database.SaveTrackAsync(new BasicAudioTrack(storage, title, artist, bpm));
-			GetTracks();
+			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
+			await _database.SaveTrackAsync(newTrack);
+			AllAudioTracks.Add(newTrack);
+			AudioLibChanged?.Invoke(this, null);
 		}
 
 		public async void DeleteTrack(AudioTrack track)
 		{	
 			await _database.DeleteTrackAsync(track);
-			GetTracks();
+			AllAudioTracks.Remove(track);
+			AudioLibChanged?.Invoke(this, null);
+		}
+
+		public void Init()
+		{
+			//throw new NotImplementedException();
 		}
 	}
 	

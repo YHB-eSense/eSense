@@ -6,18 +6,67 @@
              mc:Ignorable="d"
              x:Class="Karl.View.AddSongPage">
     <ContentPage.Content>
-        <StackLayout>
-			<Entry Placeholder="Title"
-				   Text="{Binding NewSongTitle}"/>
-			<Entry Placeholder="Artist"
-				   Text="{Binding NewSongArtist}"/>
-			<Entry Placeholder="BPM"
-				   Text="{Binding NewSongBPM}"
-				   Keyboard="Numeric"/>
-			<Button Text="Pick File"
-					Command="{Binding PickFileCommand}"/>
-			<Button Text="Add Song"
-					Command="{Binding AddSongCommand}"/>
-		</StackLayout>
-    </ContentPage.Content>
+
+		<Grid RowSpacing="0" ColumnSpacing="0">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="2*"/>
+			</Grid.RowDefinitions>
+
+			<!--First Row-->
+			<Frame Grid.Row="0" CornerRadius="0" HasShadow="False">
+				<StackLayout Orientation="Vertical">
+					<Label Text="{Binding TitleLabel}"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongTitle}"/>
+				</StackLayout>
+			</Frame>
+
+			<!--Second Row-->
+			<Frame Grid.Row="1" CornerRadius="0" HasShadow="False">
+				<StackLayout Orientation="Vertical">
+					<Label Text="{Binding ArtistLabel}"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongArtist}"/>
+				</StackLayout>
+			</Frame>
+
+			<!--Third Row-->
+			<Frame Grid.Row="2" CornerRadius="0" HasShadow="False">
+				<StackLayout Orientation="Vertical">
+					<Label Text="{Binding BPMLabel}"
+						FontSize="Large"
+						TextColor="Black"/>
+					<Entry Text="{Binding NewSongBPM}"
+						Keyboard="Numeric"/>
+				</StackLayout>
+			</Frame>
+			
+
+			<!--Fourth Row-->
+			<Frame Grid.Row="3" CornerRadius="0" HasShadow="False">
+				<StackLayout Orientation="Vertical">
+					<Button Text="{Binding PickFileLabel}"
+						Command="{Binding PickFileCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"
+						TextColor="White"/>
+					<Button Text="{Binding GetBPMLabel}" 
+						TextColor="White" 
+						Command="{Binding GetBPMCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"/>
+					<Button Text="{Binding AddSongLabel}"
+						Command="{Binding AddSongCommand}"
+						BackgroundColor="{Binding CurrentColor.Color}"
+						TextColor="White"/>
+				</StackLayout>
+			</Frame>
+
+		</Grid>
+
+	</ContentPage.Content>
 </ContentPage>

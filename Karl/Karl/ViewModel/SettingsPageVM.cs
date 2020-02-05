@@ -6,59 +6,72 @@ using Xamarin.Forms;
 using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
-		private Language _selectedLanguage;
+		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
 
-		/**
-		 Properties binded to SettingsPage of View
-		**/
-		public ObservableCollection<Language> Languages { get; set; }
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
 
-		public Language SelectedLanguage
+		//Properties binded to SettingsPage of View
+		public string LanguageLabel { get => _settingsHandler.CurrentLang.Get("language"); }
+		public string ColorLabel { get => _settingsHandler.CurrentLang.Get("color"); }
+		public string DeviceNameLabel { get => _settingsHandler.CurrentLang.Get("device_name"); }
+		public string ChangeDeviceNameLabel { get => _settingsHandler.CurrentLang.Get("change_device_name"); }
+		public string ResetStepsLabel { get => _settingsHandler.CurrentLang.Get("reset_steps"); }
+		public string UseAudioModuleLabel
 		{
 			get
 			{
-				return _selectedLanguage;
-			}
-			set
-			{
-				if (!_selectedLanguage.Equals(value))
-				{
-					_selectedLanguage = value;
-					ChangeLanguage(_selectedLanguage);
-					OnPropertyChanged("SelectedLanguage");
-				}
+				if (_settingsHandler.UsingBasicAudio) { return _settingsHandler.CurrentLang.Get("use_spotify"); }
+				return _settingsHandler.CurrentLang.Get("use_basic");
 			}
 		}
-
+		public Color UseAudioModuleColor
+		{
+			get
+			{
+				if (_settingsHandler.UsingBasicAudio) { return Color.FromHex("#1ed761"); }
+				return CurrentColor.Color;
+			}
+		}
+		public List<Lang> Languages { get => _settingsHandler.Languages; }
+		public List<CustomColor> Colors { get => _settingsHandler.Colors; }
+		public Lang SelectedLanguage
+		{
+			get => _settingsHandler.CurrentLang;
+			set => _settingsHandler.CurrentLang = value; 
+		}
+		public CustomColor CurrentColor
+		{
+			get => _settingsHandler.CurrentColor;
+			set { if (value != null) _settingsHandler.CurrentColor = value; }
+		}
 		public string DeviceName
 		{
 			get
 			{
-				return _deviceName;
-			}
-			set
-			{
-				if (_deviceName != value)
+				if (_connectivityHandler.EarableConnected)
 				{
-					_deviceName = value;
-					OnPropertyChanged("DeviceName");
+					return _settingsHandler.DeviceName;
 				}
+				return null;
 			}
+			set => _deviceName = value; 
 		}
 
-		/**
-		 Commands binded to SettingsPage of View
-		**/
+		//Commands binded to SettingsPage of View
 		public ICommand ChangeDeviceNameCommand { get; }
-		public ICommand ChangeLanguageCommand { get; }
 		public ICommand ResetStepsCommand { get; }
+		public ICommand ChangeAudioModuleCommand { get; }
 
 		/// <summary>
 		/// Initializises Commands and SettingsHandler of Model
@@ -66,19 +79,54 @@ namespace Karl.ViewModel
 		public SettingsPageVM()
 		{
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			ChangeDeviceNameCommand = new Command<String>(ChangeDeviceName);
-			ChangeLanguageCommand = new Command<Language>(ChangeLanguage);
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			ChangeDeviceNameCommand = new Command(ChangeDeviceName);
 			ResetStepsCommand = new Command(ResetSteps);
+			ChangeAudioModuleCommand = new Command(ChangeAudioModule);
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
-		private void ChangeDeviceName(String deviceName)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			_settingsHandler.DeviceName = deviceName;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeDeviceNameLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResetStepsLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Colors)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
 		}
 
-		private void ChangeLanguage(Language language)
+		private void RefreshDeviceName(object sender, EventArgs args)
 		{
-			_settingsHandler.CurrentLang = language;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
+		}
+
+		private void RefreshAudioModule(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleLabel)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseAudioModuleColor)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeviceName)));
+		}
+
+		private void ChangeDeviceName()
+		{
+			_settingsHandler.DeviceName = _deviceName;
 		}
 
 		private void ResetSteps()
@@ -86,30 +134,19 @@ namespace Karl.ViewModel
 			_settingsHandler.ResetSteps();
 		}
 
-		public void RefreshLanguages()
+		private void ChangeAudioModule()
 		{
-			Languages = (ObservableCollection<Language>) _settingsHandler.Languages;
-		}
-
-		public void GetSelectedLanguage()
-		{
-			SelectedLanguage = _settingsHandler.CurrentLang;
-		}
-
-		public void GetDeviceName()
-		{
-			DeviceName = _settingsHandler.DeviceName;
-		}
-
-		//Eventhandling
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
+			if (_settingsHandler.UsingSpotifyAudio)
 			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				_settingsHandler.changeAudioModuleToBasic();
+			}
+			else
+			{
+				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
+				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
+				{
+					SingletonSettingsHandler.changeAudioModuleToSpotify();
+				};
 			}
 		}
 

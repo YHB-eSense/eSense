@@ -1,40 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 
 namespace StepDetectionLibrary
 {
 	/// <summary>
 	/// struct for dataoutput
 	/// </summary>
-	public struct Output
+	public class Output
 	{
-		private double freq;
-		private int stepcount;
+		public ActivityLog Log => OutputManager.SingletonOutputManager.Log;
 
-		/// <summary>
-		/// constructor for output
-		/// </summary>
-		/// <param name="freq">frequency</param>
-		/// <param name="stepcount">step count</param>
-		public Output(double freq, int stepcount)
-		{
-			this.freq = freq;
-			this.stepcount = stepcount;
-		}
-
-		/// <summary>
-		/// freqency property
-		/// </summary>
-		public double Frequency
-		{ get{ return this.freq; } }
-
-		/// <summary>
-		/// step count property
-		/// </summary>
-		public int StepCount
-		{ get { return this.stepcount; } }
-
+		public double StepCount() => Log.CountSteps();
+		public double Frequency() => Log.AverageStepFrequency(TimeSpan.FromSeconds(10));
 	}
 	/// <summary>
 	/// gets data from stepdetectionalg and handles the output of data
@@ -42,8 +21,9 @@ namespace StepDetectionLibrary
 	public class OutputManager : IObservable<Output>, IObserver<Output>
 	{
 		private static OutputManager _singletonOutputManager;
-		private List<IObserver<Output>> observers;
+		private List<IObserver<Output>> _observers;
 
+		
 		/// <summary>
 		/// singleton pattern
 		/// </summary>
@@ -65,9 +45,21 @@ namespace StepDetectionLibrary
 		}
 
 		/// <summary>
-		/// method if provider finished sending data
+		/// Singleton -> Don't call.
 		/// </summary>
-		public void OnCompleted()
+		private OutputManager()
+		{
+			_observers = new List<IObserver<Output>>();
+			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ActivityLog.db3");
+			Log = new ActivityLog(path);
+		}
+
+        public ActivityLog Log { get; }
+
+        /// <summary>
+        /// method if provider finished sending data
+        /// </summary>
+        public void OnCompleted()
 		{
 			throw new NotImplementedException();
 		}
@@ -86,28 +78,54 @@ namespace StepDetectionLibrary
 		/// <param name="value">accelertion + gyro data</param>
 		public void OnNext(Output value)
 		{
-			throw new NotImplementedException();
+			Update(value);
 		}
 
 		/// <summary>
-		/// method to add observers to outputmanager
+		/// method to add _observer to outputmanager
 		/// </summary>
 		/// <param name="observer">object that wants to observe outputmanager</param>
 		/// <returns>disposable to unsubscribe</returns>
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
-			throw new NotImplementedException(); //todo
+
+			if (!_observers.Contains(observer))
+				_observers.Add(observer);
+			return new Unsubscriber(_observers, observer);
+
 		}
 
+
 		/// <summary>
-		/// method to update observers with new data
+		/// method to update _observer with new data
 		/// </summary>
 		/// <param name="output">new stepfreq and count data</param>
 		public void Update(Output output)
 		{
-			foreach (var observer in observers)
+			foreach (var observer in _observers)
 			{
 				observer.OnNext(output);
+			}
+		}
+
+		/// <summary>
+		/// Unsubscriber
+		/// </summary>
+		private class Unsubscriber : IDisposable
+		{
+			private List<IObserver<Output>> _observers;
+			private IObserver<Output> _observer;
+
+			public Unsubscriber(List<IObserver<Output>> observers, IObserver<Output> observer)
+			{
+				this._observers = observers;
+				this._observer = observer;
+			}
+
+			public void Dispose()
+			{
+				if (_observer != null && _observers.Contains(_observer))
+					_observers.Remove(_observer);
 			}
 		}
 	}

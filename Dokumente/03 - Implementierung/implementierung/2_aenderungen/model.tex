@@ -1,0 +1,81 @@
+\documentclass[../implementierung.tex]{subfiles}
+\begin{document}
+	\section{Model}
+		\subsection{\# AudioLib}
+			\begin{itemize}
+				\add{\code{void changeToSpotifyLib()}: Wechselt AudioLib zu Spotify}
+				\add{\code{void ChangeToBasicLib()}: Wechselt AudioLib zu Standard}
+				\change{\code{Task AddTrack(string storage, string title, string artist, int bpm)}: Nimmt jetzt Speicherort als parameter.}
+			\end{itemize}
+		\subsection{\# AudioPlayer}
+			\begin{itemize}
+				\add{\code{event AudioChanged}: Neues Lied wird abgespielt}
+				\add{\code{void ChangeToSpotifyPlayer()}: Wechselt zum Spotify Modus}
+				\add{\code{void ChangeToBasicPlayer()}: Wechselt zum Standart Modus}
+				\add{\code{void Clear()}: Clears Queue and PlayedSongs Stack}
+				\change{\code{Queue$<$AudioTrack$>$ SongsQueue}: War ein Stack}
+			\end{itemize}
+		\subsection{\# AudioTrack}
+			\begin{itemize}
+				\add{\code{String StorageLocation}: Speicherort des Songs}
+				\add{\code{String TextId}: SpotifyId des Songs}
+			\end{itemize}
+		\subsection{+ ColorManager}
+			Verwaltet die Farbeinstellungen der App. Singleton-Muster
+			\paragraph{Attribute}
+				\begin{itemize}
+					\add{\code{List$<$CustomColor$>$ Colors}: Alle verfügbaren Farben}
+					\add{\code{CustomColor CurrentColor}: Aktuelle Farbe}
+					\add{\code{void ResetColors()}: Setzt Farb Thema zurück}
+				\end{itemize}
+		\subsection{+ CustomColor}
+			Wrapper Klasse um eine Xamarin Color.
+			\begin{itemize}
+				\add{\code{Color Color}: Die Grund-Farbe}
+				\add{\code{string Name}: Name der Farbe}
+			\end{itemize}
+		\subsection{\# ConnectivityHandler}
+			Der Connectivity Handler hat zusätzlich die Funtionalitäten \& Aufgaben von BluetoothDevice übernommen.
+			Falls nicht mit Bluetooth Standard eine Verbindung besteht, wird Bluetooth in den Geräte-Einstellungen 
+			geöffnet. Ansonsten wird mit den verbundenen Earables eine BLE Verbindung hergestellt.
+			\begin{itemize}
+				\add{\code{event ConnectionChanged}: Verbindungsstatus geändert}
+				\add{\code{Task$<$bool$>$ Connect()}: Verbindet sich asynchron mit den Earables oder öffnet Einstellungen.}
+				\remove{\code{SearchDevices()}}
+				\remove{\code{CurrentDevice}}
+			\end{itemize}
+		\subsection{- BluetoothDevice}
+			Nicht mehr benötigt.
+		\subsection{\# LangManager}
+			\begin{itemize}
+				\add{\code{List$<$Lang$>$ AvailableLangs}: Liste verfügbarer Sprachen.}
+				\add{\code{Dictionary$<$string, Lang$>$ LangMap}: HashMap welche die Tags eine Sprache als keys und die Sprache als Value hat}
+			\end{itemize}
+		\subsection{\# Lang}
+			\begin{itemize}
+				\add{\code{void Init()}: Falls die Sprache nicht Initialisiert ist, wird die Sprache initialisiert.}
+			\end{itemize}
+		\subsection{\# ModeHandler}
+			\begin{itemize}
+				\add{\code{void ResetModes()}: Setzt alle Modi zurück}
+			\end{itemize}
+		\subsection{\# SettingsHandler}
+			Der SettingsHandler hat zusätlich die Aufgabe übernommen Graph-Darstellungen von gesammelten Daten 
+			anzuzeigen. Desweiteren sind auch die Audio-Module und das Wechseln zwischen diesen fest implementiert.
+			\begin{itemize}
+				\add{\code{event LangChanged}: Sprache ändert sich}
+				\add{\code{event DeviceNameChanged}: GeräteName der Earables geändert}
+				\add{\code{event StepsChanged}: Schritt-Anzahl geändert}
+				\add{\code{event ColorChanged}: Farb-Thema geändert}
+				\add{\code{event ChartChanged}: Anzeige-Graph geändert}
+				\add{\code{event AudioModuleChanged}: Audio-Modul geändert}
+				\add{\code{List$<$Microcharts.Entry$>$ ChartEntries}: Die Graphen-Einträge}
+				\add{\code{bool UsingBasicAudio}: Boolean, True wenn Standard Audio-Modul verwendet wird}
+				\add{\code{bool UsingSpotifyAudio}: Boolean, True wenn Spotify Audio-Modul verwendet wird}
+				\add{\code{List$<$CustomColor$>$ Colors}: Liste von verfügbaren Farb-Themen}
+				\add{\code{void changeAudioModuleToSpotify()}: Wechselt das AudioModul zu Spotify}
+				\add{\code{void changeAudioModuleToBasic()}: Wechselt das Audio-Modul zu Standard}
+				\add{\code{void InitTimer()}: Timer zum Einstellen der Zeit zwischen den einzelnen Microchart-Einträgen}
+				\add{\code{void AddChartEvent(object sender, ElapsedEventArgs e)}: Methode zum Hinzufügen von microchartentries}
+			\end{itemize}
+\end{document}

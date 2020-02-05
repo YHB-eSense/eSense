@@ -14,28 +14,30 @@ namespace Karl.Model
 
 		public AudioTrack CurrentTrack { get; set; }
 
-		public double Volume
-		{
-			get { return _simpleAudioPlayer.Volume; }
-			set { _simpleAudioPlayer.Volume = value; }
-		}
-
 		public double CurrentSongPos
 		{
 			get { return _simpleAudioPlayer.CurrentPosition; }
 			set { _simpleAudioPlayer.Seek(value); }
 		}
 
+		public bool Paused { get; set; }
+		public double Volume
+		{
+			get => _simpleAudioPlayer.Volume;
+			set => _simpleAudioPlayer.Volume = value;
+		}
+
 		public BasicAudioPlayer()
 		{
 			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
 			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
+			Paused = true;
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
 			CurrentTrack = track;
-			_stream = File.OpenRead(CurrentTrack.StorageLocation); //GetStreamFromFile(CurrentTrack.StorageLocation);
+			_stream = File.OpenRead(CurrentTrack.StorageLocation);
 			_simpleAudioPlayer.Load(_stream);
 			_simpleAudioPlayer.Play();
 		}
@@ -56,15 +58,5 @@ namespace Karl.Model
 		{
 			TogglePause();
 		}
-
-		/* //For loading an embedded mp3
-		private Stream GetStreamFromFile(string filename)
-		{
-			var assembly = typeof(App).Assembly;
-			var stream = assembly.GetManifestResourceStream("Karl." + filename);
-			return stream;
-		}
-		*/
 	}
-	
 }

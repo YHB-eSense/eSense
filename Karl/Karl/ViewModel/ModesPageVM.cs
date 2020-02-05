@@ -4,54 +4,70 @@ using Karl.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System;
+using Microcharts;
 
 namespace Karl.ViewModel
 {
-	public class ModesPageVM
+	public class ModesPageVM : INotifyPropertyChanged
 	{
+		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
+		private ConnectivityHandler _connectivityHandler;
 
-		/**
-		 Properties binded to ModesPage of View
-		**/
-		public ObservableCollection<Mode> Modes { get; set; }
+		//Eventhandling
+		public event PropertyChangedEventHandler PropertyChanged;
 
-		/**
-		 Commands binded to ModesPage of View
-		**/
-		public ICommand ActivateModeCommand { get; }
+		//Properties binded to ModesPage of View
+		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
+		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
+		public List<Mode> Modes { get => _modeHandler.Modes; }
+		public LineChart StepChart
+		{		
+			get
+			{
+				if(_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// Initializises Commands, NavigationHandler and ModeHandler of Model
 		/// </summary>
-		/// <param name="handler">For navigation</param>
 		public ModesPageVM()
 		{
 			_modeHandler = ModeHandler.SingletonModeHandler;
-			ActivateModeCommand = new Command<Mode>(ActivateMode);
-			Modes = new ObservableCollection<Mode>();
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.ChartChanged += RefreshChart;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 
-		/// <summary>
-		/// Actives mode
-		/// </summary>
-		/// <param name="mode">Mode to be activated</param>
-		private void ActivateMode(Mode mode)
+		private void RefreshLang(object sender, EventArgs args)
 		{
-			mode.Activate();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModesLabel)));
+			_modeHandler.ResetModes();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modes)));
 		}
 
-		/// <summary>
-		/// Loads Modes
-		/// </summary>
-		public void GetModes()
+		private void RefreshColor(object sender, EventArgs args)
 		{
-			ObservableCollection<Mode> modes = new ObservableCollection<Mode>();
-			foreach (Mode mode in _modeHandler.Modes)
-			{
-				modes.Add(mode);
-			}
-			Modes = modes;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
+
+		public void RefreshChart(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		private void RefreshConnection(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
 	}
 }
