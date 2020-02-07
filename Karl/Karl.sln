@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EarableLibrary", "EarableLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepDetectionTestApp", "StepDetectionTestApp\StepDetectionTestApp.csproj", "{1BDAE14C-139B-47C4-9146-B68E9349D390}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,18 @@ Global
 		{1BDAE14C-139B-47C4-9146-B68E9349D390}.Release|iPhone.Build.0 = Release|Any CPU
 		{1BDAE14C-139B-47C4-9146-B68E9349D390}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{1BDAE14C-139B-47C4-9146-B68E9349D390}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|iPhone.Build.0 = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
