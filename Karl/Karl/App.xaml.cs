@@ -6,6 +6,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Diagnostics;
 using Karl.Model;
+using System;
 
 namespace Karl
 {
@@ -59,10 +60,18 @@ namespace Karl
 
 		private async void GetPermissions()
 		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-			if (status != PermissionStatus.Granted)
+			try
 			{
-				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+				var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+				if (status != PermissionStatus.Granted)
+				{
+					await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+				}
+			}
+			catch (NotImplementedException)
+			{
+				// happens during unit-testing, where we don't require any permissions
+				return;
 			}
 		}
 

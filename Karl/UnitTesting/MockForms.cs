@@ -1,3 +1,5 @@
+using FormsControls.Base;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,7 @@ namespace Tests.Xamarin.Forms.Mocks
 
 			DependencyService.Register<MockResourcesProvider>();
 			DependencyService.Register<MockDeserializer>();
+			DependencyService.Register<MockDeviceInfo>();
 		}
 
 		internal class MockPlatformServices : IPlatformServices
@@ -200,13 +203,17 @@ namespace Tests.Xamarin.Forms.Mocks
 			}
 		}
 
-		internal class MockDeviceInfo : DeviceInfo
+		internal class MockDeviceInfo : DeviceInfo, IDeviceInfo
 		{
-			public override Size PixelScreenSize => throw new NotImplementedException();
+			public override Size PixelScreenSize => new Size(ScreenWidth, ScreenHeight);
 
-			public override Size ScaledScreenSize => throw new NotImplementedException();
+			public override Size ScaledScreenSize => new Size(ScreenWidth / ScalingFactor, ScreenHeight / ScalingFactor);
 
-			public override double ScalingFactor => throw new NotImplementedException();
+			public override double ScalingFactor { get; } = 1;
+
+			public double ScreenHeight { get; set; } = 1920;
+
+			public double ScreenWidth { get; set; } = 1080;
 		}
 	}
 }
