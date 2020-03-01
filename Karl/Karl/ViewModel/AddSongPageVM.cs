@@ -79,7 +79,7 @@ namespace Karl.ViewModel
 			_audioLib = AudioLib.SingletonAudioLib;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
-			GetBPMCommand = new Command(CalculateBPM);
+			GetBPMCommand = new Command<IBPMCalculator>(CalculateBPM);
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
 		}
@@ -133,7 +133,7 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private async void CalculateBPM()
+		private async void CalculateBPM(IBPMCalculator calc)
 		{
 			if (!_picked)
 			{
@@ -143,8 +143,11 @@ namespace Karl.ViewModel
 			}
 			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
-				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
-				NewSongBPM = calculator.Calculate().ToString();
+				if(calc == null)
+				{
+					calc = new BPMCalculator(_newSongFileLocation);
+				}
+				NewSongBPM = calc.Calculate().ToString();
 			}
 			else
 			{
