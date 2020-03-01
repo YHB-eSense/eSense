@@ -8,8 +8,25 @@ namespace Karl.ViewModel
 	public class NavigationHandler
 	{
 		private Dictionary<Type, ContentPage> _pages { get; set; }
+		private static NavigationHandler _singletonNavHandler;
 
-		public NavigationHandler()
+		public static NavigationHandler SingletonNavHandler
+		{
+			get
+			{
+				if (_singletonNavHandler == null)
+				{
+					_singletonNavHandler = new NavigationHandler();
+					return _singletonNavHandler;
+				}
+				else
+				{
+					return _singletonNavHandler;
+				}
+			}
+		}
+
+		private NavigationHandler()
 		{
 			_pages = new Dictionary<Type, ContentPage>();
 		}

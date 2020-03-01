@@ -129,9 +129,9 @@ namespace Karl.ViewModel
 		/// Initializises Commands, NavigationHandler and AudioLib, AudioPlayer of Model
 		/// </summary>
 		/// <param name="handler">For navigation</param>
-		public AudioLibPageVM(NavigationHandler handler)
+		public AudioLibPageVM()
 		{
-			_navHandler = handler;
+			_navHandler = NavigationHandler.SingletonNavHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
