@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Karl.Model;
 using Karl.View;
@@ -35,7 +36,7 @@ namespace Karl.ViewModel
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to AudioLibPage of View
-		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
+		public virtual CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _settingsHandler.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
@@ -50,7 +51,7 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			}
 		}
-		public List<AudioTrack> Songs
+		public virtual List<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
 			set
@@ -131,10 +132,7 @@ namespace Karl.ViewModel
 		/// <param name="handler">For navigation</param>
 		public AudioLibPageVM()
 		{
-			_navHandler = NavigationHandler.SingletonNavHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
-			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			InitializeSingletons();
 			_oldSongs = null;
 			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
@@ -145,10 +143,6 @@ namespace Karl.ViewModel
 			SearchSongCommand = new Command<string>(SearchSong);
 			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
-			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
-			_audioLib.AudioLibChanged += RefreshAudioLib;
 			TitleSort();
 		}
 
@@ -265,9 +259,7 @@ namespace Karl.ViewModel
 
 		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
-					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
-					_settingsHandler.CurrentLang.Get("question_no"));
+			bool answer = await AlertWrapper();
 			if (answer)
 			{
 				foreach(AudioTrack song in _deleteList)
@@ -281,6 +273,26 @@ namespace Karl.ViewModel
 				}
 			}
 		}
+
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_audioLib.AudioLibChanged += RefreshAudioLib;
+		}
+
+		protected virtual async Task<bool> AlertWrapper()
+		{
+			return await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
+					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
+					_settingsHandler.CurrentLang.Get("question_no"));
+		}
+
 
 	}
 }

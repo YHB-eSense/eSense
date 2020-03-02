@@ -16,6 +16,7 @@ namespace UnitTesting.ViewModelTests
 			//TO-DO: Setup
 		}
 
+		/*
 		/// <summary>
 		/// Checks if reseting Steps works
 		/// </summary>
@@ -37,7 +38,7 @@ namespace UnitTesting.ViewModelTests
 			spVM.ChangeDeviceNameCommand.Execute("New Device");
 			Assert.Equal("New Device", SettingsHandler.SingletonSettingsHandler.DeviceName);
 		}
-
+		*/
 		
 		public void Dispose(){
 			//TO-DO: Tear Down

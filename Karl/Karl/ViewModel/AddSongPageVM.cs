@@ -76,14 +76,10 @@ namespace Karl.ViewModel
 		/// <param name="navHandler"> For navigation</param>
 		public AddSongPageVM()
 		{
-			_navHandler = NavigationHandler.SingletonNavHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
+			InitializeSingletons();
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(CalculateBPM);
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
 			_picked = false;
 		}
 
@@ -194,6 +190,15 @@ namespace Karl.ViewModel
 		protected virtual void GoBackWrapper()
 		{
 			_navHandler.GoBack();
+		}
+
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 		}
 	}
 }

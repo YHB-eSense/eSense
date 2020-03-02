@@ -12,16 +12,11 @@ namespace UnitTesting
 {
     public class AddSongPageVMTests
 	{
-        public AddSongPageVMTests()
-        {
-			Tests.Xamarin.Forms.Mocks.MockForms.Init();
-		}
-
 		[Fact]
 		public void PickFileCommandTest()
 		{
 			//setup
-			var vm = new AddSongPageVM_NEW();
+			AddSongPageVM_NEW vm = new AddSongPageVM_NEW();
 			//test
 			vm.PickFileCommand.Execute(null);
 			Assert.Equal("title", vm.NewSongTitle);
@@ -57,32 +52,31 @@ namespace UnitTesting
 			Assert.Null(vm.NewSongArtist);
 			Assert.Null(vm.NewSongBPM);
 		}
+
+		internal class AddSongPageVM_NEW : AddSongPageVM
+		{
+			protected override async Task<FileData> PickFileWrapper()
+			{
+				FileData data = new FileData();
+				data.FilePath = "test.wav";
+				return new FileData();
+			}
+			protected override TagLib.File CreateFileWrapper()
+			{
+				var mock = new Mock<TagLib.File>();
+				mock.Setup(x => x.Tag.Title).Returns("title");
+				mock.Setup(x => x.Tag.Performers).Returns(new string[] { "artist" });
+				mock.Setup(x => x.Tag.BeatsPerMinute).Returns(0);
+				return mock.Object;
+			}
+			protected override string GetBPMWrapper()
+			{
+				return "0";
+			}
+			protected override void AddTrackWrapper(int bpm) { }
+			protected override void GoBackWrapper() { }
+			protected override void InitializeSingletons() { }
+
+		}
 	}
-
-	internal class AddSongPageVM_NEW : AddSongPageVM
-	{
-		protected override async Task<FileData> PickFileWrapper()
-		{
-			FileData data = new FileData();
-			data.FilePath = "test.wav";
-			return new FileData();
-		}
-		protected override TagLib.File CreateFileWrapper()
-		{
-			string s = null;
-			TagLib.File file = TagLib.File.Create(m);
-			file.Tag.Title = "title";
-			file.Tag.Performers = new string[] { "artist" };
-			file.Tag.BeatsPerMinute = 0;
-			return file;
-		}
-		protected override string GetBPMWrapper()
-		{
-			return "0";
-		}
-		protected override void AddTrackWrapper(int bpm) { }
-		protected override void GoBackWrapper() { }
-
-	}
-
 }
