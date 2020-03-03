@@ -60,6 +60,8 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelTests\AudioLibPageVMTests.cs" />
+    <Compile Include="ViewModelTests\AudioPlayerPageVMTests.cs" />
+    <Compile Include="ViewModelTests\MainPageVMTests.cs" />
     <Compile Include="ViewModelTests\SettingsPageVMTests.cs" />
     <Compile Include="ViewModelTests\AddSongPageVMTests.cs" />
   </ItemGroup>
