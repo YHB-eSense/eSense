@@ -63,9 +63,7 @@ namespace Karl.ViewModel
 		/// <param name="handler">For navigation</param>
 		public MainPageVM()
 		{
-			_navHandler = NavigationHandler.SingletonNavHandler;
-			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			InitializeSingletons();
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			TryConnectCommand = new Command(TryConnect);
@@ -74,10 +72,6 @@ namespace Karl.ViewModel
 			HelpCommand = new Command(HelpOnOff);
 			_iconOn = ImageSource.FromResource("Karl.Resources.Images.bluetooth_on.png");
 			_iconOff = ImageSource.FromResource("Karl.Resources.Images.bluetooth_off.png");
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
-			_settingsHandler.StepsChanged += RefreshSteps;
-			_connectivityHandler.ConnectionChanged += RefreshConnection;
 			HelpVisible = false;
 		}
 
@@ -143,6 +137,17 @@ namespace Karl.ViewModel
 		{
 			HelpVisible = !HelpVisible;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HelpVisible)));
+		}
+
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.StepsChanged += RefreshSteps;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 		}
 	}
 }

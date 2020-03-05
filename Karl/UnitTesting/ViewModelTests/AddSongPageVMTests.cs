@@ -16,9 +16,10 @@ namespace UnitTesting.ViewModelTests
 		public void PickFileCommandTest()
 		{
 			//setup
-			AddSongPageVM_NEW vm = new AddSongPageVM_NEW();
+			var vm = new AddSongPageVM_NEW();
 			//test
 			vm.PickFileCommand.Execute(null);
+			Assert.NotNull(vm.NewSongArtist);
 			Assert.Equal("title", vm.NewSongTitle);
 			Assert.Equal("artist", vm.NewSongArtist);
 			Assert.Equal("0", vm.NewSongBPM);	
@@ -46,6 +47,9 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AddSongPageVM_NEW();
 			vm.PickFileCommand.Execute(null);
+			vm.NewSongArtist = "artist";
+			vm.NewSongBPM = "artist";
+			vm.NewSongTitle = "artist";
 			//test
 			vm.AddSongCommand.Execute(null);
 			Assert.Null(vm.NewSongTitle);

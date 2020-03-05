@@ -28,10 +28,15 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void HelpCommandTest()
 		{
-			var vm = new MainPageVM();
+			var vm = new MainPageVM_NEW();
 			vm.HelpVisible = false;
 			vm.HelpCommand.Execute(null);
 			Assert.True(vm.HelpVisible);
+		}
+
+		internal class MainPageVM_NEW : MainPageVM
+		{
+			protected override void InitializeSingletons() { }
 		}
 
 	}
