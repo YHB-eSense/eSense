@@ -1,12 +1,12 @@
-using Xamarin.Forms;
+using FormsControls.Base;
+using Karl.Model;
 using Karl.View;
 using Karl.ViewModel;
-using FormsControls.Base;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using System.Diagnostics;
-using Karl.Model;
 using System;
+using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace Karl
 {
@@ -15,7 +15,7 @@ namespace Karl
 		public App()
 		{
 			InitializeComponent();
-		
+
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM();
 			AudioLibPageVM audioLibPageVM = new AudioLibPageVM();
 			ModesPageVM modesPageVM = new ModesPageVM();

@@ -1,7 +1,6 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EarableLibrary
@@ -24,7 +23,7 @@ namespace EarableLibrary
 		/// <param name="offset">Offset of the first byte</param>
 		/// <param name="bigEndian">Whether to use big-endian (MSB first) or little-endian</param>
 		/// <returns>The parsed TripleShort</returns>
-		public static TripleShort FromByteArray(byte[] array, int offset=0, bool bigEndian=true)
+		public static TripleShort FromByteArray(byte[] array, int offset = 0, bool bigEndian = true)
 		{
 			TripleShort t;
 			if (bigEndian)
@@ -88,7 +87,7 @@ namespace EarableLibrary
 		/// Consecutive sample id which increases which each new sample.
 		/// When the maximum capacity (255) is exceeded, an overflow happens.
 		/// </summary>
-		public byte SampleId { get;  }
+		public byte SampleId { get; }
 	}
 
 	/// <summary>
@@ -135,7 +134,7 @@ namespace EarableLibrary
 		public async Task StartSamplingAsync()
 		{
 			await _data.StartUpdatesAsync();
-			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte) SamplingRate);
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte)SamplingRate);
 			await _enable.WriteAsync(msg);
 		}
 

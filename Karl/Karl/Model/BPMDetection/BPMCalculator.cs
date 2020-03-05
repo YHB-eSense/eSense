@@ -1,11 +1,10 @@
 using NAudio.Wave;
 using SoundTouch;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Karl.Model
 {
-	public class BPMCalculator: IBPMCalculator
+	public class BPMCalculator : IBPMCalculator
 	{
 		private string _file;
 		private WaveFileReader _reader;

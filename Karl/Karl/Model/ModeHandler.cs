@@ -5,7 +5,7 @@ namespace Karl.Model
 	/// <summary>
 	/// This class handles the modes. It can give you a List of all registered modes.
 	/// </summary>
-	public class ModeHandler 
+	public class ModeHandler
 	{
 		private static ModeHandler _singletonModeHandler;
 
@@ -39,7 +39,7 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetModes()
 		{
-			if(Modes != null)
+			if (Modes != null)
 			{
 				List<Mode> newModes = new List<Mode>(Modes);
 				Modes.Clear();

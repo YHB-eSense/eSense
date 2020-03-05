@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace StepDetectionLibrary
@@ -23,7 +22,7 @@ namespace StepDetectionLibrary
 		private static OutputManager _singletonOutputManager;
 		private List<IObserver<Output>> _observers;
 
-		
+
 		/// <summary>
 		/// singleton pattern
 		/// </summary>
@@ -54,12 +53,12 @@ namespace StepDetectionLibrary
 			Log = new ActivityLog(path);
 		}
 
-        public ActivityLog Log { get; }
+		public ActivityLog Log { get; }
 
-        /// <summary>
-        /// method if provider finished sending data
-        /// </summary>
-        public void OnCompleted()
+		/// <summary>
+		/// method if provider finished sending data
+		/// </summary>
+		public void OnCompleted()
 		{
 			throw new NotImplementedException();
 		}

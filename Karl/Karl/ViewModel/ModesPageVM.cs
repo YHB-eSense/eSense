@@ -1,12 +1,8 @@
-using System.Windows.Input;
-using Xamarin.Forms;
 using Karl.Model;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System;
 using Microcharts;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Karl.ViewModel
 {
@@ -24,10 +20,10 @@ namespace Karl.ViewModel
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
-		{		
+		{
 			get
 			{
-				if(_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
+				if (_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
 				return null;
 			}
 		}

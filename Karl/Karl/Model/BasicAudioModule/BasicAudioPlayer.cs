@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Plugin.SimpleAudioPlayer;
-using System.Text;
+using System;
+using System.IO;
 
 namespace Karl.Model
 {
-	
+
 	sealed class BasicAudioPlayer : IAudioPlayerImpl
 	{
 		private Stream _stream;

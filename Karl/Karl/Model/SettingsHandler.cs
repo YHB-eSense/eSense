@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using Xamarin.Forms;
+using static Karl.Model.ColorManager;
 using static Karl.Model.ConnectivityHandler;
 using static Karl.Model.LangManager;
-using static Karl.Model.ColorManager;
 using static StepDetectionLibrary.OutputManager;
-using System.Diagnostics;
 
 namespace Karl.Model
 {
@@ -39,7 +38,7 @@ namespace Karl.Model
 		private readonly IDictionary<string, Object> _properties = Application.Current.Properties;
 		private int _steps;
 		private Timer timer;
-		
+
 		//Eventhandling
 		public delegate void LangEventHandler(object source, EventArgs e);
 		public event LangEventHandler LangChanged;
@@ -194,7 +193,7 @@ namespace Karl.Model
 			{
 				_properties.Add("color", Colors[0].Color.ToHex());
 				CurrentColor = Colors[0];
-			}	
+			}
 			//Load chosen language
 			if (_properties.TryGetValue("lang", out val))
 			{
@@ -320,6 +319,6 @@ namespace Karl.Model
 			}
 		}
 
-		
+
 	}
 }

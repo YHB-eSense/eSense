@@ -1,13 +1,9 @@
+using Karl.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Karl.Model;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
@@ -48,7 +44,7 @@ namespace Karl.ViewModel
 		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
-			set => _settingsHandler.CurrentLang = value; 
+			set => _settingsHandler.CurrentLang = value;
 		}
 		public CustomColor CurrentColor
 		{
@@ -65,7 +61,7 @@ namespace Karl.ViewModel
 				}
 				return null;
 			}
-			set => _deviceName = value; 
+			set => _deviceName = value;
 		}
 
 		//Commands binded to SettingsPage of View

@@ -1,12 +1,8 @@
-using Karl;
 using Karl.Model;
 using Karl.ViewModel;
-using Moq;
-using Plugin.FilePicker.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -16,7 +12,7 @@ using Xunit.Sdk;
 namespace UnitTesting.ViewModelTests
 {
 	public class AudioLibPageVMTests
-	{	
+	{
 		[Fact]
 		[TestBeforeAfter]
 		public void TitleSortCommandTest()
@@ -55,7 +51,7 @@ namespace UnitTesting.ViewModelTests
 		[TestBeforeAfter]
 		public void BPMSortCommandTest()
 		{
-			AudioLibPageVM_NEW vm = new AudioLibPageVM_NEW();
+			AudioLibPageVM vm = new AudioLibPageVM_NEW();
 			vm.Songs.Add(new BasicAudioTrack_NEW("title1", "artist1"));
 			vm.Songs.Add(new BasicAudioTrack_NEW("title2", "artist2"));
 			vm.BPMSortCommand.Execute(null);
@@ -84,7 +80,7 @@ namespace UnitTesting.ViewModelTests
 			vm.Songs.Add(new BasicAudioTrack_NEW("title1", "artist1"));
 			vm.Songs.Add(new BasicAudioTrack_NEW("title2", "artist2"));
 			vm.SearchSongCommand.Execute("title1");
-			foreach(AudioTrack track in vm.Songs)
+			foreach (AudioTrack track in vm.Songs)
 			{
 				Assert.Contains("title1", track.Title);
 			}
@@ -107,7 +103,9 @@ namespace UnitTesting.ViewModelTests
 			public override CustomColor CurrentColor { get => new CustomColor(Color.Red); }
 			public override List<AudioTrack> Songs { get; set; }
 			protected override void InitializeSingletons() { }
+#pragma warning disable CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
 			protected override async Task<bool> AlertWrapper()
+#pragma warning restore CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
 			{
 				return true;
 			}

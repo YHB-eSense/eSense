@@ -1,18 +1,17 @@
 using Karl;
-using System;
-using System.Linq;
-using Xunit;
 using Karl.ViewModel;
+using System;
 using System.Diagnostics;
 using System.Reflection;
+using Xunit;
 using Xunit.Sdk;
 
 namespace UnitTesting
 {
-    public class UnitTest1
-    {
-        public UnitTest1()
-        {
+	public class UnitTest1
+	{
+		public UnitTest1()
+		{
 			Tests.Xamarin.Forms.Mocks.MockForms.Init();
 		}
 
@@ -25,11 +24,12 @@ namespace UnitTesting
 
 		[Fact]
 		[TestBeforeAfter]
-		public void testSettings() {
+		public void testSettings()
+		{
 			SettingsPageVM spvw = new SettingsPageVM();
 			spvw.ResetStepsCommand.Execute(null);
 		}
-		
+
 	}
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

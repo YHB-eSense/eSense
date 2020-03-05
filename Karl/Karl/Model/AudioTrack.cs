@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -10,7 +7,7 @@ namespace Karl.Model
 	/// </summary>
 	public abstract class AudioTrack
 	{
-		
+
 		/// <summary>
 		/// The duration of the song.
 		/// </summary>

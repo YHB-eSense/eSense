@@ -3,8 +3,8 @@ using StepDetectionLibrary;
 
 namespace StepDetectionTestApp
 {
-    public class MainClass
-    {
+	public class MainClass
+	{
 		public static void Main()
 		{
 			string path = "C:\\Users\\Leo\\Documents\\PSE\\Daten\\16schritte50hz.db";

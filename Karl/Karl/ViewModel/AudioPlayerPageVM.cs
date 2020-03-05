@@ -1,10 +1,9 @@
+using Karl.Model;
 using System;
 using System.ComponentModel;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Karl.Model;
-using System.Timers;
-using System.Diagnostics;
 
 namespace Karl.ViewModel
 {
@@ -31,7 +30,7 @@ namespace Karl.ViewModel
 				if (AudioTrack == null) { return 0; }
 				return _audioPlayer.CurrentSecInTrack / AudioTrack.Duration;
 			}
-			set => _dragValue = value; 
+			set => _dragValue = value;
 		}
 		public ImageSource Icon
 		{
@@ -47,7 +46,7 @@ namespace Karl.ViewModel
 			{
 				if (AudioTrack == null) { return "-:--"; }
 				return string.Format("{0}:{1:00}",
-				(int) TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
+				(int)TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).Seconds);
 			}
 		}
@@ -57,7 +56,7 @@ namespace Karl.ViewModel
 			{
 				if (AudioTrack == null) { return "-:--"; }
 				return string.Format("{0}:{1:00}",
-				(int) TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).TotalMinutes,
+				(int)TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(AudioTrack.Duration - _audioPlayer.CurrentSecInTrack).Seconds);
 			}
 		}
@@ -66,7 +65,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (AudioTrack == null || AudioTrack.Cover == null) { return ImageSource.FromResource("Karl.Resources.Images.art.png"); }
-				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover)); 
+				return ImageSource.FromStream(() => new System.IO.MemoryStream(AudioTrack.Cover));
 			}
 		}
 		public double Volume
@@ -82,7 +81,7 @@ namespace Karl.ViewModel
 		public ICommand PlayNextCommand { get; }
 		public ICommand PositionDragStartedCommand { get; }
 		public ICommand PositionDragCompletedCommand { get; }
-		
+
 		/// <summary>
 		/// Initializises Commands, Images and AudioPlayer of Model
 		/// </summary>

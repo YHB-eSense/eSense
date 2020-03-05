@@ -26,7 +26,7 @@ namespace StepDetectionLibrary
 			_observers = new List<IObserver<AccelerationSample>>();
 			Subscribe(_algorithm);
 		}
-		
+
 		public int SamplingRate { get => 25; } // TODO: make this configurable
 
 		/// <summary>
@@ -84,14 +84,15 @@ namespace StepDetectionLibrary
 			}
 		}
 
-		
+
 
 		/// <summary>
 		/// method to get data from sensors
 		/// </summary>
 		/// <param name="sender">sender object</param>
 		/// <param name="args">parameter</param>
-		public void ValueChanged(object sender, MotionSensorSample args)		{
+		public void ValueChanged(object sender, MotionSensorSample args)
+		{
 			var acc = new AccelerationSample
 			{
 				Acceleration = args.Acc,
