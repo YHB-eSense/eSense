@@ -115,11 +115,8 @@ namespace Karl.ViewModel
 
 		private async void PickFile()
 		{
-			var pick = await PickFileWrapper();
-			if (pick != null)
+			if (await FileNotNullWrapper())
 			{
-				_newSongFileLocation = pick.FilePath;
-				_file = CreateFileWrapper();
 				_picked = true;
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
@@ -134,9 +131,9 @@ namespace Karl.ViewModel
 				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
 					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
 			}
-			else if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
+			else if (CorrectExtensionWrapper())
 			{
-				NewSongBPM = GetBPMWrapper();
+				NewSongBPM = CalculateBPMWrapper();
 			}
 			else
 			{
@@ -145,35 +142,25 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private string GetTitle()
+		protected virtual string GetTitle()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		private string GetArtist()
+		protected virtual string GetArtist()
 		{
 			if (_file != null && _file.Tag.Performers.Length >= 1) { return _file.Tag.Performers[0]; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		private string GetBPM()
+		protected virtual string GetBPM()
 		{
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		protected async virtual Task<FileData> PickFileWrapper()
-		{
-			return await CrossFilePicker.Current.PickFile();
-		}
-
-		protected virtual TagLib.File CreateFileWrapper()
-		{
-			return TagLib.File.Create(_newSongFileLocation);
-		}
-
-		protected virtual string GetBPMWrapper()
+		protected virtual string CalculateBPMWrapper()
 		{
 			return new BPMCalculator(_newSongFileLocation).Calculate().ToString();
 		}
@@ -195,6 +182,22 @@ namespace Karl.ViewModel
 			_audioLib = AudioLib.SingletonAudioLib;
 			_settingsHandler.LangChanged += RefreshLang;
 			_settingsHandler.ColorChanged += RefreshColor;
+		}
+
+		protected virtual async Task<bool> FileNotNullWrapper()
+		{
+			var pick = await CrossFilePicker.Current.PickFile();
+			if(pick != null)
+			{
+				_newSongFileLocation = pick.FilePath;
+				_file = TagLib.File.Create(_newSongFileLocation);
+			}
+			return (pick != null);
+		}
+
+		protected virtual bool CorrectExtensionWrapper()
+		{
+			return Path.GetExtension(_newSongFileLocation).Equals(".wav");
 		}
 	}
 }
