@@ -50,6 +50,7 @@ namespace UnitTesting.ModelTests
 			Assert.True(TestObj.AudioTracks.Count == 7);
 			TestObj.AudioTracks.Clear();
 			Assert.Empty(TestObj.AudioTracks);
+
 		}
 
 		void BeforeAfterTest(Action TestCase)
