@@ -23,10 +23,6 @@ namespace Karl.Model
 			_database = BasicAudioTrackDatabase.SingletonDatabase;
 			AllAudioTracks = new List<AudioTrack>();
 			GetTracks();
-			//testing
-			//AllAudioTracks = new ObservableCollection<AudioTrack>();
-			//AllAudioTracks.Add(new BasicAudioTrack("tnt.mp3", "TNT", 100));
-			//AllAudioTracks.Add(new BasicAudioTrack("sw.mp3", "SW", 100));
 		}
 
 		private async void GetTracks()
