@@ -3,6 +3,9 @@ using System;
 using System.Linq;
 using Xunit;
 using Karl.ViewModel;
+using System.Diagnostics;
+using System.Reflection;
+using Xunit.Sdk;
 
 namespace UnitTesting
 {
@@ -21,14 +24,27 @@ namespace UnitTesting
 		}
 
 		[Fact]
-		public void AddSongResets()
+		[TestBeforeAfter]
+		public void testSettings() {
+			SettingsPageVM spvw = new SettingsPageVM();
+			spvw.ResetStepsCommand.Execute(null);
+		}
+		
+	}
+
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+	public class TestBeforeAfter : BeforeAfterTestAttribute
+	{
+
+		public override void Before(MethodInfo methodUnderTest)
 		{
-			NavigationHandler handler = new NavigationHandler();
-			AddSongPageVM addSongPageVM = new AddSongPageVM(handler);
-			addSongPageVM.AddSongCommand.Execute(null);
-			Assert.Null(addSongPageVM.NewSongArtist);
-			Assert.Null(addSongPageVM.NewSongBPM);
-			Assert.Null(addSongPageVM.NewSongTitle);
+			Debug.WriteLine(methodUnderTest.Name);
+		}
+
+		public override void After(MethodInfo methodUnderTest)
+		{
+			Debug.WriteLine(methodUnderTest.Name);
 		}
 	}
+
 }

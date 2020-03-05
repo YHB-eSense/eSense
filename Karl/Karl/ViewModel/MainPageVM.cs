@@ -61,9 +61,9 @@ namespace Karl.ViewModel
 		/// Initializises Commands, NavigationHandler and ConnectivityHandler, SettingsHandler of Model
 		/// </summary>
 		/// <param name="handler">For navigation</param>
-		public MainPageVM(NavigationHandler handler)
+		public MainPageVM()
 		{
-			_navHandler = handler;
+			_navHandler = NavigationHandler.SingletonNavHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	public sealed class BasicAudioTrack : AudioTrack
+	public class BasicAudioTrack : AudioTrack
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }

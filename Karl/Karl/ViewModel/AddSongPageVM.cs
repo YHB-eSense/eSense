@@ -1,11 +1,13 @@
 using Karl.Model;
 using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TagLib;
 using Xamarin.Forms;
@@ -72,20 +74,17 @@ namespace Karl.ViewModel
 		/// Initializises Commands, NavigationHandler and AudioLib of Model
 		/// </summary>
 		/// <param name="navHandler"> For navigation</param>
-		public AddSongPageVM(NavigationHandler navHandler)
+		public AddSongPageVM()
 		{
-			_navHandler = navHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
+			InitializeSingletons();
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(CalculateBPM);
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
+			_picked = false;
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
-		{	
+		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
@@ -109,8 +108,8 @@ namespace Karl.ViewModel
 					_settingsHandler.CurrentLang.Get("alert_text"), _settingsHandler.CurrentLang.Get("alert_ok"));
 				return;
 			}
-			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
-			_navHandler.GoBack();
+			AddTrackWrapper(bpm);
+			GoBackWrapper();
 			NewSongTitle = null;
 			NewSongArtist = null;
 			NewSongBPM = null;
@@ -120,12 +119,11 @@ namespace Karl.ViewModel
 
 		private async void PickFile()
 		{
-			var pick = await CrossFilePicker.Current.PickFile();
+			var pick = await PickFileWrapper();
 			if (pick != null)
 			{
 				_newSongFileLocation = pick.FilePath;
-				Debug.WriteLine("Audio file picked: {0}", args: _newSongFileLocation);
-				_file = TagLib.File.Create(_newSongFileLocation);
+				_file = CreateFileWrapper();
 				_picked = true;
 				NewSongTitle = GetTitle();
 				NewSongArtist = GetArtist();
@@ -139,12 +137,10 @@ namespace Karl.ViewModel
 			{
 				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
 					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
-				return;
 			}
-			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
+			else if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
-				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
-				NewSongBPM = calculator.Calculate().ToString();
+				NewSongBPM = GetBPMWrapper();
 			}
 			else
 			{
@@ -161,7 +157,7 @@ namespace Karl.ViewModel
 
 		private string GetArtist()
 		{
-			if (_file != null && _file.Tag.Performers.Length >= 1){ return _file.Tag.Performers[0]; }
+			if (_file != null && _file.Tag.Performers.Length >= 1) { return _file.Tag.Performers[0]; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
@@ -171,5 +167,38 @@ namespace Karl.ViewModel
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
+		protected async virtual Task<FileData> PickFileWrapper()
+		{
+			return await CrossFilePicker.Current.PickFile();
+		}
+
+		protected virtual TagLib.File CreateFileWrapper()
+		{
+			return TagLib.File.Create(_newSongFileLocation);
+		}
+
+		protected virtual string GetBPMWrapper()
+		{
+			return new BPMCalculator(_newSongFileLocation).Calculate().ToString();
+		}
+
+		protected virtual async void AddTrackWrapper(int bpm)
+		{
+			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
+		}
+
+		protected virtual void GoBackWrapper()
+		{
+			_navHandler.GoBack();
+		}
+
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+		}
 	}
 }
