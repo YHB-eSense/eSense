@@ -1,6 +1,5 @@
 using StepDetectionLibrary;
 using System;
-using System.Diagnostics;
 using static Karl.Model.AudioPlayer;
 using static Karl.Model.LangManager;
 using static StepDetectionLibrary.OutputManager;
@@ -55,7 +54,7 @@ namespace Karl.Model
 			return true;
 		}
 
-		
+
 
 		public void OnNext(Output value)
 		{

@@ -1,3 +1,6 @@
+using Karl.Model;
+using Karl.View;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -5,13 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Karl.Model;
-using Karl.View;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using SpotifyAPI.Web.Models;
 using Xamarin.Forms;
-using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
@@ -29,7 +26,7 @@ namespace Karl.ViewModel
 		private Color _artistSortTextColor;
 		private Color _bpmSortColor;
 		private Color _bpmSortTextColor;
-		private enum _sortType { TITLESORT, ARTISTSORT, BPMSORT}
+		private enum _sortType { TITLESORT, ARTISTSORT, BPMSORT }
 		private _sortType type;
 
 		//Eventhandling
@@ -60,7 +57,8 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			}
 		}
-		public Color TitleSortColor {
+		public Color TitleSortColor
+		{
 			get => _titleSortColor;
 			set
 			{
@@ -230,7 +228,7 @@ namespace Karl.ViewModel
 		private void PlaySong(AudioTrack track)
 		{
 			_navHandler.GotoPage<AudioPlayerPage>();
-			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
+			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }
 		}
 
 		private void AddSong()
@@ -252,9 +250,12 @@ namespace Karl.ViewModel
 				Songs = new List<AudioTrack>(_oldSongs);
 				_oldSongs = null;
 			}
-			else { Songs = new List<AudioTrack>(_oldSongs.Where(song =>
-				song.Title.ToLower().Contains(value.ToLower()) ||
-				song.Artist.ToLower().Contains(value.ToLower()))); }
+			else
+			{
+				Songs = new List<AudioTrack>(_oldSongs.Where(song =>
+			 song.Title.ToLower().Contains(value.ToLower()) ||
+			 song.Artist.ToLower().Contains(value.ToLower())));
+			}
 		}
 
 		private async void DeleteSongs()
@@ -262,10 +263,10 @@ namespace Karl.ViewModel
 			bool answer = await AlertWrapper();
 			if (answer)
 			{
-				foreach(AudioTrack song in _deleteList)
+				foreach (AudioTrack song in _deleteList)
 				{
 					_audioLib.DeleteTrack(song);
-					if(_audioPlayer.CurrentTrack == song)
+					if (_audioPlayer.CurrentTrack == song)
 					{
 						_audioPlayer.TogglePause();
 						_audioPlayer.CurrentTrack = null;

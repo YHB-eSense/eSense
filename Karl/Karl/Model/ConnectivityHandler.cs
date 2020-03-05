@@ -1,8 +1,8 @@
-using System;
 using EarableLibrary;
+using StepDetectionLibrary;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using StepDetectionLibrary;
 using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
@@ -134,7 +134,7 @@ namespace Karl.Model
 		public async void RefreshAfterSleep()
 		{
 			if (Plugin.BLE.CrossBluetoothLE.Current.IsOn) { Debug.WriteLine("STILL CONNECTED"); }
-			else { await Disconnect(); }	
+			else { await Disconnect(); }
 		}
 
 	}

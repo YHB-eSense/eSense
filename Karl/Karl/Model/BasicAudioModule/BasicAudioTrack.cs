@@ -1,9 +1,5 @@
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TagLib;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -32,8 +28,8 @@ namespace Karl.Model
 			Cover = GetCover();
 		}
 
-		public BasicAudioTrack() {}
-		
+		public BasicAudioTrack() { }
+
 		private double GetDuration()
 		{
 			if (_file != null && _file.Properties.Duration != null)
@@ -49,7 +45,7 @@ namespace Karl.Model
 			{
 				return _file.Tag.Pictures[0].Data.Data;
 			}
-			return null;	
+			return null;
 		}
 
 	}

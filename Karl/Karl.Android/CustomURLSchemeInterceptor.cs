@@ -1,9 +1,8 @@
-using System;
-
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using System;
 
 namespace Karl.Droid
 {
@@ -27,7 +26,8 @@ namespace Karl.Droid
 			if (launchIntent != null)
 			{
 				StartActivity(launchIntent);//null pointer check in case package name was not found
-			} else
+			}
+			else
 			{
 				throw new NotSupportedException("Spotify is not installed!");
 			}

@@ -1,9 +1,7 @@
 using Karl.Data;
 using SpotifyAPI.Web.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using static Karl.Model.AudioLib;
 
@@ -35,7 +33,7 @@ namespace Karl.Model
 		{
 			var data = await _database.GetTracksAsync();
 			ObservableCollection<AudioTrack> tracks = new ObservableCollection<AudioTrack>(data);
-			foreach(AudioTrack track in tracks) { AllAudioTracks.Add(track); }
+			foreach (AudioTrack track in tracks) { AllAudioTracks.Add(track); }
 			AudioLibChanged?.Invoke(this, null);
 		}
 
@@ -48,7 +46,7 @@ namespace Karl.Model
 		}
 
 		public async void DeleteTrack(AudioTrack track)
-		{	
+		{
 			await _database.DeleteTrackAsync(track);
 			AllAudioTracks.Remove(track);
 			AudioLibChanged?.Invoke(this, null);
@@ -59,5 +57,5 @@ namespace Karl.Model
 			//throw new NotImplementedException();
 		}
 	}
-	
+
 }

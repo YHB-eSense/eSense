@@ -20,16 +20,17 @@ namespace Karl.Model
 		public PrivateProfile Profile { get; set; }
 
 		//List of all AudioTracks in chosen Playlist
-		public List <AudioTrack> AllAudioTracks { get; set; }
+		public List<AudioTrack> AllAudioTracks { get; set; }
 		//List of the Users Playlists
 		public SimplePlaylist[] AllPlaylists { get; set; }
 		//Playlist which is shown in the Lib
 		public SimplePlaylist SelectedPlaylist
 		{
 			get => _playlist;
-			set {
+			set
+			{
 				_playlist = value;
-				if(value != null) { ChangePlaylist(value); }
+				if (value != null) { ChangePlaylist(value); }
 			}
 		}
 
@@ -43,7 +44,7 @@ namespace Karl.Model
 				if (_initDone) return;
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
-				if(WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0) { AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
+				if (WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0) { AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
 				else { AllPlaylists = null; }
 				if (AllPlaylists != null) { SelectedPlaylist = AllPlaylists[0]; }
 				else { SelectedPlaylist = null; }

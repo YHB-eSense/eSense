@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
 {
@@ -20,7 +17,7 @@ namespace Karl.Model
 		public delegate void EventListener();
 
 		public event EventListener NextSongEvent;
-		
+
 
 		//Eventhandling
 		public delegate void AudioEventHandler(object source, EventArgs e);
@@ -31,7 +28,7 @@ namespace Karl.Model
 		/// </summary>
 		public AudioTrack CurrentTrack
 		{
-			get => _audioPlayerImp.CurrentTrack; 
+			get => _audioPlayerImp.CurrentTrack;
 			set
 			{
 				_audioPlayerImp.CurrentTrack = value;
@@ -91,9 +88,9 @@ namespace Karl.Model
 		public void ChangeToSpotifyPlayer()
 		{
 			Clear();
-			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
+			if (!_audioPlayerImp.Paused) _audioPlayerImp.TogglePause();
 			_audioPlayerImp = new SpotifyAudioPlayer();
-			
+
 		}
 
 		public void ChangeToBasicPlayer()

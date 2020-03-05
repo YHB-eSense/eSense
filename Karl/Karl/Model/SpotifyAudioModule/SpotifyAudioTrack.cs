@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
@@ -20,7 +17,7 @@ namespace Karl.Model
 		public override string TextId { get; set; }
 
 		public SpotifyAudioTrack(double duration, string title, string artist,
-			int bpm, string id, byte [] cover)
+			int bpm, string id, byte[] cover)
 		{
 			Duration = duration;
 			Title = title;

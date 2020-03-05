@@ -2,9 +2,7 @@ using Karl.Model;
 using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Karl.Data
@@ -18,9 +16,12 @@ namespace Karl.Data
 		{
 			get
 			{
-				if (_singletonDatabase == null) { _singletonDatabase = new BasicAudioTrackDatabase(
-					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-					"BasicAudioTracks.db3")); }
+				if (_singletonDatabase == null)
+				{
+					_singletonDatabase = new BasicAudioTrackDatabase(
+Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+"BasicAudioTracks.db3"));
+				}
 				return _singletonDatabase;
 			}
 		}
@@ -56,6 +57,6 @@ namespace Karl.Data
 		{
 			return _database.DeleteAsync(track);
 		}
-		
+
 	}
 }

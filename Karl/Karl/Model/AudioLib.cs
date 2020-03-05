@@ -1,8 +1,6 @@
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using static Karl.Model.AudioLib;
 
@@ -23,6 +21,7 @@ namespace Karl.Model
 				if (_singletonAudioLib == null)
 				{
 					_singletonAudioLib = new AudioLib();
+					_singletonAudioLib._audioLibImp = new BasicAudioLib();
 					return _singletonAudioLib;
 				}
 				else
@@ -91,7 +90,8 @@ namespace Karl.Model
 			_audioLibImp.Init();
 		}
 
-		public void ChangeToBasicLib() {
+		public void ChangeToBasicLib()
+		{
 			_audioLibImp = new BasicAudioLib();
 		}
 
@@ -100,13 +100,13 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		
+
 	}
 
 	internal interface IAudioLibImpl
 	{
 		List<AudioTrack> AllAudioTracks { get; set; }
-	    SimplePlaylist[] AllPlaylists { get; }
+		SimplePlaylist[] AllPlaylists { get; }
 		SimplePlaylist SelectedPlaylist { get; set; }
 		Task AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
