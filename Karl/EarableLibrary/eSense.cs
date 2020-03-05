@@ -3,11 +3,9 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using Plugin.BLE.Abstractions.Exceptions;
+using System.Threading.Tasks;
 
 namespace EarableLibrary
 {

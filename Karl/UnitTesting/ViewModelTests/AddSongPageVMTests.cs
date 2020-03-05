@@ -1,16 +1,12 @@
-using Karl;
-using Karl.Model;
 using Karl.ViewModel;
 using Moq;
 using Plugin.FilePicker.Abstractions;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace UnitTesting.ViewModelTests
 {
-    public class AddSongPageVMTests
+	public class AddSongPageVMTests
 	{
 		[Fact]
 		public void PickFileCommandTest()
@@ -22,7 +18,7 @@ namespace UnitTesting.ViewModelTests
 			Assert.NotNull(vm.NewSongArtist);
 			Assert.Equal("title", vm.NewSongTitle);
 			Assert.Equal("artist", vm.NewSongArtist);
-			Assert.Equal("0", vm.NewSongBPM);	
+			Assert.Equal("0", vm.NewSongBPM);
 		}
 
 		[Fact]
@@ -59,7 +55,9 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AddSongPageVM_NEW : AddSongPageVM
 		{
+#pragma warning disable CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
 			protected override async Task<FileData> PickFileWrapper()
+#pragma warning restore CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
 			{
 				FileData data = new FileData();
 				data.FilePath = "test.wav";

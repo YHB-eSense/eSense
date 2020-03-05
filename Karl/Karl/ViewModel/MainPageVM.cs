@@ -1,10 +1,10 @@
-using System;
-using System.ComponentModel;
 using Karl.Model;
-using System.Windows.Input;
-using Xamarin.Forms;
 using Karl.View;
 using StepDetectionLibrary;
+using System;
+using System.ComponentModel;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
@@ -45,7 +45,7 @@ namespace Karl.ViewModel
 		}
 		public ImageSource Icon
 		{
-			get => _connectivityHandler.EarableConnected ? _iconOn : _iconOff; 
+			get => _connectivityHandler.EarableConnected ? _iconOn : _iconOff;
 		}
 		public bool HelpVisible { get; set; }
 

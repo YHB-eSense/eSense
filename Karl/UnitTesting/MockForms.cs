@@ -1,5 +1,4 @@
 using FormsControls.Base;
-using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,7 +99,8 @@ namespace Tests.Xamarin.Forms.Mocks
 			public void StartTimer(TimeSpan interval, Func<bool> callback)
 			{
 				Timer timer = null;
-				TimerCallback onTimeout = o => BeginInvokeOnMainThread(() => {
+				TimerCallback onTimeout = o => BeginInvokeOnMainThread(() =>
+				{
 					if (callback())
 						return;
 

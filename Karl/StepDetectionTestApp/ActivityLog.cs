@@ -40,7 +40,7 @@ namespace StepDetectionTestApp
 			TripleShort gyro = new TripleShort(GyroX, GyroY, GyroZ);
 
 			return new MotionSensorSample(gyro, acc, Counter);
-		
+
 		}
 
 	}

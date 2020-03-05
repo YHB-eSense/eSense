@@ -1,6 +1,6 @@
+using Karl.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Karl.ViewModel;
 
 namespace Karl.View
 {

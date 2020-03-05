@@ -1,10 +1,9 @@
+using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Timers;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Models;
 
 namespace Karl.Model
 {
@@ -34,7 +33,7 @@ namespace Karl.Model
 			set
 			{
 				_currentSongPosition = value;
-				_webAPI.SeekPlayback((int)_currentSongPosition*1000);
+				_webAPI.SeekPlayback((int)_currentSongPosition * 1000);
 			}
 		}
 		public Stack<AudioTrack> PlayedSongs { get; set; }
@@ -82,7 +81,7 @@ namespace Karl.Model
 			else
 			{
 				_timer.Start();
-				_webAPI.ResumePlayback("", "", null, "",(int)_currentSongPosition*1000);
+				_webAPI.ResumePlayback("", "", null, "", (int)_currentSongPosition * 1000);
 			}
 		}
 

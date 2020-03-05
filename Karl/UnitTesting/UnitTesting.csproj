@@ -55,8 +55,10 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModesPageVMTest.cs" />
     <Compile Include="MockForms.cs" />
     <Compile Include="ModelTests\BasicLibTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\AccGyroDataTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelTests\AudioLibPageVMTests.cs" />
@@ -71,6 +73,10 @@
     <ProjectReference Include="..\Karl\Karl.csproj">
       <Project>{F303F778-1006-40B2-BD82-680DCC634D46}</Project>
       <Name>Karl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StepDetectionLibrary\StepDetectionLibrary.csproj">
+      <Project>{931F0D20-701F-479C-B2D8-45F8960BEDA3}</Project>
+      <Name>StepDetectionLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

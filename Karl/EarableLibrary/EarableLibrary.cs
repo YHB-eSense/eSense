@@ -19,7 +19,8 @@ namespace EarableLibrary
 		{
 			var earables = ListEarables();
 			if (earables.Count == 0) return null;
-			foreach (var earable in earables) {
+			foreach (var earable in earables)
+			{
 				if (await earable.ConnectAsync()) return earable;
 			}
 			return null;
@@ -37,7 +38,8 @@ namespace EarableLibrary
 			var adapter = CrossBluetoothLE.Current.Adapter;
 			var devices = adapter.GetSystemConnectedOrPairedDevices(services: ESense.ServiceUuids);
 			var earables = new List<IEarable>(devices.Count);
-			foreach (var dev in devices) {
+			foreach (var dev in devices)
+			{
 				earables.Add(new ESense(dev));
 			}
 			return earables;
