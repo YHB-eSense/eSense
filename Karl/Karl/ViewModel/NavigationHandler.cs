@@ -26,7 +26,7 @@ namespace Karl.ViewModel
 			}
 		}
 
-		private NavigationHandler()
+		protected NavigationHandler()
 		{
 			_pages = new Dictionary<Type, ContentPage>();
 		}
@@ -45,15 +45,29 @@ namespace Karl.ViewModel
 		{
 			if (!_pages.ContainsKey(pageType)) { throw new ArgumentException("Type of page not found"); }
 			var toBePushed = _pages[pageType];
-			var stack = Application.Current.MainPage.Navigation.NavigationStack;
+			var stack = GetNavigationStackWrapper();
 			foreach (var page in stack) { if (page.Equals(toBePushed)) return; } // Page already on stack; do nothing
-			await Application.Current.MainPage.Navigation.PushAsync(toBePushed);
+			await PushAsyncWrapper(toBePushed);
 		}
 
 		public async void GoBack()
 		{
-			await Application.Current.MainPage.Navigation.PopAsync();
+			await GoBackWrapper();
 		}
 
+		protected virtual IReadOnlyList<Page> GetNavigationStackWrapper()
+		{
+			return Application.Current.MainPage.Navigation.NavigationStack;
+		}
+
+		protected virtual async Task PushAsyncWrapper(Page toBePushed)
+		{
+			await Application.Current.MainPage.Navigation.PushAsync(toBePushed);
+		}
+
+		protected virtual async Task GoBackWrapper()
+		{
+			await Application.Current.MainPage.Navigation.PopAsync();
+		}
 	}
 }
