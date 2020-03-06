@@ -59,6 +59,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.dotCover.CommandLineTools" Version="2019.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microcharts" Version="0.7.1" />
     <PackageReference Include="Microcharts.Forms" Version="0.7.1" />
     <PackageReference Include="MP3Sharp" Version="1.0.5" />
