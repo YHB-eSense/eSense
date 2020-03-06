@@ -21,7 +21,6 @@ namespace Karl.Model
 				if (_singletonAudioLib == null)
 				{
 					_singletonAudioLib = new AudioLib();
-					_singletonAudioLib._audioLibImp = new BasicAudioLib();
 					return _singletonAudioLib;
 				}
 				else

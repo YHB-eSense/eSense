@@ -22,7 +22,7 @@ namespace Karl.ViewModel
 
 		//Properties binded to AudioPlayerPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
+		public virtual AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
 		public double CurrentPosition
 		{
 			get
@@ -87,8 +87,6 @@ namespace Karl.ViewModel
 		/// </summary>
 		public AudioPlayerPageVM()
 		{
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			PausePlayCommand = new Command(PausePlay);
 			PlayPrevCommand = new Command(PlayPrev);
 			PlayNextCommand = new Command(PlayNext);
@@ -100,14 +98,20 @@ namespace Karl.ViewModel
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
-			_settingsHandler.ColorChanged += RefreshColor;
-			_audioPlayer.AudioChanged += RefreshAudio;
-			_settingsHandler.AudioModuleChanged += RefreshAudio;
+			InitializeSingletons();
 		}
 
 		private void RefreshColor(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
+		}
+
+		protected virtual void InitializeSingletons() {
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_audioPlayer.AudioChanged += RefreshAudio;
+			_settingsHandler.AudioModuleChanged += RefreshAudio;
 		}
 
 		public void RefreshAudio(object sender, EventArgs args)
@@ -124,16 +128,16 @@ namespace Karl.ViewModel
 
 		private void PausePlay()
 		{
-			if (AudioTrack == null) { return; }
-			_audioPlayer.TogglePause();
-			if (_audioPlayer.Paused) { _timer.Stop(); }
-			else { _timer.Start(); }
+			/*if (AudioTrack == null) { return; }
+			//_audioPlayer.TogglePause();
+//			if (_audioPlayer.Paused) { _timer.Stop(); }
+			//else { _timer.Start(); }
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			if (!UsingBasicAudio)
 			{
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
-			}
+			}*/
 		}
 
 		private void PlayPrev()
