@@ -14,10 +14,10 @@ namespace Karl.ViewModel
 {
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
-		private NavigationHandler _navHandler;
-		private AudioLib _audioLib;
-		private AudioPlayer _audioPlayer;
+		protected SettingsHandler _settingsHandler;
+		protected NavigationHandler _navHandler;
+		protected AudioLib _audioLib;
+		protected AudioPlayer _audioPlayer;
 		private ObservableCollection<AudioTrack> _oldSongs;
 		private List<AudioTrack> _deleteList;
 		private Color _titleSortColor;
