@@ -10,11 +10,11 @@ namespace Karl.ViewModel
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
 		private SettingsHandler _settingsHandler;
-		private AudioPlayer _audioPlayer;
+		protected AudioPlayer _audioPlayer;
 		private ImageSource _iconPlay;
 		private ImageSource _iconPause;
 		private Timer _timer;
-		private double _dragValue;
+		protected double _dragValue;
 		private bool _wasPaused;
 
 		//Eventhandling
@@ -45,7 +45,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (AudioTrack == null) { return "-:--"; }
-				return string.Format("{0}:{1:00}",
+				return string.Format("{0}:{1:00}", 
 				(int)TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).Seconds);
 			}
@@ -128,16 +128,20 @@ namespace Karl.ViewModel
 
 		private void PausePlay()
 		{
-			/*if (AudioTrack == null) { return; }
-			//_audioPlayer.TogglePause();
-//			if (_audioPlayer.Paused) { _timer.Stop(); }
-			//else { _timer.Start(); }
+			AudioPlayerPlayPause();
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+		}
+
+		protected virtual void AudioPlayerPlayPause() {
+			if (AudioTrack == null) { return; }
+			_audioPlayer.TogglePause();
+			if (_audioPlayer.Paused) { _timer.Stop(); }
+			else { _timer.Start(); }
 			if (!UsingBasicAudio)
 			{
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
-			}*/
+			}
 		}
 
 		private void PlayPrev()
@@ -167,9 +171,13 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
-			CurrentPosition = _audioPlayer.CurrentSecInTrack;
+			AudioPlayerDrag();
+			CurrentPosition = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
+		}
+
+		protected virtual void AudioPlayerDrag() {
+			//CurrentPosition = _audioPlayer.CurrentSecInTrack;
 		}
 
 		private void Tick(object sender, EventArgs e)

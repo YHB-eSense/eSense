@@ -44,7 +44,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
-		public double CurrentSecInTrack
+		public virtual double CurrentSecInTrack
 		{
 			get => _audioPlayerImp.CurrentSongPos;
 			set => _audioPlayerImp.CurrentSongPos = value;
@@ -71,10 +71,12 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
+
+		
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
-		private AudioPlayer()
+		public AudioPlayer()
 		{
 			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;

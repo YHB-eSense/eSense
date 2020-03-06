@@ -8,13 +8,15 @@ namespace UnitTesting.ViewModelTests
 	public class AudioPlayerPageVMTests
 	{
 		[Fact]
-		public void PausePlayCommandTest() {
-			
-			
+		public void PausePlayCommandTest()
+		{
+
+
 		}
 
 		[Fact]
-		public void PlayPrevCommandTest() {
+		public void PlayPrevCommandTest()
+		{
 
 		}
 
@@ -22,22 +24,37 @@ namespace UnitTesting.ViewModelTests
 		public void PlayNextCommandTest() { }
 
 		[Fact]
-		public void PositionDragStartedCommandTest() {
+		public void PositionDragStartedCommandTest()
+		{
 
 		}
 
 		[Fact]
-		public void PositionDragCompletedCommandTest() {
-			//AudioPlayerPageVM apVM = new AudioPlayerPageVM();
-			var vm = new Mock<AudioPlayerPageVM_New>();
-			vm.Setup(x => x.AudioTrack).Returns(new TestAudioTrack());
-			vm.Object.PositionDragCompletedCommand.Execute(0.5);
-			Assert.Equal(vm.Object.TimePlayed,"50");
+		public void PositionDragCompletedCommandTest()
+		{
+			AudioPlayerPageVM_New vm = new AudioPlayerPageVM_New();
+			vm.PositionDragCompletedCommand.Execute(null);
+			Assert.Equal(50.0, vm.CurrentPosition);
 		}
 
-		public class AudioPlayerPageVM_New : AudioPlayerPageVM {
-			protected override void InitializeSingletons() {}
-			
+		public class AudioPlayerPageVM_New : AudioPlayerPageVM
+		{
+			public AudioPlayerPageVM_New():base()
+			{
+				
+			}
+			public override AudioTrack AudioTrack { get => new TestAudioTrack(); }
+			protected override void InitializeSingletons()
+			{
+				_dragValue = 0.5;
+				var mock = new Mock<AudioPlayer>();
+				mock.Setup(x => x.CurrentSecInTrack).Returns(2);
+				_audioPlayer = mock.Object;
+			}
+			protected override void AudioPlayerPlayPause() { }
+			protected override void AudioPlayerDrag() {
+				_audioPlayer.CurrentSecInTrack = _dragValue*AudioTrack.Duration;
+			}
 		}
 
 	}
