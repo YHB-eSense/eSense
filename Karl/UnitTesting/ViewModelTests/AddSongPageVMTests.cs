@@ -12,7 +12,7 @@ namespace UnitTesting.ViewModelTests
 		public void PickFileCommandTest()
 		{
 			//setup
-			AddSongPageVM_NEW vm = new AddSongPageVM_NEW();
+			var vm = new AddSongPageVM_NEW();
 			//test
 			vm.PickFileCommand.Execute(null);
 			Assert.Equal("title", vm.NewSongTitle);
@@ -29,11 +29,6 @@ namespace UnitTesting.ViewModelTests
 			//test
 			vm.GetBPMCommand.Execute(null);
 			Assert.Equal("0", vm.NewSongBPM);
-			/*
-			var mock = new Mock<IBPMCalculator>();
-			mock.Setup(x => x.Calculate()).Returns(0);
-			vm.GetBPMCommand.Execute(mock.Object);
-			*/
 		}
 
 		[Fact]
@@ -51,29 +46,33 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AddSongPageVM_NEW : AddSongPageVM
 		{
-#pragma warning disable CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
-			protected override async Task<FileData> PickFileWrapper()
-#pragma warning restore CS1998 // In dieser Async-Methode fehlen die "await"-Operatoren, weshalb sie synchron ausgeführt wird. Sie sollten die Verwendung des "await"-Operators oder von "await Task.Run(...)" in Betracht ziehen, um auf nicht blockierende API-Aufrufe zu warten bzw. CPU-gebundene Aufgaben auf einem Hintergrundthread auszuführen.
+			protected override string GetTitle()
 			{
-				FileData data = new FileData();
-				data.FilePath = "test.wav";
-				return new FileData();
+				return "title";
 			}
-			protected override TagLib.File CreateFileWrapper()
+			protected override string GetArtist()
 			{
-				var mock = new Mock<TagLib.File>();
-				mock.Setup(x => x.Tag.Title).Returns("title");
-				mock.Setup(x => x.Tag.Performers).Returns(new string[] { "artist" });
-				mock.Setup(x => x.Tag.BeatsPerMinute).Returns(0);
-				return mock.Object;
+				return "artist";
 			}
-			protected override string GetBPMWrapper()
+			protected override string GetBPM()
+			{
+				return "0";
+			}
+			protected override string CalculateBPMWrapper()
 			{
 				return "0";
 			}
 			protected override void AddTrackWrapper(int bpm) { }
 			protected override void GoBackWrapper() { }
 			protected override void InitializeSingletons() { }
+			protected override async Task<bool> FileNotNullWrapper()
+			{
+				return true;
+			}
+			protected override bool CorrectExtensionWrapper()
+			{
+				return true;
+			}
 
 		}
 	}

@@ -6,68 +6,70 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xamarin.Forms;
+using Karl.View;
+using Moq;
 
 namespace UnitTesting.ViewModelTests
 {
 	public class NavigationHandlerTests
 	{
+
 		[Fact]
-		public void SetPagesTest()
-		{
-			NavigationHandler_NEW handler1 = new NavigationHandler_NEW();
-			ContentPage page1 = new ContentPage();
-			ContentPage page2 = new ContentPage();
-			ContentPage[] pages = new ContentPage[] { page1, page2 };
-			handler1.SetPages(pages);
-		}
+		public void SetPagesTest() { }
 
 		[Fact]
 		public void GotoPageTest()
 		{
-			NavigationHandler_NEW handler1 = new NavigationHandler_NEW();
-			ContentPage page1 = new ContentPage();
-			ContentPage page2 = new ContentPage();
+			NavigationHandler_NEW handler = new NavigationHandler_NEW();
+			ContentPageMock1 page1 = new ContentPageMock1();
+			ContentPageMock2 page2 = new ContentPageMock2();
 			ContentPage[] pages = new ContentPage[] { page1, page2 };
-			handler1.SetPages(pages);
-			//TODO
+			handler.SetPages(pages);
+			handler.GotoPage<ContentPageMock1>();
+			Assert.Equal(page1, handler.List.Last<Page>());
 		}
 
 		[Fact]
 		public void GoBackTest()
 		{
-			NavigationHandler_NEW handler1 = new NavigationHandler_NEW();
-			ContentPage page1 = new ContentPage();
-			ContentPage page2 = new ContentPage();
+			NavigationHandler_NEW handler = new NavigationHandler_NEW();
+			ContentPageMock1 page1 = new ContentPageMock1();
+			ContentPageMock2 page2 = new ContentPageMock2();
 			ContentPage[] pages = new ContentPage[] { page1, page2 };
-			handler1.SetPages(pages);
-			//TODO
+			handler.SetPages(pages);
+			handler.GotoPage<ContentPageMock1>();
+			handler.GotoPage<ContentPageMock2>();
+			handler.GoBack();
+			Assert.Equal(page1, handler.List.Last<Page>());
 		}
 
 		internal class NavigationHandler_NEW : NavigationHandler
 		{
-			private List<Page> _list;
+			public List<Page> List;
 			public NavigationHandler_NEW()
 			{
-				_list = new List<Page>();
+				List = new List<Page>();
 			}
 			protected override IReadOnlyList<Page> GetNavigationStackWrapper()
 			{
-				return _list;
+				return List;
 			}
-			protected override Task PushAsyncWrapper(Page toBePushed)
+			protected override async Task PushAsyncWrapper(Page toBePushed)
 			{
-				_list.Add(toBePushed);
-				return new Task(null);
+				List.Add(toBePushed);
 			}
-			protected override Task GoBackWrapper()
+			protected override async Task GoBackWrapper()
 			{
-				if (_list.Count != 0)
+				if (List.Count != 0)
 				{
-					_list.RemoveAt(_list.Count - 1);
+					List.RemoveAt(List.Count - 1);
 				}
-				return new Task(null);
 			}
 		}
+
+		internal class ContentPageMock1 : ContentPage { }
+
+		internal class ContentPageMock2 : ContentPage { }
 
 	}
 }

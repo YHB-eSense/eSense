@@ -292,7 +292,7 @@ namespace Karl.Model
 				ChartChanged?.Invoke(this, null);
 			}
 		}
-
+ 
 		/// <summary>
 		/// Observer for the stepdetection
 		/// </summary>

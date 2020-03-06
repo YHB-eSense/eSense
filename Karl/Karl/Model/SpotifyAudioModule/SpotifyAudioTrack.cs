@@ -2,7 +2,7 @@ using System;
 
 namespace Karl.Model
 {
-	sealed class SpotifyAudioTrack : AudioTrack
+	public class SpotifyAudioTrack : AudioTrack
 	{
 		/// <summary>
 		/// This is the Spotify Tag of this Song.
