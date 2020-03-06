@@ -55,6 +55,9 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
+    <Compile Include="ModelTests\ColorManagerTests.cs" />
+    <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />
     <Compile Include="ModesPageVMTest.cs" />
     <Compile Include="MockForms.cs" />
     <Compile Include="ModelTests\BasicLibTest.cs" />

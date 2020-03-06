@@ -176,7 +176,7 @@ namespace Karl.Model
 		}
 	}
 
-	interface IAudioPlayerImpl
+	public interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
 		double CurrentSongPos { get; set; }
