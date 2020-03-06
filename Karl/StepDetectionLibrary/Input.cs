@@ -16,7 +16,7 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccelerationSample>
 	{
 		private readonly StepDetectionAlg _algorithm = new StepDetectionAlg();
-		private List<IObserver<AccelerationSample>> _observers;
+		private List<IObserver<AccelerationSample>> _observers { get; set; }
 
 		/// <summary>
 		/// contructor for input

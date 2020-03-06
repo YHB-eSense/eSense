@@ -58,7 +58,7 @@
     <Compile Include="ModesPageVMTest.cs" />
     <Compile Include="MockForms.cs" />
     <Compile Include="ModelTests\BasicLibTest.cs" />
-    <Compile Include="StepDetectionLibraryTests\AccGyroDataTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\InputTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelTests\AudioLibPageVMTests.cs" />
@@ -70,6 +70,10 @@
     <Compile Include="ViewModelTests\AddSongPageVMTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EarableLibrary\EarableLibrary.csproj">
+      <Project>{BAFA1A92-FC12-40F6-AF50-7CF2424BE89D}</Project>
+      <Name>EarableLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Karl\Karl.csproj">
       <Project>{F303F778-1006-40B2-BD82-680DCC634D46}</Project>
       <Name>Karl</Name>
