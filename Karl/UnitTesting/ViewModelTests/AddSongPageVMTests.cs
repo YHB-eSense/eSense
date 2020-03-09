@@ -46,34 +46,15 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AddSongPageVM_NEW : AddSongPageVM
 		{
-			protected override string GetTitle()
-			{
-				return "title";
-			}
-			protected override string GetArtist()
-			{
-				return "artist";
-			}
-			protected override string GetBPM()
-			{
-				return "0";
-			}
-			protected override string CalculateBPMWrapper()
-			{
-				return "0";
-			}
+			protected override string GetTitle() { return "title"; }
+			protected override string GetArtist() { return "artist"; }
+			protected override string GetBPM() { return "0"; }
+			protected override string CalculateBPMWrapper() { return "0"; }
 			protected override void AddTrackWrapper(int bpm) { }
 			protected override void GoBackWrapper() { }
 			protected override void InitializeSingletons() { }
-			protected override async Task<bool> FileNotNullWrapper()
-			{
-				return true;
-			}
-			protected override bool CorrectExtensionWrapper()
-			{
-				return true;
-			}
-
+			protected override async Task<bool> FileNotNullWrapper() { return true; }
+			protected override bool CorrectExtensionWrapper() { return true; }
 		}
 	}
 }

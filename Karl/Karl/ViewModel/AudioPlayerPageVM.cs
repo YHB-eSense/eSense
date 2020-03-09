@@ -9,20 +9,20 @@ namespace Karl.ViewModel
 {
 	public class AudioPlayerPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
-		private AudioPlayer _audioPlayer;
+		protected SettingsHandler _settingsHandler;
+		protected AudioPlayer _audioPlayer;
 		private ImageSource _iconPlay;
 		private ImageSource _iconPause;
-		private Timer _timer;
-		private double _dragValue;
-		private bool _wasPaused;
+		protected Timer _timer;
+		protected double _dragValue;
+		protected bool _wasPaused;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to AudioPlayerPage of View
 		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
-		public virtual AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
+		public AudioTrack AudioTrack { get => _audioPlayer.CurrentTrack; }
 		public double CurrentPosition
 		{
 			get
@@ -45,7 +45,7 @@ namespace Karl.ViewModel
 			get
 			{
 				if (AudioTrack == null) { return "-:--"; }
-				return string.Format("{0}:{1:00}",
+				return string.Format("{0}:{1:00}", 
 				(int)TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).TotalMinutes,
 				TimeSpan.FromSeconds(_audioPlayer.CurrentSecInTrack).Seconds);
 			}
@@ -73,7 +73,7 @@ namespace Karl.ViewModel
 			get => AudioPlayer.SingletonAudioPlayer.Volume;
 			set => AudioPlayer.SingletonAudioPlayer.Volume = value;
 		}
-		public bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
+		public virtual bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
 
 		//Commands binded to AudioPlayerPage of View
 		public ICommand PausePlayCommand { get; }
@@ -98,20 +98,22 @@ namespace Karl.ViewModel
 			_timer.Interval = 100;
 			_timer.Elapsed += new ElapsedEventHandler(Tick);
 			_timer.AutoReset = true;
+			_wasPaused = true;
 			InitializeSingletons();
 		}
 
-		private void RefreshColor(object sender, EventArgs args)
+		protected virtual void InitializeSingletons()
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
-		}
-
-		protected virtual void InitializeSingletons() {
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
 			_settingsHandler.AudioModuleChanged += RefreshAudio;
+		}
+
+		private void RefreshColor(object sender, EventArgs args)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
 		public void RefreshAudio(object sender, EventArgs args)
@@ -128,16 +130,16 @@ namespace Karl.ViewModel
 
 		private void PausePlay()
 		{
-			/*if (AudioTrack == null) { return; }
-			//_audioPlayer.TogglePause();
-//			if (_audioPlayer.Paused) { _timer.Stop(); }
-			//else { _timer.Start(); }
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+			if (AudioTrack == null) { return; }
+			_audioPlayer.TogglePause();
+			if (_audioPlayer.Paused) { _timer.Stop(); }
+			else { _timer.Start(); }
 			if (!UsingBasicAudio)
 			{
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioTrack)));
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cover)));
-			}*/
+			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}
 
 		private void PlayPrev()
@@ -167,8 +169,7 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
-			CurrentPosition = _audioPlayer.CurrentSecInTrack;
+			CurrentPosition = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 
@@ -178,6 +179,5 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimePlayed)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
 		}
-
 	}
 }

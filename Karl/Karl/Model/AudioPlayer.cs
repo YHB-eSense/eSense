@@ -26,7 +26,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
-		public AudioTrack CurrentTrack
+		public virtual AudioTrack CurrentTrack
 		{
 			get => _audioPlayerImp.CurrentTrack;
 			set
@@ -44,7 +44,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
-		public double CurrentSecInTrack
+		public virtual double CurrentSecInTrack
 		{
 			get => _audioPlayerImp.CurrentSongPos;
 			set => _audioPlayerImp.CurrentSongPos = value;
@@ -53,7 +53,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
-		public bool Paused
+		public virtual bool Paused
 		{
 			get => _audioPlayerImp.Paused;
 			set => _audioPlayerImp.Paused = value;
@@ -71,10 +71,12 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
+
+		
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
-		private AudioPlayer()
+		protected AudioPlayer()
 		{
 			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
@@ -113,7 +115,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Pause/continue playback.
 		/// </summary>
-		public void TogglePause()
+		public virtual void TogglePause()
 		{
 			Paused = !Paused;
 			_audioPlayerImp.TogglePause();
@@ -122,7 +124,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Skip current Track.
 		/// </summary>
-		public void NextTrack()
+		public virtual void NextTrack()
 		{
 			if (_songsAfter.Count != 0 || SongsQueue.Count != 0)
 			{
@@ -137,7 +139,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Go to previous Track.
 		/// </summary>
-		public void PrevTrack()
+		public virtual void PrevTrack()
 		{
 			if (SongsBefore.Count != 0)
 			{
@@ -176,7 +178,7 @@ namespace Karl.Model
 		}
 	}
 
-	interface IAudioPlayerImpl
+	public interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
 		double CurrentSongPos { get; set; }
