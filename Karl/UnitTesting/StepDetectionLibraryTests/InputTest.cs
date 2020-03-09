@@ -25,10 +25,11 @@ namespace UnitTesting.StepDetectionLibraryTests
 			Mock<IObserver<AccelerationSample>> MockObserver = new Mock<IObserver<AccelerationSample>>();
 			Input TestInput = new Input();
 			IDisposable TestDisposable = TestInput.Subscribe(MockObserver.Object);
-
-			PropertyInfo prop = typeof(Input).GetProperty("_observers", BindingFlags.NonPublic | BindingFlags.Instance);
-			MethodInfo getter = prop.GetGetMethod(nonPublic: true);
-			object Oservers = getter.Invoke(TestInput, null);
+			FieldInfo field = typeof(Input).GetField("_observer", BindingFlags.NonPublic | BindingFlags.Instance);
+			object Oservers = field.GetValue(TestInput);
+			//PropertyInfo prop = typeof(Input).GetProperty("_observers", BindingFlags.NonPublic | BindingFlags.Instance);
+			//MethodInfo getter = prop.GetGetMethod(nonPublic: true);
+			//object Oservers = getter.Invoke(TestInput, null);
 			List<IObserver<AccelerationSample>> Observers = (List<IObserver<AccelerationSample>>)Oservers;
 			Assert.Contains(MockObserver.Object, Observers);
 			TestDisposable.Dispose();
