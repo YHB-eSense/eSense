@@ -13,6 +13,7 @@ namespace StepDetectionTestApp
 
 			Input input = new Input();
 			OutputManager.SingletonOutputManager.Subscribe(new Printer());
+			OutputManager.SingletonOutputManager.Log.Reset();
 
 			for (int i = 0; i < activityFrames.Length; i++)
 			{

@@ -1,4 +1,3 @@
-using EarableLibrary;
 using Moq;
 using StepDetectionLibrary;
 using System;
@@ -12,9 +11,9 @@ using Xunit;
 namespace UnitTesting.StepDetectionLibraryTests
 {
 	/// <summary>
-	/// Testclass for StepDetectionAlg.cs
+	/// TestClass for OutputManager.cs
 	/// </summary>
-	public class StepDetectionAlgTest
+	public class OutputManagerTest
 	{
 		/// <summary>
 		/// tests subscribe and unsubscribe
@@ -23,16 +22,13 @@ namespace UnitTesting.StepDetectionLibraryTests
 		public void SubscribeTest()
 		{
 			Mock<IObserver<Output>> MockObserver = new Mock<IObserver<Output>>();
-			StepDetectionAlg TestSDAlg = new StepDetectionAlg();
-			IDisposable TestDisposable = TestSDAlg.Subscribe(MockObserver.Object);
-			FieldInfo field = typeof(StepDetectionAlg).GetField("_observer", BindingFlags.NonPublic | BindingFlags.Instance);
-			object Oservers = field.GetValue(TestSDAlg);
-
+			IDisposable TestDisposable = OutputManager.SingletonOutputManager.Subscribe(MockObserver.Object);
+			FieldInfo field = typeof(OutputManager).GetField("_observer", BindingFlags.NonPublic | BindingFlags.Instance);
+			object Oservers = field.GetValue(OutputManager.SingletonOutputManager);
 			List<IObserver<Output>> Observers = (List<IObserver<Output>>)Oservers;
 			Assert.Contains(MockObserver.Object, Observers);
 			TestDisposable.Dispose();
 			Assert.DoesNotContain(MockObserver.Object, Observers);
-
 		}
 
 		/// <summary>
@@ -42,22 +38,10 @@ namespace UnitTesting.StepDetectionLibraryTests
 		public void UpdateTest()
 		{
 			Mock<IObserver<Output>> MockObserver = new Mock<IObserver<Output>>();
-			StepDetectionAlg TestSDAlg = new StepDetectionAlg();
-			TestSDAlg.Subscribe(MockObserver.Object);
-			TestSDAlg.Update(new Output());
+			IDisposable TestDisposable = OutputManager.SingletonOutputManager.Subscribe(MockObserver.Object);
+			OutputManager.SingletonOutputManager.Update(new Output());
 			MockObserver.Verify(foo => foo.OnNext(It.IsAny<Output>()));
-		}
 
-		/// <summary>
-		/// tests the method calculate intensity
-		/// </summary>
-		[Fact]
-		public void CalculateIntensityTest()
-		{
-			StepDetectionAlg TestSDAlg = new StepDetectionAlg();
-			double TestValue = TestSDAlg.CalculateIntensity(new TripleShort(6043, 3458, 2950));
-			Assert.InRange<double>(TestValue, 7551, 7552);
 		}
-
 	}
 }
