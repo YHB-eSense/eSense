@@ -45,7 +45,7 @@ namespace EarableLibrary
 		/// Construct a new ESense object.
 		/// </summary>
 		/// <param name="device">BLE handle used for communication</param>
-		internal ESense(IDevice device)
+		public ESense(IDevice device)
 		{
 			_device = device;
 		}
