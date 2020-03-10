@@ -11,7 +11,7 @@ using Xunit;
 namespace UnitTesting.StepDetectionLibraryTests
 {
 	/// <summary>
-	/// TestClass for OutputManager.cs
+	/// TestClass for OutputManager
 	/// </summary>
 	public class OutputManagerTest
 	{
