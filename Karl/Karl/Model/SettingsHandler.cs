@@ -156,7 +156,7 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetSteps()
 		{
-			OutputManager.SingletonOutputManager.Log.Reset();
+			SingletonOutputManager.Log.Reset();
 			Steps = 0;
 		}
 

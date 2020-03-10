@@ -1,5 +1,6 @@
 using Karl.Data;
 using SpotifyAPI.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -13,8 +14,23 @@ namespace Karl.Model
 		private BasicAudioTrackDatabase _database;
 
 		public List<AudioTrack> AllAudioTracks { get; set; }
-		public SimplePlaylist[] AllPlaylists { get => null; set => _ = 0; }
-		public SimplePlaylist SelectedPlaylist { get => null; set => _ = 0; }
+
+		/// <summary>
+		/// Non functional. 
+		/// </summary>
+		public SimplePlaylist[] AllPlaylists
+		{
+			get => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
+			set => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
+		}
+		/// <summary>
+		/// Non functional. 
+		/// </summary>
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
+			set => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
+		}
 
 		public event AudioLibEventHandler AudioLibChanged;
 

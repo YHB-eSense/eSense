@@ -12,9 +12,40 @@ namespace UnitTesting.Mocks
 {
 	internal class TestDictionary : IDictionary<string, object>
 	{
-		public bool LangTest;
-		public bool RemoveCalled;
-		public bool AddCalled;
+		public Stack<string> RemoveCalls = new Stack<string>();
+		public Stack<string> ContainsKeyCalls = new Stack<string>();
+		public Stack<Tuple<string, object>> AddCalls = new Stack<Tuple<string, object>>();
+		public Stack<Tuple<string, object>> TryGetValueCalls = new Stack<Tuple<string, object>>();
+
+		public bool TriggerTryGetValueCalled_lang
+		{
+			get
+			{
+				foreach (var call in TryGetValueCalls)
+					if (call.Item1.Equals("lang"))
+						return true;
+				return false;
+			}
+		}
+		public bool TriggerRemoveCalled_key
+		{
+			get
+			{
+				return RemoveCalls.Contains("key");
+			}
+		}
+		public bool TriggerAddCalled_lang_english
+		{
+			get
+			{
+				foreach (var call in AddCalls)
+				{
+					if (call.Item1.Equals("lang") && call.Item2.ToString().Equals("lang_english")) return true;
+				}
+				return false;
+			}
+		}
+
 		private readonly Dictionary<string, object> _obj = new Dictionary<string, object>();
 
 		public object this[string key] { get => _obj[key]; set => _obj[key] = value; }
@@ -30,8 +61,9 @@ namespace UnitTesting.Mocks
 		public void Add(string key, object value)
 		{
 			_obj.Add(key, value);
-			AddCalled = (key.Equals("lang") && value.ToString().Equals("lang_english")) | AddCalled;
+			AddCalls.Push(new Tuple<string, object>(key, value));
 		}
+
 
 		public void Add(KeyValuePair<string, object> item)
 		{
@@ -50,6 +82,7 @@ namespace UnitTesting.Mocks
 
 		public bool ContainsKey(string key)
 		{
+			ContainsKeyCalls.Push(key);
 			return _obj.ContainsKey(key);
 		}
 
@@ -65,9 +98,8 @@ namespace UnitTesting.Mocks
 
 		public bool Remove(string key)
 		{
-			_obj.Remove(key);
-			RemoveCalled = (key.Equals("lang")) | RemoveCalled;
-			return RemoveCalled;
+			RemoveCalls.Push(key);
+			return _obj.Remove(key);
 		}
 
 		public bool Remove(KeyValuePair<string, object> item)
@@ -78,7 +110,7 @@ namespace UnitTesting.Mocks
 		public bool TryGetValue(string key, out object value)
 		{
 			var found =_obj.TryGetValue(key, out value);
-			LangTest = (key.Equals("lang")) | LangTest;
+			TryGetValueCalls.Push(new Tuple<string, object>(key, value));
 			return found;
 		}
 
@@ -86,5 +118,6 @@ namespace UnitTesting.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
 	}
 }

@@ -63,6 +63,7 @@
     <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
     <Compile Include="ModelTests\ColorManagerTests.cs" />
     <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />
+    <Compile Include="Mocks\DatabaseMock.cs" />
     <Compile Include="Mocks\TestDictionary.cs" />
     <Compile Include="ModelTests\SettingsTest.cs" />
     <Compile Include="ModelTests\TestFramework.cs" />

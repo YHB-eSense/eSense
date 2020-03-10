@@ -1,15 +1,12 @@
 #define TESTING
 using Moq;
 using System;
-using System.Diagnostics;
-using System.Reflection;
 using Xunit;
-using Xunit.Sdk;
 using Karl.Model;
-using SpotifyAPI.Web.Models;
 using System.Collections.Generic;
 using static Karl.Model.SettingsHandler;
 using static Karl.Model.AudioLib;
+using Karl.Data;
 
 namespace UnitTesting.ModelTests
 {
@@ -22,6 +19,8 @@ namespace UnitTesting.ModelTests
 
 		void Before()
 		{
+			SpotifyAudioLib.Testing(true);
+			BasicAudioTrackDatabase.Testing(true);
 			mockObj = new Mock<IDictionary<string, Object>>();
 			PropertiesInjection(mockObj.Object);
 			fw.ResetSingletons();
@@ -29,6 +28,8 @@ namespace UnitTesting.ModelTests
 
 		void After()
 		{
+			SpotifyAudioLib.Testing(false);
+			BasicAudioTrackDatabase.Testing(false);
 			fw.ResetSingletons();
 			PropertiesInjection(null);
 		}
@@ -59,7 +60,10 @@ namespace UnitTesting.ModelTests
 			PropertiesInjection(testDictionary);
 			TestObj = SingletonSettingsHandler;
 			Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
-			Assert.True(testDictionary.AddCalled && testDictionary.LangTest && testDictionary.RemoveCalled);
+			Assert.True(
+				testDictionary.TriggerAddCalled_lang_english
+				&& testDictionary.TriggerTryGetValueCalled_lang
+				&& testDictionary.TriggerRemoveCalled_key);
 		}
 
 		[Fact]
@@ -74,7 +78,9 @@ namespace UnitTesting.ModelTests
 			PropertiesInjection(keyValuePairs);
 			TestObj = SingletonSettingsHandler;
 			Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
-			Assert.True(keyValuePairs.AddCalled && keyValuePairs.LangTest);
+			Assert.True(
+				keyValuePairs.TriggerAddCalled_lang_english
+				&& keyValuePairs.TriggerTryGetValueCalled_lang);
 		}
 
 		[Fact]
@@ -86,7 +92,6 @@ namespace UnitTesting.ModelTests
 		void UseDifferentLibsTestCase()
 		{
 			var called = false;
-			SpotifyAudioLib.Testing(true);
 			TestObj = SingletonSettingsHandler;
 			TestObj.AudioModuleChanged += (object source, EventArgs args) => { called = true; };
 			TestObj.changeAudioModuleToSpotify();
@@ -103,18 +108,46 @@ namespace UnitTesting.ModelTests
 
 		void UseDifferentLibsTestCase2()
 		{
-			SpotifyAudioLib.Testing(true);
 			TestObj = SingletonSettingsHandler;
 			TestObj.changeAudioModuleToSpotify();
 			Assert.ThrowsAsync<NotImplementedException>(async () => await SingletonAudioLib.AddTrack("TEST", "TEST", "TEST",0));
-			Assert.Throws<NotImplementedException>(() => SingletonAudioLib.DeleteTrack(new SpotifyAudioTrack(0.0,"TEST","TEST",0,"TEST",null)));
+			Assert.Throws<NotImplementedException>(
+				() => SingletonAudioLib.DeleteTrack(
+					new SpotifyAudioTrack(0.0,"TEST","TEST",0,"TEST",null)));
 		}
+
+		[Fact]
+		public void UseDifferentLibs3()
+		{
+			BeforeAfterTest(UseDifferentLibsTestCase3);
+		}
+
+		void UseDifferentLibsTestCase3()
+		{
+			var called = 0;
+			TestObj = SingletonSettingsHandler;
+			TestObj.AudioModuleChanged += (object source, EventArgs args) =>
+			{
+				called++;
+			};
+			TestObj.changeAudioModuleToSpotify();
+			TestObj.changeAudioModuleToBasic();
+			Assert.Throws<NotImplementedException>(() => SingletonAudioLib.Playlists);
+			Assert.Throws<NotImplementedException>(() => SingletonAudioLib.SelectedPlaylist);
+			Assert.True(called == 2);
+		}
+
 
 		void BeforeAfterTest(Action TestCase)
 		{
 			Before();
 			TestCase.Invoke();
 			After();
+
+			foreach (var action in fw.AfterActions)
+			{
+				action.Invoke();
+			}
 		}
 		
 	}

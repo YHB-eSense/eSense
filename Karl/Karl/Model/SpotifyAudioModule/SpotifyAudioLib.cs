@@ -44,17 +44,10 @@ namespace Karl.Model
 			{
 				if (_initDone) return;
 
-				if (_testing)
-				{
-					AllPlaylists = null;
-					SelectedPlaylist = null;
-					return;
-				}
-
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
 
-				if (WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0)
+				if (!_testing && WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0)
 					AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
 				else
 					AllPlaylists = null;
@@ -74,7 +67,7 @@ namespace Karl.Model
 		/// <param name="playlist">New Selected Playlist</param>
 		private void ChangePlaylist(SimplePlaylist playlist)
 		{
-			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id, "", 100, 0, "").Items.ToArray();
+			PlaylistTrack[] tracks = WebAPI.GetPlaylistTracks(playlist.Id).Items.ToArray();
 			AllAudioTracks = new List<AudioTrack>();
 			var webClient = new WebClient();
 			foreach (var track in tracks)
@@ -85,23 +78,6 @@ namespace Karl.Model
 					track.Track.Artists[0].Name, (int)WebAPI.
 					GetAudioFeatures(track.Track.Id).Tempo, track.Track.Id, /*imageBytes*/ null));
 			}
-		}
-
-
-
-		public void AddTrack(String storage, String title, double duration)
-		{
-			throw new NotImplementedException("Spotify Lib can't add Songs");
-		}
-
-		public void AddTrack(string storage)
-		{
-			throw new NotImplementedException("Spotify Lib can't add Songs");
-		}
-
-		public void AddTrack(string storage, string title)
-		{
-			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
 		public async Task AddTrack(string storage, string title, string artist, int bpm)
