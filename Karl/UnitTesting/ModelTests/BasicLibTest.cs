@@ -6,24 +6,28 @@ using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 using Karl.Model;
+using SQLite;
 
 namespace UnitTesting.ModelTests
 {
 	public class BasicLibTest
 	{
 		AudioLib TestObj;
+		System.Reflection.PropertyInfo _dbInstance;
 		System.Reflection.FieldInfo _singeltonDbInstance;
 		System.Reflection.FieldInfo _singeltonAlInstance;
 
 		void Before()
 		{
-			TestObj = AudioLib.SingletonAudioLib;
-			_singeltonDbInstance = typeof(BasicAudioTrackDatabase).GetField("_singletonDatabase", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+			_dbInstance = typeof(BasicAudioTrackDatabase).GetProperty("_database", BindingFlags.NonPublic | BindingFlags.Instance);
 			_singeltonAlInstance = typeof(AudioLib).GetField("_singletonAudioLib", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-
-			Mock<BasicAudioTrackDatabase> mockSingleton = new Mock<BasicAudioTrackDatabase>();
-			_singeltonDbInstance.SetValue(null, mockSingleton.Object);
 			_singeltonAlInstance.SetValue(null, null);
+			_singeltonDbInstance = typeof(BasicAudioTrackDatabase).GetField("_singletonDatabase", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+			_singeltonDbInstance.SetValue(null, null);
+			TestObj = AudioLib.SingletonAudioLib;
+			BasicAudioTrackDatabase database = BasicAudioTrackDatabase.SingletonDatabase;
+			Mock<SQLiteAsyncConnection> mockDatabase = new Mock<SQLiteAsyncConnection>("", true);
+			_dbInstance.SetValue(database, mockDatabase.Object);
 		}
 
 		void After()

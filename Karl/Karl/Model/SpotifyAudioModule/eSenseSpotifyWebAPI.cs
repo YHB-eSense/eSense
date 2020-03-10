@@ -1,6 +1,7 @@
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
@@ -14,6 +15,7 @@ namespace Karl.Model
 	/// </summary>
 	public class eSenseSpotifyWebAPI
 	{
+		private static bool _testing = false;
 		private static eSenseSpotifyWebAPI _instance;
 		public static eSenseSpotifyWebAPI WebApiSingleton
 		{
@@ -114,6 +116,10 @@ namespace Karl.Model
 
 		}
 
-
+		[Conditional("TESTING")]
+		internal static void IsTesting(bool testing)
+		{
+			_testing = testing;
+		}
 	}
 }

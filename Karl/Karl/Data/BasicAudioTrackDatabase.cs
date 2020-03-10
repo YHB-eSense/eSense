@@ -9,7 +9,7 @@ namespace Karl.Data
 {
 	public class BasicAudioTrackDatabase
 	{
-		readonly SQLiteAsyncConnection _database;
+		private SQLiteAsyncConnection _database { get; set; }
 		private static BasicAudioTrackDatabase _singletonDatabase;
 
 		public static BasicAudioTrackDatabase SingletonDatabase

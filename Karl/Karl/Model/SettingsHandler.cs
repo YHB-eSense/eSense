@@ -2,6 +2,7 @@ using SkiaSharp;
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Timers;
 using Xamarin.Forms;
 using static Karl.Model.ColorManager;
@@ -16,6 +17,9 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
+		
+		private static IDictionary<string, Object> _propertiesInjection;
+
 		private static SettingsHandler _singletonSettingsHandler;
 
 		/// <summary>
@@ -35,7 +39,7 @@ namespace Karl.Model
 
 		private static readonly Object _padlock = new Object();
 
-		private readonly IDictionary<string, Object> _properties = Application.Current.Properties;
+		private readonly IDictionary<string, Object> _properties;
 		private int _steps;
 		private Timer timer;
 
@@ -161,6 +165,7 @@ namespace Karl.Model
 		/// </summary>
 		private SettingsHandler()
 		{
+			_properties = (_propertiesInjection == null) ? Application.Current.Properties : _propertiesInjection;
 			UsingSpotifyAudio = false;
 			UsingBasicAudio = true;
 			SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
@@ -202,6 +207,7 @@ namespace Karl.Model
 				else
 				{
 					SingletonLangManager.ChooseLang("lang_english");
+					_properties.Remove("lang");
 					_properties.Add("lang", "lang_english");
 				}
 			}
@@ -219,8 +225,10 @@ namespace Karl.Model
 				{
 					_steps = int.Parse(Value);
 				}
-				catch (FormatException)
+				catch (FormatException e)
 				{
+					System.Diagnostics.Debug.WriteLine("[Exception] Value of steps: " + Value + " could not be parsed.");
+					System.Diagnostics.Debug.WriteLine(e.StackTrace);
 					_steps = 0;
 					_properties.Remove("steps");
 					_properties.Add("steps", "0");
@@ -293,6 +301,16 @@ namespace Karl.Model
 			}
 		}
  
+		/// <summary>
+		/// This injects an Properties Dictionary instead of the Application.Current.Properties
+		/// </summary>
+		/// <param name="injection"></param>
+		[Conditional("TESTING")]
+		internal static void PropertiesInjection(IDictionary<string, object> injection)
+		{
+			_propertiesInjection = injection;
+		}
+
 		/// <summary>
 		/// Observer for the stepdetection
 		/// </summary>

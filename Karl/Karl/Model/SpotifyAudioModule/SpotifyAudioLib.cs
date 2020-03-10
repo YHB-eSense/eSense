@@ -2,6 +2,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using static Karl.Model.AudioLib;
@@ -10,7 +11,7 @@ namespace Karl.Model
 {
 	sealed class SpotifyAudioLib : IAudioLibImpl
 	{
-
+		private static bool _testing;
 		private bool _initDone;
 		private SpotifyWebAPI WebAPI;
 		private SimplePlaylist _playlist;
@@ -42,12 +43,27 @@ namespace Karl.Model
 			lock (this)
 			{
 				if (_initDone) return;
+
+				if (_testing)
+				{
+					AllPlaylists = null;
+					SelectedPlaylist = null;
+					return;
+				}
+
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
-				if (WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0) { AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray(); }
-				else { AllPlaylists = null; }
-				if (AllPlaylists != null) { SelectedPlaylist = AllPlaylists[0]; }
-				else { SelectedPlaylist = null; }
+
+				if (WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0)
+					AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
+				else
+					AllPlaylists = null;
+
+				if (AllPlaylists != null)
+					SelectedPlaylist = AllPlaylists[0];
+				else
+					SelectedPlaylist = null;
+
 				_initDone = true;
 			}
 		}
@@ -96,6 +112,12 @@ namespace Karl.Model
 		public void DeleteTrack(AudioTrack track)
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
+		}
+
+		[Conditional("TESTING")]
+		internal static void Testing(bool testing)
+		{
+			_testing = testing;
 		}
 	}
 
