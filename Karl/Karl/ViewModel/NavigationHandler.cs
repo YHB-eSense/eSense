@@ -36,12 +36,12 @@ namespace Karl.ViewModel
 			foreach (var page in pages) _pages.Add(page.GetType(), page);
 		}
 
-		public async void GotoPage<T>() where T : ContentPage
+		public virtual async void GotoPage<T>() where T : ContentPage
 		{
 			await GotoPage(typeof(T));
 		}
 
-		private async Task GotoPage(Type pageType)
+		protected async Task GotoPage(Type pageType)
 		{
 			if (!_pages.ContainsKey(pageType)) { throw new ArgumentException("Type of page not found"); }
 			var toBePushed = _pages[pageType];

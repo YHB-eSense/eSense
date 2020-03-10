@@ -19,7 +19,7 @@ namespace Karl.ViewModel
 		protected AudioLib _audioLib;
 		protected AudioPlayer _audioPlayer;
 		private ObservableCollection<AudioTrack> _oldSongs;
-		private List<AudioTrack> _deleteList;
+		protected List<AudioTrack> _deleteList;
 		private Color _titleSortColor;
 		private Color _titleSortTextColor;
 		private Color _artistSortColor;
@@ -272,6 +272,7 @@ namespace Karl.ViewModel
 						_audioPlayer.CurrentTrack = null;
 					}
 				}
+				_deleteList.Clear();
 			}
 		}
 

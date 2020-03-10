@@ -9,7 +9,7 @@ namespace Karl.Model
 	/// <summary>
 	/// This is the wrapper class for the VM to use.
 	/// </summary>
-	public sealed class AudioLib
+	public class AudioLib
 	{
 		private IAudioLibImpl _audioLibImp;
 		private static AudioLib _singletonAudioLib;
@@ -77,7 +77,7 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void DeleteTrack(AudioTrack track)
+		public virtual void DeleteTrack(AudioTrack track)
 		{
 			_audioLibImp.DeleteTrack(track);
 			AudioLibChanged?.Invoke(this, null);

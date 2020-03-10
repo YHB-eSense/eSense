@@ -104,7 +104,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Start playing the song currently selected in the Library
 		/// </summary>
-		public void PlayTrack(AudioTrack track)
+		public virtual void PlayTrack(AudioTrack track)
 		{
 			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;

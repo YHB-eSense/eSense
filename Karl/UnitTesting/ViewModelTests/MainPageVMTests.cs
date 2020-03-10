@@ -23,8 +23,10 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void HelpCommandTest()
 		{
+			//setup
 			var vm = new MainPageVM_NEW();
 			vm.HelpVisible = false;
+			//test
 			vm.HelpCommand.Execute(null);
 			Assert.True(vm.HelpVisible);
 		}

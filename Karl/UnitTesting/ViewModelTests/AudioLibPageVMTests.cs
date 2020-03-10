@@ -18,9 +18,9 @@ namespace UnitTesting.ViewModelTests
 		public void TitleSortCommandTest()
 		{
 			//setup
-			AudioLibPageVM_NEW vm = new AudioLibPageVM_NEW();
-			BasicAudioTrack_NEW track1 = new BasicAudioTrack_NEW("title1", "artist1", 1);
-			BasicAudioTrack_NEW track2 = new BasicAudioTrack_NEW("title2", "artist2", 2);
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
 			vm.Songs.Add(track2);
 			//test
@@ -39,9 +39,9 @@ namespace UnitTesting.ViewModelTests
 		public void ArtistSortCommandTest()
 		{
 			//setup
-			AudioLibPageVM_NEW vm = new AudioLibPageVM_NEW();
-			BasicAudioTrack_NEW track1 = new BasicAudioTrack_NEW("title1", "artist1", 1);
-			BasicAudioTrack_NEW track2 = new BasicAudioTrack_NEW("title2", "artist2", 2);
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
 			vm.Songs.Add(track2);
 			//test
@@ -60,9 +60,9 @@ namespace UnitTesting.ViewModelTests
 		public void BPMSortCommandTest()
 		{
 			//setup
-			AudioLibPageVM vm = new AudioLibPageVM_NEW();
-			BasicAudioTrack_NEW track1 = new BasicAudioTrack_NEW("title1", "artist1", 1);
-			BasicAudioTrack_NEW track2 = new BasicAudioTrack_NEW("title2", "artist2", 2);
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
 			vm.Songs.Add(track2);
 			//test
@@ -78,7 +78,15 @@ namespace UnitTesting.ViewModelTests
 		}
 
 		[Fact]
-		public void PlaySongCommandTest() { }
+		public void PlaySongCommandTest()
+		{
+			//setup
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			//test
+			vm.PlaySongCommand.Execute(track1);
+			Assert.Equal(track1, vm.Player.CurrentTrack);
+		}
 
 		[Fact]
 		public void AddSongCommandTest() { }
@@ -87,9 +95,9 @@ namespace UnitTesting.ViewModelTests
 		public void SearchSongCommandTest()
 		{
 			//setup
-			AudioLibPageVM_NEW vm = new AudioLibPageVM_NEW();
-			vm.Songs.Add(new BasicAudioTrack_NEW("title1", "artist1", 1));
-			vm.Songs.Add(new BasicAudioTrack_NEW("title2", "artist2", 2));
+			var vm = new AudioLibPageVM_NEW();
+			vm.Songs.Add(new AudioTrack_NEW("title1", "artist1", 1));
+			vm.Songs.Add(new AudioTrack_NEW("title2", "artist2", 2));
 			//test
 			vm.SearchSongCommand.Execute("title1");
 			foreach (AudioTrack track in vm.Songs)
@@ -99,31 +107,77 @@ namespace UnitTesting.ViewModelTests
 		}
 
 		[Fact]
-		public void DeleteSongCommandTest() { }
+		public void DeleteSongCommandTest()
+		{
+			/*
+			//setup
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			vm.EditDeleteListCommand.Execute(track1);
+			//test
+			vm.DeleteSongsCommand.Execute(null);
+			Assert.Empty(vm.DeleteList);
+			*/ //TODO
+		}
 
 		[Fact]
-		public void EditDeleteListCommandTest() { }
+		public void EditDeleteListCommandTest()
+		{
+			//setup
+			var vm = new AudioLibPageVM_NEW();
+			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+			//test
+			vm.EditDeleteListCommand.Execute(track1);
+			Assert.Equal(track1, vm.DeleteList[0]);
+		}
 
 		internal class AudioLibPageVM_NEW : AudioLibPageVM
 		{
+			public List<AudioTrack> DeleteList { get => _deleteList; }
+			public AudioPlayer Player { get => _audioPlayer; }
 			public AudioLibPageVM_NEW()
 			{
 				Songs = new List<AudioTrack>();
 			}
 			public override CustomColor CurrentColor { get => new CustomColor(Color.Red); }
 			public override List<AudioTrack> Songs { get; set; }
-			protected override void InitializeSingletons() { }
+			protected override void InitializeSingletons()
+			{
+				_audioPlayer = new AudioPlayer_NEW();
+				_navHandler = new NavigationHandler_NEW();
+			}
 			protected override async Task<bool> AlertWrapper() { return true; }
 		}
 
-		internal class BasicAudioTrack_NEW : BasicAudioTrack
+		internal class AudioPlayer_NEW : AudioPlayer
 		{
-			public BasicAudioTrack_NEW(string title, string artist, int bpm)
+			public override AudioTrack CurrentTrack { get; set; }
+			public override void PlayTrack(AudioTrack track)
+			{
+				CurrentTrack = track;
+			}
+		}
+
+		internal class AudioTrack_NEW : AudioTrack
+		{
+			public AudioTrack_NEW(string title, string artist, int bpm)
 			{
 				Title = title;
 				Artist = artist;
 				BPM = bpm;
 			}
+			public override double Duration { get; set; }
+			public override byte[] Cover { get; set; }
+			public override string Title { get; set; }
+			public override string Artist { get; set; }
+			public override int BPM { get; set; }
+			public override string StorageLocation { get; set; }
+			public override string TextId { get; set; }
+		}
+
+		internal class NavigationHandler_NEW : NavigationHandler
+		{
+			public override async void GotoPage<T>() { }
 		}
 	}
 }

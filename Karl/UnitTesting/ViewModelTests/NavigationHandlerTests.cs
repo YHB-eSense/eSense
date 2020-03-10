@@ -20,11 +20,13 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void GotoPageTest()
 		{
-			NavigationHandler_NEW handler = new NavigationHandler_NEW();
-			ContentPageMock1 page1 = new ContentPageMock1();
-			ContentPageMock2 page2 = new ContentPageMock2();
-			ContentPage[] pages = new ContentPage[] { page1, page2 };
+			//setup
+			var handler = new NavigationHandler_NEW();
+			var page1 = new ContentPageMock1();
+			var page2 = new ContentPageMock2();
+			var pages = new ContentPage[] { page1, page2 };
 			handler.SetPages(pages);
+			//test
 			handler.GotoPage<ContentPageMock1>();
 			Assert.Equal(page1, handler.List.Last<Page>());
 		}
@@ -32,13 +34,15 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void GoBackTest()
 		{
-			NavigationHandler_NEW handler = new NavigationHandler_NEW();
-			ContentPageMock1 page1 = new ContentPageMock1();
-			ContentPageMock2 page2 = new ContentPageMock2();
-			ContentPage[] pages = new ContentPage[] { page1, page2 };
+			//setup
+			var handler = new NavigationHandler_NEW();
+			var page1 = new ContentPageMock1();
+			var page2 = new ContentPageMock2();
+			var pages = new ContentPage[] { page1, page2 };
 			handler.SetPages(pages);
 			handler.GotoPage<ContentPageMock1>();
 			handler.GotoPage<ContentPageMock2>();
+			//test
 			handler.GoBack();
 			Assert.Equal(page1, handler.List.Last<Page>());
 		}
