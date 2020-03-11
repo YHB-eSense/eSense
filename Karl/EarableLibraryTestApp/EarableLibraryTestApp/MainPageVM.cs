@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xunit;
 
 namespace EarableLibraryTestApp
 {
@@ -19,12 +20,20 @@ namespace EarableLibraryTestApp
 
 		private Task TestTask = null;
 
+		private readonly Test<IEarable>[] _tests = {
+			new ConnectionTest(),
+			new SensorTest<MotionSensor, MotionSensorSample>(),
+			new SensorTest<PushButton, ButtonState>(),
+			new SensorTest<VoltageSensor, BatteryState>(),
+			new NameChangeTest()
+		};
+
 		public bool TestRunning
 		{
 			get => TestTask != null && !TestTask.IsCompleted;
 		}
 
-		private IEarableManager manager = new EarableLibrary.EarableLibrary();
+		private readonly IEarableManager _manager = new EarableLibrary.EarableLibrary();
 
 		public MainPageVM()
 		{
@@ -44,19 +53,14 @@ namespace EarableLibraryTestApp
 		{
 			StatusUpdate("Running Tests async...");
 			StatusUpdate("EarableLibrary initialized, connecting Earable...");
-			var earable = await manager.ConnectEarableAsync();
+			var earable = await _manager.ConnectEarableAsync(); // TODO: show list instead
+			Assert.NotNull(earable);
 			StatusUpdate("Earable connected!");
-			string result;
-			result = await new ConnectionTest().RunAndCatch(earable);
-			StatusUpdate(result);
-			/*var result = await new NameChangeTest(mgr).Run();
-			StatusUpdate(result);
-			var result = new SensorTest(mgr, typeof(MotionSensor)).Run();
-			StatusUpdate(result);
-			var result = new SensorTest(mgr, typeof(PushButton)).Run();
-			StatusUpdate(result);
-			var result = new SensorTest(mgr, typeof(VoltageSensor)).Run();
-			StatusUpdate(result);*/
+			foreach (var test in _tests)
+			{
+				string result = await test.RunAndCatch(earable);
+				StatusUpdate(result);
+			}
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonText)));
 		}
 

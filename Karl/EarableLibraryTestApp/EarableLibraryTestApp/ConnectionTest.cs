@@ -1,6 +1,7 @@
 using EarableLibrary;
-using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace EarableLibraryTestApp
 {
@@ -14,26 +15,29 @@ namespace EarableLibraryTestApp
 	{
 		public override async Task Run(IEarable earable)
 		{
-			await TestReconnection(earable);
+			await TestConnection(earable, ConnectOperation.CONNECT, ConnectOperation.DISCONNECT); // just connect & disconnect
+			await TestConnection(earable, ConnectOperation.DISCONNECT, ConnectOperation.CONNECT, ConnectOperation.DISCONNECT, ConnectOperation.CONNECT); // reconnect
+			await TestConnection(earable, ConnectOperation.DISCONNECT, ConnectOperation.DISCONNECT); // disconnect when not connected
+			await TestConnection(earable, ConnectOperation.CONNECT, ConnectOperation.CONNECT); // connect when connected
 		}
 
-		private async Task TestReconnection(IEarable earable)
+		private async Task TestConnection(IEarable earable, params ConnectOperation[] operations)
 		{
-			/*Assert.False(earable.IsConnected());
-
 			foreach (var op in operations)
 			{
 				if (op == ConnectOperation.CONNECT)
 				{
+					Debug.WriteLine("Connecting...");
 					Assert.NotEqual(earable.IsConnected(), await earable.ConnectAsync());
 					Assert.True(earable.IsConnected());
 				}
 				else if (op == ConnectOperation.DISCONNECT)
 				{
+					Debug.WriteLine("Disconnecting...");
 					Assert.Equal(earable.IsConnected(), await earable.DisconnectAsync());
 					Assert.False(earable.IsConnected());
 				}
-			}*/
+			}
 		}
 	}
 }
