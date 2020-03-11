@@ -1,0 +1,108 @@
+\documentclass[12pt,a4paper,titlepage,ngerman]{article}
+
+% UTF-8-Encoding
+\usepackage[utf8]{inputenc}
+% Deutsche Silbentrennung und Beschriftungen
+\usepackage[ngerman]{babel}
+% Links im Dokument
+\usepackage[bookmarks,colorlinks]{hyperref}
+% Kapitel einzeln kompilierbar machen
+\usepackage{subfiles}
+% PDFs einbinden
+\usepackage{pdfpages}
+% Parallele Spalten
+\usepackage{parallel,enumitem}
+% Spitze Klammern
+\usepackage{textcomp}
+% Line Breaks bei \code
+\usepackage[htt]{hyphenat}
+% Page Breaks nach \part
+\usepackage{etoolbox}
+%pdf einbinden
+\usepackage{pdfpages}
+%svg einbinden
+\usepackage{svg}
+% Glossar
+\usepackage[nonumberlist]{glossaries}
+% Benutzerdefinierte Unicode-Zeichen
+\usepackage{amssymb}
+% Checkmarks
+\usepackage{tikz}
+
+
+% Titel, Author, etc.
+\title{PSE Validierungdokument YHB eSense}
+\author{Jonas Koch, Maximilian Burzer, Leonardo Weng, \\ Simon Zimmermann, Yunus Demirag}
+\date{März 2020}
+
+% Einstellungen für PDF Datei
+\makeatletter
+\hypersetup
+{
+	pdftitle={\@title},
+	pdfauthor={\@author}
+}
+\makeatother
+
+
+% Link-Farben
+\hypersetup
+{
+	linkcolor=gray,
+	urlcolor=blue
+}
+
+% Jeden Part auf neuer Seite beginnen
+\preto{\part}{\clearpage}
+
+% Checkmark Definition
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+% Deutsche Anführungszeichen
+\renewcommand{\quote}[1]{\glqq#1\grqq}
+
+% Nützliche Befehle für alle Kapitel
+\newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
+\newcommand{\code}[1]{\textbf{\textit{#1}}}
+\newcommand{\sign}[1]{\paragraph{Signatur:}{\code{#1}}\par\noindent}
+\newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
+\newcommand{\add}[2][]{\item[+]{\code{#1} #2}}
+\newcommand{\remove}[2][]{\item[-]{\code{#1} #2}}
+\newcommand{\change}[2][]{\item[\#]{\code{#1} #2}}
+\renewcommand{\check}[1]{\item[\checkmark]{#1}}
+\newcommand{\ftsio}[1]{\item[$\times$]{#1}}
+\newcommand{\changeto}{$\rightarrow$}
+\renewcommand{\array}{\lbrack\rbrack}
+
+
+% Grafiksuchpfade: relativ zur Hauptdatei, relativ zu den jeweiligen Kapiteln
+\graphicspath{{graphics/}{../graphics/}}
+
+% Definitionen in allen Kapiteln verfügbar machen
+\makenoidxglossaries
+\IfFileExists{4_glossar/glossar_definitionen.tex}
+{
+	\input{4_glossar/glossar_definitionen.tex}
+}
+{
+	\input{../4_glossar/glossar_definitionen.tex}
+}
+
+\begin{document}
+	\subfile{0_praeambel/vorderseite.tex}
+	\subfile{0_praeambel/allgemeines.tex}
+
+	\part{Test-Dokumentation}
+	\subfile{1_dokumentation/integrationstests.tex}
+	\subfile{1_dokumentation/systemtests.tex}
+	% inkl. Kennzeichnung von neuen oder modifizierten Testszenarien
+
+	\part{Fehler und Probleme}
+	\subfile{2_fehler_probleme/probleme.tex}
+
+	\part{Statistiken}
+	\subfile{3_statistik/ueberdeckung.tex}
+
+	\part{Glossar}
+	\subfile{4_glossar/glossar.tex}
+\end{document}
