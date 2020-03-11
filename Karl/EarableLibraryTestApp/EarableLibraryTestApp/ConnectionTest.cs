@@ -1,5 +1,4 @@
 using EarableLibrary;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -27,13 +26,13 @@ namespace EarableLibraryTestApp
 			{
 				if (op == ConnectOperation.CONNECT)
 				{
-					Debug.WriteLine("Connecting...");
+					Status.StatusUpdate("Connecting...");
 					Assert.NotEqual(earable.IsConnected(), await earable.ConnectAsync());
 					Assert.True(earable.IsConnected());
 				}
 				else if (op == ConnectOperation.DISCONNECT)
 				{
-					Debug.WriteLine("Disconnecting...");
+					Status.StatusUpdate("Disconnecting...");
 					Assert.Equal(earable.IsConnected(), await earable.DisconnectAsync());
 					Assert.False(earable.IsConnected());
 				}

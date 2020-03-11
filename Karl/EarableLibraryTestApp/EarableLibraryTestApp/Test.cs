@@ -7,18 +7,18 @@ namespace EarableLibraryTestApp
 	{
 		public string Name => GetType().Name;
 
-		public async Task<string> RunAndCatch(T testObj)
+		public async Task<TestResult<T>> RunAndCatch(T testObj)
 		{
+			TestResult<T> result = new TestResult<T>(this);
 			try
 			{
 				await Run(testObj);
-				return string.Format("Test '{0}' completed without errors.", Name);
 			}
 			catch(Exception e)
 			{
-				return string.Format("Test failed with an exception: {0}", e.Message);
+				result.Error = e;
 			}
-			
+			return result;
 		}
 
 		public abstract Task Run(T testObj);

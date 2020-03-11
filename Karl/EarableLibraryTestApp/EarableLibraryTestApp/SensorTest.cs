@@ -1,6 +1,5 @@
 using EarableLibrary;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,23 +22,23 @@ namespace EarableLibraryTestApp
 			if (sensor is IReadableSensor<SensorValueType> readable)
 			{
 				var value = await readable.ReadAsync();
-				Debug.WriteLine("Current value of {0} is {1}", sensor, value);
+				Status.StatusUpdate("Current value of {0} is {1}", sensor, value);
 			}
 			if (sensor is ISubscribableSensor<SensorValueType> subscribable)
 			{
 				_sampleReceived.Reset();
 				subscribable.ValueChanged += OnValueChanged;
 				await subscribable.StartSamplingAsync();
-				Debug.WriteLine("Waiting for a value update from sensor {0}", sensor);
+				Status.StatusUpdate("Waiting for a value update from sensor {0}", sensor);
 				_sampleReceived.Wait(TimeSpan.FromSeconds(10));
 				await subscribable.StopSamplingAsync();
 				subscribable.ValueChanged -= OnValueChanged;
 				if (_sampleReceived.IsSet)
 				{
-					Debug.WriteLine("Received value {1} from sensor {0}", sensor, _lastSample);
+					Status.StatusUpdate("Received value {1} from sensor {0}", sensor, _lastSample);
 				} else
 				{
-					Debug.WriteLine("A timeout occured while waiting for a sample update!");
+					Status.StatusUpdate("A timeout occured while waiting for an update from sensor {0}!", sensor);
 				}
 				Assert.True(_sampleReceived.IsSet);
 			}
