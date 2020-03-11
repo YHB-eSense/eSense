@@ -65,6 +65,8 @@
     <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />
     <Compile Include="Mocks\DatabaseMock.cs" />
     <Compile Include="Mocks\TestDictionary.cs" />
+    <Compile Include="ModelTests\LangManagerTests.cs" />
+    <Compile Include="ModelTests\ModeHandlerTests.cs" />
     <Compile Include="ModelTests\SettingsTest.cs" />
     <Compile Include="ModelTests\TestFramework.cs" />
     <Compile Include="ModesPageVMTest.cs" />
