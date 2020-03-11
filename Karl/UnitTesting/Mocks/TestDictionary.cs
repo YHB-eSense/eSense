@@ -45,7 +45,77 @@ namespace UnitTesting.Mocks
 				return false;
 			}
 		}
+		public bool TriggerStepsTestCase1
+		{
+			get
+			{
+				var tryGetValCall = false;
+				var removeCall = false;
+				var addCall = false;
+				foreach (var call in TryGetValueCalls)
+					if (call.Item1.Equals("steps"))
+						tryGetValCall = true;
+				foreach (var call in RemoveCalls)
+					if (call.Equals("steps"))
+						removeCall = true;
+				foreach (var call in AddCalls)
+					if (call.Item1.Equals("steps") && int.Parse(call.Item2.ToString()) == 0)
+						addCall = true;
 
+				if (tryGetValCall && removeCall && addCall)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool TriggerColorTestCase1
+		{
+			get
+			{
+				var tryGetValCall = false;
+				var removeCall = false;
+				var addCall = false;
+
+				foreach (var call in TryGetValueCalls)
+					if (call.Item1.Equals("color")
+						&& call.Item2.ToString().Equals(Color.Blue.ToHex()))
+						tryGetValCall = true;
+
+				foreach (var call in RemoveCalls)
+					if (call.Equals("color"))
+						removeCall = true;
+
+				foreach (var call in AddCalls)
+					if (call.Item1.Equals("color")
+						&& call.Item2.ToString().Equals(Color.RoyalBlue.ToHex()))
+						addCall = true;
+
+				if (tryGetValCall && removeCall && addCall)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool TriggerColorTestCase2
+		{
+			get
+			{
+				return
+					RemoveCalls.Peek().Equals("color")
+					&& AddCalls.Peek().Item1.Equals("color")
+					&& AddCalls.Peek().Item2.ToString().Equals(Color.Transparent.ToHex());
+			}
+		}
+		public bool TriggerLangTestCase2
+		{
+			get
+			{
+				return
+					RemoveCalls.Peek().Equals("lang")
+					&& AddCalls.Peek().Item1.Equals("lang")
+					&& AddCalls.Peek().Item2.ToString().Equals("lang_test");
+			}
+		}
 		private readonly Dictionary<string, object> _obj = new Dictionary<string, object>();
 
 		public object this[string key] { get => _obj[key]; set => _obj[key] = value; }

@@ -17,10 +17,23 @@ namespace UnitTesting.ModelTests
 		Mock<IDictionary<string, Object>> mockObj;
 		object val;
 
+		void BeforeAfterTest(Action TestCase)
+		{
+			Before();
+			TestCase.Invoke();
+			After();
+
+			foreach (var action in fw.AfterActions)
+			{
+				action.Invoke();
+			}
+		}
+
 		void Before()
 		{
 			SpotifyAudioLib.Testing(true);
 			BasicAudioTrackDatabase.Testing(true);
+			SettingsHandler.Testing(true);
 			mockObj = new Mock<IDictionary<string, Object>>();
 			PropertiesInjection(mockObj.Object);
 			fw.ResetSingletons();
@@ -30,6 +43,7 @@ namespace UnitTesting.ModelTests
 		{
 			SpotifyAudioLib.Testing(false);
 			BasicAudioTrackDatabase.Testing(false);
+			SettingsHandler.Testing(false);
 			fw.ResetSingletons();
 			PropertiesInjection(null);
 		}
@@ -130,20 +144,43 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-
+				Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
+				keyValuePairs.Add("steps", 1);
+				PropertiesInjection(keyValuePairs);
+				TestObj = SingletonSettingsHandler;
+				TestObj.ResetSteps();
+				Assert.True(keyValuePairs.TriggerStepsTestCase1);
+				Assert.True(SingletonSettingsHandler.Steps == 0);
 			});
 		}
 
-		void BeforeAfterTest(Action TestCase)
+		[Fact]
+		public void ColorPropertyTest()
 		{
-			Before();
-			TestCase.Invoke();
-			After();
-
-			foreach (var action in fw.AfterActions)
+			BeforeAfterTest(() =>
 			{
-				action.Invoke();
-			}
+				Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
+				keyValuePairs.Add("color", Xamarin.Forms.Color.Blue.ToHex());
+				PropertiesInjection(keyValuePairs);
+				TestObj = SingletonSettingsHandler;
+				TestObj.ResetSteps();
+				Assert.True(keyValuePairs.TriggerColorTestCase1);
+				TestObj.CurrentColor = new CustomColor(Xamarin.Forms.Color.Transparent);
+				Assert.True(keyValuePairs.TriggerColorTestCase2);
+			});
+		}
+
+		[Fact]
+		public void SetLangTest()
+		{
+			BeforeAfterTest(() =>
+			{
+				Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
+				PropertiesInjection(keyValuePairs);
+				TestObj = SingletonSettingsHandler;
+				TestObj.CurrentLang = new Lang(new System.IO.FileInfo("lang_test.lang"));
+				Assert.True(keyValuePairs.TriggerLangTestCase2);
+			});
 		}
 		
 	}

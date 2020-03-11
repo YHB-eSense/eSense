@@ -17,8 +17,6 @@ namespace Karl.Model
 	/// </summary>
 	public class SettingsHandler
 	{
-		
-		private static IDictionary<string, Object> _propertiesInjection;
 
 		private static SettingsHandler _singletonSettingsHandler;
 
@@ -65,12 +63,12 @@ namespace Karl.Model
 		/// <summary>
 		/// Gives info whether BasicAudioPlayer and BasicAudioLib are used
 		/// </summary>
-		public bool UsingBasicAudio { get; set; }
+		public bool UsingBasicAudio { get; private set; }
 
 		/// <summary>
 		/// Gives info whether SpotifyAudioPlayer and SpotifyAudioLib are used
 		/// </summary>
-		public bool UsingSpotifyAudio { get; set; }
+		public bool UsingSpotifyAudio { get; private set; }
 
 		/// <summary>
 		/// The List of registered languages
@@ -92,8 +90,11 @@ namespace Karl.Model
 			{
 				if (_properties.ContainsKey("lang")) _properties.Remove("lang");
 				_properties.Add("lang", value.Tag);
-				SingletonLangManager.CurrentLang = value;
-				SingletonColorManager.ResetColors();
+
+				//Tested elsewhere
+				if (!_testing) SingletonLangManager.CurrentLang = value;
+				if (!_testing) SingletonColorManager.ResetColors();
+
 				LangChanged?.Invoke(this, null);
 			}
 		}
@@ -143,13 +144,18 @@ namespace Karl.Model
 			set
 			{
 				if (_properties == null) return;
+
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
-				SingletonColorManager.CurrentColor = value;
+
+				//Tested elsewhere
+				if (!_testing) SingletonColorManager.CurrentColor = value;
+
 				foreach (Microcharts.Entry entry in ChartEntries)
 				{
-					entry.Color = SKColor.Parse(SingletonColorManager.CurrentColor.Color.ToHex());
+					entry.Color = SKColor.Parse(value.Color.ToHex());
 				}
+
 				ColorChanged?.Invoke(this, null);
 			}
 		}
@@ -159,7 +165,8 @@ namespace Karl.Model
 		/// </summary>
 		public void ResetSteps()
 		{
-			SingletonOutputManager.Log.Reset();
+			//Disable Connections for Unit Testing
+			if (!_testing) SingletonOutputManager.Log.Reset();
 			Steps = 0;
 		}
 
@@ -168,7 +175,7 @@ namespace Karl.Model
 		/// </summary>
 		protected SettingsHandler()
 		{
-			if(Application.Current != null) _properties = (_propertiesInjection == null) ? Application.Current.Properties : _propertiesInjection;
+			if(Application.Current != null) _properties = (_propertiesInjection == null | !_testing) ? Application.Current.Properties : _propertiesInjection;
 			//For testing
 			else _properties = new Dictionary<string, Object>();
 			UsingSpotifyAudio = false;
@@ -308,15 +315,29 @@ namespace Karl.Model
 				ChartChanged?.Invoke(this, null);
 			}
 		}
- 
+
+
+		//Testing Attributes
+		private static bool _testing = false;
+		private static IDictionary<string, Object> _propertiesInjection = null;
+
 		/// <summary>
 		/// This injects an Properties Dictionary instead of the Application.Current.Properties
 		/// </summary>
-		/// <param name="injection"></param>
+		/// <param name="injection">The Mock Ditionary</param>
 		[Conditional("TESTING")]
 		internal static void PropertiesInjection(IDictionary<string, object> injection)
 		{
 			_propertiesInjection = injection;
+		}
+		/// <summary>
+		/// Enables the Testing Mode, disabling many Connections for UnitTesting.
+		/// </summary>
+		/// <param name="testing">Testing parameter</param>
+		[Conditional("TESTING")]
+		internal static void Testing(bool testing)
+		{
+			_testing = testing;
 		}
 
 		/// <summary>
