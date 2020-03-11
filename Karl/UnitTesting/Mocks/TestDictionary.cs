@@ -27,11 +27,11 @@ namespace UnitTesting.Mocks
 				return false;
 			}
 		}
-		public bool TriggerRemoveCalled_key
+		public bool TriggerRemoveCalled_lang
 		{
 			get
 			{
-				return RemoveCalls.Contains("key");
+				return RemoveCalls.Contains("lang");
 			}
 		}
 		public bool TriggerAddCalled_lang_english
