@@ -19,7 +19,7 @@ namespace UnitTesting.StepDetectionLibraryTests
 		/// Tests if subscriber to output receive if valuechanges
 		/// </summary>
 		[Fact]
-		public void Tests()
+		public void InandOutTests()
 		{
 			Input TestInput = new Input();
 			Mock<IObserver<Output>> MockObserver = new Mock<IObserver<Output>>();
@@ -27,6 +27,19 @@ namespace UnitTesting.StepDetectionLibraryTests
 			TestInput.ValueChanged(this, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(1, 2, 3), 1));
 
 			MockObserver.Verify(foo => foo.OnNext(It.IsAny<Output>()));
+		}
+
+		/// <summary>
+		/// tests if no step doesnt get detected
+		/// </summary>
+		[Fact]
+		public void NoStepTest()
+		{
+			Input TestInput = new Input();
+			OutputManager.SingletonOutputManager.Log.Reset();
+			TestInput.ValueChanged(this, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(10, 20, 30), 1));
+			Assert.Equal(0, new Output().StepCount());
+			Assert.Equal(0, new Output().Frequency());
 		}
 	}
 }

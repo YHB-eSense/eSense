@@ -65,5 +65,15 @@ namespace UnitTesting.StepDetectionLibraryTests
 			MockObserver.Verify(foo => foo.OnNext(It.IsAny<AccelerationSample>()));
 		}
 
+		/// <summary>
+		/// test samplingrate
+		/// </summary>
+		[Fact]
+		public void SamplingRateTest()
+		{
+			Input TestInput = new Input();
+			Assert.Equal(25, TestInput.SamplingRate);
+		}
+
 	}
 }
