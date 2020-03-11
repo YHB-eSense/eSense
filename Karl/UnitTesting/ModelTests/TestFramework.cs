@@ -10,7 +10,7 @@ namespace UnitTesting.ModelTests
 	class TestFramework
 	{
 
-		private List<Action> _after;
+		private List<Action> _after = new List<Action>();
 		public IList<Action> AfterActions
 		{
 			get

@@ -39,7 +39,7 @@ namespace Karl.Model
 		/// <summary>
 		/// This initializes the Lang data
 		/// </summary>
-		public void Init()
+		public virtual void Init()
 		{
 			if (_initDone) return;
 			System.Diagnostics.Debug.WriteLine("Init " + _baseFile.Name);
