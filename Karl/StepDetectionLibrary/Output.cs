@@ -60,7 +60,6 @@ namespace StepDetectionLibrary
 		/// </summary>
 		public void OnCompleted()
 		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -69,7 +68,7 @@ namespace StepDetectionLibrary
 		/// <param name="error">exception</param>
 		public void OnError(Exception error)
 		{
-			throw new NotImplementedException();
+			throw new Exception();
 		}
 		/// <summary>
 		/// method when recieving new data

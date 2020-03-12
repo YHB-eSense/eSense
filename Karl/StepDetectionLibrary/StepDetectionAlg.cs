@@ -32,7 +32,6 @@ namespace StepDetectionLibrary
 		/// </summary>
 		public void OnCompleted()
 		{
-			throw new Exception();
 		}
 
 		/// <summary>

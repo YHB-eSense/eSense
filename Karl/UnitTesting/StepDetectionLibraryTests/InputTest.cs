@@ -42,10 +42,15 @@ namespace UnitTesting.StepDetectionLibraryTests
 		[Fact]
 		public void UpdateTest()
 		{
+
 			Mock<IObserver<AccelerationSample>> MockObserver = new Mock<IObserver<AccelerationSample>>();
 			Input TestInput = new Input();
 			TestInput.Subscribe(MockObserver.Object);
-			TestInput.Update(new AccelerationSample());
+			TestInput.Update(new AccelerationSample
+			{
+				Acceleration = new TripleShort(44, 55, 55),
+				Time = DateTime.UtcNow
+			});
 			MockObserver.Verify(foo => foo.OnNext(It.IsAny<AccelerationSample>()));
 		}
 
