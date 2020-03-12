@@ -13,9 +13,32 @@ namespace UnitTesting.ViewModelTests
 {
 	public class NavigationHandlerTests
 	{
+		[Fact]
+		public void SingletonNavHandlerTest()
+		{
+			//setup
+			var handler1 = NavigationHandler.SingletonNavHandler;
+			var handler2 = NavigationHandler.SingletonNavHandler;
+			//test
+			Assert.Equal(handler1, handler2);
+		}
 
 		[Fact]
-		public void SetPagesTest() { }
+		public void SetPagesTest()
+		{
+			//setup
+			var handler = new NavigationHandler_NEW();
+			var page1 = new ContentPageMock1();
+			var page2 = new ContentPageMock2();
+			var pages = new ContentPage[] { page1, page2 };
+			//test
+			handler.SetPages(pages);
+			ContentPage output;
+			handler.Pages.TryGetValue(typeof(ContentPageMock1), out output);
+			Assert.Equal(page1, output);
+			handler.Pages.TryGetValue(typeof(ContentPageMock2), out output);
+			Assert.Equal(page2, output);
+		}
 
 		[Fact]
 		public void GotoPageTest()
@@ -69,6 +92,7 @@ namespace UnitTesting.ViewModelTests
 					List.RemoveAt(List.Count - 1);
 				}
 			}
+			public Dictionary<Type, ContentPage> Pages { get => _pages; }
 		}
 
 		internal class ContentPageMock1 : ContentPage { }

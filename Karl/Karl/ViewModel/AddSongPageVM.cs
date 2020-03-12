@@ -1,6 +1,5 @@
 using Karl.Model;
 using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -100,8 +99,7 @@ namespace Karl.ViewModel
 			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
 				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
 			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-					_settingsHandler.CurrentLang.Get("alert_text"), _settingsHandler.CurrentLang.Get("alert_ok"));
+				await AlertWrapper("alert_title", "alert_text", "alert_ok");
 				return;
 			}
 			AddTrackWrapper(bpm);
@@ -118,9 +116,9 @@ namespace Karl.ViewModel
 			if (await FileNotNullWrapper())
 			{
 				_picked = true;
-				NewSongTitle = GetTitle();
-				NewSongArtist = GetArtist();
-				NewSongBPM = GetBPM();
+				NewSongTitle = GetTitleWrapper();
+				NewSongArtist = GetArtistWrapper();
+				NewSongBPM = GetBPMWrapper();
 			}
 		}
 
@@ -128,8 +126,7 @@ namespace Karl.ViewModel
 		{
 			if (!_picked)
 			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
+				await AlertWrapper("alert_title", "alert_text_2", "alert_ok");
 			}
 			else if (CorrectExtensionWrapper())
 			{
@@ -137,27 +134,37 @@ namespace Karl.ViewModel
 			}
 			else
 			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-				"alert_text_3", _settingsHandler.CurrentLang.Get("alert_ok"));
+				await AlertWrapper("alert_title", "alert_text_3", "alert_ok");
 			}
 		}
 
-		protected virtual string GetTitle()
+		protected virtual string GetTitleWrapper()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		protected virtual string GetArtist()
+		protected virtual string GetArtistWrapper()
 		{
 			if (_file != null && _file.Tag.Performers.Length >= 1) { return _file.Tag.Performers[0]; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		protected virtual string GetBPM()
+		protected virtual string GetBPMWrapper()
 		{
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
 			return _settingsHandler.CurrentLang.Get("unknown");
+		}
+
+		//Wrappers for testing
+
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 		}
 
 		protected virtual string CalculateBPMWrapper()
@@ -175,15 +182,6 @@ namespace Karl.ViewModel
 			_navHandler.GoBack();
 		}
 
-		protected virtual void InitializeSingletons()
-		{
-			_navHandler = NavigationHandler.SingletonNavHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
-		}
-
 		protected virtual async Task<bool> FileNotNullWrapper()
 		{
 			var pick = await CrossFilePicker.Current.PickFile();
@@ -199,5 +197,12 @@ namespace Karl.ViewModel
 		{
 			return Path.GetExtension(_newSongFileLocation).Equals(".wav");
 		}
+
+		protected virtual async Task AlertWrapper(string title, string text, string ok)
+		{
+			await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get(title),
+					_settingsHandler.CurrentLang.Get(text), _settingsHandler.CurrentLang.Get(ok));
+		}
+
 	}
 }

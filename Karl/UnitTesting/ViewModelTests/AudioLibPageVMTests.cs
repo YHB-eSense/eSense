@@ -1,14 +1,11 @@
 using Karl.Model;
+using Karl.View;
 using Karl.ViewModel;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
-using Xunit.Sdk;
 
 namespace UnitTesting.ViewModelTests
 {
@@ -89,7 +86,14 @@ namespace UnitTesting.ViewModelTests
 		}
 
 		[Fact]
-		public void AddSongCommandTest() { }
+		public void AddSongCommandTest()
+		{
+			//setup
+			var vm = new AudioLibPageVM_NEW();
+			//test
+			vm.AddSongCommand.Execute(null);
+			Assert.Equal(typeof(AddSongPage), vm.NavHandler.CurrentPageType);
+		}
 
 		[Fact]
 		public void SearchSongCommandTest()
@@ -98,26 +102,34 @@ namespace UnitTesting.ViewModelTests
 			var vm = new AudioLibPageVM_NEW();
 			vm.Songs.Add(new AudioTrack_NEW("title1", "artist1", 1));
 			vm.Songs.Add(new AudioTrack_NEW("title2", "artist2", 2));
+			var oldSongs = new List<AudioTrack>(vm.Songs);
 			//test
 			vm.SearchSongCommand.Execute("title1");
 			foreach (AudioTrack track in vm.Songs)
 			{
 				Assert.Contains("title1", track.Title);
 			}
+			Assert.NotEqual(oldSongs, vm.Songs);
+			//test
+			vm.SearchSongCommand.Execute("");
+			Assert.Equal(oldSongs, vm.Songs);
+			//test
+			vm.SearchSongCommand.Execute(null);
+			Assert.Equal(oldSongs, vm.Songs);
 		}
 
 		[Fact]
-		public void DeleteSongCommandTest()
+		public void DeleteSongsCommandTest()
 		{
-			/*
 			//setup
 			var vm = new AudioLibPageVM_NEW();
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			vm.EditDeleteListCommand.Execute(track1);
+			vm.Player.CurrentTrack = track1;
 			//test
 			vm.DeleteSongsCommand.Execute(null);
 			Assert.Empty(vm.DeleteList);
-			*/ //TODO
+			Assert.Null(vm.Player.CurrentTrack);
 		}
 
 		[Fact]
@@ -129,13 +141,17 @@ namespace UnitTesting.ViewModelTests
 			//test
 			vm.EditDeleteListCommand.Execute(track1);
 			Assert.Equal(track1, vm.DeleteList[0]);
+			//test
+			vm.EditDeleteListCommand.Execute(track1);
+			Assert.Empty(vm.DeleteList);
 		}
 
 		internal class AudioLibPageVM_NEW : AudioLibPageVM
 		{
+			public NavigationHandler NavHandler { get => _navHandler; }
 			public List<AudioTrack> DeleteList { get => _deleteList; }
 			public AudioPlayer Player { get => _audioPlayer; }
-			public AudioLibPageVM_NEW()
+			public AudioLibPageVM_NEW() : base()
 			{
 				Songs = new List<AudioTrack>();
 			}
@@ -145,6 +161,7 @@ namespace UnitTesting.ViewModelTests
 			{
 				_audioPlayer = new AudioPlayer_NEW();
 				_navHandler = new NavigationHandler_NEW();
+				_audioLib = new AudioLib_NEW();
 			}
 			protected override async Task<bool> AlertWrapper() { return true; }
 		}
@@ -156,6 +173,11 @@ namespace UnitTesting.ViewModelTests
 			{
 				CurrentTrack = track;
 			}
+		}
+
+		internal class AudioLib_NEW : AudioLib
+		{
+			public override void DeleteTrack(AudioTrack track) { }
 		}
 
 		internal class AudioTrack_NEW : AudioTrack
@@ -174,10 +196,12 @@ namespace UnitTesting.ViewModelTests
 			public override string StorageLocation { get; set; }
 			public override string TextId { get; set; }
 		}
-
+		
 		internal class NavigationHandler_NEW : NavigationHandler
 		{
-			public override async void GotoPage<T>() { }
+			public override Type CurrentPageType { get; set; }
+			public override async void GotoPage<T>() { CurrentPageType = typeof(T); }
 		}
+		
 	}
 }

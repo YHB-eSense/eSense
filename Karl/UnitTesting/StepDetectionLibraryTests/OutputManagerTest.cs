@@ -21,6 +21,7 @@ namespace UnitTesting.StepDetectionLibraryTests
 		[Fact]
 		public void SubscribeTest()
 		{
+			
 			Mock<IObserver<Output>> MockObserver = new Mock<IObserver<Output>>();
 			IDisposable TestDisposable = OutputManager.SingletonOutputManager.Subscribe(MockObserver.Object);
 			FieldInfo field = typeof(OutputManager).GetField("_observer", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -29,6 +30,9 @@ namespace UnitTesting.StepDetectionLibraryTests
 			Assert.Contains(MockObserver.Object, Observers);
 			TestDisposable.Dispose();
 			Assert.DoesNotContain(MockObserver.Object, Observers);
+
+			Observers.Clear();
+			OutputManager.SingletonOutputManager.Log.Reset();
 		}
 
 		/// <summary>
@@ -42,6 +46,20 @@ namespace UnitTesting.StepDetectionLibraryTests
 			OutputManager.SingletonOutputManager.Update(new Output());
 			MockObserver.Verify(foo => foo.OnNext(It.IsAny<Output>()));
 
+			FieldInfo field = typeof(OutputManager).GetField("_observer", BindingFlags.NonPublic | BindingFlags.Instance);
+			object Oservers = field.GetValue(OutputManager.SingletonOutputManager);
+			List<IObserver<Output>> Observers = (List<IObserver<Output>>)Oservers;
+			Observers.Clear();
+			OutputManager.SingletonOutputManager.Log.Reset();
+		}
+
+		/// <summary>
+		/// Tests method onerror
+		/// </summary>
+		[Fact]
+		public void OnErrorTest()
+		{
+			Assert.Throws<Exception>(() => OutputManager.SingletonOutputManager.OnError(new Exception()));
 		}
 	}
 }

@@ -7,7 +7,8 @@ namespace Karl.ViewModel
 {
 	public class NavigationHandler
 	{
-		private Dictionary<Type, ContentPage> _pages { get; set; }
+		public virtual Type CurrentPageType { get => Application.Current.MainPage.GetType(); set => _ = value; }
+		protected Dictionary<Type, ContentPage> _pages { get; set; }
 		private static NavigationHandler _singletonNavHandler;
 
 		public static NavigationHandler SingletonNavHandler
@@ -41,7 +42,7 @@ namespace Karl.ViewModel
 			await GotoPage(typeof(T));
 		}
 
-		protected async Task GotoPage(Type pageType)
+		private async Task GotoPage(Type pageType)
 		{
 			if (!_pages.ContainsKey(pageType)) { throw new ArgumentException("Type of page not found"); }
 			var toBePushed = _pages[pageType];

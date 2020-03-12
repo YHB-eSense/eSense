@@ -57,7 +57,7 @@ namespace Karl.Model
 		public event AudioLibEventHandler AudioLibChanged;
 
 
-		private AudioLib()
+		protected AudioLib()
 		{
 			_singletonAudioLib = this;
 			_audioLibImp = new BasicAudioLib();
