@@ -1,8 +1,99 @@
-\documentclass[../implementierung.tex]{subfiles}
-
+\documentclass[../validierung.tex]{subfiles}
 \begin{document}
 
 \section{Systemtests}
-...
+
+\section{Testszenarien}
+
+\subsection{Testszenario 1 - Verbinden mit Earables}
+Hier wurde /T302/ (Suche nach verfugbaren Bluetooth-Geräten aktualisieren (/FA304/)) entfernt, da das verbinden mit den Earables über die Einstellung läuft und dort die Aktualisierung der verfügbaren Bluetooth Gerät automatisch passiert.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Verbinden mit den Earables} {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. /T301/ Nach verfugbaren Bluetooth-Geräten suchen (/FA302/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T303/ Verfügbare Bluetooth-Geräte auflisten (/FA303/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T303/ Verfugbare Bluetooth-Geräte auflisten (/FA303/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T304/ BLE- und BC-Verbindung zu den Earables herstellen (/FA305/)     & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T305/ BLE- und BC-Verbindung zu den Earables trennen (/FA306/)       & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+\subsection{Testszenario 2 - Verwaltung der Audiobibliothek 1}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Verwaltung der Audiobibliothek 1}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. /T401/ Audio-Bibliothek öffnen (/FA320/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T402/ Audio-Datei der Bibliothek hinzufügen (/FA321/, /FA322/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T403/ Metadaten einer Audio-Datei auslesen (/FA323/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T404/ Metadaten einer Audio-Datei manuell bearbeiten (/FA324/)   & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T411/ Audio-Bibliothek durchsuchen nach Titel (/FA326/)  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T412/ Audio-Bibliothek durchsuchen nach Künstler (/FA326/)
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T405/ Audio-Datei aus der Bibliothek löschen (/FA325/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T418/ Audio-Bibliothek schließen (/FA320/)  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+10. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+\subsection{Testszenario 3 - Verwaltung der Audiobibliothek 2}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Verwaltung der Audiobibliothek 2}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. /T401/ Audio-Bibliothek öffnen (/FA320/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T402/ Audio-Datei der Bibliothek hinzufügen (/FA321/, /FA322/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T403/ Metadaten einer Audio-Datei auslesen (/FA323/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T404/ Metadaten einer Audio-Datei manuell bearbeiten (/FA324/)   & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. Schritte 3. - 5. wiederholen  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7./T414/ Audio-Bibliothek nach Titel sortieren (/FA327/)
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T415/ Audio-Bibliothek nach Künstler sortieren (/FA327/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T416/ Audio-Bibliothek nach BPM-Wert sortieren (/FA327/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+10. /T418/ Audio-Bibliothek schließen (/FA320/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \cline{1-2}
+11. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+\subsection{Testszenario 4 - Abspielfunktionen von Audiodateien}
+In diesem Szenario konnte der achte Schritt(/T406/ Audio-Datei auswählen und abspielen uber Earables-Output (/FA330/, /FA331/, /FA332/)) angepasst werden, da nicht direkt die App, sondern das verwendete Gerät auswählt über welches Gerät der Audio Output ausgegeben wird. Außerdem konnte der zehnte Schritt (innerhalb des Szenarios) nicht getestet werden, da  keine Queue von nächsten Titel erstellt wird, sondern lediglich zwischen bereits abgespielten Lieder vor und zurück gewechselt werden kann.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Abspielfunktionen von Audiodateien}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T401/ Audio-Bibliothek öffnen (/FA320/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T402/ Audio-Datei der Bibliothek hinzufugen ( ¨ /FA321/, /FA322/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T403/ Metadaten einer Audio-Datei auslesen (/FA323/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T404/ Metadaten einer Audio-Datei manuell bearbeiten (/FA324/)   & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. Schritte 3. - 5. wiederholen  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T406/ Audio-Datei auswählen und abspielen 
+über Earables-Output
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T407/ Audio pausieren bzw. wiedergeben (/FA333/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+10. /T408/ Nächste Audio-Datei in Audio-Bibliothek abspielen (/FA334/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+11. /T409/ Vorherige Audio-Datei in Audio-Bibliothek abspielen  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+12. /T808/ Im Audio-Player die Lautstärke verändern (/FA336W/)  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+13. /T809/ Im Audio-Player den Abspielzeitpunkt verändern (/FA337W/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+14. /T418/ Audio-Bibliothek schließen (/FA320/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \cline{1-2}
+15. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+
+
+
+
+20
+
+13. /T809/ Im Audio-Player den Abspielzeitpunkt ver¨ andern (/FA33
 
 \end{document}
