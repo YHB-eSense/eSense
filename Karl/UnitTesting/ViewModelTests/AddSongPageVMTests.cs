@@ -1,6 +1,4 @@
 using Karl.ViewModel;
-using Moq;
-using Plugin.FilePicker.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -8,27 +6,38 @@ namespace UnitTesting.ViewModelTests
 {
 	public class AddSongPageVMTests
 	{
-		[Fact]
-		public void PickFileCommandTest()
+		[Theory]
+		[InlineData("title", "artist", "0")]
+		public void PickFileCommandTest(string val1, string val2, string val3)
 		{
 			//setup
-			var vm = new AddSongPageVM_NEW();
+			var vm = new AddSongPageVM_NEW(val1, val2, val3);
 			//test
 			vm.PickFileCommand.Execute(null);
-			Assert.Equal("title", vm.NewSongTitle);
-			Assert.Equal("artist", vm.NewSongArtist);
-			Assert.Equal("0", vm.NewSongBPM);
+			Assert.Equal(val1, vm.NewSongTitle);
+			Assert.Equal(val2, vm.NewSongArtist);
+			Assert.Equal(val3, vm.NewSongBPM);
 		}
 
-		[Fact]
-		public void GetBPMCommandTest()
+		[Theory]
+		[InlineData("0")]
+		public void GetBPMCommandTest(string val1)
 		{
 			//setup
-			var vm = new AddSongPageVM_NEW();
-			vm.PickFileCommand.Execute(null);
+			var vm = new AddSongPageVM_NEW(val1);
 			//test
+			vm.Alerted = false;
 			vm.GetBPMCommand.Execute(null);
-			Assert.Equal("0", vm.NewSongBPM);
+			Assert.True(vm.Alerted);
+			//test
+			vm.PickFileCommand.Execute(null);
+			vm.CorrectExtension = true;
+			vm.GetBPMCommand.Execute(null);
+			Assert.Equal(val1, vm.NewSongBPM);
+			//test
+			vm.CorrectExtension = false;
+			vm.Alerted = false;
+			vm.GetBPMCommand.Execute(null);
 		}
 
 		[Fact]
@@ -36,8 +45,11 @@ namespace UnitTesting.ViewModelTests
 		{
 			//setup
 			var vm = new AddSongPageVM_NEW();
-			vm.PickFileCommand.Execute(null);
 			//test
+			vm.AddSongCommand.Execute(null);
+			Assert.True(vm.Alerted);
+			//test
+			vm.PickFileCommand.Execute(null);
 			vm.AddSongCommand.Execute(null);
 			Assert.Null(vm.NewSongTitle);
 			Assert.Null(vm.NewSongArtist);
@@ -46,15 +58,33 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AddSongPageVM_NEW : AddSongPageVM
 		{
-			protected override string GetTitle() { return "title"; }
-			protected override string GetArtist() { return "artist"; }
-			protected override string GetBPM() { return "0"; }
-			protected override string CalculateBPMWrapper() { return "0"; }
+			private string _title;
+			private string _artist;
+			private string _bpm;
+			private string _calc_bpm;
+			public AddSongPageVM_NEW(string title, string artist, string bpm)
+			{
+				_title = title;
+				_artist = artist;
+				_bpm = bpm;
+			}
+			public AddSongPageVM_NEW(string calc_bpm)
+			{
+				_calc_bpm = calc_bpm;
+			}
+			public AddSongPageVM_NEW() { }
+			public bool Alerted { get; set; }
+			public bool CorrectExtension { get; set; }
+			protected override string GetTitleWrapper() { return _title; }
+			protected override string GetArtistWrapper() { return _artist; }
+			protected override string GetBPMWrapper() { return _bpm; }
+			protected override string CalculateBPMWrapper() { return _calc_bpm; }
 			protected override void AddTrackWrapper(int bpm) { }
 			protected override void GoBackWrapper() { }
 			protected override void InitializeSingletons() { }
 			protected override async Task<bool> FileNotNullWrapper() { return true; }
-			protected override bool CorrectExtensionWrapper() { return true; }
+			protected override bool CorrectExtensionWrapper() { return CorrectExtension; }
+			protected override async Task AlertWrapper(string title, string text, string ok) { Alerted = true; }
 		}
 	}
 }

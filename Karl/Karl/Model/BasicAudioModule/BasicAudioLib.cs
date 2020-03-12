@@ -18,19 +18,11 @@ namespace Karl.Model
 		/// <summary>
 		/// Non functional. 
 		/// </summary>
-		public SimplePlaylist[] AllPlaylists
-		{
-			get => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
-			set => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
-		}
+		public SimplePlaylist[] AllPlaylists { get; set; }
 		/// <summary>
 		/// Non functional. 
 		/// </summary>
-		public SimplePlaylist SelectedPlaylist
-		{
-			get => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
-			set => throw new NotImplementedException("Multiple Playlists not supported on a Basic Lib");
-		}
+		public SimplePlaylist SelectedPlaylist { get; set; }
 
 		public event AudioLibEventHandler AudioLibChanged;
 
