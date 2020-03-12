@@ -59,5 +59,15 @@ namespace UnitTesting.StepDetectionLibraryTests
 			Assert.InRange<double>(TestValue, 7551, 7552);
 		}
 
+		/// <summary>
+		/// Tests method onerror
+		/// </summary>
+		[Fact]
+		public void OnErrorTest()
+		{
+			StepDetectionAlg TestSDAlg = new StepDetectionAlg();
+			Assert.Throws<Exception>(() => TestSDAlg.OnError(new Exception()));
+		}
+
 	}
 }
