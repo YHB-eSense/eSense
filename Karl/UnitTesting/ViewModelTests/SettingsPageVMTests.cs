@@ -1,6 +1,7 @@
 using Karl.Model;
 using Karl.ViewModel;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace UnitTesting.ViewModelTests
@@ -20,7 +21,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ChangeDeviceNameTest()
 		{
-			SettingsPageVM spVM = new SettingsPageVM();
+			SettingsPageVM_NEW spVM = new SettingsPageVM_NEW();
 			spVM.DeviceName = "New Device";
 			spVM.ChangeDeviceNameCommand.Execute(null);
 			//Should be null because atm no earables are connected
@@ -33,20 +34,16 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ResetStepsTest()
 		{
-			SettingsPageVM spVM = new SettingsPageVM();
+			SettingsPageVM_NEW spVM = new SettingsPageVM_NEW();
 			spVM.ResetStepsCommand.Execute(null);
 			Assert.Equal(0, SettingsHandler.SingletonSettingsHandler.Steps);
 		}
 
-		[Fact]
-		public void ChangeColorTest()
-		{
-			SettingsPageVM spVM = new SettingsPageVM();
-			spVM.CurrentColor = ColorManager.SingletonColorManager.Colors[0];
-			Assert.Equal(SettingsHandler.SingletonSettingsHandler.CurrentColor,
-				ColorManager.SingletonColorManager.Colors[0]);
-		}
 
+
+		/// <summary>
+		/// Checks if changing language works
+		/// </summary>
 		[Fact]
 		public void ChangeLanguageTest()
 		{
@@ -56,9 +53,38 @@ namespace UnitTesting.ViewModelTests
 				LangManager.SingletonLangManager.AvailableLangs[1]);
 		}
 
+
+		/// <summary>
+		/// Checks if changing Color works
+		/// </summary>
+		[Fact]
+		public void ChangeColorTest()
+		{
+			SettingsPageVM spVM = new SettingsPageVM();
+			spVM.CurrentColor = ColorManager.SingletonColorManager.Colors[0];
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.CurrentColor,
+				ColorManager.SingletonColorManager.Colors[0]);
+		}
+
 		public void Dispose()
 		{
 			//TO-DO: Tear Down
+		}
+
+		internal class SettingsHandler_NEW : SettingsHandler {
+
+			protected override void InitProperties()
+			{
+				
+			}
+		}
+
+		internal class SettingsPageVM_NEW : SettingsPageVM {
+
+			public SettingsPageVM_NEW() {
+				_settingsHandler = SettingsHandler_NEW.SingletonSettingsHandler;
+			}
+
 		}
 	}
 }

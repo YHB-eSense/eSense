@@ -10,7 +10,7 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
+		protected SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
 
