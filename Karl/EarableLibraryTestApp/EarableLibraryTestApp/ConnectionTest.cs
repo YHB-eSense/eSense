@@ -28,13 +28,13 @@ namespace EarableLibraryTestApp
 				{
 					Status.StatusUpdate("Connecting...");
 					Assert.NotEqual(earable.IsConnected(), await earable.ConnectAsync());
-					Assert.True(earable.IsConnected());
+					Assert.True(earable.IsConnected(), "Earable should be connected after calling ConnectAsync()");
 				}
 				else if (op == ConnectOperation.DISCONNECT)
 				{
 					Status.StatusUpdate("Disconnecting...");
 					Assert.Equal(earable.IsConnected(), await earable.DisconnectAsync());
-					Assert.False(earable.IsConnected());
+					Assert.False(earable.IsConnected(), "Earable should be disconnected after calling DisconnectAsync()");
 				}
 			}
 		}

@@ -33,14 +33,8 @@ namespace EarableLibraryTestApp
 				_sampleReceived.Wait(TimeSpan.FromSeconds(10));
 				await subscribable.StopSamplingAsync();
 				subscribable.ValueChanged -= OnValueChanged;
-				if (_sampleReceived.IsSet)
-				{
-					Status.StatusUpdate("Received value {1} from sensor {0}", sensor, _lastSample);
-				} else
-				{
-					Status.StatusUpdate("A timeout occured while waiting for an update from sensor {0}!", sensor);
-				}
-				Assert.True(_sampleReceived.IsSet);
+				Assert.True(_sampleReceived.IsSet, "Sensor upate should be received within a maximum of 10 seconds.");
+				Status.StatusUpdate("Received value {1} from sensor {0}", sensor, _lastSample);
 			}
 		}
 

@@ -1,4 +1,5 @@
-using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.Extensions;
+using System;
 using System.Threading.Tasks;
 
 namespace EarableLibrary
@@ -16,6 +17,11 @@ namespace EarableLibrary
 		/// Whether the battery is charging (true) or discharging (false).
 		/// </summary>
 		public bool Charging;
+
+		public override string ToString()
+		{
+			return string.Format("<BatteryState(Voltage={0},Charging={1})>", Voltage, Charging);
+		}
 	}
 
 	/// <summary>
@@ -23,30 +29,35 @@ namespace EarableLibrary
 	/// </summary>
 	public class VoltageSensor : IReadableSensor<BatteryState>
 	{
-		private readonly ICharacteristic _read;
+		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
 
+		private readonly BLEConnection _conn;
 
 		/// <summary>
 		/// Construct a new VoltageSensor.
 		/// </summary>
 		/// <param name="read">Characteristic, which provides read-access to the current battery state</param>
-		internal VoltageSensor(ICharacteristic read)
+		public VoltageSensor(BLEConnection conn)
 		{
-			_read = read;
+			_conn = conn;
 		}
-
 		/// <summary>
-		/// Query the earable for its current battery state.
+		/// Retrieve the current battery state.
 		/// </summary>
 		/// <returns>Current battery state</returns>
 		public async Task<BatteryState> ReadAsync()
 		{
-			var bytes = await _read.ReadAsync();
-			var message = new ESenseMessage(received: bytes);
+			return ParseMessage(await _conn.ReadAsync(CHAR_VOLTAGE));
+		}
+
+		private BatteryState ParseMessage(byte[] data)
+		{
+			var message = new ESenseMessage();
+			message.Decode(data);
 			return new BatteryState()
 			{
 				Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f,
-				Charging = (message.Data[0] & 1) == 1
+				Charging = (message.Data[2] & 1) == 1
 			};
 		}
 	}
