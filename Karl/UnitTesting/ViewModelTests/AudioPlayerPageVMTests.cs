@@ -51,6 +51,25 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(25, vm.Drag);
 		}
 
+		[Fact]
+		public void RefreshTests()
+		{
+			//setup
+			var vm = new AudioPlayerPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
+			//test
+			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+			Assert.Equal(1, i);
+			i = 0;
+			//test
+			SettingsHandler.SingletonSettingsHandler.changeAudioModuleToBasic();
+			Assert.Equal(7, i);
+		}
+
 		internal class AudioPlayerPageVM_NEW : AudioPlayerPageVM
 		{
 			public AudioPlayerPageVM_NEW()

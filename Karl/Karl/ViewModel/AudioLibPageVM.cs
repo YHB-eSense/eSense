@@ -26,8 +26,8 @@ namespace Karl.ViewModel
 		private Color _artistSortTextColor;
 		private Color _bpmSortColor;
 		private Color _bpmSortTextColor;
-		private enum _sortType { TITLESORT, ARTISTSORT, BPMSORT }
-		private _sortType type;
+		protected enum _sortType { TITLESORT, ARTISTSORT, BPMSORT }
+		protected _sortType type;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -131,6 +131,12 @@ namespace Karl.ViewModel
 		public AudioLibPageVM()
 		{
 			InitializeSingletons();
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_audioLib.AudioLibChanged += RefreshAudioLib;
 			_oldSongs = null;
 			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
@@ -279,13 +285,7 @@ namespace Karl.ViewModel
 		protected virtual void InitializeSingletons()
 		{
 			_navHandler = NavigationHandler.SingletonNavHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
-			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
-			_audioLib.AudioLibChanged += RefreshAudioLib;
 		}
 
 		protected virtual async Task<bool> AlertWrapper()

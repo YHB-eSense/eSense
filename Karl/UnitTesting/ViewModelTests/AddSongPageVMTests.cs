@@ -63,12 +63,17 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AddSongPageVM_NEW();
 			int i = 0;
-			//test
 			vm.PropertyChanged += (sender, e) =>
 			{
 				i++;
 			};
-
+			//test
+			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+			Assert.Equal(6, i);
+			i = 0;
+			//test
+			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+			Assert.Equal(1, i);
 		}
 
 		internal class AddSongPageVM_NEW : AddSongPageVM

@@ -100,15 +100,15 @@ namespace Karl.ViewModel
 			_timer.AutoReset = true;
 			_wasPaused = true;
 			InitializeSingletons();
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudio;
 		}
 
 		protected virtual void InitializeSingletons()
 		{
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
-			_settingsHandler.ColorChanged += RefreshColor;
 			_audioPlayer.AudioChanged += RefreshAudio;
-			_settingsHandler.AudioModuleChanged += RefreshAudio;
 		}
 
 		private void RefreshColor(object sender, EventArgs args)

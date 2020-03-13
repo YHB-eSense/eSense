@@ -3,6 +3,7 @@ using Karl.View;
 using Karl.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
@@ -16,6 +17,11 @@ namespace UnitTesting.ViewModelTests
 		{
 			//setup
 			var vm = new AudioLibPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -30,6 +36,7 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(Color.Black, vm.BPMSortTextColor);
 			Assert.Equal(vm.Songs[0], track1);
 			Assert.Equal(vm.Songs[1], track2);
+			Assert.Equal(6, i);
 		}
 
 		[Fact]
@@ -37,6 +44,11 @@ namespace UnitTesting.ViewModelTests
 		{
 			//setup
 			var vm = new AudioLibPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -51,6 +63,7 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(Color.Black, vm.BPMSortTextColor);
 			Assert.Equal(vm.Songs[0], track1);
 			Assert.Equal(vm.Songs[1], track2);
+			Assert.Equal(6, i);
 		}
 
 		[Fact]
@@ -58,6 +71,11 @@ namespace UnitTesting.ViewModelTests
 		{
 			//setup
 			var vm = new AudioLibPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -72,6 +90,7 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(Color.White, vm.BPMSortTextColor);
 			Assert.Equal(vm.Songs[0], track1);
 			Assert.Equal(vm.Songs[1], track2);
+			Assert.Equal(6, i);
 		}
 
 		[Fact]
@@ -144,6 +163,38 @@ namespace UnitTesting.ViewModelTests
 			//test
 			vm.EditDeleteListCommand.Execute(track1);
 			Assert.Empty(vm.DeleteList);
+		}
+
+		[Fact]
+		public void RefreshTests()
+		{
+			//setup
+			var vm = new AudioLibPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
+			//test
+			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+			Assert.Equal(4, i);
+			i = 0;
+			//test
+			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+			Assert.Equal(7, i);
+			i = 0;
+			//test
+			SettingsHandler.SingletonSettingsHandler.changeAudioModuleToBasic();
+			Assert.Equal(11, i);
+			i = 0;
+			/*
+			//test
+			FieldInfo field = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.NonPublic | BindingFlags.Instance);
+			var output = field.GetValue(AudioLib.SingletonAudioLib);
+			IAudioLibImpl audioLibImp = (IAudioLibImpl) output;
+			audioLibImp.AddTrack("test", "title", "artist", 0);
+			Assert.Equal(7, i);
+			*/
 		}
 
 		internal class AudioLibPageVM_NEW : AudioLibPageVM

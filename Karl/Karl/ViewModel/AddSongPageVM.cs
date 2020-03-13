@@ -71,7 +71,11 @@ namespace Karl.ViewModel
 		/// <param name="navHandler"> For navigation</param>
 		public AddSongPageVM()
 		{
-			InitializeSingletons();
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_audioLib = AudioLib.SingletonAudioLib;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(CalculateBPM);
@@ -157,15 +161,6 @@ namespace Karl.ViewModel
 		}
 
 		//Wrappers for testing
-
-		protected virtual void InitializeSingletons()
-		{
-			_navHandler = NavigationHandler.SingletonNavHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_audioLib = AudioLib.SingletonAudioLib;
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
-		}
 
 		protected virtual string CalculateBPMWrapper()
 		{
