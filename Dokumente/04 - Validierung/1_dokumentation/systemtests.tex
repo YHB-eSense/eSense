@@ -169,22 +169,32 @@ Das Szenario konnte ohne Änderungen getestet werden.
 6. /T504/ Einstellungen schließen (/FA310/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
 7. /T704/ Bildschirm ausschalten
  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
-8. /T704/ Bildschirm ausschalten
+8. /T704/ Bildschirm anschalten
  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
 9. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
 \end{tabular}
 \end{table}
 
-8.1.8 App im Hintergrund laufen lassen
-1. /T701/ App ¨ offnen
-2. Bluetooth Verbindung herstellen [/T301/,/T303/,/T304/]
-3. /T501/ Einstellungen ¨ offnen (/FA310/)
-4. /T703/ Bildschirm drehen
-5. /T703/ Bildschirm (zuruck) drehen ¨
-6. /T504/ Einstellungen schließen (/FA310/)
-7. /T704/ Bildschirm ausschalten
-8. /T704/ Bildschirm anschalten
-9. /T702/ App schließen
-
+\subsection{Testszenario 9 - Spotify einbinden}
+Bei 4. wurde die Spotify Bibliothek durch eine ausgewählte Spotify Playlist ersetzt.
+\begin{table}[]
+\begin{tabular}{|l|r}
+\hline
+\multicolumn{2}{|c|}{Konfiguration der Einstellungen}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T804/ App mit Spotify-Account verbinden & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T805M/ Modi des Modus-Managers in Kombination mit einer
+Spotify-Playlist anstelle der integrierten Audio-Bibliothek nutzen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T401M/ Spotify-Playlist öffnen (/FA320/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T406/ Audio-Datei auswählen und abspielen über Earables-Output & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T407/ Audio pausieren bzw. wiedergeben (/FA333/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T409/ Vorherige Audio-Datei in Audio-Bibliothek abspielen (/FA334/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+ 10. /T401M/ Spotify-Playlist schließen (/FA320/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+11. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
 
 \end{document}
