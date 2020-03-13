@@ -129,13 +129,13 @@ namespace EarableLibrary
 
 		public IndexedESenseMessage() { }
 
-		/// <summary>
-		/// Construct a new indexed ESenseMessage.
-		/// </summary>
-		/// <param name="header">Message header</param>
-		/// <param name="data">Message data</param>
-		/// <param name="packetIndex">Packet index</param>
-		public IndexedESenseMessage(byte header, byte[] data, byte packetIndex)
+			/// <summary>
+			/// Construct a new indexed ESenseMessage.
+			/// </summary>
+			/// <param name="header">Message header</param>
+			/// <param name="data">Message data</param>
+			/// <param name="packetIndex">Packet index</param>
+			public IndexedESenseMessage(byte header, byte[] data, byte packetIndex)
 		{
 			Header = header;
 			Data = data;
@@ -171,10 +171,10 @@ namespace EarableLibrary
 			PacketIndex = received[pos++];
 			var receivedChecksum = received[pos++];
 			var dataSize = received[pos++];
-			if (dataSize != received.Length - pos) throw new MessageError("Invalid size detected!");
+			MessageError.AssertEqual(dataSize, received.Length - pos, "Invalid size detected!");
 			Data = new byte[dataSize];
 			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: dataSize);
-			if (Checksum != receivedChecksum) throw new MessageError("Invalid checksum detected!");
+			MessageError.AssertEqual(Checksum, receivedChecksum, "Invalid checksum detected!");
 		}
 	}
 
@@ -210,6 +210,14 @@ namespace EarableLibrary
 		/// <param name="errorMessage">Message describing the error</param>
 		public MessageError(string errorMessage) : base(errorMessage)
 		{
+		}
+
+		public static void AssertEqual<T>(T actual, T expected, string message)
+		{
+			if (!actual.Equals(expected))
+			{
+				throw new MessageError(message);
+			}
 		}
 	}
 }

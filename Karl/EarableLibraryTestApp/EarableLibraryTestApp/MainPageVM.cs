@@ -1,4 +1,5 @@
 using EarableLibrary;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,11 +12,12 @@ namespace EarableLibraryTestApp
 	{
 		private static MainPageVM _instance;
 		private readonly IEarableManager _manager = new EarableLibrary.EarableLibrary();
+		private readonly List<TestResult<IEarable>> _results = new List<TestResult<IEarable>>();
 		private Task _testTask = null;
 		private string _statusText;
 
 		private readonly Test<IEarable>[] _tests = {
-			new ConnectionTest(),
+			// new ConnectionTest(),
 			new SensorTest<MotionSensor, MotionSensorSample>(),
 			new SensorTest<PushButton, ButtonState>(),
 			new SensorTest<VoltageSensor, BatteryState>(),
@@ -67,16 +69,23 @@ namespace EarableLibraryTestApp
 
 		private async Task RunTestsAsync()
 		{
-			Status.StatusUpdate("Running Tests async...");
-			Status.StatusUpdate("EarableLibrary initialized, connecting Earable...");
+			_results.Clear();
+			Status.StatusUpdate("Connecting to earable...");
 			var earable = await _manager.ConnectEarableAsync(); // TODO: show list instead
 			Assert.NotNull(earable);
 			Status.StatusUpdate("Earable connected!");
 			foreach (var test in _tests)
 			{
 				var result = await test.RunAndCatch(earable);
+				_results.Add(result);
 				Status.StatusUpdate(result);
 			}
+			var status = "";
+			foreach (var res in _results)
+			{
+				status += res.ToString() + "\n";
+			}
+			Status.StatusUpdate(status);
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonText)));
 		}
 	}

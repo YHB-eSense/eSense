@@ -17,6 +17,11 @@ namespace EarableLibrary
 		/// Whether the battery is charging (true) or discharging (false).
 		/// </summary>
 		public bool Charging;
+
+		public override string ToString()
+		{
+			return string.Format("<BatteryState(Voltage={0},Charging={1})>", Voltage, Charging);
+		}
 	}
 
 	/// <summary>
@@ -26,7 +31,7 @@ namespace EarableLibrary
 	{
 		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
 
-		private BLEConnection _conn;
+		private readonly BLEConnection _conn;
 
 		/// <summary>
 		/// Construct a new VoltageSensor.

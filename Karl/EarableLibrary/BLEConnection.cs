@@ -96,6 +96,7 @@ namespace EarableLibrary
 				await UnsubscribeAll();
 				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
 				_characteristics.Clear();
+				_subscriptions.Clear();
 				return true;
 			}
 			catch (Exception e)
@@ -193,7 +194,6 @@ namespace EarableLibrary
 
 		private void CharacteristicValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
 		{
-			Debug.WriteLine("A value of {0} has been updated", args: e.Characteristic.Uuid);
 			if (_subscriptions.ContainsKey(e.Characteristic.Id))
 			{
 				foreach (var handler in _subscriptions[e.Characteristic.Id])

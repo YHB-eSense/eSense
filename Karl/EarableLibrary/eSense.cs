@@ -61,6 +61,18 @@ namespace EarableLibrary
 		public Guid Id => _conn.Id;
 
 		/// <summary>
+		/// Connect to the device and initialize sensors.
+		/// </summary>
+		/// <returns>true if successful, false otherwise</returns>
+		public async Task<bool> ConnectAsync()
+		{
+			var status = await _conn.Open();
+			if (status) status = await InitializeConnection();
+			if (!status && IsConnected()) await _conn.Close();
+			return status;
+		}
+
+		/// <summary>
 		/// Called after the connection has been established.
 		/// Can be used to initialize sensors and load device properties.
 		/// </summary>
@@ -78,18 +90,6 @@ namespace EarableLibrary
 				if (Name != null && Name.Length > 0) Debug.WriteLine("Unsupported Device: {0} ({1})", Name, e.Message);
 				return false;
 			}
-		}
-
-		/// <summary>
-		/// Connect to the device and initialize sensors.
-		/// </summary>
-		/// <returns>true if successful, false otherwise</returns>
-		public async Task<bool> ConnectAsync()
-		{
-			var status = await _conn.Open();
-			if (status) status = await InitializeConnection();
-			if (IsConnected()) await _conn.Close();
-			return status;
 		}
 
 		/// <summary>
