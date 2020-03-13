@@ -36,7 +36,7 @@ namespace Karl.Model
 			}
 		}
 
-		public double Volume
+		public virtual double Volume
 		{
 			get => _audioPlayerImp.Volume;
 			set => _audioPlayerImp.Volume = value;

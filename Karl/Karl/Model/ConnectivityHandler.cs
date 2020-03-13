@@ -31,7 +31,7 @@ namespace Karl.Model
 		}
 
 		private readonly IEarableManager _earableManager;
-		private readonly StepDetectionLibrary.Input _stepDetection;
+		private readonly Input _stepDetection;
 		private IEarable _connectedEarable;
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Karl.Model
 		public event ConnectionEventHandler ConnectionChanged;
 
 
-		private ConnectivityHandler()
+		protected ConnectivityHandler()
 		{
 			_earableManager = new EarableLibrary.EarableLibrary();
 			_stepDetection = new Input();
@@ -56,7 +56,7 @@ namespace Karl.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool EarableConnected
+		public virtual bool EarableConnected
 		{
 			get
 			{
@@ -82,7 +82,7 @@ namespace Karl.Model
 		/// Tries establishing a BLE connection to a bonded EarableDevice.
 		/// </summary>
 		/// <returns>null if connection failed, the newly connected device otherwise</returns>
-		public async Task<bool> Connect()
+		public virtual async Task<bool> Connect()
 		{
 			_connectedEarable = await _earableManager.ConnectEarableAsync();
 
@@ -110,7 +110,7 @@ namespace Karl.Model
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public async Task Disconnect()
+		public virtual async Task Disconnect()
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.DisconnectAsync();

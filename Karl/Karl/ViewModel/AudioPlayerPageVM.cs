@@ -70,8 +70,8 @@ namespace Karl.ViewModel
 		}
 		public double Volume
 		{
-			get => AudioPlayer.SingletonAudioPlayer.Volume;
-			set => AudioPlayer.SingletonAudioPlayer.Volume = value;
+			get => _audioPlayer.Volume;
+			set => _audioPlayer.Volume = value;
 		}
 		public virtual bool UsingBasicAudio { get => _settingsHandler.UsingBasicAudio; }
 

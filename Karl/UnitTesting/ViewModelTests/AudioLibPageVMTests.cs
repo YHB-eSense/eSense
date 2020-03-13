@@ -18,10 +18,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -45,10 +42,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -72,10 +66,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
 			vm.Songs.Add(track1);
@@ -171,10 +162,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			//test
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			Assert.Equal(4, i);

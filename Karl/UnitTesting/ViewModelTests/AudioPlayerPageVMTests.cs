@@ -12,17 +12,34 @@ namespace UnitTesting.ViewModelTests
 		{
 			//setup
 			var vm = new AudioPlayerPageVM_NEW();
+			int i = 0;
+			vm.PropertyChanged += (sender, e) => i++;
 			//test
-			Assert.True(vm.Paused);
+			Assert.True(vm.Player.Paused);
 			vm.PausePlayCommand.Execute(null);
-			Assert.False(vm.Paused);
+			Assert.False(vm.Player.Paused);
+			Assert.Equal(3, i);
 		}
 
 		[Fact]
-		public void PlayPrevCommandTest() { }
+		public void PlayPrevCommandTest()
+		{
+			//setup
+			var vm = new AudioPlayerPageVM_NEW();
+			//test
+			vm.PlayPrevCommand.Execute(null);
+			Assert.Null(vm.Player.CurrentTrack);
+		}
 
 		[Fact]
-		public void PlayNextCommandTest() { }
+		public void PlayNextCommandTest()
+		{
+			//setup
+			var vm = new AudioPlayerPageVM_NEW();
+			//test
+			vm.PlayNextCommand.Execute(null);
+			Assert.Null(vm.Player.CurrentTrack);
+		}
 
 		[Fact]
 		public void PositionDragStartedCommandTest()
@@ -31,13 +48,13 @@ namespace UnitTesting.ViewModelTests
 			var vm = new AudioPlayerPageVM_NEW();
 			vm.PausePlayCommand.Execute(null);
 			//test
-			Assert.False(vm.Paused);
+			Assert.False(vm.Player.Paused);
 			Assert.True(vm.WasPaused);
 			vm.PositionDragStartedCommand.Execute(null);
-			Assert.True(vm.Paused);
+			Assert.True(vm.Player.Paused);
 			Assert.False(vm.WasPaused);
 			vm.PositionDragStartedCommand.Execute(null);
-			Assert.True(vm.Paused);
+			Assert.True(vm.Player.Paused);
 			Assert.True(vm.WasPaused);
 		}
 
@@ -57,10 +74,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AudioPlayerPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			//test
 			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
 			Assert.Equal(1, i);
@@ -70,16 +84,30 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(7, i);
 		}
 
+		[Fact]
+		public void PropertyTest()
+		{
+			//setup
+			var vm = new AudioPlayerPageVM_NEW();
+			//test
+			vm.Volume = 0.5;
+			Assert.Equal(0.2, vm.CurrentPosition);
+			Assert.Equal("0:10", vm.TimePlayed);
+			Assert.Equal("0:40", vm.TimeLeft);
+			Assert.Equal(0.5, vm.Volume);
+		}
+
 		internal class AudioPlayerPageVM_NEW : AudioPlayerPageVM
 		{
 			public AudioPlayerPageVM_NEW()
 			{
 				_dragValue = 0.5;
+				UsingBasicAudio = false;
 			}
 			public double Drag { get => _dragValue; }
-			public bool Paused { get => _audioPlayer.Paused; }
+			public AudioPlayer Player { get => _audioPlayer; }
 			public bool WasPaused { get => _wasPaused; }
-			public override bool UsingBasicAudio { get => true; }
+			public override bool UsingBasicAudio { get; }
 			protected override void InitializeSingletons()
 			{
 				_audioPlayer = new AudioPlayer_NEW();
@@ -92,15 +120,15 @@ namespace UnitTesting.ViewModelTests
 			{
 				Paused = true;
 				CurrentTrack = new AudioTrack_NEW();
+				CurrentSecInTrack = 10;
 			}
 			public override bool Paused { get; set; }
 			public override AudioTrack CurrentTrack { get; set; }
-			public override void TogglePause()
-			{
-				Paused = !Paused;
-			}
-			public override void PrevTrack() { }
-			public override void NextTrack() { }
+			public override double CurrentSecInTrack { get; set; }
+			public override double Volume { get; set; }
+			public override void TogglePause() { Paused = !Paused; }
+			public override void PrevTrack() { CurrentTrack = null; }
+			public override void NextTrack() { CurrentTrack = null; }
 		}
 
 		internal class AudioTrack_NEW : AudioTrack

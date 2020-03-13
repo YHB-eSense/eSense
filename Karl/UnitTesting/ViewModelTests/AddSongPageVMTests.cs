@@ -63,10 +63,7 @@ namespace UnitTesting.ViewModelTests
 			//setup
 			var vm = new AddSongPageVM_NEW();
 			int i = 0;
-			vm.PropertyChanged += (sender, e) =>
-			{
-				i++;
-			};
+			vm.PropertyChanged += (sender, e) => i++;
 			//test
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			Assert.Equal(6, i);
@@ -106,5 +103,5 @@ namespace UnitTesting.ViewModelTests
 			protected override async Task AlertWrapper(string title, string text, string ok) { Alerted = true; }
 		}
 
-		}
 	}
+}

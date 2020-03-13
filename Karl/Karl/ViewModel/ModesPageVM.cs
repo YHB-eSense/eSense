@@ -10,7 +10,7 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
-		private ConnectivityHandler _connectivityHandler;
+		protected ConnectivityHandler _connectivityHandler;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -63,6 +63,11 @@ namespace Karl.ViewModel
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		protected virtual void InitializeSingletons()
+		{
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 		}
 
 	}

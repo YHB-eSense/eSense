@@ -114,6 +114,7 @@ namespace Karl.Model
 				{
 					DeviceNameChanged?.Invoke(this, null);
 				});
+				DeviceNameChanged?.Invoke(this, null);
 			}
 		}
 

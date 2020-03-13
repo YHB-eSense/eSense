@@ -3,6 +3,7 @@ using Karl.View;
 using StepDetectionLibrary;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,11 +11,12 @@ namespace Karl.ViewModel
 {
 	public class MainPageVM : INotifyPropertyChanged
 	{
-		private NavigationHandler _navHandler;
-		private SettingsHandler _settingsHandler;
-		private ConnectivityHandler _connectivityHandler;
-		private ImageSource _iconOn;
-		private ImageSource _iconOff;
+		protected NavigationHandler _navHandler;
+		protected SettingsHandler _settingsHandler;
+		protected ConnectivityHandler _connectivityHandler;
+		//private OutputManager _outputManager;
+		protected ImageSource _iconOn;
+		protected ImageSource _iconOff;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -37,8 +39,9 @@ namespace Karl.ViewModel
 			{
 				if (_connectivityHandler.EarableConnected)
 				{
-					var spm = OutputManager.SingletonOutputManager.Log.AverageStepFrequency(TimeSpan.FromSeconds(10)) * 60;
-					return string.Format("{0}: {1} ({2} SPM)", _settingsHandler.CurrentLang.Get("steps"), _settingsHandler.Steps, spm);
+					//var spm = _outputManager.Log.AverageStepFrequency(TimeSpan.FromSeconds(10)) * 60;
+					//return string.Format("{0}: {1} ({2} SPM)", _settingsHandler.CurrentLang.Get("steps"), _settingsHandler.Steps, spm);
+					return _settingsHandler.CurrentLang.Get("steps") + ": " + _settingsHandler.Steps;
 				}
 				return null;
 			}
@@ -64,6 +67,11 @@ namespace Karl.ViewModel
 		public MainPageVM()
 		{
 			InitializeSingletons();
+			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
+			_settingsHandler.StepsChanged += RefreshSteps;
+			_connectivityHandler.ConnectionChanged += RefreshConnection;
 			AudioPlayerPageCommand = new Command(GotoAudioPlayerPage);
 			AudioLibPageCommand = new Command(GotoAudioLibPage);
 			TryConnectCommand = new Command(TryConnect);
@@ -90,7 +98,6 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepsAmount)));
 		}
 
-
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
@@ -114,11 +121,7 @@ namespace Karl.ViewModel
 			else
 			{
 				var success = await _connectivityHandler.Connect();
-				if (!success)
-				{
-					INavToSettings navigator = DependencyService.Get<INavToSettings>();
-					navigator.NavToSettings();
-				}
+				if (!success) { NavigateWrapper(); }
 			}
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 		}
@@ -143,11 +146,13 @@ namespace Karl.ViewModel
 		{
 			_navHandler = NavigationHandler.SingletonNavHandler;
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
-			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.DeviceNameChanged += RefreshDeviceName;
-			_settingsHandler.StepsChanged += RefreshSteps;
-			_connectivityHandler.ConnectionChanged += RefreshConnection;
+			//_outputManager = OutputManager.SingletonOutputManager;
+		}
+
+		protected virtual void NavigateWrapper()
+		{
+			INavToSettings navigator = DependencyService.Get<INavToSettings>();
+			navigator.NavToSettings();
 		}
 	}
 }

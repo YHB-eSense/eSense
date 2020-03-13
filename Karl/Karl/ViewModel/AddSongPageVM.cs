@@ -142,6 +142,8 @@ namespace Karl.ViewModel
 			}
 		}
 
+		//Wrappers for testing
+
 		protected virtual string GetTitleWrapper()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
@@ -159,8 +161,6 @@ namespace Karl.ViewModel
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
-
-		//Wrappers for testing
 
 		protected virtual string CalculateBPMWrapper()
 		{
