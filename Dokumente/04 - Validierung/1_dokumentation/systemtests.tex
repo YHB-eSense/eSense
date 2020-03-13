@@ -1,4 +1,5 @@
 \documentclass[../validierung.tex]{subfiles}
+\usepackage{tabularx}
 \begin{document}
 
 \section{Systemtests}
@@ -83,4 +84,107 @@ In diesem Szenario konnte der achte Schritt(/T406/ Audio-Datei auswählen und ab
 15. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
 \end{tabular}
 \end{table}
+
+\subsection{Testszenario 5 - Motivationsmusik beim Laufen}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabularx}{13cm}{|X|X|}
+\hline
+\multicolumn{2}{|c|}{Motivationsmusik beim Laufen}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T401/ Audio-Bibliothek öffnen (/FA320/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. Audio-Dateien hinzufügen (/T402/, /T403/ und /T404/ wiederholen) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T801/ BPM-Wert einer Audio-Datei berechnen und gespeicherten BPM-Wert überschreiben  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T418/ Audio-Bibliothek schließen (/FA320/)
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T601/ Modus-Manager öffnen (/FA340/)
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T602/ Motivationsmusik-Modus anschalten (/FA341/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T604/ Aus Schrittfrequenz passenden BPM-Wert berechnen (/FA342/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+10. /T417/ Audio-Datei in Bibliothek finden, deren BPM-Wert am ehesten
+mit einem gegeben Wert übereinstimmt (/FA343/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \cline{1-2}
+11. /T406/ Audio-Datei auswählen und abspielen über Earables-Output 
+(/FA330/, /FA331/, /FA332/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}\\
+12. /T603/ Motivationsmusik-Modus ausschalten (/FA341/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+13. /T605/ Modus-Manager schließen (/FA340/)
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+14. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabularx}
+\end{table}
+
+\subsection{Testszenario 6 - Autostop-Modus beim Laufen}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Autostop-Modus beim Laufen}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T601/ Modus-Manager öffnen (/FA340/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T802/ Autostop-Modus anschalten & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T406/ Audio-Datei auswählen und abspielen über Earables-Output & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T804/ Autostop-Modus pausiert Musik wenn nicht in Bewegung  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T803/ Autostop-Modus ausschalten
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+\subsection{Testszenario 7 - Konfiguration der Einstellungen}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Konfiguration der Einstellungen}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T501/ Einstellungen öffnen (/FA310/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T502/ Sprache ändern (/FA311/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T806/ Geräte-Name der Earables ändern (/FA312W/)& \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T503/ Schrittanzahl zurücksetzen (/FA354/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T504/ Einstellungen schließen (/FA310/)
+  & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+
+\subsection{Testszenario 8 - Konfiguration der Einstellungen}
+Das Szenario konnte ohne Änderungen getestet werden.
+\begin{table}[]
+\begin{tabular}{|l|l|r}
+\hline
+\multicolumn{2}{|c|}{Konfiguration der Einstellungen}  {Bestanden}                                               \\ \cline{1-2}
+1. /T701/ App öffnen    & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}   \\ \cline{1-2}
+2. Bluetooth Verbindung herstellen (/T301/,/T303/,/T304/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+3. /T501/ Einstellungen öffnen (/FA310/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+4. /T703/ Bildschirm drehen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+5. /T703/ Bildschirm (zurück) drehen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+6. /T504/ Einstellungen schließen (/FA310/) & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+7. /T704/ Bildschirm ausschalten
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+8. /T704/ Bildschirm ausschalten
+ & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK}  \\ \cline{1-2}
+9. /T702/ App schließen & \cellcolor[HTML]{34FF34}{\color[HTML]{000000} OK} \\ \hline                                                
+\end{tabular}
+\end{table}
+
+8.1.8 App im Hintergrund laufen lassen
+1. /T701/ App ¨ offnen
+2. Bluetooth Verbindung herstellen [/T301/,/T303/,/T304/]
+3. /T501/ Einstellungen ¨ offnen (/FA310/)
+4. /T703/ Bildschirm drehen
+5. /T703/ Bildschirm (zuruck) drehen ¨
+6. /T504/ Einstellungen schließen (/FA310/)
+7. /T704/ Bildschirm ausschalten
+8. /T704/ Bildschirm anschalten
+9. /T702/ App schließen
+
+
 \end{document}
