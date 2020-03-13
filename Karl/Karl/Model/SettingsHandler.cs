@@ -163,7 +163,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The constructor that builds a new SettingsHandler
 		/// </summary>
-		private SettingsHandler()
+		protected SettingsHandler()
 		{
 			_properties = (_propertiesInjection == null) ? Application.Current.Properties : _propertiesInjection;
 			UsingSpotifyAudio = false;

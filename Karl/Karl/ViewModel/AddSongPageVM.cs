@@ -11,7 +11,7 @@ namespace Karl.ViewModel
 {
 	public class AddSongPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
+		protected SettingsHandler _settingsHandler;
 		private NavigationHandler _navHandler;
 		private AudioLib _audioLib;
 		private TagLib.File _file;

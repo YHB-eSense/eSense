@@ -1,3 +1,4 @@
+using Karl.Model;
 using Karl.ViewModel;
 using System.Threading.Tasks;
 using Xunit;
@@ -56,21 +57,35 @@ namespace UnitTesting.ViewModelTests
 			Assert.Null(vm.NewSongBPM);
 		}
 
+		[Fact]
+		public void RefreshTest()
+		{
+			//setup
+			var vm = new AddSongPageVM_NEW();
+			int i = 0;
+			//test
+			vm.PropertyChanged += (sender, e) =>
+			{
+				i++;
+			};
+
+		}
+
 		internal class AddSongPageVM_NEW : AddSongPageVM
 		{
 			private string _title;
 			private string _artist;
 			private string _bpm;
-			private string _calc_bpm;
+			private string _calcbpm;
 			public AddSongPageVM_NEW(string title, string artist, string bpm)
 			{
 				_title = title;
 				_artist = artist;
 				_bpm = bpm;
 			}
-			public AddSongPageVM_NEW(string calc_bpm)
+			public AddSongPageVM_NEW(string calcbpm)
 			{
-				_calc_bpm = calc_bpm;
+				_calcbpm = calcbpm;
 			}
 			public AddSongPageVM_NEW() { }
 			public bool Alerted { get; set; }
@@ -78,13 +93,13 @@ namespace UnitTesting.ViewModelTests
 			protected override string GetTitleWrapper() { return _title; }
 			protected override string GetArtistWrapper() { return _artist; }
 			protected override string GetBPMWrapper() { return _bpm; }
-			protected override string CalculateBPMWrapper() { return _calc_bpm; }
+			protected override string CalculateBPMWrapper() { return _calcbpm; }
 			protected override void AddTrackWrapper(int bpm) { }
 			protected override void GoBackWrapper() { }
-			protected override void InitializeSingletons() { }
 			protected override async Task<bool> FileNotNullWrapper() { return true; }
 			protected override bool CorrectExtensionWrapper() { return CorrectExtension; }
 			protected override async Task AlertWrapper(string title, string text, string ok) { Alerted = true; }
 		}
+
+		}
 	}
-}
