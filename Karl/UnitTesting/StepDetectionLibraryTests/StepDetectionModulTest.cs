@@ -1,8 +1,10 @@
 using EarableLibrary;
 using Moq;
+using SQLite;
 using StepDetectionLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -51,16 +53,82 @@ namespace UnitTesting.StepDetectionLibraryTests
 		}
 
 		/// <summary>
-		/// 
+		/// tests if one step gets detected
 		/// </summary>
 		[Fact]
 		public void StepTest()
 		{
 			Input TestInput = new Input();
 			TestInput.ValueChanged(this, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(1390, 3220, 8830), 1));
-			TestInput.ValueChanged(this, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(1390, 3220, 8830), 1));
-
+			TestInput.ValueChanged(this, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(1390, 220, 830), 1));
+			Assert.Equal(1, new Output().StepCount());
 			OutputManager.SingletonOutputManager.Log.Reset();
 		}
+
+		/// <summary>
+		/// tests with a real sample if correct amount of steps get detected
+		/// </summary>
+		[Fact]
+		public void SampleTest()
+		{
+			string FileName = "18schritte50hz.db";
+			string path = (Path.Combine(Environment.CurrentDirectory, @"Data\", FileName));
+			TestActivityLog TestActivitylog = new TestActivityLog(path);
+			var activityFrames = TestActivitylog.GetData();
+
+			Input TestInput = new Input();
+
+			for (int i = 0; i < activityFrames.Length; i++)
+			{
+				MotionSensorSample arg = activityFrames[i].ToMotionSensorSample();
+				TestInput.ValueChanged(null, arg);
+			}
+			Assert.Equal(18, new Output().StepCount());
+			OutputManager.SingletonOutputManager.Log.Reset();
+		}
+
+
+		public class TestActivityLog
+		{
+
+			private readonly SQLiteConnection _conn;
+
+			public TestActivityLog(string dbPath)
+			{
+				_conn = new SQLiteConnection(dbPath);
+			}
+
+			public ActivityFrame[] GetData()
+			{
+				var table = _conn.Table<ActivityFrame>();
+				return table.ToArray();
+			}
+		}
+
+		[Serializable]
+		public class ActivityFrame
+		{
+
+			public ActivityFrame() { }
+			[PrimaryKey, AutoIncrement]
+			public long Id { get; set; }
+			public short AccX { get; set; }
+			public short AccY { get; set; }
+			public short AccZ { get; set; }
+			public short GyroX { get; set; }
+			public short GyroY { get; set; }
+			public short GyroZ { get; set; }
+			public byte Counter { get; set; }
+			public MotionSensorSample ToMotionSensorSample()
+			{
+				TripleShort acc = new TripleShort(AccX, AccY, AccZ);
+				TripleShort gyro = new TripleShort(GyroX, GyroY, GyroZ);
+
+				return new MotionSensorSample(gyro, acc, Counter);
+
+			}
+
+		}
+	
 	}
 }

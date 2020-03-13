@@ -1,5 +1,8 @@
 using EarableLibrary;
 using StepDetectionLibrary;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace StepDetectionTestApp
 {
@@ -20,6 +23,7 @@ namespace StepDetectionTestApp
 				MotionSensorSample arg = activityFrames[i].ToMotionSensorSample();
 				input.ValueChanged(null, arg);
 			}
+			Debug.WriteLine(Path.Combine(Environment.CurrentDirectory, @"Data\", "6schritte50hz.db"));
 		}
 	}
 }
