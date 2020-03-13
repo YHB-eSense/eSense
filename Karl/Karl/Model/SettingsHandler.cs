@@ -39,7 +39,7 @@ namespace Karl.Model
 
 		private static readonly Object _padlock = new Object();
 
-		private readonly IDictionary<string, Object> _properties;
+		protected readonly IDictionary<string, Object> _properties;
 		private int _steps;
 		private Timer timer;
 
@@ -125,6 +125,7 @@ namespace Karl.Model
 			get => _steps;
 			private set
 			{
+				if (_properties == null) return;
 				if (_properties.ContainsKey("steps")) _properties.Remove("steps");
 				_properties.Add("steps", value.ToString());
 				_steps = value;
@@ -140,6 +141,7 @@ namespace Karl.Model
 			get => SingletonColorManager.CurrentColor;
 			set
 			{
+				if (_properties == null) return;
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
 				SingletonColorManager.CurrentColor = value;
@@ -165,7 +167,9 @@ namespace Karl.Model
 		/// </summary>
 		protected SettingsHandler()
 		{
-			_properties = (_propertiesInjection == null) ? Application.Current.Properties : _propertiesInjection;
+			if(Application.Current != null) _properties = (_propertiesInjection == null) ? Application.Current.Properties : _propertiesInjection;
+			//For testing
+			else _properties = new Dictionary<string, Object>();
 			UsingSpotifyAudio = false;
 			UsingBasicAudio = true;
 			SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
@@ -173,6 +177,33 @@ namespace Karl.Model
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
+		}
+
+		/// <summary>
+		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
+		/// </summary>
+		public void changeAudioModuleToSpotify()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
+			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+			UsingBasicAudio = false;
+			UsingSpotifyAudio = true;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		/// <summary>
+		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
+		/// </summary>
+		public void changeAudioModuleToBasic()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
+			AudioLib.SingletonAudioLib.ChangeToBasicLib();
+			UsingBasicAudio = true;
+			UsingSpotifyAudio = false;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		protected virtual void InitProperties() {
 			//Load color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
@@ -239,30 +270,6 @@ namespace Karl.Model
 				_steps = 0;
 				_properties.Add("steps", "0");
 			}
-		}
-
-		/// <summary>
-		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
-		/// </summary>
-		public void changeAudioModuleToSpotify()
-		{
-			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
-			AudioLib.SingletonAudioLib.changeToSpotifyLib();
-			UsingBasicAudio = false;
-			UsingSpotifyAudio = true;
-			AudioModuleChanged?.Invoke(this, null);
-		}
-
-		/// <summary>
-		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
-		/// </summary>
-		public void changeAudioModuleToBasic()
-		{
-			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
-			AudioLib.SingletonAudioLib.ChangeToBasicLib();
-			UsingBasicAudio = true;
-			UsingSpotifyAudio = false;
-			AudioModuleChanged?.Invoke(this, null);
 		}
 
 		/// <summary>
