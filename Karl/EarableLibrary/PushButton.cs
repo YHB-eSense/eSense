@@ -1,5 +1,6 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -30,7 +31,9 @@ namespace EarableLibrary
 	/// </summary>
 	public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>
 	{
-		private readonly ICharacteristic _read;
+		private static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
+
+		private readonly BLEConnection _conn;
 
 		/// <summary>
 		/// Invoked when the button state changes.
@@ -45,11 +48,10 @@ namespace EarableLibrary
 		/// <summary>
 		/// Construct a new PushButton.
 		/// </summary>
-		/// <param name="read">Characteristic, which provides read-access to the current button state</param>
-		internal PushButton(ICharacteristic read)
+		/// <param name="read">BLE connection handle</param>
+		public PushButton(BLEConnection conn)
 		{
-			_read = read;
-			_read.ValueUpdated += OnValueUpdated;
+			_conn = conn;
 		}
 
 		/// <summary>
@@ -57,7 +59,7 @@ namespace EarableLibrary
 		/// </summary>
 		public async Task StartSamplingAsync()
 		{
-			await _read.StartUpdatesAsync();
+			await _conn.SubscribeAsync(CHAR_BUTTON, OnValueUpdated);
 		}
 
 		/// <summary>
@@ -65,7 +67,7 @@ namespace EarableLibrary
 		/// </summary>
 		public async Task StopSamplingAsync()
 		{
-			await _read.StopUpdatesAsync();
+			await _conn.UnsubscribeAsync(CHAR_BUTTON, OnValueUpdated);
 		}
 
 		/// <summary>
@@ -74,20 +76,20 @@ namespace EarableLibrary
 		/// <returns>Current button state</returns>
 		public async Task<ButtonState> ReadAsync()
 		{
-			var message = await _read.ReadAsync();
-			return ParseMessage(message);
+			return ParseMessage(await _conn.ReadAsync(CHAR_BUTTON));
 		}
 
 		private ButtonState ParseMessage(byte[] bytes)
 		{
-			var message = new ESenseMessage(received: bytes);
+			var message = new ESenseMessage();
+			message.Decode(bytes);
 			var pushed = (message.Data[0] & 1) == 1;
 			return new ButtonState(pushed);
 		}
 
-		private void OnValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
+		private void OnValueUpdated(byte[] value)
 		{
-			ValueChanged?.Invoke(this, ParseMessage(e.Characteristic.Value));
+			ValueChanged.Invoke(this, ParseMessage(value));
 		}
 	}
 }

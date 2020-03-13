@@ -1,5 +1,3 @@
-using Plugin.BLE;
-using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
@@ -16,24 +14,13 @@ namespace EarableLibrary
 	{
 		// Service and characteristic ids from the BLE specification (https://www.esense.io/share/eSense-BLE-Specification.pdf)
 		private static readonly Guid SER_GENERIC = GuidExtension.UuidFromPartial(0x1800);
-		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
 		private static readonly Guid SER_ESENSE = GuidExtension.UuidFromPartial(0xFF06);
-		private static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
-		private static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
-		private static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
-		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
-		private static readonly Guid CHAR_INTERVALS = GuidExtension.UuidFromPartial(0xFF0B);
-		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
-		private static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
-		private static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
 
-		private readonly IDevice _device;
+		private readonly BLEConnection _conn;
 
 		private Dictionary<Type, ISensor> _sensors;
 
 		private EarableName _name;
-
-		private bool _connected;
 
 		/// <summary>
 		/// Ids of all services which are used for BLE communication with the earables.
@@ -47,7 +34,7 @@ namespace EarableLibrary
 		/// <param name="device">BLE handle used for communication</param>
 		public ESense(IDevice device)
 		{
-			_device = device;
+			_conn = new BLEConnection(device);
 		}
 
 		/// <summary>
@@ -71,26 +58,26 @@ namespace EarableLibrary
 		/// <summary>
 		/// Device id.
 		/// </summary>
-		public Guid Id => _device.Id;
+		public Guid Id => _conn.Id;
 
 		/// <summary>
 		/// Called after the connection has been established.
 		/// Can be used to initialize sensors and load device properties.
 		/// </summary>
-		protected async Task InitializeConnection()
+		protected async Task<bool> InitializeConnection()
 		{
 			try
 			{
-				var characteristics = await GetCharacteristicsAsync(ServiceUuids);
-				_name = new EarableName(read: characteristics[CHAR_NAME_R], write: characteristics[CHAR_NAME_W]);
+				_name = new EarableName(_conn);
 				await _name.Initialize();
-				_sensors = CreateSensors(characteristics);
+				_sensors = CreateSensors();
+				return true;
 			}
 			catch (Exception e)
 			{
-				if (_device.Name != null && _device.Name.Length > 0) Debug.WriteLine("Unsupported Device: " + _device.Name + " / " + e.Message);
+				if (Name != null && Name.Length > 0) Debug.WriteLine("Unsupported Device: {0} ({1})", Name, e.Message);
+				return false;
 			}
-			return;
 		}
 
 		/// <summary>
@@ -99,20 +86,10 @@ namespace EarableLibrary
 		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> ConnectAsync()
 		{
-			if (_device.State != DeviceState.Disconnected) return false;
-			try
-			{
-				var parameters = new ConnectParameters(forceBleTransport: true);
-				await CrossBluetoothLE.Current.Adapter.ConnectToDeviceAsync(_device, parameters);
-				await InitializeConnection();
-				_connected = true;
-				Debug.WriteLine("Now connected to {0}", args: Name);
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-			return true;
+			var status = await _conn.Open();
+			if (status) status = await InitializeConnection();
+			if (IsConnected()) await _conn.Close();
+			return status;
 		}
 
 		/// <summary>
@@ -121,17 +98,7 @@ namespace EarableLibrary
 		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> DisconnectAsync()
 		{
-			if (_device.State != DeviceState.Connected) return false;
-			try
-			{
-				await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(_device);
-				_connected = false;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-			return true;
+			return await _conn.Close();
 		}
 
 		/// <summary>
@@ -140,7 +107,7 @@ namespace EarableLibrary
 		/// <returns>Whether the device is currently connected or not</returns>
 		public bool IsConnected()
 		{
-			return _connected;
+			return _conn.State == ConnectionState.Connected;
 		}
 
 		/// <summary>
@@ -153,26 +120,13 @@ namespace EarableLibrary
 			return (T)_sensors[typeof(T)];
 		}
 
-		private async Task<Dictionary<Guid, ICharacteristic>> GetCharacteristicsAsync(params Guid[] serviceIds)
-		{
-			var dict = new Dictionary<Guid, ICharacteristic>();
-			foreach (Guid serviceId in serviceIds)
-			{
-				var service = await _device.GetServiceAsync(serviceId);
-				if (service == null) throw new NotSupportedException(string.Format("Service {0} not found", serviceId));
-				var characteristics = await service.GetCharacteristicsAsync();
-				foreach (var c in characteristics) dict.Add(c.Id, c);
-			}
-			return dict;
-		}
-
-		private Dictionary<Type, ISensor> CreateSensors(Dictionary<Guid, ICharacteristic> c)
+		private Dictionary<Type, ISensor> CreateSensors()
 		{
 			var dict = new Dictionary<Type, ISensor>
 			{
-				{ typeof(MotionSensor), new MotionSensor(data: c[CHAR_IMU_DATA], enable: c[CHAR_IMU_ENABLE], config: c[CHAR_IMU_CONFIG], offset: c[CHAR_IMU_OFFSET]) },
-				{ typeof(PushButton), new PushButton(c[CHAR_BUTTON]) },
-				{ typeof(VoltageSensor), new VoltageSensor(c[CHAR_VOLTAGE]) }
+				{ typeof(MotionSensor), new MotionSensor(_conn) },
+				{ typeof(PushButton), new PushButton(_conn) },
+				{ typeof(VoltageSensor), new VoltageSensor(_conn) }
 			};
 			return dict;
 		}

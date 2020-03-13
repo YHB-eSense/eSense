@@ -1,4 +1,6 @@
-using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Extensions;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,39 +12,34 @@ namespace EarableLibrary
 	/// </summary>
 	internal class EarableName
 	{
+		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
+		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
+
+		private readonly BLEConnection _conn;
 		private string _name;
-		private readonly ICharacteristic _read, _write;
 
 		/// <summary>
 		/// Construct a new EarableName.
 		/// </summary>
 		/// <param name="read">Characteristic which allows read-access to the name</param>
 		/// <param name="write">Characteristic which allows write-access to the name</param>
-		internal EarableName(ICharacteristic read, ICharacteristic write)
+		public EarableName(BLEConnection conn)
 		{
-			_read = read;
-			_write = write;
+			_conn = conn;
 		}
 
 		/// <summary>
-		/// Initialize the names local copy by retrieving its current remote value.
-		/// </summary>
-		internal async Task Initialize()
-		{
-			var bytes = await _read.ReadAsync();
-			_name = Encoding.ASCII.GetString(bytes);
-		}
-
-		/// <summary>
-		/// Asynchronously update the remote device name.
-		/// If successful, the local copy is updated too.
+		/// Update the remote device name and it's local copy.
 		/// </summary>
 		/// <param name="value">New device name</param>
-		/// <returns>true if write succeeded, false otherwise</returns>
-		internal async Task<bool> SetAsync(string value)
+		public async Task<bool> SetAsync(string value)
 		{
-			var success = await _write.WriteAsync(Encoding.ASCII.GetBytes(value));
-			if (success) _name = value;
+			var msg = new RawMessage()
+			{
+				Data = Encoding.ASCII.GetBytes(value)
+			};
+			bool success = await _conn.WriteAsync(CHAR_NAME_W, msg);
+			_name = value;
 			return success;
 		}
 
@@ -50,9 +47,15 @@ namespace EarableLibrary
 		/// Retrieve the device names local copy.
 		/// </summary>
 		/// <returns>Device name or null if uninitialized</returns>
-		internal string Get()
+		public string Get()
 		{
 			return _name;
+		}
+
+		public async Task Initialize()
+		{
+			var data = await _conn.ReadAsync(CHAR_NAME_R);
+			_name = Encoding.ASCII.GetString(data);
 		}
 	}
 }
