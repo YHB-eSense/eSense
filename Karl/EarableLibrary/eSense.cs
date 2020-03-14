@@ -70,27 +70,19 @@ namespace EarableLibrary
 		{
 			bool opened = await _conn.Open();
 			if (!opened) return false;
-			bool initialized = await InitializeConnection();
-			if (opened && !initialized) await _conn.Close();
-			return opened && initialized;
+			bool valid = await _conn.Validate(ServiceUuids);
+			if (valid) await InitializeConnection();
+			else await _conn.Close();
+			return valid;
 		}
 
 		/// <summary>
 		/// Called after the connection has been established.
 		/// Can be used to initialize sensors and load device properties.
 		/// </summary>
-		protected async Task<bool> InitializeConnection()
+		protected async Task InitializeConnection()
 		{
-			try
-			{
-				await _name.Initialize();
-				return true;
-			}
-			catch (Exception e)
-			{
-				if (Name != null && Name.Length > 0) Debug.WriteLine("Unsupported Device: {0} ({1})", Name, e.Message);
-				return false;
-			}
+			await _name.Initialize();
 		}
 
 		/// <summary>

@@ -47,7 +47,7 @@ namespace EarableLibrary
 		/// <summary>
 		/// Unique id of the connected device.
 		/// </summary>
-        public Guid Id => _device.Id;
+		public Guid Id => _device.Id;
 
 		/// <summary>
 		/// Construct a new BLEConnection.
@@ -56,6 +56,16 @@ namespace EarableLibrary
 		public BLEConnection(IDevice device)
 		{
 			_device = device;
+			CrossBluetoothLE.Current.Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+		}
+
+		private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
+		{
+			if (_device.Equals(e.Device))
+			{
+				Debug.WriteLine("Device connection lost!");
+				_characteristics.Clear();
+			}
 		}
 
 		/// <summary>

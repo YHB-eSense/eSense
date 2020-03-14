@@ -18,10 +18,7 @@ namespace EarableLibraryTestApp
 		{
 			public async override Task Run(IEarable earable)
 			{
-				await earable.DisconnectAsync();
-				Assert.False(earable.IsConnected());
-				await earable.ConnectAsync();
-				Assert.True(earable.IsConnected());
+				await EarableUtility.Reconnect(earable);
 			}
 		}
 	}

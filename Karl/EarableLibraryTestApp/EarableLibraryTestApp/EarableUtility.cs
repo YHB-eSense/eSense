@@ -10,6 +10,7 @@ namespace EarableLibraryTestApp
 		{
 			await earable.DisconnectAsync();
 			Assert.True(!earable.IsConnected());
+			await Task.Delay(2000);
 			await earable.ConnectAsync();
 			Assert.True(earable.IsConnected());
 		}

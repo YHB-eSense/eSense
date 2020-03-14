@@ -54,8 +54,9 @@ namespace EarableLibrary
 
 		public async Task Initialize()
 		{
+			_name = null;
 			var data = await _conn.ReadAsync(CHAR_NAME_R);
-			_name = Encoding.ASCII.GetString(data);
+			if (data != null) _name = Encoding.ASCII.GetString(data);
 		}
 	}
 }

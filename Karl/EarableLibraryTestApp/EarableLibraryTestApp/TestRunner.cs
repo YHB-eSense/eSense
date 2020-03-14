@@ -11,7 +11,7 @@ namespace EarableLibraryTestApp
 		private readonly IEarableManager _manager = new EarableLibrary.EarableLibrary();
 
 		private readonly Test<IEarable>[] _tests = {
-			//new ConnectionTest(),
+			new ConnectionTest(),
 			new SensorTest<MotionSensor, MotionSensorSample>(),
 			new SensorTest<PushButton, ButtonState>(),
 			new SensorTest<VoltageSensor, BatteryState>(),
@@ -45,7 +45,7 @@ namespace EarableLibraryTestApp
 
 			Assert.NotNull(earable);
 			Status.StatusUpdate("Earable connected!");
-			foreach (var test in _failingTestCombination)
+			foreach (var test in _tests)
 			{
 				var result = await test.RunAndCatch(earable);
 				_results.Add(result);
