@@ -45,7 +45,7 @@ namespace EarableLibraryTestApp
 			var status = "";
 			foreach (var res in _results)
 			{
-				status += res.ToString() + "\n";
+				status += res.ToString() + "\n\n";
 			}
 			Status.StatusUpdate(status);
 		}

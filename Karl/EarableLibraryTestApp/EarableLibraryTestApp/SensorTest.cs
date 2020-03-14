@@ -21,12 +21,15 @@ namespace EarableLibraryTestApp
 			Assert.True(sensor is SensorType);
 			if (sensor is IReadableSensor<SensorValueType> readable)
 			{
-				var value = await readable.ReadAsync();
-				Status.StatusUpdate("Current value of {0} is {1}", sensor, value);
+				Status.StatusUpdate("Reading value of sensor {0}", sensor);
+				Status.StatusUpdate("Current value is {0}", await readable.ReadAsync());
+				await Reconnect(earable);
+				Status.StatusUpdate("Value after reconnection is {0}", await readable.ReadAsync());
 			}
 			if (sensor is ISubscribableSensor<SensorValueType> subscribable)
 			{
-				_sampleReceived.Reset();
+				Status.StatusUpdate("Sensor {0} is subscribable", sensor);
+				/*_sampleReceived.Reset();
 				subscribable.ValueChanged += OnValueChanged;
 				await subscribable.StartSamplingAsync();
 				Status.StatusUpdate("Waiting for a value update from sensor {0}", sensor);
@@ -34,7 +37,7 @@ namespace EarableLibraryTestApp
 				await subscribable.StopSamplingAsync();
 				subscribable.ValueChanged -= OnValueChanged;
 				Assert.True(_sampleReceived.IsSet, "Sensor upate should be received within a maximum of 10 seconds.");
-				Status.StatusUpdate("Received value {1} from sensor {0}", sensor, _lastSample);
+				Status.StatusUpdate("Received value {1} from sensor {0}", sensor, _lastSample);*/
 			}
 		}
 
@@ -42,6 +45,12 @@ namespace EarableLibraryTestApp
 		{
 			_lastSample = sample;
 			_sampleReceived.Set();
+		}
+
+		private async Task Reconnect(IEarable earable)
+		{
+			Assert.True(await earable.DisconnectAsync());
+			Assert.True(await earable.ConnectAsync());
 		}
 	}
 }

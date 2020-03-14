@@ -66,10 +66,11 @@ namespace EarableLibrary
 		/// <returns>true if successful, false otherwise</returns>
 		public async Task<bool> ConnectAsync()
 		{
-			var status = await _conn.Open();
-			if (status) status = await InitializeConnection();
-			if (!status && IsConnected()) await _conn.Close();
-			return status;
+			bool opened = await _conn.Open();
+			if (!opened) return false;
+			bool initialized = await InitializeConnection();
+			if (opened && !initialized) await _conn.Close();
+			return opened && initialized;
 		}
 
 		/// <summary>
