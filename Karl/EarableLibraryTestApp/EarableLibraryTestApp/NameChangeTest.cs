@@ -27,14 +27,8 @@ namespace EarableLibraryTestApp
 		{
 			await earable.SetNameAsync(name);
 			Assert.Equal(earable.Name, name);
-			await Reconnect(earable);
+			await EarableUtility.Reconnect(earable);
 			Assert.Equal(earable.Name, name);
-		}
-
-		private async Task Reconnect(IEarable earable)
-		{
-			Assert.True(await earable.DisconnectAsync());
-			Assert.True(await earable.ConnectAsync());
 		}
 	}
 }

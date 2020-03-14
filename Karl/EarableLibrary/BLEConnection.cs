@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace EarableLibrary
 {
@@ -38,7 +39,6 @@ namespace EarableLibrary
 				{
 					case DeviceState.Connected: return ConnectionState.Connected;
 					case DeviceState.Connecting: return ConnectionState.Connecting;
-					case DeviceState.Disconnected:
 					default: return ConnectionState.Disconnected;
 				}
 			}
@@ -115,7 +115,20 @@ namespace EarableLibrary
 		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
 		public async Task<bool> WriteAsync(Guid charId, byte[] val)
 		{
-			return await _characteristics[charId].WriteAsync(val);
+			var completitionSource = new TaskCompletionSource<bool>();
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				try
+				{
+					completitionSource.SetResult(await _characteristics[charId].WriteAsync(val));
+				}
+				catch (Exception)
+				{
+					//completitionSource.SetException(e);
+					completitionSource.SetResult(false);
+				}
+			});
+			return await completitionSource.Task;
 		}
 
 		/// <summary>
@@ -137,6 +150,7 @@ namespace EarableLibrary
 		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
 		public async Task SubscribeAsync(Guid charId, DataReceiver handler)
 		{
+			// TODO: Catch exceptions?
 			if (!_subscriptions.ContainsKey(charId))
 			{
 				_subscriptions[charId] = new List<DataReceiver>();
@@ -155,6 +169,7 @@ namespace EarableLibrary
 		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
 		public async Task UnsubscribeAsync(Guid charId, DataReceiver handler)
 		{
+			// TODO: Catch exceptions?
 			if (_subscriptions.ContainsKey(charId))
 			{
 				_subscriptions[charId].Remove(handler);

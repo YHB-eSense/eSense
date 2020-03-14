@@ -29,7 +29,7 @@ namespace EarableLibrary
 
 		public override string ToString()
 		{
-			return string.Format("{0}\t{1}\t{2}", x, y, z);
+			return string.Format("{0},{1},{2}", x, y, z);
 		}
 	}
 
@@ -66,12 +66,17 @@ namespace EarableLibrary
 		/// When the maximum capacity (255) is exceeded, an overflow happens.
 		/// </summary>
 		public byte SampleId { get; }
+
+		public override string ToString()
+		{
+			return string.Format("MotionSensorSample<Id={0},Acc={1},Gyro={2}>", SampleId, Acc, Gyro);
+		}
 	}
 
 	/// <summary>
 	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample> /*, IReadableSensor<MotionSensorSample>*/
 	{
 		// Command used to enable and disable IMU sampling
 		private static readonly byte CMD_IMU_ENABLE = 0x53;

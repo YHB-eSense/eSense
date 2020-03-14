@@ -106,11 +106,12 @@ namespace EarableLibrary
 		{
 			int pos = 0;
 			Header = received[pos++];
-			var receivedChecksum = received[pos++];
-			var dataSize = received[pos++];
-			MessageError.AssertEqual(dataSize, received.Length - pos, "Invalid size detected!");
-			Data = new byte[dataSize];
-			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: dataSize);
+			byte receivedChecksum = received[pos++];
+			byte expectedSize = received[pos++];
+			int actualSize = received.Length - pos;
+			MessageError.AssertEqual(expectedSize, actualSize, "Invalid size detected!");
+			Data = new byte[expectedSize];
+			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: expectedSize);
 			MessageError.AssertEqual(Checksum, receivedChecksum, "Invalid checksum detected!");
 		}
 
@@ -191,11 +192,12 @@ namespace EarableLibrary
 			int pos = 0;
 			Header = received[pos++];
 			PacketIndex = received[pos++];
-			var receivedChecksum = received[pos++];
-			var dataSize = received[pos++];
-			MessageError.AssertEqual(dataSize, received.Length - pos, "Invalid size detected!");
-			Data = new byte[dataSize];
-			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: dataSize);
+			byte receivedChecksum = received[pos++];
+			byte expectedSize = received[pos++];
+			int actualSize = received.Length - pos;
+			MessageError.AssertEqual(expectedSize, actualSize, "Invalid size detected!");
+			Data = new byte[expectedSize];
+			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: expectedSize);
 			MessageError.AssertEqual(Checksum, receivedChecksum, "Invalid checksum detected!");
 		}
 
@@ -244,11 +246,11 @@ namespace EarableLibrary
 		{
 		}
 
-		public static void AssertEqual<T>(T actual, T expected, string message)
+		public static void AssertEqual<T>(T expected, T actual, string message)
 		{
 			if (!actual.Equals(expected))
 			{
-				throw new MessageError(message);
+				throw new MessageError(string.Format("{0} (Expected: {1}, Actual: {2})", message, actual, expected));
 			}
 		}
 	}

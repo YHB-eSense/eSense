@@ -9,23 +9,32 @@ namespace EarableLibraryTestApp
 	{
 		private readonly List<TestResult<IEarable>> _results = new List<TestResult<IEarable>>();
 		private readonly IEarableManager _manager = new EarableLibrary.EarableLibrary();
-		private Task _testTask = null;
 
 		private readonly Test<IEarable>[] _tests = {
-			new ConnectionTest(),
+			//new ConnectionTest(),
 			new SensorTest<MotionSensor, MotionSensorSample>(),
 			new SensorTest<PushButton, ButtonState>(),
 			new SensorTest<VoltageSensor, BatteryState>(),
 			new NameChangeTest()
 		};
 
-		public bool Running => _testTask != null && !_testTask.IsCompleted;
+		private readonly Test<IEarable>[] _failingTestCombination =
+		{
+			new DelayTest(),
+			new DelayTest.Reconnect(),
+			new DelayTest(),
+			new DelayTest(),
+			new DelayTest(),
+			new DelayTest()
+		};
+
+		public bool Running { get; private set; }
 
 		public void StartTesting()
 		{
-			if (_testTask != null && !_testTask.IsCompleted) return;
-			_testTask = new Task(async () => await RunTestsAsync());
-			_testTask.Start();
+			if (Running) return;
+			Running = true;
+			RunTestsAsync().ConfigureAwait(false);
 		}
 
 		private async Task RunTestsAsync()
@@ -36,7 +45,7 @@ namespace EarableLibraryTestApp
 
 			Assert.NotNull(earable);
 			Status.StatusUpdate("Earable connected!");
-			foreach (var test in _tests)
+			foreach (var test in _failingTestCombination)
 			{
 				var result = await test.RunAndCatch(earable);
 				_results.Add(result);
@@ -48,6 +57,7 @@ namespace EarableLibraryTestApp
 				status += res.ToString() + "\n\n";
 			}
 			Status.StatusUpdate(status);
+			Running = false;
 		}
 	}
 }

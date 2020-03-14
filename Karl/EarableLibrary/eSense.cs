@@ -18,24 +18,15 @@ namespace EarableLibrary
 
 		private readonly BLEConnection _conn;
 
-		private Dictionary<Type, ISensor> _sensors;
+		private readonly Dictionary<Type, ISensor> _sensors;
 
-		private EarableName _name;
+		private readonly EarableName _name;
 
 		/// <summary>
 		/// Ids of all services which are used for BLE communication with the earables.
 		/// If one of these services is not present, communication will most likely fail.
 		/// </summary>
 		public static Guid[] ServiceUuids = { SER_GENERIC, SER_ESENSE };
-
-		/// <summary>
-		/// Construct a new ESense object.
-		/// </summary>
-		/// <param name="device">BLE handle used for communication</param>
-		public ESense(IDevice device)
-		{
-			_conn = new BLEConnection(device);
-		}
 
 		/// <summary>
 		/// Get device name.
@@ -61,6 +52,17 @@ namespace EarableLibrary
 		public Guid Id => _conn.Id;
 
 		/// <summary>
+		/// Construct a new ESense object.
+		/// </summary>
+		/// <param name="device">BLE handle used for communication</param>
+		public ESense(IDevice device)
+		{
+			_conn = new BLEConnection(device);
+			_name = new EarableName(_conn);
+			_sensors = CreateSensors(_conn);
+		}
+
+		/// <summary>
 		/// Connect to the device and initialize sensors.
 		/// </summary>
 		/// <returns>true if successful, false otherwise</returns>
@@ -81,9 +83,7 @@ namespace EarableLibrary
 		{
 			try
 			{
-				_name = new EarableName(_conn);
 				await _name.Initialize();
-				_sensors = CreateSensors();
 				return true;
 			}
 			catch (Exception e)
@@ -121,13 +121,13 @@ namespace EarableLibrary
 			return (T)_sensors[typeof(T)];
 		}
 
-		private Dictionary<Type, ISensor> CreateSensors()
+		private static Dictionary<Type, ISensor> CreateSensors(BLEConnection conn)
 		{
 			var dict = new Dictionary<Type, ISensor>
 			{
-				{ typeof(MotionSensor), new MotionSensor(_conn) },
-				{ typeof(PushButton), new PushButton(_conn) },
-				{ typeof(VoltageSensor), new VoltageSensor(_conn) }
+				{ typeof(MotionSensor), new MotionSensor(conn) },
+				{ typeof(PushButton), new PushButton(conn) },
+				{ typeof(VoltageSensor), new VoltageSensor(conn) }
 			};
 			return dict;
 		}

@@ -18,7 +18,7 @@ namespace EarableLibraryTestApp
 		public override string ToString()
 		{
 			var status = Failed ? string.Format("Failed ({0})", Error.Message) : "Passed";
-			return string.Format("Result of Test {0}: {1}", Test, status);
+			return string.Format("Result of {0}: {1}", Test, status);
 		}
 	}
 }

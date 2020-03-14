@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EarableLibraryTestApp
@@ -22,5 +23,10 @@ namespace EarableLibraryTestApp
 		}
 
 		public abstract Task Run(T testObj);
+
+		public override string ToString()
+		{
+			return Regex.Replace(GetType().Name, "`.*$", "");
+		}
 	}
 }
