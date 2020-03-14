@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace EarableLibrary
 {
@@ -41,6 +42,17 @@ namespace EarableLibrary
 		public static implicit operator byte[](BLEMessage message)
 		{
 			return message.Encode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (GetType() != obj.GetType()) return false;
+			if (obj is BLEMessage other)
+			{
+				if (Data == null) return other.Data == null;
+				else return Data.SequenceEqual(other.Data);
+			}
+			return false;
 		}
 	}
 
@@ -96,10 +108,10 @@ namespace EarableLibrary
 			Header = received[pos++];
 			var receivedChecksum = received[pos++];
 			var dataSize = received[pos++];
-			if (dataSize != received.Length - pos) throw new MessageError("Invalid size detected!");
+			MessageError.AssertEqual(dataSize, received.Length - pos, "Invalid size detected!");
 			Data = new byte[dataSize];
 			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: dataSize);
-			if (Checksum != receivedChecksum) throw new MessageError("Invalid checksum detected!");
+			MessageError.AssertEqual(Checksum, receivedChecksum, "Invalid checksum detected!");
 		}
 
 		/// <summary>
@@ -107,16 +119,26 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="bigEndian"></param>
 		/// <returns></returns>
-		public short[] DataAsShortArray(bool bigEndian = true)
+		public short[] DataAsShortArray(bool bigEndian = false)
 		{
 			var bytes = Data;
 			short[] result = new short[bytes.Length / 2];
 			for (int i = 0; i < result.Length; i++)
 				if (bigEndian)
-					result[i] = (short)(bytes[i] << 8 + bytes[i + 1]);
+					result[i] = (short)(bytes[2 * i] + (bytes[2 * i + 1] << 8));
 				else
-					result[i] = (short)(bytes[i + 1] << 8 + bytes[i]);
+					result[i] = (short)((bytes[2 * i] << 8) + bytes[2 * i + 1]);
 			return result;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!base.Equals(obj)) return false;
+			if (obj is ESenseMessage other)
+			{
+				return Header.Equals(other.Header);
+			}
+			return false;
 		}
 	}
 
@@ -129,13 +151,13 @@ namespace EarableLibrary
 
 		public IndexedESenseMessage() { }
 
-			/// <summary>
-			/// Construct a new indexed ESenseMessage.
-			/// </summary>
-			/// <param name="header">Message header</param>
-			/// <param name="data">Message data</param>
-			/// <param name="packetIndex">Packet index</param>
-			public IndexedESenseMessage(byte header, byte[] data, byte packetIndex)
+		/// <summary>
+		/// Construct a new indexed ESenseMessage.
+		/// </summary>
+		/// <param name="header">Message header</param>
+		/// <param name="data">Message data</param>
+		/// <param name="packetIndex">Packet index</param>
+		public IndexedESenseMessage(byte header, byte[] data, byte packetIndex)
 		{
 			Header = header;
 			Data = data;
@@ -175,6 +197,16 @@ namespace EarableLibrary
 			Data = new byte[dataSize];
 			Array.Copy(sourceArray: received, destinationArray: Data, sourceIndex: pos, destinationIndex: 0, length: dataSize);
 			MessageError.AssertEqual(Checksum, receivedChecksum, "Invalid checksum detected!");
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!base.Equals(obj)) return false;
+			if (obj is IndexedESenseMessage other)
+			{
+				return PacketIndex.Equals(other.PacketIndex);
+			}
+			return false;
 		}
 	}
 

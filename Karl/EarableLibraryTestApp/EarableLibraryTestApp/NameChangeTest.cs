@@ -17,18 +17,24 @@ namespace EarableLibraryTestApp
 			Assert.NotEqual(oldName, newName);
 
 			Status.StatusUpdate("Setting new name...");
-			await earable.SetNameAsync(newName);
-			Assert.Equal(earable.Name, newName);
-			await earable.DisconnectAsync();
-			await earable.ConnectAsync();
-			Assert.Equal(earable.Name, newName);
+			await SetName(earable, newName);
 
 			Status.StatusUpdate("Restoring old name...");
-			await earable.SetNameAsync(oldName);
-			Assert.Equal(earable.Name, oldName);
-			await earable.DisconnectAsync();
-			await earable.ConnectAsync();
-			Assert.Equal(earable.Name, oldName);
+			await SetName(earable, oldName);
+		}
+
+		private async Task SetName(IEarable earable, string name)
+		{
+			await earable.SetNameAsync(name);
+			Assert.Equal(earable.Name, name);
+			await Reconnect(earable);
+			Assert.Equal(earable.Name, name);
+		}
+
+		private async Task Reconnect(IEarable earable)
+		{
+			Assert.True(await earable.DisconnectAsync());
+			Assert.True(await earable.ConnectAsync());
 		}
 	}
 }

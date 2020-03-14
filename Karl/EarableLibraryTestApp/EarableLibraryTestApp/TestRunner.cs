@@ -33,6 +33,7 @@ namespace EarableLibraryTestApp
 			_results.Clear();
 			Status.StatusUpdate("Connecting to earable...");
 			var earable = await _manager.ConnectEarableAsync(); // TODO: show list instead
+
 			Assert.NotNull(earable);
 			Status.StatusUpdate("Earable connected!");
 			foreach (var test in _tests)

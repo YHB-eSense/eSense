@@ -26,6 +26,11 @@ namespace EarableLibrary
 			this.y = y;
 			this.z = z;
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{0}\t{1}\t{2}", x, y, z);
+		}
 	}
 
 	/// <summary>
@@ -120,9 +125,9 @@ namespace EarableLibrary
 		}
 
 		/// <summary>
-		/// Manually retrieve the current sensor state.
+		/// Manually retrieve the current sensor reading.
 		/// </summary>
-		/// <returns>Current sensor state</returns>
+		/// <returns>Sensor reading</returns>
 		public async Task<MotionSensorSample> ReadAsync()
 		{
 			return ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
@@ -140,7 +145,7 @@ namespace EarableLibrary
 
 		private void ValueUpdated(byte[] value)
 		{
-			ValueChanged?.Invoke(this, ParseMessage(value));
+			ValueChanged.Invoke(this, ParseMessage(value));
 		}
 	}
 }
