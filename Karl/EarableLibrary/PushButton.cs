@@ -34,7 +34,7 @@ namespace EarableLibrary
 	/// </summary>
 	public class PushButton : ISubscribableSensor<ButtonState>, IReadableSensor<ButtonState>
 	{
-		private static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
+		public static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
 
 		private readonly IDeviceConnection _conn;
 
