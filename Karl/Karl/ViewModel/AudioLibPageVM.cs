@@ -282,12 +282,14 @@ namespace Karl.ViewModel
 			}
 		}
 
+		[DoNotCover]
 		protected virtual void InitializeSingletons()
 		{
 			_navHandler = NavigationHandler.SingletonNavHandler;
 			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
 		}
 
+		[DoNotCover]
 		protected virtual async Task<bool> AlertWrapper()
 		{
 			return await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),

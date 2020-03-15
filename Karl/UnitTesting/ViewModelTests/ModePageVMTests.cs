@@ -1,5 +1,6 @@
 using Karl.Model;
 using Karl.ViewModel;
+using Microcharts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,19 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(3, i);
 			//TODO
 			*/
+		}
+
+		[Fact]
+		public void PropertyTests()
+		{
+			//setup
+			var vm = new ModesPageVM_NEW();
+			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+			//test
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0], vm.CurrentColor);
+			Assert.Equal("Available Modes", vm.ModesLabel);
+			Assert.Null(vm.StepChart);
 		}
 
 		internal class ModesPageVM_NEW : ModesPageVM

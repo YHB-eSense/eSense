@@ -65,6 +65,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
 
+		[DoNotCover]
 		protected virtual void InitializeSingletons()
 		{
 			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;

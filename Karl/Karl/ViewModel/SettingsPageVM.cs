@@ -134,14 +134,14 @@ namespace Karl.ViewModel
 		{
 			if (_settingsHandler.UsingSpotifyAudio)
 			{
-				_settingsHandler.changeAudioModuleToBasic();
+				_settingsHandler.ChangeAudioModuleToBasic();
 			}
 			else
 			{
 				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
 				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
 				{
-					SingletonSettingsHandler.changeAudioModuleToSpotify();
+					SingletonSettingsHandler.ChangeAudioModuleToSpotify();
 				};
 			}
 		}

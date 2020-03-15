@@ -71,7 +71,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Add a new Track to the current Library
 		/// </summary>
-		public async Task AddTrack(string storage, string title, string artist, int bpm)
+		public virtual async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
 			await _audioLibImp.AddTrack(storage, title, artist, bpm);
 			AudioLibChanged?.Invoke(this, null);

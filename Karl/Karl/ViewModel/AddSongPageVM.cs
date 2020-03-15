@@ -19,7 +19,7 @@ namespace Karl.ViewModel
 		private string _newSongTitle;
 		private string _newSongArtist;
 		private string _newSongBPM;
-		private string _newSongFileLocation;
+		protected string _newSongFileLocation;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -97,32 +97,15 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
-		private async void AddSong()
-		{
-			int bpm;
-			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
-				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
-			{
-				await AlertWrapper("alert_title", "alert_text", "alert_ok");
-				return;
-			}
-			AddTrackWrapper(bpm);
-			GoBackWrapper();
-			NewSongTitle = null;
-			NewSongArtist = null;
-			NewSongBPM = null;
-			_newSongFileLocation = null;
-			_picked = false;
-		}
-
 		private async void PickFile()
 		{
 			if (await FileNotNullWrapper())
 			{
+				_file = TagLib.File.Create(_newSongFileLocation);
 				_picked = true;
-				NewSongTitle = GetTitleWrapper();
-				NewSongArtist = GetArtistWrapper();
-				NewSongBPM = GetBPMWrapper();
+				NewSongTitle = GetTitle();
+				NewSongArtist = GetArtist();
+				NewSongBPM = GetBPM();
 			}
 		}
 
@@ -132,7 +115,7 @@ namespace Karl.ViewModel
 			{
 				await AlertWrapper("alert_title", "alert_text_2", "alert_ok");
 			}
-			else if (CorrectExtensionWrapper())
+			else if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
 				NewSongBPM = CalculateBPMWrapper();
 			}
@@ -142,57 +125,62 @@ namespace Karl.ViewModel
 			}
 		}
 
-		//Wrappers for testing
+		private async void AddSong()
+		{
+			int bpm;
+			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
+				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
+			{
+				await AlertWrapper("alert_title", "alert_text", "alert_ok");
+				return;
+			}
+			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
+			_navHandler.GoBack();
+			NewSongTitle = null;
+			NewSongArtist = null;
+			NewSongBPM = null;
+			_newSongFileLocation = null;
+			_picked = false;
+		}
 
-		protected virtual string GetTitleWrapper()
+		private string GetTitle()
 		{
 			if (_file != null && _file.Tag.Title != null) { return _file.Tag.Title; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		protected virtual string GetArtistWrapper()
+		private string GetArtist()
 		{
 			if (_file != null && _file.Tag.Performers.Length >= 1) { return _file.Tag.Performers[0]; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
-		protected virtual string GetBPMWrapper()
+		private string GetBPM()
 		{
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
+		//Wrappers for testing
+
+		[DoNotCover]
 		protected virtual string CalculateBPMWrapper()
 		{
 			return new BPMCalculator(_newSongFileLocation).Calculate().ToString();
 		}
 
-		protected virtual async void AddTrackWrapper(int bpm)
-		{
-			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
-		}
-
-		protected virtual void GoBackWrapper()
-		{
-			_navHandler.GoBack();
-		}
-
+		[DoNotCover]
 		protected virtual async Task<bool> FileNotNullWrapper()
 		{
 			var pick = await CrossFilePicker.Current.PickFile();
 			if(pick != null)
 			{
 				_newSongFileLocation = pick.FilePath;
-				_file = TagLib.File.Create(_newSongFileLocation);
 			}
-			return (pick != null);
+			return pick != null;
 		}
 
-		protected virtual bool CorrectExtensionWrapper()
-		{
-			return Path.GetExtension(_newSongFileLocation).Equals(".wav");
-		}
-
+		[DoNotCover]
 		protected virtual async Task AlertWrapper(string title, string text, string ok)
 		{
 			await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get(title),

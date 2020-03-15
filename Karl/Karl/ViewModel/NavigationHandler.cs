@@ -56,16 +56,19 @@ namespace Karl.ViewModel
 			await GoBackWrapper();
 		}
 
+		[DoNotCover]
 		protected virtual IReadOnlyList<Page> GetNavigationStackWrapper()
 		{
 			return Application.Current.MainPage.Navigation.NavigationStack;
 		}
 
+		[DoNotCover]
 		protected virtual async Task PushAsyncWrapper(Page toBePushed)
 		{
 			await Application.Current.MainPage.Navigation.PushAsync(toBePushed);
 		}
 
+		[DoNotCover]
 		protected virtual async Task GoBackWrapper()
 		{
 			await Application.Current.MainPage.Navigation.PopAsync();

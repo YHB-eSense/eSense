@@ -183,7 +183,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
 		/// </summary>
-		public void changeAudioModuleToSpotify()
+		public void ChangeAudioModuleToSpotify()
 		{
 			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
 			AudioLib.SingletonAudioLib.changeToSpotifyLib();
@@ -195,7 +195,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
 		/// </summary>
-		public void changeAudioModuleToBasic()
+		public void ChangeAudioModuleToBasic()
 		{
 			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
 			AudioLib.SingletonAudioLib.ChangeToBasicLib();

@@ -172,7 +172,7 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal(7, i);
 			i = 0;
 			//test
-			SettingsHandler.SingletonSettingsHandler.changeAudioModuleToBasic();
+			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
 			Assert.Equal(11, i);
 			i = 0;
 			/*

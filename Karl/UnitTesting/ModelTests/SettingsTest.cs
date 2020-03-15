@@ -85,7 +85,7 @@ namespace UnitTesting.ModelTests
 				var called = false;
 				TestObj = SingletonSettingsHandler;
 				TestObj.AudioModuleChanged += (object source, EventArgs args) => { called = true; };
-				TestObj.changeAudioModuleToSpotify();
+				TestObj.ChangeAudioModuleToSpotify();
 				Assert.True(called);
 				Assert.True(SingletonAudioLib.Playlists == null);
 				Assert.True(SingletonAudioLib.SelectedPlaylist == null);
@@ -98,7 +98,7 @@ namespace UnitTesting.ModelTests
 			BeforeAfterTest(() =>
 			{
 				TestObj = SingletonSettingsHandler;
-				TestObj.changeAudioModuleToSpotify();
+				TestObj.ChangeAudioModuleToSpotify();
 				Assert.ThrowsAsync<NotImplementedException>(async () => await SingletonAudioLib.AddTrack("TEST", "TEST", "TEST", 0));
 				Assert.Throws<NotImplementedException>(
 					() => SingletonAudioLib.DeleteTrack(
@@ -117,8 +117,8 @@ namespace UnitTesting.ModelTests
 				{
 					called++;
 				};
-				TestObj.changeAudioModuleToSpotify();
-				TestObj.changeAudioModuleToBasic();
+				TestObj.ChangeAudioModuleToSpotify();
+				TestObj.ChangeAudioModuleToBasic();
 				Assert.Throws<NotImplementedException>(() => SingletonAudioLib.Playlists);
 				Assert.Throws<NotImplementedException>(() => SingletonAudioLib.SelectedPlaylist);
 				Assert.True(called == 2);

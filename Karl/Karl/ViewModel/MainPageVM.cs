@@ -142,6 +142,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HelpVisible)));
 		}
 
+		[DoNotCover]
 		protected virtual void InitializeSingletons()
 		{
 			_navHandler = NavigationHandler.SingletonNavHandler;
@@ -149,6 +150,7 @@ namespace Karl.ViewModel
 			//_outputManager = OutputManager.SingletonOutputManager;
 		}
 
+		[DoNotCover]
 		protected virtual void NavigateWrapper()
 		{
 			INavToSettings navigator = DependencyService.Get<INavToSettings>();
