@@ -43,6 +43,7 @@ namespace Karl.Model
 
 		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
+			if (bpm < 0) throw new ArgumentException("BPM can't be negative");
 			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
 			await _database.SaveTrackAsync(newTrack);
 			AllAudioTracks.Add(newTrack);
@@ -51,7 +52,8 @@ namespace Karl.Model
 
 		public async void DeleteTrack(AudioTrack track)
 		{
-			await _database.DeleteTrackAsync(track);
+			var x = await _database.DeleteTrackAsync(track);
+			if (x == 0) throw new ArgumentException("This song was not in the Database."); 
 			AllAudioTracks.Remove(track);
 			AudioLibChanged?.Invoke(this, null);
 		}

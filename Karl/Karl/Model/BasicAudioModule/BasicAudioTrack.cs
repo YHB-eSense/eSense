@@ -1,10 +1,13 @@
 using SQLite;
+using System.Diagnostics;
 using TagLib;
 
 namespace Karl.Model
 {
 	public class BasicAudioTrack : AudioTrack
 	{
+		private static bool _testing;
+
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
 		public override string StorageLocation { get; set; }
@@ -20,7 +23,7 @@ namespace Karl.Model
 		public BasicAudioTrack(string storageLocation, string title, string artist, int bpm)
 		{
 			StorageLocation = storageLocation;
-			_file = File.Create(StorageLocation);
+			_file = !_testing ? File.Create(StorageLocation) : null;
 			Title = title;
 			Artist = artist;
 			BPM = bpm;
@@ -46,6 +49,12 @@ namespace Karl.Model
 				return _file.Tag.Pictures[0].Data.Data;
 			}
 			return null;
+		}
+
+		[Conditional("TESTING")]
+		internal static void Testing(bool testing)
+		{
+			_testing = testing;
 		}
 
 	}

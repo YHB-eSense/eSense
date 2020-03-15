@@ -49,6 +49,12 @@ namespace Karl.Model
 
 				if (!_testing && WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0)
 					AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
+				else if (!_testing)
+				{
+					Debug.WriteLine("[Exception] There are no playlists on this spotify account");
+					AudioLibSwitched += SwitchBackToBasicLibExceptionHandler;
+					AllPlaylists = null;
+				}
 				else
 					AllPlaylists = null;
 
@@ -88,6 +94,12 @@ namespace Karl.Model
 		public void DeleteTrack(AudioTrack track)
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
+		}
+
+		private void SwitchBackToBasicLibExceptionHandler()
+		{
+			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
+			AudioLib.AudioLibSwitched -= SwitchBackToBasicLibExceptionHandler;
 		}
 
 		[Conditional("TESTING")]

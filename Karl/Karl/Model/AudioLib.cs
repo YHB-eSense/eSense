@@ -39,7 +39,16 @@ namespace Karl.Model
 		public SimplePlaylist SelectedPlaylist
 		{
 			get => _audioLibImp.SelectedPlaylist;
-			set => _audioLibImp.SelectedPlaylist = value;
+			set
+			{
+				foreach (var playlist in Playlists)
+					if (value == playlist)
+					{
+						_audioLibImp.SelectedPlaylist = value;
+						return;
+					}
+				throw new ArgumentException("This Playlist does not exist.");
+			}
 		}
 
 		/// <summary>
@@ -55,6 +64,8 @@ namespace Karl.Model
 
 		public delegate void AudioLibEventHandler(object source, EventArgs e);
 		public event AudioLibEventHandler AudioLibChanged;
+		public delegate void AudioLibSwitchedHandler();
+		public static event AudioLibSwitchedHandler AudioLibSwitched;
 
 
 		protected AudioLib()
@@ -87,11 +98,13 @@ namespace Karl.Model
 		{
 			_audioLibImp = new SpotifyAudioLib();
 			_audioLibImp.Init();
+			AudioLibSwitched.Invoke();
 		}
 
 		public void ChangeToBasicLib()
 		{
 			_audioLibImp = new BasicAudioLib();
+			AudioLibSwitched.Invoke();
 		}
 
 		private void UpdateLib(object sender, EventArgs args)

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EarableLibraryTests\BLEMessageTests.cs" />
+    <Compile Include="ModelTests\AudioLibTests.cs" />
     <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
     <Compile Include="ModelTests\ColorManagerTests.cs" />
     <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />

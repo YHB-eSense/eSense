@@ -12,7 +12,7 @@ namespace UnitTesting.Mocks
 	{
 		public DatabaseMock() : base()
 		{
-			tracksMoq.Add(new BasicAudioTrack("test_location", "Mexico", "Alestorm", 420));
+			tracksMoq.Add(new BasicAudioTrack("", "Mexico", "Alestorm", 420));
 		}
 
 		List<BasicAudioTrack> tracksMoq = new List<BasicAudioTrack>();
@@ -34,12 +34,14 @@ namespace UnitTesting.Mocks
 
 		public override Task<int> DeleteTrackAsync(AudioTrack track)
 		{
+			var x = tracksMoq.Count;
 			if (!(typeof(BasicAudioTrack) == track.GetType())) throw new ArgumentException();
 			BasicAudioTrack basicAudioTrack = (BasicAudioTrack)track;
 			tracksMoq.Remove(basicAudioTrack);
+			var y = tracksMoq.Count;
 			return new Task<int>(() =>
 			{
-				return tracksMoq.Count();
+				return x - y;
 			});
 		}
 	}
