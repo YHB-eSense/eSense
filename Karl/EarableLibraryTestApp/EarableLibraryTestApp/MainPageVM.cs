@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -41,8 +42,18 @@ namespace EarableLibraryTestApp
 
 		private MainPageVM()
 		{
-			_testRunner = new TestRunner();
+			_testRunner = new TestRunner(new EarableLibrary.EarableLibrary(), new MainPageStatus());
 			StartTestCommand = new Command(_testRunner.StartTesting);
+		}
+	}
+
+	internal class MainPageStatus : IStatus
+	{
+		public void StatusUpdate(string status, params object[] args)
+		{
+			string formatted = string.Format(status, args);
+			Debug.WriteLine(formatted);
+			MainPageVM.Instance.StatusText = formatted;
 		}
 	}
 }

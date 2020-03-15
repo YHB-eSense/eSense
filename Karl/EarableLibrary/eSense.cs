@@ -16,7 +16,7 @@ namespace EarableLibrary
 		private static readonly Guid SER_GENERIC = GuidExtension.UuidFromPartial(0x1800);
 		private static readonly Guid SER_ESENSE = GuidExtension.UuidFromPartial(0xFF06);
 
-		private readonly BLEConnection _conn;
+		private readonly IDeviceConnection _conn;
 
 		private readonly Dictionary<Type, ISensor> _sensors;
 
@@ -55,9 +55,9 @@ namespace EarableLibrary
 		/// Construct a new ESense object.
 		/// </summary>
 		/// <param name="device">BLE handle used for communication</param>
-		public ESense(IDevice device)
+		public ESense(IDeviceConnection connection)
 		{
-			_conn = new BLEConnection(device);
+			_conn = connection;
 			_name = new EarableName(_conn);
 			_sensors = CreateSensors(_conn);
 		}
@@ -113,7 +113,7 @@ namespace EarableLibrary
 			return (T)_sensors[typeof(T)];
 		}
 
-		private static Dictionary<Type, ISensor> CreateSensors(BLEConnection conn)
+		private static Dictionary<Type, ISensor> CreateSensors(IDeviceConnection conn)
 		{
 			var dict = new Dictionary<Type, ISensor>
 			{

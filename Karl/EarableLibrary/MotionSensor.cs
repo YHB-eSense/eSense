@@ -79,15 +79,15 @@ namespace EarableLibrary
 	public class MotionSensor : ISubscribableSensor<MotionSensorSample> /*, IReadableSensor<MotionSensorSample>*/
 	{
 		// Command used to enable and disable IMU sampling
-		private static readonly byte CMD_IMU_ENABLE = 0x53;
-		private static readonly byte ENABLE = 0x01;
-		private static readonly byte DISABLE = 0x00;
-		private static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
-		private static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
-		private static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
-		private static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
+		public static readonly byte CMD_IMU_ENABLE = 0x53;
+		public static readonly byte ENABLE = 0x01;
+		public static readonly byte DISABLE = 0x00;
+		public static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
+		public static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
+		public static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
+		public static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
 
-		private readonly BLEConnection _connection;
+		private readonly IDeviceConnection _connection;
 
 		/// <summary>
 		/// Invoked when a new sample is available.
@@ -103,7 +103,7 @@ namespace EarableLibrary
 		/// Construct a new MotionSensor.
 		/// </summary>
 		/// <param name="connection">BLE connection handle</param>
-		public MotionSensor(BLEConnection connection)
+		public MotionSensor(IDeviceConnection connection)
 		{
 			_connection = connection;
 			SamplingRate = 50;

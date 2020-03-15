@@ -13,19 +13,13 @@ namespace EarableLibrary
 	/// <summary>
 	/// This class is used for communication with an BLE device.
 	/// </summary>
-	public class BLEConnection
+	public class BLEConnection : IDeviceConnection
 	{
 		private readonly IDevice _device;
 
 		private readonly Dictionary<Guid, ICharacteristic> _characteristics = new Dictionary<Guid, ICharacteristic>();
 
 		private readonly Dictionary<Guid, List<DataReceiver>> _subscriptions = new Dictionary<Guid, List<DataReceiver>>();
-
-		/// <summary>
-		/// Delegate for accepting data that comes from the BLE device.
-		/// </summary>
-		/// <param name="data">Binary data</param>
-		public delegate void DataReceiver(byte[] data);
 
 		/// <summary>
 		/// Whether this connection is open, closed or in a state inbetween.

@@ -8,6 +8,8 @@ namespace EarableLibraryTestApp
 	{
 		private TaskCompletionSource<SensorValueType> _sampleReceiver;
 
+		public SensorTest(IStatus status) : base(status) { }
+
 		public async override Task Run(IEarable earable)
 		{
 			SensorType sensor = earable.GetSensor<SensorType>();

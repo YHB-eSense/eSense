@@ -40,7 +40,7 @@ namespace EarableLibrary
 			var earables = new List<IEarable>(devices.Count);
 			foreach (var dev in devices)
 			{
-				earables.Add(new ESense(dev));
+				earables.Add(new ESense(new BLEConnection(dev)));
 			}
 			return earables;
 		}

@@ -31,13 +31,13 @@ namespace EarableLibrary
 	{
 		private static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
 
-		private readonly BLEConnection _conn;
+		private readonly IDeviceConnection _conn;
 
 		/// <summary>
 		/// Construct a new VoltageSensor.
 		/// </summary>
 		/// <param name="read">Characteristic, which provides read-access to the current battery state</param>
-		public VoltageSensor(BLEConnection conn)
+		public VoltageSensor(IDeviceConnection conn)
 		{
 			_conn = conn;
 		}

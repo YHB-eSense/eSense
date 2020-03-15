@@ -12,6 +12,8 @@ namespace EarableLibraryTestApp
 
 	public class ConnectionTest : Test<IEarable>
 	{
+		public ConnectionTest(IStatus status) : base(status) { }
+
 		public override async Task Run(IEarable earable)
 		{
 			await TestConnection(earable, ConnectOperation.CONNECT, ConnectOperation.DISCONNECT); // just connect & disconnect

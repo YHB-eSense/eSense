@@ -36,7 +36,7 @@ namespace EarableLibrary
 	{
 		private static readonly Guid CHAR_BUTTON = GuidExtension.UuidFromPartial(0xFF09);
 
-		private readonly BLEConnection _conn;
+		private readonly IDeviceConnection _conn;
 
 		/// <summary>
 		/// Invoked when the button state changes.
@@ -52,7 +52,7 @@ namespace EarableLibrary
 		/// Construct a new PushButton.
 		/// </summary>
 		/// <param name="read">BLE connection handle</param>
-		public PushButton(BLEConnection conn)
+		public PushButton(IDeviceConnection conn)
 		{
 			_conn = conn;
 		}

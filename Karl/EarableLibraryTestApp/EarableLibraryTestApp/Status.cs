@@ -1,25 +1,17 @@
-using EarableLibrary;
-using System;
 using System.Diagnostics;
 
 namespace EarableLibraryTestApp
 {
-	class Status
+	public interface IStatus
 	{
-		public static void StatusUpdate(string status, params object[] args)
-		{
-			string formatted = string.Format(status, args);
-			Debug.WriteLine(formatted);
-			MainPageVM.Instance.StatusText = formatted;
-		}
+		void StatusUpdate(string status, params object[] args);
+	}
 
-		internal static void StatusUpdate(TestResult<IEarable> result)
+	public class DebugStatus : IStatus
+	{
+		public void StatusUpdate(string status, params object[] args)
 		{
-			StatusUpdate(result.ToString());
-			if (result.Failed)
-			{
-				Debug.WriteLine(result.Error);
-			}
+			Debug.WriteLine(status, args);
 		}
 	}
 }

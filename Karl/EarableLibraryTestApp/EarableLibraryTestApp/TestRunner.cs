@@ -8,27 +8,25 @@ namespace EarableLibraryTestApp
 	public class TestRunner
 	{
 		private readonly List<TestResult<IEarable>> _results = new List<TestResult<IEarable>>();
-		private readonly IEarableManager _manager = new EarableLibrary.EarableLibrary();
+		private readonly IEarableManager _manager;
+		private readonly IStatus _status;
 
-		private readonly Test<IEarable>[] _tests = {
-			new ConnectionTest(),
-			new SensorTest<MotionSensor, MotionSensorSample>(),
-			new SensorTest<PushButton, ButtonState>(),
-			new SensorTest<VoltageSensor, BatteryState>(),
-			new NameChangeTest()
-		};
-
-		private readonly Test<IEarable>[] _failingTestCombination =
-		{
-			new DelayTest(),
-			new DelayTest.Reconnect(),
-			new DelayTest(),
-			new DelayTest(),
-			new DelayTest(),
-			new DelayTest()
-		};
+		private readonly Test<IEarable>[] _tests;
 
 		public bool Running { get; private set; }
+
+		public TestRunner(IEarableManager manager, IStatus status)
+		{
+			_manager = manager;
+			_status = status;
+			_tests = new Test<IEarable>[] {
+				new ConnectionTest(_status),
+				new SensorTest<MotionSensor, MotionSensorSample>(_status),
+				new SensorTest<PushButton, ButtonState>(_status),
+				new SensorTest<VoltageSensor, BatteryState>(_status),
+				new NameChangeTest(_status)
+			};
+		}
 
 		public void StartTesting()
 		{
@@ -37,26 +35,26 @@ namespace EarableLibraryTestApp
 			RunTestsAsync().ConfigureAwait(false);
 		}
 
-		private async Task RunTestsAsync()
+		public async Task RunTestsAsync()
 		{
 			_results.Clear();
-			Status.StatusUpdate("Connecting to earable...");
+			_status.StatusUpdate("Connecting to earable...");
 			var earable = await _manager.ConnectEarableAsync(); // TODO: show list instead
 
 			Assert.NotNull(earable);
-			Status.StatusUpdate("Earable connected!");
+			_status.StatusUpdate("Earable connected!");
 			foreach (var test in _tests)
 			{
 				var result = await test.RunAndCatch(earable);
 				_results.Add(result);
-				Status.StatusUpdate(result);
+				_status.StatusUpdate(result.ToString());
 			}
 			var status = "";
 			foreach (var res in _results)
 			{
 				status += res.ToString() + "\n\n";
 			}
-			Status.StatusUpdate(status);
+			_status.StatusUpdate(status);
 			Running = false;
 		}
 	}

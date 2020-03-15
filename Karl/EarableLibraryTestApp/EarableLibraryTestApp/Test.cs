@@ -6,6 +6,13 @@ namespace EarableLibraryTestApp
 {
 	public abstract class Test<T>
 	{
+		public IStatus Status { get; }
+
+		protected Test(IStatus status)
+		{
+			Status = status;
+		}
+
 		public string Name => GetType().Name;
 
 		public async Task<TestResult<T>> RunAndCatch(T testObj)

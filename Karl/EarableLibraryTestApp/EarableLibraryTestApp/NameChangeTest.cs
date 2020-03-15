@@ -7,6 +7,8 @@ namespace EarableLibraryTestApp
 {
 	public class NameChangeTest : Test<IEarable>
 	{
+		public NameChangeTest(IStatus status) : base(status) { }
+
 		public async override Task Run(IEarable earable)
 		{
 			if (!earable.IsConnected()) await earable.ConnectAsync();

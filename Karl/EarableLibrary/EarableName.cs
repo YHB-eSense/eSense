@@ -14,7 +14,7 @@ namespace EarableLibrary
 		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
 		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
 
-		private readonly BLEConnection _conn;
+		private readonly IDeviceConnection _conn;
 		private string _name;
 
 		/// <summary>
@@ -22,7 +22,7 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="read">Characteristic which allows read-access to the name</param>
 		/// <param name="write">Characteristic which allows write-access to the name</param>
-		public EarableName(BLEConnection conn)
+		public EarableName(IDeviceConnection conn)
 		{
 			_conn = conn;
 		}
