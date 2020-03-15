@@ -129,14 +129,15 @@ namespace EarableLibrary
 			await _connection.UnsubscribeAsync(CHAR_IMU_DATA, ValueUpdated);
 		}
 
-		/// <summary>
+		// TODO: Fix asynchronous reading (sampling must be enabled)
+		/*/// <summary>
 		/// Manually retrieve the current sensor reading.
 		/// </summary>
 		/// <returns>Sensor reading</returns>
 		public async Task<MotionSensorSample> ReadAsync()
 		{
 			return ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-		}
+		}*/
 
 		private MotionSensorSample ParseMessage(byte[] bytes)
 		{
