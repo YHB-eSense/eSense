@@ -12,7 +12,7 @@ namespace EarableLibraryTestApp
 			if (!earable.IsConnected()) await earable.ConnectAsync();
 
 			string oldName = earable.Name;
-			string newName = DateTime.Now.Ticks.ToString();
+			string newName = string.Format("ESense-{0}", DateTime.Now.Millisecond);
 			Status.StatusUpdate("Old name: {0}, New name: {1}", oldName, newName);
 			Assert.NotEqual(oldName, newName);
 
@@ -26,9 +26,9 @@ namespace EarableLibraryTestApp
 		private async Task SetName(IEarable earable, string name)
 		{
 			await earable.SetNameAsync(name);
-			Assert.Equal(earable.Name, name);
+			Assert.Equal(name, earable.Name);
 			await EarableUtility.Reconnect(earable);
-			Assert.Equal(earable.Name, name);
+			Assert.Equal(name, earable.Name);
 		}
 	}
 }

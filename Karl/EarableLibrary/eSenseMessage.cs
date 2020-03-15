@@ -250,7 +250,7 @@ namespace EarableLibrary
 		{
 			if (!actual.Equals(expected))
 			{
-				throw new MessageError(string.Format("{0} (Expected: {1}, Actual: {2})", message, actual, expected));
+				throw new MessageError(string.Format("{0} (Expected: {1}, Actual: {2})", message, expected, actual));
 			}
 		}
 	}

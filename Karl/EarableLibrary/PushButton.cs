@@ -1,5 +1,3 @@
-using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -24,6 +22,11 @@ namespace EarableLibrary
 		/// Whether the button is currently pressed or not.
 		/// </summary>
 		public bool Pressed { get; }
+
+		public override string ToString()
+		{
+			return Pressed ? "Pressed" : "Released";
+		}
 	}
 
 	/// <summary>

@@ -1,4 +1,3 @@
-using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Text;
