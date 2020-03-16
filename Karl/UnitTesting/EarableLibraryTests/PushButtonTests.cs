@@ -20,5 +20,16 @@ namespace UnitTesting.EarableLibraryTests
 				new ESenseMessage(header, data));
 			Assert.Equal(expected, result.Pressed);
 		}
+
+		[Theory]
+		[InlineData(0x54, new byte[] { 0 }, false)]
+		[InlineData(0x54, new byte[] { 1 }, true)]
+		public async Task TestRead(byte header, byte[] data, bool expected)
+		{
+			MockBLEConnection connection = new MockBLEConnection();
+			connection.Storage[PushButton.CHAR_BUTTON] = new ESenseMessage(header, data);
+			ButtonState result = await new PushButton(connection).ReadAsync();
+			Assert.Equal(expected, result.Pressed);
+		}
 	}
 }
