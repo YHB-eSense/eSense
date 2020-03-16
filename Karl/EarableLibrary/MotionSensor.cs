@@ -31,6 +31,16 @@ namespace EarableLibrary
 		{
 			return string.Format("{0},{1},{2}", x, y, z);
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null) return false;
+			if (GetType() == obj.GetType() && obj is TripleShort other)
+			{
+				return x == other.x && y == other.y && z == other.z;
+			}
+			return false;
+		}
 	}
 
 	/// <summary>
@@ -70,6 +80,21 @@ namespace EarableLibrary
 		public override string ToString()
 		{
 			return string.Format("MotionSensorSample<Id={0},Acc={1},Gyro={2}>", SampleId, Acc, Gyro);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null) return false;
+			if (GetType() == obj.GetType() && obj is MotionSensorSample other)
+			{
+				if (SampleId == other.SampleId &&
+					Acc.Equals(other.Acc) &&
+					Gyro.Equals(other.Gyro))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 
