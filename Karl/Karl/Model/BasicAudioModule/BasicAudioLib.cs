@@ -18,11 +18,19 @@ namespace Karl.Model
 		/// <summary>
 		/// Non functional. 
 		/// </summary>
-		public SimplePlaylist[] AllPlaylists { get; set; }
+		public SimplePlaylist[] AllPlaylists
+		{
+			get => throw new NotImplementedException("There are no Basic Playlists");
+			set => throw new NotImplementedException("There are no Basic Playlists");
+		}
 		/// <summary>
 		/// Non functional. 
 		/// </summary>
-		public SimplePlaylist SelectedPlaylist { get; set; }
+		public SimplePlaylist SelectedPlaylist
+		{
+			get => throw new NotImplementedException("There are no Basic Playlists");
+			set => throw new NotImplementedException("There are no Basic Playlists");
+		}
 
 		public event AudioLibEventHandler AudioLibChanged;
 
