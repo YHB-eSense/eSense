@@ -4,6 +4,7 @@ using Karl.ViewModel;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Xunit;
 
 namespace UnitTesting.ViewModelTests
@@ -13,23 +14,28 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void PausePlayCommandTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioPlayerPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			Assert.True(vm.Player.Paused);
-			vm.PausePlayCommand.Execute(null);
-			Assert.False(vm.Player.Paused);
-			Assert.Equal(3, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioPlayerPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				Assert.True(vm.Player.Paused);
+				vm.PausePlayCommand.Execute(null);
+				Assert.False(vm.Player.Paused);
+				Assert.Equal(3, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void PlayPrevCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
@@ -42,6 +48,7 @@ namespace UnitTesting.ViewModelTests
 		public void PlayNextCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
@@ -54,6 +61,7 @@ namespace UnitTesting.ViewModelTests
 		public void PositionDragStartedCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
@@ -73,6 +81,7 @@ namespace UnitTesting.ViewModelTests
 		public void PositionDragCompletedCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
@@ -84,25 +93,30 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTests()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioPlayerPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
-			Assert.Equal(1, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
-			Assert.Equal(7, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioPlayerPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+				Assert.Equal(1, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
+				Assert.Equal(7, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void PropertyTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();

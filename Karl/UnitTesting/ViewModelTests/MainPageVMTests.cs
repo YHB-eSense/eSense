@@ -5,6 +5,7 @@ using Karl.ViewModel;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
@@ -17,6 +18,7 @@ namespace UnitTesting.ViewModelTests
 		public void AudioPlayerPageCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();
@@ -29,6 +31,7 @@ namespace UnitTesting.ViewModelTests
 		public void AudioLibPageCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();
@@ -40,21 +43,26 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void TryConnectCommandTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new MainPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			vm.TryConnectCommand.Execute(null);
-			Assert.Equal(1, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new MainPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				vm.TryConnectCommand.Execute(null);
+				Assert.Equal(1, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void ModesPageCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();
@@ -67,6 +75,7 @@ namespace UnitTesting.ViewModelTests
 		public void SettingsPageCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();
@@ -79,6 +88,7 @@ namespace UnitTesting.ViewModelTests
 		public void HelpCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();
@@ -91,35 +101,40 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new MainPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			Assert.Equal(2, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.DeviceName = "test";
-			Assert.Equal(1, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.ResetSteps();
-			Assert.Equal(2, i);
-			/*
-			i = 0;
-			await vm.ConHandler.Disconnect();
-			Assert.Equal(3, i);
-			TODO
-			*/
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new MainPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				Assert.Equal(2, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.DeviceName = "test";
+				Assert.Equal(1, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.ResetSteps();
+				Assert.Equal(2, i);
+				/*
+				i = 0;
+				await vm.ConHandler.Disconnect();
+				Assert.Equal(3, i);
+				TODO
+				*/
+			}).Start();
 		}
 
 		[Fact]
 		public void PropertyTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new MainPageVM_NEW();

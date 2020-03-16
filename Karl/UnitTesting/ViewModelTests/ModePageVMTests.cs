@@ -18,6 +18,7 @@ namespace UnitTesting.ViewModelTests
 		public void RefreshTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new ModesPageVM_NEW();
@@ -43,13 +44,14 @@ namespace UnitTesting.ViewModelTests
 		public void PropertyTests()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new ModesPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
 			//test
-			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0], vm.CurrentColor);
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0].Name, vm.CurrentColor.Name);
 			Assert.Equal("Available Modes", vm.ModesLabel);
 			Assert.Null(vm.StepChart);
 		}

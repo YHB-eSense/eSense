@@ -1,9 +1,11 @@
+#define TESTING
 using Karl.Model;
 using Karl.ViewModel;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,6 +17,7 @@ namespace UnitTesting.ViewModelTests
 		public void PickFileCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			//@"C:\Users\maxib\Desktop\BAB.wav"
@@ -32,6 +35,7 @@ namespace UnitTesting.ViewModelTests
 		public void GetBPMCommandTest(string val1)
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW(val1, Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
@@ -56,29 +60,33 @@ namespace UnitTesting.ViewModelTests
 		[InlineData("0")]
 		public void AddSongCommandTest(string val1)
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AddSongPageVM_NEW(val1, Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			//test
-			vm.AddSongCommand.Execute(null);
-			Assert.True(vm.Alerted);
-			//test
-			vm.Alerted = false;
-			vm.PickFileCommand.Execute(null);
-			vm.GetBPMCommand.Execute(null);
-			vm.AddSongCommand.Execute(null);
-			System.Threading.Thread.Sleep(1000);
-			Assert.Null(vm.NewSongTitle);
-			Assert.Null(vm.NewSongArtist);
-			Assert.Null(vm.NewSongBPM);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AddSongPageVM_NEW(val1, Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				//test
+				vm.AddSongCommand.Execute(null);
+				Assert.True(vm.Alerted);
+				//test
+				vm.Alerted = false;
+				vm.PickFileCommand.Execute(null);
+				vm.GetBPMCommand.Execute(null);
+				vm.AddSongCommand.Execute(null);
+				Assert.Null(vm.NewSongTitle);
+				Assert.Null(vm.NewSongArtist);
+				Assert.Null(vm.NewSongBPM);
+			}).Start();
 		}
 
 		[Fact]
 		public void RefreshTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW();
@@ -97,13 +105,14 @@ namespace UnitTesting.ViewModelTests
 		public void PropertyTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
 			//test
-			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0], vm.CurrentColor);
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0].Name, vm.CurrentColor.Name);
 			Assert.Equal("Add New Song", vm.AddSongLabel);
 			Assert.Equal("Artist", vm.ArtistLabel);
 			Assert.Equal("BPM", vm.BPMLabel);
