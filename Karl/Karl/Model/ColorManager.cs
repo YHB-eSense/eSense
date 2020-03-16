@@ -41,6 +41,7 @@ namespace Karl.Model
 			Colors.Add(new CustomColor(Color.DarkRed));
 			Colors.Add(new CustomColor(Color.ForestGreen));
 			Colors.Add(new CustomColor(Color.Orange));
+			CurrentColor = new CustomColor(Color.RoyalBlue);
 		}
 
 		/// <summary>

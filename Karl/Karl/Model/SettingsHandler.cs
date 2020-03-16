@@ -143,7 +143,7 @@ namespace Karl.Model
 			get => SingletonColorManager.CurrentColor;
 			set
 			{
-				if (_properties == null) return;
+				//if (_properties == null) return;
 
 				if (_properties.ContainsKey("color")) _properties.Remove("color");
 				_properties.Add("color", value.Color.ToHex());
