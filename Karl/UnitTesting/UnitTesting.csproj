@@ -67,7 +67,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Compile>
     <Compile Include="EarableLibraryTests\Utilities\PrebuiltMessage.cs" />
-    <Compile Include="ModelTests\AudioLibTests.cs" />
     <Compile Include="EarableLibraryTests\Utilities\EventReceiver.cs" />
     <Compile Include="Mocks\MockBLEConnection.cs" />
     <Compile Include="Mocks\MockEarableManager.cs" />
