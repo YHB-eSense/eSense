@@ -46,8 +46,8 @@ namespace EarableLibrary
 
 		public override bool Equals(object obj)
 		{
-			if (GetType() != obj.GetType()) return false;
-			if (obj is BLEMessage other)
+			if (obj == null) return false;
+			if (GetType() == obj.GetType() && obj is BLEMessage other)
 			{
 				if (Data == null) return other.Data == null;
 				else return Data.SequenceEqual(other.Data);
@@ -134,8 +134,7 @@ namespace EarableLibrary
 
 		public override bool Equals(object obj)
 		{
-			if (!base.Equals(obj)) return false;
-			if (obj is ESenseMessage other)
+			if (base.Equals(obj) && obj is ESenseMessage other)
 			{
 				return Header.Equals(other.Header);
 			}
@@ -203,8 +202,7 @@ namespace EarableLibrary
 
 		public override bool Equals(object obj)
 		{
-			if (!base.Equals(obj)) return false;
-			if (obj is IndexedESenseMessage other)
+			if (base.Equals(obj) && obj is IndexedESenseMessage other)
 			{
 				return PacketIndex.Equals(other.PacketIndex);
 			}

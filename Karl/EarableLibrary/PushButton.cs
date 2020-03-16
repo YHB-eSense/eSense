@@ -27,6 +27,16 @@ namespace EarableLibrary
 		{
 			return Pressed ? "Pressed" : "Released";
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null) return false;
+			if (GetType() == obj.GetType() && obj is ButtonState other)
+			{
+				return Pressed == other.Pressed;
+			}
+			return false;
+		}
 	}
 
 	/// <summary>

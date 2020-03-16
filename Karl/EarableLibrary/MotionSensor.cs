@@ -31,6 +31,17 @@ namespace EarableLibrary
 		{
 			return string.Format("{0},{1},{2}", x, y, z);
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null) return false;
+			if (GetType() == obj.GetType())
+			{
+				TripleShort other = (TripleShort)obj;
+				return x == other.x && y == other.y && z == other.z;
+			}
+			return false;
+		}
 	}
 
 	/// <summary>
@@ -71,12 +82,27 @@ namespace EarableLibrary
 		{
 			return string.Format("MotionSensorSample<Id={0},Acc={1},Gyro={2}>", SampleId, Acc, Gyro);
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null) return false;
+			if (GetType() == obj.GetType() && obj is MotionSensorSample other)
+			{
+				if (SampleId == other.SampleId &&
+					Acc.Equals(other.Acc) &&
+					Gyro.Equals(other.Gyro))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	/// <summary>
 	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionSensorSample> /*, IReadableSensor<MotionSensorSample>*/
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
 	{
 		// Command used to enable and disable IMU sampling
 		public static readonly byte CMD_IMU_ENABLE = 0x53;
@@ -99,6 +125,22 @@ namespace EarableLibrary
 		/// </summary>
 		public int SamplingRate { get; set; }
 
+		private bool _imuEnabled;
+
+		private async Task EnableImu()
+		{
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte)SamplingRate);
+			await _connection.WriteAsync(CHAR_IMU_ENABLE, msg);
+			_imuEnabled = true;
+		}
+
+		private async Task DisableImu()
+		{
+			var msg = new ESenseMessage(CMD_IMU_ENABLE, DISABLE, 0);
+			await _connection.WriteAsync(CHAR_IMU_ENABLE, msg);
+			_imuEnabled = false;
+		}
+
 		/// <summary>
 		/// Construct a new MotionSensor.
 		/// </summary>
@@ -106,6 +148,7 @@ namespace EarableLibrary
 		public MotionSensor(IDeviceConnection connection)
 		{
 			_connection = connection;
+			_imuEnabled = false;
 			SamplingRate = 50;
 		}
 
@@ -115,8 +158,7 @@ namespace EarableLibrary
 		public async Task StartSamplingAsync()
 		{
 			await _connection.SubscribeAsync(CHAR_IMU_DATA, ValueUpdated);
-			var msg = new ESenseMessage(CMD_IMU_ENABLE, ENABLE, (byte)SamplingRate);
-			await _connection.WriteAsync(CHAR_IMU_ENABLE, msg);
+			await EnableImu();
 		}
 
 		/// <summary>
@@ -124,20 +166,22 @@ namespace EarableLibrary
 		/// </summary>
 		public async Task StopSamplingAsync()
 		{
-			var msg = new ESenseMessage(CMD_IMU_ENABLE, DISABLE, 0);
-			await _connection.WriteAsync(CHAR_IMU_ENABLE, msg);
+			await DisableImu();
 			await _connection.UnsubscribeAsync(CHAR_IMU_DATA, ValueUpdated);
 		}
 
-		// TODO: Fix asynchronous reading (sampling must be enabled)
-		/*/// <summary>
+		/// <summary>
 		/// Manually retrieve the current sensor reading.
 		/// </summary>
 		/// <returns>Sensor reading</returns>
 		public async Task<MotionSensorSample> ReadAsync()
 		{
-			return ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-		}*/
+			bool imuOriginalState = _imuEnabled;
+			if (!_imuEnabled) await EnableImu();
+			var result = ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
+			if (!imuOriginalState) await DisableImu();
+			return result;
+		}
 
 		private MotionSensorSample ParseMessage(byte[] bytes)
 		{

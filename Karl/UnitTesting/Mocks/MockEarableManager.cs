@@ -2,7 +2,7 @@ using EarableLibrary;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace UnitTesting.EarableLibraryTests
+namespace UnitTesting.Mocks
 {
 	public class MockEarableManager : IEarableManager
 	{

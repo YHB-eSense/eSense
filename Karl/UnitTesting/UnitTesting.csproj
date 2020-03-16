@@ -61,10 +61,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EarableLibraryTests\BLEMessageTests.cs" />
+    <Compile Include="EarableLibraryTests\ESenseTest.cs" />
+    <Compile Include="EarableLibraryTests\MotionSensorTests.cs" />
+    <Compile Include="EarableLibraryTests\VoltageSensorTests.cs">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Compile>
+    <Compile Include="EarableLibraryTests\Utilities\PrebuiltMessage.cs" />
     <Compile Include="ModelTests\AudioLibTests.cs" />
-    <Compile Include="EarableLibraryTests\EventReceiver.cs" />
-    <Compile Include="EarableLibraryTests\MockBLEConnection.cs" />
-    <Compile Include="EarableLibraryTests\MockEarableManager.cs" />
+    <Compile Include="EarableLibraryTests\Utilities\EventReceiver.cs" />
+    <Compile Include="Mocks\MockBLEConnection.cs" />
+    <Compile Include="Mocks\MockEarableManager.cs" />
     <Compile Include="EarableLibraryTests\TestAppTest.cs" />
     <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
     <Compile Include="ModelTests\ColorManagerTests.cs" />
@@ -121,7 +127,7 @@
   <ItemGroup>
     <Content Include="Files\BAB.mp3" />
     <Content Include="Files\BAB.wav" />
-    <Compile Include="EarableLibraryTests\SensorTests.cs">
+    <Compile Include="EarableLibraryTests\PushButtonTests.cs">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Compile>
   </ItemGroup>
