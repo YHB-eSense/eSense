@@ -35,8 +35,9 @@ namespace EarableLibrary
 		public override bool Equals(object obj)
 		{
 			if (obj == null) return false;
-			if (GetType() == obj.GetType() && obj is TripleShort other)
+			if (GetType() == obj.GetType())
 			{
+				TripleShort other = (TripleShort)obj;
 				return x == other.x && y == other.y && z == other.z;
 			}
 			return false;

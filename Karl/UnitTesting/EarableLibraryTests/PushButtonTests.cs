@@ -47,10 +47,14 @@ namespace UnitTesting.EarableLibraryTests
 		{
 			ButtonState on = new ButtonState(true);
 			ButtonState off = new ButtonState(false);
+
 			Assert.NotEqual(on, off);
 			Assert.Equal(on, new ButtonState(true));
 			Assert.NotEqual(on.ToString(), off.ToString());
 			Assert.Equal(off.ToString(), new ButtonState(false).ToString());
+
+			Assert.False(on.Equals(null));
+			Assert.False(off.Equals(new object()));
 		}
 	}
 }

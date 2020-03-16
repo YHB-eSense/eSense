@@ -10,8 +10,6 @@ namespace UnitTesting.EarableLibraryTests
 		private static readonly TripleShort TS_ZERO = new TripleShort(0, 0, 0);
 		private static readonly TripleShort TS_PLUS_ONE = new TripleShort(1, 1, 1);
 		private static readonly TripleShort TS_MINUS_ONE = new TripleShort(-1, -1, -1);
-		private static readonly TripleShort TS_MIN = new TripleShort(short.MinValue, short.MinValue, short.MinValue);
-		private static readonly TripleShort TS_MAX = new TripleShort(short.MaxValue, short.MaxValue, short.MaxValue);
 
 		private static readonly byte[] DATA_ZERO = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		private static readonly byte[] DATA_SEQUENCE = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
@@ -115,20 +113,30 @@ namespace UnitTesting.EarableLibraryTests
 		public void MotionSensorSampleTest()
 		{
 			MotionSensorSample sample1 = new MotionSensorSample(TS_ZERO, TS_ZERO, 0);
-			MotionSensorSample sample2 = new MotionSensorSample(TS_MIN, TS_MAX, 1);
-			MotionSensorSample sample3 = new MotionSensorSample(TS_PLUS_ONE, TS_MINUS_ONE, 2);
+			MotionSensorSample sample2 = new MotionSensorSample(TS_ZERO, TS_ZERO, 1);
+			MotionSensorSample sample3 = new MotionSensorSample(TS_PLUS_ONE, TS_MINUS_ONE, 1);
 
 			Assert.NotEqual(sample1, sample2);
 			Assert.NotEqual(sample2, sample3);
 			Assert.NotEqual(sample3, sample1);
 
-			MotionSensorSample sample4 = new MotionSensorSample(TS_ZERO, TS_ZERO, 1);
-			MotionSensorSample sample5 = new MotionSensorSample(TS_ZERO, TS_ZERO, 0);
+			Assert.NotEqual(sample1.ToString(), sample2.ToString());
 
-			Assert.NotEqual(sample1, sample4);
-			Assert.Equal(sample1, sample5);
-			Assert.NotEqual(sample1.ToString(), sample4.ToString());
-			Assert.Equal(sample1.ToString(), sample5.ToString());
+			Assert.Equal(sample1, new MotionSensorSample(new TripleShort(0, 0, 0), new TripleShort(0, 0, 0), 0));
+
+			Assert.False(sample1.Equals(null));
+			Assert.False(sample1.Equals(new object()));
+		}
+
+		[Fact]
+		public void TripleShortTest()
+		{
+			Assert.Equal(TS_ZERO, new TripleShort(0, 0, 0));
+			Assert.NotEqual(TS_ZERO, TS_PLUS_ONE);
+			Assert.False(TS_ZERO.Equals(null));
+			Assert.False(TS_ZERO.Equals(new object()));
+
+			Assert.NotEqual(TS_ZERO.ToString(), TS_PLUS_ONE.ToString());
 		}
 	}
 }

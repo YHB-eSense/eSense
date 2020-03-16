@@ -110,6 +110,7 @@ namespace UnitTesting.EarableLibraryTests
 			Assert.NotEqual(msgA, msgB);
 			Assert.NotEqual(msgB, msgC);
 			Assert.NotEqual(msgC, msgA);
+			Assert.False(msgA.Equals(null));
 		}
 
 		[Theory]

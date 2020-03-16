@@ -61,7 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EarableLibraryTests\BLEMessageTests.cs" />
+    <Compile Include="EarableLibraryTests\ESenseTest.cs" />
     <Compile Include="EarableLibraryTests\MotionSensorTests.cs" />
+    <Compile Include="EarableLibraryTests\VoltageSensorTests.cs">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Compile>
     <Compile Include="EarableLibraryTests\Utilities\PrebuiltMessage.cs" />
     <Compile Include="ModelTests\AudioLibTests.cs" />
     <Compile Include="EarableLibraryTests\Utilities\EventReceiver.cs" />
