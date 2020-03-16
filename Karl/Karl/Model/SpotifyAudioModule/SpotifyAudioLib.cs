@@ -52,7 +52,7 @@ namespace Karl.Model
 				else if (!_testing)
 				{
 					Debug.WriteLine("[Exception] There are no playlists on this spotify account");
-					AudioLibSwitched += SwitchBackToBasicLibExceptionHandler;
+					SingletonAudioLib.AudioLibSwitched += SwitchBackToBasicLibExceptionHandler;
 					AllPlaylists = null;
 				}
 				else
@@ -98,8 +98,8 @@ namespace Karl.Model
 
 		private void SwitchBackToBasicLibExceptionHandler()
 		{
+			SingletonAudioLib.AudioLibSwitched -= SwitchBackToBasicLibExceptionHandler;
 			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
-			AudioLibSwitched -= SwitchBackToBasicLibExceptionHandler;
 		}
 
 		[Conditional("TESTING")]

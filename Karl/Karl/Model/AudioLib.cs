@@ -98,13 +98,13 @@ namespace Karl.Model
 		{
 			_audioLibImp = new SpotifyAudioLib();
 			_audioLibImp.Init();
-			AudioLibSwitched.Invoke();
+			AudioLibSwitched?.Invoke();
 		}
 
 		public void ChangeToBasicLib()
 		{
 			_audioLibImp = new BasicAudioLib();
-			AudioLibSwitched.Invoke();
+			AudioLibSwitched?.Invoke();
 		}
 
 		private void UpdateLib(object sender, EventArgs args)

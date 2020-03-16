@@ -106,7 +106,7 @@ namespace UnitTesting.ModelTests
 			{
 				TestObj = SingletonAudioLib;
 				TestObj.ChangeToSpotifyLib();
-				FieldInfo _audioLibImplField = typeof(AudioLib).GetField("_audioLibImpl", BindingFlags.Instance | BindingFlags.NonPublic);
+				FieldInfo _audioLibImplField = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.Instance | BindingFlags.NonPublic);
 				SpotifyAudioLib instance = (SpotifyAudioLib)_audioLibImplField.GetValue(TestObj);
 				instance.AllPlaylists = new SimplePlaylist[1];
 				instance.AllPlaylists[0] = new SimplePlaylist();
