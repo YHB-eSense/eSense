@@ -2,6 +2,7 @@
 using Karl.Model;
 using Karl.View;
 using Karl.ViewModel;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,6 +27,8 @@ namespace UnitTesting.ViewModelTests
 		public void TitleSortCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -50,6 +53,8 @@ namespace UnitTesting.ViewModelTests
 		public void ArtistSortCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -74,6 +79,8 @@ namespace UnitTesting.ViewModelTests
 		public void BPMSortCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -98,6 +105,8 @@ namespace UnitTesting.ViewModelTests
 		public void PlaySongCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			//test
@@ -109,6 +118,8 @@ namespace UnitTesting.ViewModelTests
 		public void AddSongCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			//test
 			vm.AddSongCommand.Execute(null);
@@ -119,6 +130,8 @@ namespace UnitTesting.ViewModelTests
 		public void SearchSongCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			vm.Songs.Add(new AudioTrack_NEW("title1", "artist1", 1));
 			vm.Songs.Add(new AudioTrack_NEW("title2", "artist2", 2));
@@ -142,6 +155,8 @@ namespace UnitTesting.ViewModelTests
 		public void DeleteSongsCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			vm.EditDeleteListCommand.Execute(track1);
@@ -156,6 +171,8 @@ namespace UnitTesting.ViewModelTests
 		public void EditDeleteListCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
 			//test
@@ -170,6 +187,8 @@ namespace UnitTesting.ViewModelTests
 		public void RefreshTests()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -226,7 +245,7 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AudioLib_NEW : AudioLib
 		{
-			public override void DeleteTrack(AudioTrack track) { }
+			public override async Task DeleteTrack(AudioTrack track) { }
 		}
 
 		internal class AudioTrack_NEW : AudioTrack

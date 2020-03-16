@@ -89,13 +89,13 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public virtual void DeleteTrack(AudioTrack track)
+		public virtual async Task DeleteTrack(AudioTrack track)
 		{
-			_audioLibImp.DeleteTrack(track);
+			await _audioLibImp.DeleteTrack(track);
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void changeToSpotifyLib()
+		public void ChangeToSpotifyLib()
 		{
 			_audioLibImp = new SpotifyAudioLib();
 			_audioLibImp.Init();
@@ -122,9 +122,9 @@ namespace Karl.Model
 		SimplePlaylist[] AllPlaylists { get; }
 		SimplePlaylist SelectedPlaylist { get; set; }
 		Task AddTrack(string storage, string title, string artist, int bpm);
-		void DeleteTrack(AudioTrack track);
+		Task DeleteTrack(AudioTrack track);
 		void Init();
-
 		event AudioLibEventHandler AudioLibChanged;
 	}
+
 }

@@ -182,8 +182,6 @@ namespace Karl.Model
 			// _stepslastmin = 0;
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
-
-			//Load color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
 			{
@@ -257,7 +255,7 @@ namespace Karl.Model
 		public void ChangeAudioModuleToSpotify()
 		{
 			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
-			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+			AudioLib.SingletonAudioLib.ChangeToSpotifyLib();
 			UsingBasicAudio = false;
 			UsingSpotifyAudio = true;
 			AudioModuleChanged?.Invoke(this, null);
@@ -273,9 +271,6 @@ namespace Karl.Model
 			UsingBasicAudio = true;
 			UsingSpotifyAudio = false;
 			AudioModuleChanged?.Invoke(this, null);
-		}
-
-		protected virtual void InitProperties() {
 		}
 
 		/// <summary>

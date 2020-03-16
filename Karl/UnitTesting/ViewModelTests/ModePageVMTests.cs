@@ -1,6 +1,8 @@
+#define TESTING
 using Karl.Model;
 using Karl.ViewModel;
 using Microcharts;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,9 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTest()
 		{
+			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new ModesPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -38,6 +43,8 @@ namespace UnitTesting.ViewModelTests
 		public void PropertyTests()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new ModesPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];

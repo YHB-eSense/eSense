@@ -57,7 +57,7 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public async void DeleteTrack(AudioTrack track)
+		public async Task DeleteTrack(AudioTrack track)
 		{
 			var x = await _database.DeleteTrackAsync(track);
 			if (x == 0) throw new ArgumentException("This song was not in the Database."); 

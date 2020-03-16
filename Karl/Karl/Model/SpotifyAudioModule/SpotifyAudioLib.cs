@@ -91,7 +91,7 @@ namespace Karl.Model
 			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
 
-		public void DeleteTrack(AudioTrack track)
+		public async Task DeleteTrack(AudioTrack track)
 		{
 			throw new NotImplementedException("Spotify Lib can't add Songs");
 		}
