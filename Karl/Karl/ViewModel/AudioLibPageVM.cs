@@ -38,10 +38,21 @@ namespace Karl.ViewModel
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
-		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
+		public SimplePlaylist[] Playlists
+		{
+			get
+			{
+				if (UsingBasicAudio) return null;
+				return _audioLib.Playlists;
+			}
+		}
 		public SimplePlaylist SelectedPlaylist
 		{
-			get => _audioLib.SelectedPlaylist;
+			get
+			{
+				if (UsingBasicAudio) return null;
+				return _audioLib.SelectedPlaylist;
+			}
 			set
 			{
 				_audioLib.SelectedPlaylist = value;

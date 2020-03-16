@@ -5,7 +5,9 @@ using Karl.ViewModel;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
@@ -26,85 +28,99 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void TitleSortCommandTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioLibPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
-			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
-			vm.Songs.Add(track1);
-			vm.Songs.Add(track2);
-			//test
-			vm.TitleSortCommand.Execute(null);
-			Assert.Equal(vm.CurrentColor.Color, vm.TitleSortColor);
-			Assert.Equal(Color.Transparent, vm.ArtistSortColor);
-			Assert.Equal(Color.Transparent, vm.BPMSortColor);
-			Assert.Equal(Color.White, vm.TitleSortTextColor);
-			Assert.Equal(Color.Black, vm.ArtistSortTextColor);
-			Assert.Equal(Color.Black, vm.BPMSortTextColor);
-			Assert.Equal(vm.Songs[0], track1);
-			Assert.Equal(vm.Songs[1], track2);
-			Assert.Equal(6, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioLibPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+				var track2 = new AudioTrack_NEW("title2", "artist2", 2);
+				vm.Songs.Add(track1);
+				vm.Songs.Add(track2);
+				//test
+				vm.TitleSortCommand.Execute(null);
+				Assert.Equal(vm.CurrentColor.Color, vm.TitleSortColor);
+				Assert.Equal(Color.Transparent, vm.ArtistSortColor);
+				Assert.Equal(Color.Transparent, vm.BPMSortColor);
+				Assert.Equal(Color.White, vm.TitleSortTextColor);
+				Assert.Equal(Color.Black, vm.ArtistSortTextColor);
+				Assert.Equal(Color.Black, vm.BPMSortTextColor);
+				Assert.Equal(vm.Songs[0], track1);
+				Assert.Equal(vm.Songs[1], track2);
+				Assert.Equal(6, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void ArtistSortCommandTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioLibPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
-			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
-			vm.Songs.Add(track1);
-			vm.Songs.Add(track2);
-			//test
-			vm.ArtistSortCommand.Execute(null);
-			Assert.Equal(Color.Transparent, vm.TitleSortColor);
-			Assert.Equal(vm.CurrentColor.Color, vm.ArtistSortColor);
-			Assert.Equal(Color.Transparent, vm.BPMSortColor);
-			Assert.Equal(Color.Black, vm.TitleSortTextColor);
-			Assert.Equal(Color.White, vm.ArtistSortTextColor);
-			Assert.Equal(Color.Black, vm.BPMSortTextColor);
-			Assert.Equal(vm.Songs[0], track1);
-			Assert.Equal(vm.Songs[1], track2);
-			Assert.Equal(6, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioLibPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+				var track2 = new AudioTrack_NEW("title2", "artist2", 2);
+				vm.Songs.Add(track1);
+				vm.Songs.Add(track2);
+				//test
+				vm.ArtistSortCommand.Execute(null);
+				Assert.Equal(Color.Transparent, vm.TitleSortColor);
+				Assert.Equal(vm.CurrentColor.Color, vm.ArtistSortColor);
+				Assert.Equal(Color.Transparent, vm.BPMSortColor);
+				Assert.Equal(Color.Black, vm.TitleSortTextColor);
+				Assert.Equal(Color.White, vm.ArtistSortTextColor);
+				Assert.Equal(Color.Black, vm.BPMSortTextColor);
+				Assert.Equal(vm.Songs[0], track1);
+				Assert.Equal(vm.Songs[1], track2);
+				Assert.Equal(6, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void BPMSortCommandTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioLibPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
-			var track2 = new AudioTrack_NEW("title2", "artist2", 2);
-			vm.Songs.Add(track1);
-			vm.Songs.Add(track2);
-			//test
-			vm.BPMSortCommand.Execute(null);
-			Assert.Equal(Color.Transparent, vm.TitleSortColor);
-			Assert.Equal(Color.Transparent, vm.ArtistSortColor);
-			Assert.Equal(vm.CurrentColor.Color, vm.BPMSortColor);
-			Assert.Equal(Color.Black, vm.TitleSortTextColor);
-			Assert.Equal(Color.Black, vm.ArtistSortTextColor);
-			Assert.Equal(Color.White, vm.BPMSortTextColor);
-			Assert.Equal(vm.Songs[0], track1);
-			Assert.Equal(vm.Songs[1], track2);
-			Assert.Equal(6, i);
+			new Thread(() =>
+			{
+				Thread.CurrentThread.IsBackground = true;
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioLibPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+				var track2 = new AudioTrack_NEW("title2", "artist2", 2);
+				vm.Songs.Add(track1);
+				vm.Songs.Add(track2);
+				//test
+				vm.BPMSortCommand.Execute(null);
+				Assert.Equal(Color.Transparent, vm.TitleSortColor);
+				Assert.Equal(Color.Transparent, vm.ArtistSortColor);
+				Assert.Equal(vm.CurrentColor.Color, vm.BPMSortColor);
+				Assert.Equal(Color.Black, vm.TitleSortTextColor);
+				Assert.Equal(Color.Black, vm.ArtistSortTextColor);
+				Assert.Equal(Color.White, vm.BPMSortTextColor);
+				Assert.Equal(vm.Songs[0], track1);
+				Assert.Equal(vm.Songs[1], track2);
+				Assert.Equal(6, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void PlaySongCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
@@ -118,6 +134,7 @@ namespace UnitTesting.ViewModelTests
 		public void AddSongCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
@@ -130,6 +147,7 @@ namespace UnitTesting.ViewModelTests
 		public void SearchSongCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
@@ -155,6 +173,7 @@ namespace UnitTesting.ViewModelTests
 		public void DeleteSongsCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
@@ -171,6 +190,7 @@ namespace UnitTesting.ViewModelTests
 		public void EditDeleteListCommandTest()
 		{
 			//setup
+			SettingsHandler.Testing(true);
 			var mockObj = new Mock<IDictionary<string, Object>>();
 			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioLibPageVM_NEW();
@@ -186,32 +206,36 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTests()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioLibPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			Assert.Equal(4, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
-			Assert.Equal(7, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
-			Assert.Equal(11, i);
-			i = 0;
-			/*
-			//test
-			FieldInfo field = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.NonPublic | BindingFlags.Instance);
-			var output = field.GetValue(AudioLib.SingletonAudioLib);
-			IAudioLibImpl audioLibImp = (IAudioLibImpl) output;
-			audioLibImp.AddTrack("test", "title", "artist", 0);
-			Assert.Equal(7, i);
-			*/
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioLibPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				Assert.Equal(4, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+				Assert.Equal(7, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
+				Assert.Equal(11, i);
+				i = 0;
+				/*
+				//test
+				FieldInfo field = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.NonPublic | BindingFlags.Instance);
+				var output = field.GetValue(AudioLib.SingletonAudioLib);
+				IAudioLibImpl audioLibImp = (IAudioLibImpl) output;
+				audioLibImp.AddTrack("test", "title", "artist", 0);
+				Assert.Equal(7, i);
+				*/
+			}).Start();
 		}
 
 		internal class AudioLibPageVM_NEW : AudioLibPageVM
@@ -270,6 +294,6 @@ namespace UnitTesting.ViewModelTests
 			public override Type CurrentPageType { get; set; }
 			public override async void GotoPage<T>() { CurrentPageType = typeof(T); }
 		}
-		
+
 	}
 }

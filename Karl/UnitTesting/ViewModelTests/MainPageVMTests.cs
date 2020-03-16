@@ -5,6 +5,7 @@ using Karl.ViewModel;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
@@ -36,19 +37,23 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void TryConnectCommandTest()
 		{
-			Before();
-			var vm = new MainPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			vm.TryConnectCommand.Execute(null);
-			Assert.Equal(1, i);
+
+			new Thread(() =>
+			{
+				Before();
+				var vm = new MainPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				vm.TryConnectCommand.Execute(null);
+				Assert.Equal(1, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void ModesPageCommandTest()
 		{
-			Before();
+			Before(); 
 			var vm = new MainPageVM_NEW();
 			//test
 			vm.ModesPageCommand.Execute(null);
@@ -79,35 +84,36 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTest()
 		{
-			Before();
-			var vm = new MainPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			Assert.Equal(2, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.DeviceName = "test";
-			Assert.Equal(1, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.ResetSteps();
-			Assert.Equal(2, i);
-			/*
-			i = 0;
-			await vm.ConHandler.Disconnect();
-			Assert.Equal(3, i);
-			TODO
-			*/
+			new Thread(() =>
+			{
+				Before();
+				var vm = new MainPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				Assert.Equal(2, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.DeviceName = "test";
+				Assert.Equal(1, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.ResetSteps();
+				Assert.Equal(2, i);
+				/*
+				i = 0;
+				await vm.ConHandler.Disconnect();
+				Assert.Equal(3, i);
+				TODO
+				*/
+			}).Start();
 		}
 
 		[Fact]
 		public void PropertyTest()
 		{
-			//setup
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			//test

@@ -38,7 +38,11 @@ namespace Karl.Model
 
 		public SimplePlaylist SelectedPlaylist
 		{
-			get => _audioLibImp.SelectedPlaylist;
+			get
+			{
+				if (SettingsHandler.SingletonSettingsHandler.UsingBasicAudio) return null;
+				return _audioLibImp.SelectedPlaylist;
+			}
 			set
 			{
 				foreach (var playlist in Playlists)
