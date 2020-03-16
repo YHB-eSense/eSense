@@ -7,12 +7,15 @@ using Xunit;
 
 namespace UnitTesting.ViewModelTests
 {
-	public class SettingsPageVMTests : IDisposable
+	public class SettingsPageVMTests 
 	{
 
 		public SettingsPageVMTests()
 		{
-			//TO-DO: Setup
+			//Before
+			Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
+			testDictionary.Add("lang", "TestLang");
+			SettingsHandler.PropertiesInjection(testDictionary);
 		}
 
 
@@ -67,23 +70,15 @@ namespace UnitTesting.ViewModelTests
 				ColorManager.SingletonColorManager.Colors[0]);
 		}
 
-		public void Dispose()
+		
+
+	
+		internal class SettingsPageVM_NEW : SettingsPageVM
 		{
-			//TO-DO: Tear Down
-		}
 
-		internal class SettingsHandler_NEW : SettingsHandler {
-
-			protected override void InitProperties()
+			public SettingsPageVM_NEW()
 			{
 				
-			}
-		}
-
-		internal class SettingsPageVM_NEW : SettingsPageVM {
-
-			public SettingsPageVM_NEW() {
-				_settingsHandler = SettingsHandler_NEW.SingletonSettingsHandler;
 			}
 
 		}
