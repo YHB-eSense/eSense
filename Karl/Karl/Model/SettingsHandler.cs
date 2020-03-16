@@ -173,11 +173,9 @@ namespace Karl.Model
 		/// <summary>
 		/// The constructor that builds a new SettingsHandler
 		/// </summary>
-		protected SettingsHandler()
+		private SettingsHandler()
 		{
-			if(Application.Current != null) _properties = (_propertiesInjection == null | !_testing) ? Application.Current.Properties : _propertiesInjection;
-			//For testing
-			else _properties = new Dictionary<string, Object>();
+			_properties = (_propertiesInjection == null | !_testing) ? Application.Current.Properties : _propertiesInjection;
 			UsingSpotifyAudio = false;
 			UsingBasicAudio = true;
 			SingletonOutputManager.Subscribe(new StepDetectionObserver(this));
@@ -185,33 +183,6 @@ namespace Karl.Model
 			ChartEntries = new List<Microcharts.Entry>();
 			InitTimer();
 
-		}
-
-		/// <summary>
-		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
-		/// </summary>
-		public void ChangeAudioModuleToSpotify()
-		{
-			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
-			AudioLib.SingletonAudioLib.changeToSpotifyLib();
-			UsingBasicAudio = false;
-			UsingSpotifyAudio = true;
-			AudioModuleChanged?.Invoke(this, null);
-		}
-
-		/// <summary>
-		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
-		/// </summary>
-		public void ChangeAudioModuleToBasic()
-		{
-			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
-			AudioLib.SingletonAudioLib.ChangeToBasicLib();
-			UsingBasicAudio = true;
-			UsingSpotifyAudio = false;
-			AudioModuleChanged?.Invoke(this, null);
-		}
-
-		protected virtual void InitProperties() {
 			//Load color
 			Object val;
 			if (_properties.TryGetValue("color", out val))
@@ -278,6 +249,33 @@ namespace Karl.Model
 				_steps = 0;
 				_properties.Add("steps", "0");
 			}
+		}
+
+		/// <summary>
+		/// Changes active audioplayer and -lib to SpotifyAudioPlayer and SpotifyAudioLib
+		/// </summary>
+		public void ChangeAudioModuleToSpotify()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToSpotifyPlayer();
+			AudioLib.SingletonAudioLib.changeToSpotifyLib();
+			UsingBasicAudio = false;
+			UsingSpotifyAudio = true;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		/// <summary>
+		/// Changes active audioplayer and -lib to BasicAudioPlayer and BasicAudioLib
+		/// </summary>
+		public void ChangeAudioModuleToBasic()
+		{
+			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
+			AudioLib.SingletonAudioLib.ChangeToBasicLib();
+			UsingBasicAudio = true;
+			UsingSpotifyAudio = false;
+			AudioModuleChanged?.Invoke(this, null);
+		}
+
+		protected virtual void InitProperties() {
 		}
 
 		/// <summary>
