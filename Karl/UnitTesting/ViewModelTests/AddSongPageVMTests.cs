@@ -1,6 +1,8 @@
 using Karl.Model;
 using Karl.ViewModel;
+using Moq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,6 +15,8 @@ namespace UnitTesting.ViewModelTests
 		public void PickFileCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			//@"C:\Users\maxib\Desktop\BAB.wav"
 			var vm = new AddSongPageVM_NEW(Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
@@ -28,6 +32,8 @@ namespace UnitTesting.ViewModelTests
 		public void GetBPMCommandTest(string val1)
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW(val1, Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			//test
@@ -51,6 +57,8 @@ namespace UnitTesting.ViewModelTests
 		public void AddSongCommandTest(string val1)
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW(val1, Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			//test
@@ -71,6 +79,8 @@ namespace UnitTesting.ViewModelTests
 		public void RefreshTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -87,6 +97,8 @@ namespace UnitTesting.ViewModelTests
 		public void PropertyTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AddSongPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];

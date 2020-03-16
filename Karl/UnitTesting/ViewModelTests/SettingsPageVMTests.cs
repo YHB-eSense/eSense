@@ -1,3 +1,4 @@
+#define TESTING
 using Karl.Model;
 using Karl.ViewModel;
 using System;

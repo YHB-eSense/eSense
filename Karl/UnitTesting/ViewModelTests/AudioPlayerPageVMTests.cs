@@ -1,6 +1,9 @@
+#define TESTING
 using Karl.Model;
 using Karl.ViewModel;
 using Moq;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace UnitTesting.ViewModelTests
@@ -11,6 +14,8 @@ namespace UnitTesting.ViewModelTests
 		public void PausePlayCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -25,6 +30,8 @@ namespace UnitTesting.ViewModelTests
 		public void PlayPrevCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			//test
 			vm.PlayPrevCommand.Execute(null);
@@ -35,6 +42,8 @@ namespace UnitTesting.ViewModelTests
 		public void PlayNextCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			//test
 			vm.PlayNextCommand.Execute(null);
@@ -45,6 +54,8 @@ namespace UnitTesting.ViewModelTests
 		public void PositionDragStartedCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			vm.PausePlayCommand.Execute(null);
 			//test
@@ -62,6 +73,8 @@ namespace UnitTesting.ViewModelTests
 		public void PositionDragCompletedCommandTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			//test
 			vm.PositionDragCompletedCommand.Execute(null);
@@ -72,6 +85,8 @@ namespace UnitTesting.ViewModelTests
 		public void RefreshTests()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			int i = 0;
 			vm.PropertyChanged += (sender, e) => i++;
@@ -88,6 +103,8 @@ namespace UnitTesting.ViewModelTests
 		public void PropertyTest()
 		{
 			//setup
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
 			var vm = new AudioPlayerPageVM_NEW();
 			//test
 			vm.Volume = 0.5;
