@@ -7,11 +7,19 @@ namespace UnitTesting.EarableLibraryTests
 {
 	public class MotionSensorTests
 	{
+		private static readonly TripleShort TS_ZERO = new TripleShort(0, 0, 0);
+		private static readonly TripleShort TS_PLUS_ONE = new TripleShort(1, 1, 1);
+		private static readonly TripleShort TS_MINUS_ONE = new TripleShort(-1, -1, -1);
+		private static readonly TripleShort TS_MIN = new TripleShort(short.MinValue, short.MinValue, short.MinValue);
+		private static readonly TripleShort TS_MAX = new TripleShort(short.MaxValue, short.MaxValue, short.MaxValue);
+
 		private static readonly byte[] DATA_ZERO = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		private static readonly byte[] DATA_SEQUENCE = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		private static readonly byte[] DATA_MAX = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
+		private static readonly int SAMPLE_RATE_INDEX = 4;
+		private static readonly int ON_OFF_INDEX = 3;
 
-		private IndexedESenseMessage[] PrebuiltMessageArray =
+		private readonly IndexedESenseMessage[] PrebuiltMessageArray =
 		{
 			new IndexedESenseMessage(header: 0x55, packetIndex: 0, data: DATA_ZERO),
 			new IndexedESenseMessage(header: 0x55, packetIndex: 1, data: DATA_SEQUENCE),
@@ -75,6 +83,52 @@ namespace UnitTesting.EarableLibraryTests
 			Assert.Equal(expected.SampleId, result.SampleId);
 			Assert.Equal(expected.Acc, result.Acc);
 			Assert.Equal(expected.Gyro, result.Gyro);
+		}
+
+		[Theory]
+		[InlineData(10)]
+		[InlineData(20)]
+		[InlineData(50)]
+		[InlineData(100)]
+		public async Task StartStopSamplingTest(int rate)
+		{
+			MockBLEConnection connection = new MockBLEConnection();
+			MotionSensor sensor = new MotionSensor(connection)
+			{
+				SamplingRate = rate
+			};
+			byte[] data;
+
+			await sensor.StartSamplingAsync();
+			Assert.True(connection.Storage.ContainsKey(MotionSensor.CHAR_IMU_ENABLE));
+			data = connection.Storage[MotionSensor.CHAR_IMU_ENABLE];
+			Assert.Equal(rate, data[SAMPLE_RATE_INDEX]);
+			Assert.Equal(0x01, data[ON_OFF_INDEX]);
+
+			await sensor.StopSamplingAsync();
+			Assert.True(connection.Storage.ContainsKey(MotionSensor.CHAR_IMU_ENABLE));
+			data = connection.Storage[MotionSensor.CHAR_IMU_ENABLE];
+			Assert.Equal(0x00, data[ON_OFF_INDEX]);
+		}
+
+		[Fact]
+		public void MotionSensorSampleTest()
+		{
+			MotionSensorSample sample1 = new MotionSensorSample(TS_ZERO, TS_ZERO, 0);
+			MotionSensorSample sample2 = new MotionSensorSample(TS_MIN, TS_MAX, 1);
+			MotionSensorSample sample3 = new MotionSensorSample(TS_PLUS_ONE, TS_MINUS_ONE, 2);
+
+			Assert.NotEqual(sample1, sample2);
+			Assert.NotEqual(sample2, sample3);
+			Assert.NotEqual(sample3, sample1);
+
+			MotionSensorSample sample4 = new MotionSensorSample(TS_ZERO, TS_ZERO, 1);
+			MotionSensorSample sample5 = new MotionSensorSample(TS_ZERO, TS_ZERO, 0);
+
+			Assert.NotEqual(sample1, sample4);
+			Assert.Equal(sample1, sample5);
+			Assert.NotEqual(sample1.ToString(), sample4.ToString());
+			Assert.Equal(sample1.ToString(), sample5.ToString());
 		}
 	}
 }
