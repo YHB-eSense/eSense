@@ -16,6 +16,7 @@ namespace UnitTesting.ViewModelTests
 			Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
 			testDictionary.Add("lang", "TestLang");
 			SettingsHandler.PropertiesInjection(testDictionary);
+			SettingsHandler.Testing(true);
 		}
 
 
@@ -25,7 +26,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ChangeDeviceNameTest()
 		{
-			SettingsPageVM_NEW spVM = new SettingsPageVM_NEW();
+			SettingsPageVM spVM = new SettingsPageVM();
 			spVM.DeviceName = "New Device";
 			spVM.ChangeDeviceNameCommand.Execute(null);
 			//Should be null because atm no earables are connected
@@ -38,7 +39,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ResetStepsTest()
 		{
-			SettingsPageVM_NEW spVM = new SettingsPageVM_NEW();
+			SettingsPageVM spVM = new SettingsPageVM();
 			spVM.ResetStepsCommand.Execute(null);
 			Assert.Equal(0, SettingsHandler.SingletonSettingsHandler.Steps);
 		}
@@ -52,9 +53,9 @@ namespace UnitTesting.ViewModelTests
 		public void ChangeLanguageTest()
 		{
 			SettingsPageVM spVM = new SettingsPageVM();
-			spVM.SelectedLanguage = LangManager.SingletonLangManager.AvailableLangs[1];
+			spVM.SelectedLanguage = LangManager.SingletonLangManager.AvailableLangs[0];
 			Assert.Equal(LangManager.SingletonLangManager.CurrentLang,
-				LangManager.SingletonLangManager.AvailableLangs[1]);
+				LangManager.SingletonLangManager.AvailableLangs[0]);
 		}
 
 
@@ -66,21 +67,9 @@ namespace UnitTesting.ViewModelTests
 		{
 			SettingsPageVM spVM = new SettingsPageVM();
 			spVM.CurrentColor = ColorManager.SingletonColorManager.Colors[0];
-			Assert.Equal(SettingsHandler.SingletonSettingsHandler.CurrentColor,
-				ColorManager.SingletonColorManager.Colors[0]);
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.CurrentColor.Name,
+				ColorManager.SingletonColorManager.Colors[0].Name);
 		}
 
-		
-
-	
-		internal class SettingsPageVM_NEW : SettingsPageVM
-		{
-
-			public SettingsPageVM_NEW()
-			{
-				
-			}
-
-		}
 	}
 }

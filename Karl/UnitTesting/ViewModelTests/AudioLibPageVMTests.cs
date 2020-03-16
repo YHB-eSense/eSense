@@ -1,3 +1,4 @@
+#define TESTING
 using Karl.Model;
 using Karl.View;
 using Karl.ViewModel;
@@ -12,6 +13,15 @@ namespace UnitTesting.ViewModelTests
 {
 	public class AudioLibPageVMTests
 	{
+
+		public AudioLibPageVMTests() {
+			//Before
+			Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
+			testDictionary.Add("lang", "TestLang");
+			SettingsHandler.PropertiesInjection(testDictionary);
+			SettingsHandler.Testing(true);
+		}
+
 		[Fact]
 		public void TitleSortCommandTest()
 		{
