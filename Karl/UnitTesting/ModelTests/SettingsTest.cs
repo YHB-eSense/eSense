@@ -114,8 +114,8 @@ namespace UnitTesting.ModelTests
 				TestObj = SingletonSettingsHandler;
 				TestObj.ChangeAudioModuleToSpotify();
 				Assert.ThrowsAsync<NotImplementedException>(async () => await SingletonAudioLib.AddTrack("TEST", "TEST", "TEST", 0));
-				Assert.Throws<NotImplementedException>(
-					() => SingletonAudioLib.DeleteTrack(
+				Assert.ThrowsAsync<NotImplementedException>(
+					async () => await SingletonAudioLib.DeleteTrack(
 						new SpotifyAudioTrack(0.0, "TEST", "TEST", 0, "TEST", null)));
 			});
 		}

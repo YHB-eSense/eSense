@@ -216,7 +216,7 @@ namespace UnitTesting.ViewModelTests
 
 		internal class AudioLib_NEW : AudioLib
 		{
-			public override void DeleteTrack(AudioTrack track) { }
+			public override async Task DeleteTrack(AudioTrack track) { }
 		}
 
 		internal class AudioTrack_NEW : AudioTrack

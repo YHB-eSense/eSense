@@ -42,15 +42,15 @@ namespace UnitTesting.ModelTests
 			BeforeAfterTest(Add_Clear_Song);
 		}
 
-		void Add_Clear_Song()
+		async void Add_Clear_Song()
 		{
-			TestObj.AddTrack("testUrl", "Fire and Forgive", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl2", "Incense and Iron", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl4", "Sacrament of Sin", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl3", "Resurrection by Erection", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl5", "Amen and Attack", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl6", "Armata Strigoi", "Powerwolf", 140);
-			TestObj.AddTrack("testUrl7", "Nightside of Siberia", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl", "Fire and Forgive", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl2", "Incense and Iron", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl4", "Sacrament of Sin", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl3", "Resurrection by Erection", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl5", "Amen and Attack", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl6", "Armata Strigoi", "Powerwolf", 140);
+			await TestObj.AddTrack("testUrl7", "Nightside of Siberia", "Powerwolf", 140);
 			Assert.True(TestObj.AudioTracks.Count == 7);
 			TestObj.AudioTracks.Clear();
 			Assert.Empty(TestObj.AudioTracks);

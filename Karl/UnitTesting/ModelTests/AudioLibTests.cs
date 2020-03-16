@@ -60,7 +60,7 @@ namespace UnitTesting.ModelTests
 				await TestObj.AddTrack("", "Armata Strigoi", "Powerwolf", 140);
 				await TestObj.AddTrack("", "Nightside of Siberia", "Powerwolf", 140);
 				Assert.True(TestObj.AudioTracks.Count == 7);
-				TestObj.DeleteTrack(TestObj.AudioTracks[0]);
+				await TestObj.DeleteTrack(TestObj.AudioTracks[0]);
 				Assert.True(TestObj.AudioTracks.Count == 6);
 				TestObj.AudioTracks.Clear();
 				Assert.Empty(TestObj.AudioTracks);
@@ -84,7 +84,7 @@ namespace UnitTesting.ModelTests
 			{
 				TestObj = SingletonAudioLib;
 				Assert.ThrowsAsync<ArgumentException>(
-					 async () => TestObj.DeleteTrack(new BasicAudioTrack("", "The Devil in I", "Slipknot", 1)));
+					 async () => await TestObj.DeleteTrack(new BasicAudioTrack("", "The Devil in I", "Slipknot", 1)));
 			});
 		}
 
@@ -128,9 +128,9 @@ namespace UnitTesting.ModelTests
 				{
 					await TestObj.AddTrack("", "Neuer Alter Savas", "DCVDNS", 1);
 				});
-				Assert.Throws<NotImplementedException>(() =>
+				Assert.ThrowsAsync<NotImplementedException>(async () =>
 				{
-					TestObj.DeleteTrack(new BasicAudioTrack("", "Neuer Alter Savas", "DCVDNS", 1));
+					await TestObj.DeleteTrack(new BasicAudioTrack("", "Neuer Alter Savas", "DCVDNS", 1));
 				});
 			});
 		}
