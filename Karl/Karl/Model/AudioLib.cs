@@ -84,6 +84,7 @@ namespace Karl.Model
 		/// </summary>
 		public virtual async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
+			if (bpm < 0) throw new ArgumentException("BPM can't be negative.");
 			await _audioLibImp.AddTrack(storage, title, artist, bpm);
 			AudioLibChanged?.Invoke(this, null);
 		}

@@ -51,7 +51,6 @@ namespace Karl.Model
 
 		public async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
-			if (bpm < 0) throw new ArgumentException("BPM can't be negative");
 			BasicAudioTrack newTrack = new BasicAudioTrack(storage, title, artist, bpm);
 			await _database.SaveTrackAsync(newTrack);
 			AllAudioTracks.Add(newTrack);
