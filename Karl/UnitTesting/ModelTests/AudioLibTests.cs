@@ -105,7 +105,7 @@ namespace UnitTesting.ModelTests
 			BeforeAfterTest(() =>
 			{
 				TestObj = SingletonAudioLib;
-				TestObj.changeToSpotifyLib();
+				TestObj.ChangeToSpotifyLib();
 				FieldInfo _audioLibImplField = typeof(AudioLib).GetField("_audioLibImpl", BindingFlags.Instance | BindingFlags.NonPublic);
 				SpotifyAudioLib instance = (SpotifyAudioLib)_audioLibImplField.GetValue(TestObj);
 				instance.AllPlaylists = new SimplePlaylist[1];
@@ -123,7 +123,7 @@ namespace UnitTesting.ModelTests
 			BeforeAfterTest(() =>
 			{
 				TestObj = SingletonAudioLib;
-				TestObj.changeToSpotifyLib();
+				TestObj.ChangeToSpotifyLib();
 				Assert.ThrowsAsync<NotImplementedException>(async () =>
 				{
 					await TestObj.AddTrack("", "Neuer Alter Savas", "DCVDNS", 1);

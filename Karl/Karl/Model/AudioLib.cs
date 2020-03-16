@@ -65,7 +65,7 @@ namespace Karl.Model
 		public delegate void AudioLibEventHandler(object source, EventArgs e);
 		public event AudioLibEventHandler AudioLibChanged;
 		public delegate void AudioLibSwitchedHandler();
-		public static event AudioLibSwitchedHandler AudioLibSwitched;
+		public event AudioLibSwitchedHandler AudioLibSwitched;
 
 
 		protected AudioLib()
@@ -94,7 +94,7 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void changeToSpotifyLib()
+		public void ChangeToSpotifyLib()
 		{
 			_audioLibImp = new SpotifyAudioLib();
 			_audioLibImp.Init();
@@ -123,7 +123,7 @@ namespace Karl.Model
 		Task AddTrack(string storage, string title, string artist, int bpm);
 		void DeleteTrack(AudioTrack track);
 		void Init();
-
 		event AudioLibEventHandler AudioLibChanged;
 	}
+
 }

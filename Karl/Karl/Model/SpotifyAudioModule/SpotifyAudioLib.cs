@@ -99,7 +99,7 @@ namespace Karl.Model
 		private void SwitchBackToBasicLibExceptionHandler()
 		{
 			SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToBasic();
-			AudioLib.AudioLibSwitched -= SwitchBackToBasicLibExceptionHandler;
+			AudioLibSwitched -= SwitchBackToBasicLibExceptionHandler;
 		}
 
 		[Conditional("TESTING")]
