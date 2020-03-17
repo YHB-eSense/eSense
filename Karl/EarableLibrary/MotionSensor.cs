@@ -176,11 +176,15 @@ namespace EarableLibrary
 		/// <returns>Sensor reading</returns>
 		public async Task<MotionSensorSample> ReadAsync()
 		{
-			bool imuOriginalState = _imuEnabled;
-			if (!_imuEnabled) await EnableImu();
-			var result = ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-			if (!imuOriginalState) await DisableImu();
-			return result;
+			if (_imuEnabled) return ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
+			else
+			{
+				await EnableImu();
+				await Task.Delay(1000 / SamplingRate + 1); // wait for sample
+				var result = ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
+				await DisableImu();
+				return result;
+			}
 		}
 
 		private MotionSensorSample ParseMessage(byte[] bytes)

@@ -3,6 +3,15 @@
 \begin{document}
 
 \section{Nichttriviale Fehler und Probleme}
-...
+\subsection{EarableLibrary}
+Die größte Herausforderung beim Testen der EarableLibrary waren die durch die Bluetooth-Schnittstelle gegebenen Einschränkungen.
+Da das verwendete \quote{Bluetooth LE plugin for Xamarin} keine Unterstützung für Windows bietet, konnten die Tests nicht direkt auf dem Entwicklungscomputer ausgeführt werden.
+Um diese Einschränkung zu umgehen, haben wir eine auf Android und iOS lauffähige \quote{EarableLibraryTestApp} entwickelt.
 
+Im Zuge der Tests sind mehrere Einschränkungen zutage getreten, welche durch das \quote{Bluetooth LE plugin}, das Betriebssystem oder die Earables selber gegeben sind.
+Diese konnten dementsprechend nicht oder nur teilweise behoben werden.
+\begin{itemize}
+\item Zu dicht aufeinanderfolgendes Trennen und Wiederherstellen der Bluetooth-Verbindung zu den Earables ist nicht möglich. Obwohl der Vorgang zunächst gelingt, geht wenige Sekunden später die Verbindung zu den Earables verloren und muss erneut hergestellt werden.
+Das Einbauen einer zweisekündigen Verzögerung vor dem Wiederverbindungsvorgang war in allen Testfällen ausreichend, um ein Abbrechen der Verbindung zu vermeiden.
+\item Der Name, welcher den ESense-Earables zugewiesen werden kann, ist auf 11 Zeichen beschränkt. Der Versuch, einen längeren Namen zuzuweisen wird vom ESense ignoriert und der alte Name wird beibehalten.
 \end{document}
