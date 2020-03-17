@@ -34,7 +34,8 @@ namespace Karl.ViewModel
 
 		public void SetPages(ContentPage[] pages)
 		{
-			foreach (var page in pages) _pages.Add(page.GetType(), page);
+			foreach (var page in pages)
+				if(!_pages.ContainsKey(page.GetType()))_pages.Add(page.GetType(), page);
 		}
 
 		public virtual async void GotoPage<T>() where T : ContentPage
