@@ -51,7 +51,7 @@ namespace Karl.Model
 						_audioLibImp.SelectedPlaylist = value;
 						return;
 					}
-				throw new ArgumentException("This Playlist does not exist.");
+				//throw new ArgumentException("This Playlist does not exist.");
 			}
 		}
 
