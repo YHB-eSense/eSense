@@ -88,40 +88,46 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AddSongPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			Assert.Equal(6, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
-			Assert.Equal(1, i);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AddSongPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				Assert.Equal(6, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+				Assert.Equal(1, i);
+			}).Start();
 		}
 
 		[Fact]
 		public void PropertyTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AddSongPageVM_NEW();
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
-			//test
-			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0].Name, vm.CurrentColor.Name);
-			Assert.Equal("Add New Song", vm.AddSongLabel);
-			Assert.Equal("Artist", vm.ArtistLabel);
-			Assert.Equal("BPM", vm.BPMLabel);
-			Assert.Equal("get_bpm", vm.GetBPMLabel);
-			Assert.Equal("Pick Audio File", vm.PickFileLabel);
-			Assert.Equal("Title", vm.TitleLabel);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AddSongPageVM_NEW();
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+				//test
+				Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0].Name, vm.CurrentColor.Name);
+				Assert.Equal("Add New Song", vm.AddSongLabel);
+				Assert.Equal("Artist", vm.ArtistLabel);
+				Assert.Equal("BPM", vm.BPMLabel);
+				Assert.Equal("get_bpm", vm.GetBPMLabel);
+				Assert.Equal("Pick Audio File", vm.PickFileLabel);
+				Assert.Equal("Title", vm.TitleLabel);
+			}).Start();
 		}
 
 		internal class AddSongPageVM_NEW : AddSongPageVM

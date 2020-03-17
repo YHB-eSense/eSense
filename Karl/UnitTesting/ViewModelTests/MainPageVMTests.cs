@@ -113,13 +113,16 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void PropertyTest()
 		{
-			Before();
+			new Thread(() =>
+			{
+				Before();
 			var vm = new MainPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			//test
 			Assert.Equal("Device: ", vm.DeviceName);
 			Assert.Equal("Steps: 0", vm.StepsAmount);
 			Assert.Equal(vm.IconOn, vm.Icon);
+			}).Start();
 		}
 
 		private void Before() {

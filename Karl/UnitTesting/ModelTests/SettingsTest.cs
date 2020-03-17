@@ -60,9 +60,12 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				TestObj = SingletonSettingsHandler;
-				mockObj.Setup(m => m.TryGetValue("color", out val)).Returns(false);
-				mockObj.Verify(mock => mock.Add("color", "#FF4169E1"));
+				new Thread(() =>
+				{
+					TestObj = SingletonSettingsHandler;
+					mockObj.Setup(m => m.TryGetValue("color", out val)).Returns(false);
+					mockObj.Verify(mock => mock.Add("color", "#FF4169E1"));
+				}).Start();
 			});
 		}
 
@@ -71,15 +74,18 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
-				testDictionary.Add("lang", "TestLang");
-				PropertiesInjection(testDictionary);
-				TestObj = SingletonSettingsHandler;
-				Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
-				Assert.True(
+				new Thread(() =>
+				{
+					Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
+					testDictionary.Add("lang", "TestLang");
+					PropertiesInjection(testDictionary);
+					TestObj = SingletonSettingsHandler;
+					Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
+					Assert.True(
 					testDictionary.TriggerAddCalled_lang_english
 					&& testDictionary.TriggerTryGetValueCalled_lang
 					&& testDictionary.TriggerRemoveCalled_lang);
+				}).Start();
 			});
 		}
 
@@ -106,13 +112,16 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				var called = false;
-				TestObj = SingletonSettingsHandler;
-				TestObj.AudioModuleChanged += (object source, EventArgs args) => { called = true; };
-				TestObj.ChangeAudioModuleToSpotify();
-				Assert.True(called);
-				Assert.True(SingletonAudioLib.Playlists == null);
-				Assert.True(SingletonAudioLib.SelectedPlaylist == null);
+				new Thread(() =>
+				{
+					var called = false;
+					TestObj = SingletonSettingsHandler;
+					TestObj.AudioModuleChanged += (object source, EventArgs args) => { called = true; };
+					TestObj.ChangeAudioModuleToSpotify();
+					Assert.True(called);
+					Assert.True(SingletonAudioLib.Playlists == null);
+					Assert.True(SingletonAudioLib.SelectedPlaylist == null);
+				}).Start();
 			});
 		}
 
@@ -160,13 +169,16 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
-				keyValuePairs.Add("steps", 1);
-				PropertiesInjection(keyValuePairs);
-				TestObj = SingletonSettingsHandler;
-				TestObj.ResetSteps();
-				Assert.True(keyValuePairs.TriggerStepsTestCase1);
-				Assert.True(SingletonSettingsHandler.Steps == 0);
+				new Thread(() =>
+				{
+					Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
+					keyValuePairs.Add("steps", 1);
+					PropertiesInjection(keyValuePairs);
+					TestObj = SingletonSettingsHandler;
+					TestObj.ResetSteps();
+					Assert.True(keyValuePairs.TriggerStepsTestCase1);
+					Assert.True(SingletonSettingsHandler.Steps == 0);
+				}).Start();
 			});
 		}
 

@@ -3,6 +3,7 @@ using Karl.Model;
 using Karl.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Xunit;
 
 namespace UnitTesting.ViewModelTests
@@ -52,10 +53,13 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ChangeLanguageTest()
 		{
-			SettingsPageVM spVM = new SettingsPageVM();
-			spVM.SelectedLanguage = LangManager.SingletonLangManager.AvailableLangs[0];
-			Assert.Equal(LangManager.SingletonLangManager.CurrentLang,
-				LangManager.SingletonLangManager.AvailableLangs[0]);
+			new Thread(() =>
+			{
+				SettingsPageVM spVM = new SettingsPageVM();
+				spVM.SelectedLanguage = LangManager.SingletonLangManager.AvailableLangs[0];
+				Assert.Equal(LangManager.SingletonLangManager.CurrentLang,
+					LangManager.SingletonLangManager.AvailableLangs[0]);
+			}).Start();
 		}
 
 

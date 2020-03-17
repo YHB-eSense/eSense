@@ -87,7 +87,7 @@ namespace UnitTesting.ViewModelTests
 			var vm = new AudioPlayerPageVM_NEW();
 			//test
 			vm.PositionDragCompletedCommand.Execute(null);
-			Assert.Equal(25, vm.Drag);
+			Assert.Equal(0.5, vm.CurrentPosition);
 		}
 
 		[Fact]
@@ -135,7 +135,6 @@ namespace UnitTesting.ViewModelTests
 				_dragValue = 0.5;
 				UsingBasicAudio = false;
 			}
-			public double Drag { get => _dragValue; }
 			public AudioPlayer Player { get => _audioPlayer; }
 			public bool WasPaused { get => _wasPaused; }
 			public override bool UsingBasicAudio { get; }

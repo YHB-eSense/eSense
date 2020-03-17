@@ -17,7 +17,7 @@ namespace UnitTesting
 
 		[Fact]
 		public void ApplicationIsNotNull()
-		{
+		{	
 			var app = new App();
 			Assert.NotNull(app);
 		}
