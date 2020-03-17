@@ -38,7 +38,6 @@ namespace UnitTesting.ModelTests
 			SpotifyAudioLib.Testing(true);
 			BasicAudioTrackDatabase.Testing(true);
 			SettingsHandler.Testing(true);
-			BasicAudioTrack.Testing(true);
 			fw.MockDatabase();
 			mockObj = new Mock<IDictionary<string, Object>>();
 			PropertiesInjection(mockObj.Object);
@@ -50,7 +49,6 @@ namespace UnitTesting.ModelTests
 			SpotifyAudioLib.Testing(false);
 			BasicAudioTrackDatabase.Testing(false);
 			SettingsHandler.Testing(false);
-			BasicAudioTrack.Testing(false);
 			fw.ResetSingletons();
 			PropertiesInjection(null);
 		}
