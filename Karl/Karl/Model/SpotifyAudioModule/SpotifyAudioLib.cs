@@ -38,7 +38,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Loads all available Playlists and sets selected Playlist to the first Playlist
 		/// </summary>
-		public async void Init()
+		public void Init()
 		{
 			lock (this)
 			{

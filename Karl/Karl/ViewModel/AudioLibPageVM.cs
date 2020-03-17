@@ -185,8 +185,8 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
+			if(UsingSpotifyAudio) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
+			if (UsingSpotifyAudio) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;
@@ -282,7 +282,7 @@ namespace Karl.ViewModel
 			{
 				foreach (AudioTrack song in _deleteList)
 				{
-					_audioLib.DeleteTrack(song);
+					await _audioLib.DeleteTrack(song);
 					if (_audioPlayer.CurrentTrack == song)
 					{
 						_audioPlayer.TogglePause();
