@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static Karl.Model.AudioLib;
 
 namespace Karl.Model
@@ -53,6 +54,8 @@ namespace Karl.Model
 				{
 					Debug.WriteLine("[Exception] There are no playlists on this spotify account");
 					SingletonAudioLib.AudioLibSwitched += SwitchBackToBasicLibExceptionHandler;
+					Application.Current.MainPage.DisplayAlert(SettingsHandler.SingletonSettingsHandler.CurrentLang.Get("alert_title"),
+					SettingsHandler.SingletonSettingsHandler.CurrentLang.Get("alert_text_4"), SettingsHandler.SingletonSettingsHandler.CurrentLang.Get("alert_ok"));
 					AllPlaylists = null;
 				}
 				else
@@ -107,6 +110,7 @@ namespace Karl.Model
 		{
 			_testing = testing;
 		}
+
 	}
 
 }

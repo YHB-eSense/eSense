@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
-using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
@@ -141,7 +140,7 @@ namespace Karl.ViewModel
 				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
 				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
 				{
-					SingletonSettingsHandler.ChangeAudioModuleToSpotify();
+					SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToSpotify();
 				};
 			}
 		}

@@ -55,8 +55,11 @@ namespace Karl.ViewModel
 			}
 			set
 			{
-				_audioLib.SelectedPlaylist = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+				if(UsingSpotifyAudio)
+				{
+					_audioLib.SelectedPlaylist = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+				}
 			}
 		}
 		public virtual List<AudioTrack> Songs
@@ -185,11 +188,8 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
-			if (UsingSpotifyAudio)
-			{
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;

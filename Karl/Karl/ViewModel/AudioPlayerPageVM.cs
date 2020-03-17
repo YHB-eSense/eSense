@@ -169,7 +169,7 @@ namespace Karl.ViewModel
 		{
 			if (AudioTrack == null) { return; }
 			if (!_wasPaused) { PausePlay(); }
-			CurrentPosition = _dragValue * AudioTrack.Duration;
+			_audioPlayer.CurrentSecInTrack = _dragValue * AudioTrack.Duration;
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPosition)));
 		}
 

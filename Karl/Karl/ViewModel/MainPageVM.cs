@@ -117,7 +117,11 @@ namespace Karl.ViewModel
 
 		private async void TryConnect()
 		{
-			if (_connectivityHandler.EarableConnected) { await _connectivityHandler.Disconnect(); }
+			if (_connectivityHandler.EarableConnected)
+			{
+				bool answer = await AlertWrapper();
+				if(answer) await _connectivityHandler.Disconnect();
+			}
 			else
 			{
 				var success = await _connectivityHandler.Connect();
@@ -155,6 +159,14 @@ namespace Karl.ViewModel
 		{
 			INavToSettings navigator = DependencyService.Get<INavToSettings>();
 			navigator.NavToSettings();
+		}
+
+		[DoNotCover]
+		protected virtual async Task<bool> AlertWrapper()
+		{
+			return await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
+					_settingsHandler.CurrentLang.Get("question_text_2"), _settingsHandler.CurrentLang.Get("question_yes"),
+					_settingsHandler.CurrentLang.Get("question_no"));
 		}
 	}
 }

@@ -65,10 +65,7 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void Init()
-		{
-			//throw new NotImplementedException();
-		}
+		public void Init() { }
 	}
 
 }
