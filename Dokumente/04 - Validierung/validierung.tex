@@ -1,7 +1,7 @@
 \documentclass[12pt,a4paper,titlepage,ngerman]{article}
 %Colors for "Szenarien"
 \usepackage[table,xcdraw]{xcolor}
-
+\usepackage{tabularx}
 % UTF-8-Encoding
 \usepackage[utf8]{inputenc}
 % Deutsche Silbentrennung und Beschriftungen
@@ -30,6 +30,11 @@
 \usepackage{amssymb}
 % Checkmarks
 \usepackage{tikz}
+% Tabellen
+\usepackage{tabularx}
+
+
+
 % Titel, Author, etc.
 \title{PSE Validierungdokument YHB eSense}
 \author{Jonas Koch, Maximilian Burzer, Leonardo Weng, \\ Simon Zimmermann, Yunus Demirag}
@@ -95,7 +100,6 @@
 	\part{Test-Dokumentation}
 	\subfile{1_dokumentation/integrationstests.tex}
 	\subfile{1_dokumentation/systemtests.tex}
-	% inkl. Kennzeichnung von neuen oder modifizierten Testszenarien
 
 	\part{Fehler und Probleme}
 	\subfile{2_fehler_probleme/probleme.tex}

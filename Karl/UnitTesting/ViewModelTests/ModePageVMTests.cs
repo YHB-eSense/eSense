@@ -20,10 +20,7 @@ namespace UnitTesting.ViewModelTests
 		{
 			new Thread(() =>
 			{
-				//setup
-				SettingsHandler.Testing(true);
-				var mockObj = new Mock<IDictionary<string, Object>>();
-				SettingsHandler.PropertiesInjection(mockObj.Object);
+				Before();
 				var vm = new ModesPageVM_NEW();
 				int i = 0;
 				vm.PropertyChanged += (sender, e) => i++;
@@ -61,6 +58,14 @@ namespace UnitTesting.ViewModelTests
 				Assert.Equal("Available Modes", vm.ModesLabel);
 				Assert.Null(vm.StepChart);
 			}).Start();
+		}
+
+		private void Before() {
+			//setup
+			Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
+			testDictionary.Add("lang", "TestLang");
+			SettingsHandler.PropertiesInjection(testDictionary);
+			SettingsHandler.Testing(true);
 		}
 
 		internal class ModesPageVM_NEW : ModesPageVM

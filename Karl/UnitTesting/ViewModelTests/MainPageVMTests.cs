@@ -17,10 +17,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void AudioPlayerPageCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			//test
 			vm.AudioPlayerPageCommand.Execute(null);
@@ -30,10 +27,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void AudioLibPageCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			//test
 			vm.AudioLibPageCommand.Execute(null);
@@ -43,12 +37,10 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void TryConnectCommandTest()
 		{
+
 			new Thread(() =>
 			{
-				//setup
-				SettingsHandler.Testing(true);
-				var mockObj = new Mock<IDictionary<string, Object>>();
-				SettingsHandler.PropertiesInjection(mockObj.Object);
+				Before();
 				var vm = new MainPageVM_NEW();
 				int i = 0;
 				vm.PropertyChanged += (sender, e) => i++;
@@ -61,10 +53,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void ModesPageCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before(); 
 			var vm = new MainPageVM_NEW();
 			//test
 			vm.ModesPageCommand.Execute(null);
@@ -74,10 +63,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void SettingsPageCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			//test
 			vm.SettingsPageCommand.Execute(null);
@@ -87,10 +73,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void HelpCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			vm.HelpVisible = false;
 			//test
@@ -103,10 +86,7 @@ namespace UnitTesting.ViewModelTests
 		{
 			new Thread(() =>
 			{
-				//setup
-				SettingsHandler.Testing(true);
-				var mockObj = new Mock<IDictionary<string, Object>>();
-				SettingsHandler.PropertiesInjection(mockObj.Object);
+				Before();
 				var vm = new MainPageVM_NEW();
 				int i = 0;
 				vm.PropertyChanged += (sender, e) => i++;
@@ -133,10 +113,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void PropertyTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
+			Before();
 			var vm = new MainPageVM_NEW();
 			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
 			//test
@@ -144,6 +121,15 @@ namespace UnitTesting.ViewModelTests
 			Assert.Equal("Steps: 0", vm.StepsAmount);
 			Assert.Equal(vm.IconOn, vm.Icon);
 		}
+
+		private void Before() {
+			//setup
+			Mocks.TestDictionary testDictionary = new Mocks.TestDictionary();
+			testDictionary.Add("lang", "TestLang");
+			SettingsHandler.PropertiesInjection(testDictionary);
+			SettingsHandler.Testing(true);
+		}
+
 
 		internal class MainPageVM_NEW : MainPageVM
 		{
