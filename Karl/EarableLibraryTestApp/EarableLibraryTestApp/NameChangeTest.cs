@@ -1,5 +1,4 @@
 using EarableLibrary;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,11 +13,13 @@ namespace EarableLibraryTestApp
 			if (!earable.IsConnected()) await earable.ConnectAsync();
 
 			string name = "";
+			char chr = 'a';
 
 			for (int i = 1; i <= 30; i++)
 			{
-				name += ('a' + name.Length); 
-				Status.StatusUpdate("Setting name with length {0}", name.Length);
+				name += chr;
+				chr++;
+				Status.StatusUpdate("Setting name {0} (length {1})", name, name.Length);
 				await SetName(earable, name);
 			}
 

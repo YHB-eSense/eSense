@@ -102,7 +102,7 @@ namespace EarableLibrary
 	/// <summary>
 	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample>
 	{
 		// Command used to enable and disable IMU sampling
 		public static readonly byte CMD_IMU_ENABLE = 0x53;
@@ -168,23 +168,6 @@ namespace EarableLibrary
 		{
 			await DisableImu();
 			await _connection.UnsubscribeAsync(CHAR_IMU_DATA, ValueUpdated);
-		}
-
-		/// <summary>
-		/// Manually retrieve the current sensor reading.
-		/// </summary>
-		/// <returns>Sensor reading</returns>
-		public async Task<MotionSensorSample> ReadAsync()
-		{
-			if (_imuEnabled) return ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-			else
-			{
-				await EnableImu();
-				await Task.Delay(1000 / SamplingRate + 1); // wait for sample
-				var result = ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-				await DisableImu();
-				return result;
-			}
 		}
 
 		private MotionSensorSample ParseMessage(byte[] bytes)
