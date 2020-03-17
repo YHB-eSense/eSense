@@ -185,8 +185,11 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingBasicAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UsingSpotifyAudio)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
-			if(UsingSpotifyAudio) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
-			if (UsingSpotifyAudio) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
+			if (UsingSpotifyAudio)
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Playlists)));
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPlaylist)));
+			}
 			switch (type)
 			{
 				case _sortType.TITLESORT: TitleSort(); break;

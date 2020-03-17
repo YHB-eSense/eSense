@@ -157,10 +157,17 @@ namespace EarableLibrary
 			// TODO: Catch exceptions?
 			if (!_subscriptions.ContainsKey(charId))
 			{
-				_subscriptions[charId] = new List<DataReceiver>();
-				var characteristic = _characteristics[charId];
-				characteristic.ValueUpdated += CharacteristicValueUpdated;
-				await characteristic.StartUpdatesAsync();
+				try
+				{
+					_subscriptions[charId] = new List<DataReceiver>();
+					var characteristic = _characteristics[charId];
+					characteristic.ValueUpdated += CharacteristicValueUpdated;
+					await characteristic.StartUpdatesAsync();
+				}
+				catch (System.Exception e) {
+					Debug.WriteLine(e.Message);
+				}
+				
 			}
 			_subscriptions[charId].Add(handler);
 		}

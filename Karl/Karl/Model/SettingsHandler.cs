@@ -266,10 +266,10 @@ namespace Karl.Model
 		/// </summary>
 		public void ChangeAudioModuleToBasic()
 		{
-			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
-			AudioLib.SingletonAudioLib.ChangeToBasicLib();
 			UsingBasicAudio = true;
 			UsingSpotifyAudio = false;
+			AudioLib.SingletonAudioLib.ChangeToBasicLib();
+			AudioPlayer.SingletonAudioPlayer.ChangeToBasicPlayer();
 			AudioModuleChanged?.Invoke(this, null);
 		}
 
