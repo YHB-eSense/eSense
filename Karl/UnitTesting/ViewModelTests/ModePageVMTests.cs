@@ -18,27 +18,30 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void RefreshTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new ModesPageVM_NEW();
-			int i = 0;
-			vm.PropertyChanged += (sender, e) => i++;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			Assert.Equal(2, i);
-			i = 0;
-			//test
-			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
-			Assert.Equal(2, i);
-			/*
-			i = 0;
-			//test
-			await vm.ConHandler.Disconnect();
-			Assert.Equal(3, i);
-			//TODO
-			*/
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new ModesPageVM_NEW();
+				int i = 0;
+				vm.PropertyChanged += (sender, e) => i++;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				Assert.Equal(2, i);
+				i = 0;
+				//test
+				SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+				Assert.Equal(2, i);
+				/*
+				i = 0;
+				//test
+				await vm.ConHandler.Disconnect();
+				Assert.Equal(3, i);
+				//TODO
+				*/
+			}).Start();
 		}
 
 		[Fact]

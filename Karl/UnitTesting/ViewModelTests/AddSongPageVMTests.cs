@@ -16,18 +16,21 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void PickFileCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			//@"C:\Users\maxib\Desktop\BAB.wav"
-			var vm = new AddSongPageVM_NEW(Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
-			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
-			//test
-			vm.PickFileCommand.Execute(null);
-			Assert.Equal("Back In Black", vm.NewSongTitle);
-			Assert.Equal("Unknown", vm.NewSongArtist);
-			Assert.Equal("Unknown", vm.NewSongBPM);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				//@"C:\Users\maxib\Desktop\BAB.wav"
+				var vm = new AddSongPageVM_NEW(Path.Combine(Environment.CurrentDirectory, @"Data\BAB.wav"));
+				SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+				//test
+				vm.PickFileCommand.Execute(null);
+				Assert.Equal("Back In Black", vm.NewSongTitle);
+				Assert.Equal("Unknown", vm.NewSongArtist);
+				Assert.Equal("Unknown", vm.NewSongBPM);
+			}).Start();
 		}
 
 		[Theory]

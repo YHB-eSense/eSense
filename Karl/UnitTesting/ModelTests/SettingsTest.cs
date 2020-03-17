@@ -9,6 +9,7 @@ using static Karl.Model.AudioLib;
 using Karl.Data;
 using System.Reflection;
 using SpotifyAPI.Web.Models;
+using System.Threading;
 
 namespace UnitTesting.ModelTests
 {
@@ -87,13 +88,16 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
-				PropertiesInjection(keyValuePairs);
-				TestObj = SingletonSettingsHandler;
-				Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
-				Assert.True(
+				new Thread(() =>
+				{
+					Mocks.TestDictionary keyValuePairs = new Mocks.TestDictionary();
+					PropertiesInjection(keyValuePairs);
+					TestObj = SingletonSettingsHandler;
+					Assert.Equal("lang_english", SingletonSettingsHandler.CurrentLang.Tag);
+					Assert.True(
 					keyValuePairs.TriggerAddCalled_lang_english
 					&& keyValuePairs.TriggerTryGetValueCalled_lang);
+				}).Start();
 			});
 		}
 
@@ -117,12 +121,15 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				TestObj = SingletonSettingsHandler;
-				TestObj.ChangeAudioModuleToSpotify();
-				Assert.ThrowsAsync<NotImplementedException>(async () => await SingletonAudioLib.AddTrack("TEST", "TEST", "TEST", 0));
-				Assert.ThrowsAsync<NotImplementedException>(
-					async () => await SingletonAudioLib.DeleteTrack(
-						new SpotifyAudioTrack(0.0, "TEST", "TEST", 0, "TEST", null)));
+				new Thread(() =>
+				{
+					TestObj = SingletonSettingsHandler;
+					TestObj.ChangeAudioModuleToSpotify();
+					Assert.ThrowsAsync<NotImplementedException>(async () => await SingletonAudioLib.AddTrack("TEST", "TEST", "TEST", 0));
+					Assert.ThrowsAsync<NotImplementedException>(
+						async () => await SingletonAudioLib.DeleteTrack(
+							new SpotifyAudioTrack(0.0, "TEST", "TEST", 0, "TEST", null)));
+				}).Start();
 			});
 		}
 
@@ -131,17 +138,20 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				var called = 0;
-				TestObj = SingletonSettingsHandler;
-				TestObj.AudioModuleChanged += (object source, EventArgs args) =>
+				new Thread(() =>
 				{
-					called++;
-				};
-				TestObj.ChangeAudioModuleToSpotify();
-				TestObj.ChangeAudioModuleToBasic();
-				Assert.Throws<NotImplementedException>(() => SingletonAudioLib.Playlists);
-				Assert.Throws<NotImplementedException>(() => SingletonAudioLib.SelectedPlaylist);
-				Assert.True(called == 2);
+					var called = 0;
+					TestObj = SingletonSettingsHandler;
+					TestObj.AudioModuleChanged += (object source, EventArgs args) =>
+					{
+						called++;
+					};
+					TestObj.ChangeAudioModuleToSpotify();
+					TestObj.ChangeAudioModuleToBasic();
+					Assert.Throws<NotImplementedException>(() => SingletonAudioLib.Playlists);
+					Assert.Throws<NotImplementedException>(() => SingletonAudioLib.SelectedPlaylist);
+					Assert.True(called == 2);
+				}).Start();
 			});
 		}
 
@@ -192,21 +202,24 @@ namespace UnitTesting.ModelTests
 		[Fact]
 		public void BasicAudioLibAddSongTest()
 		{
-			BeforeAfterTest(async () =>
+			BeforeAfterTest(() =>
 			{
-				TestObj2 = SingletonAudioLib;
-				await TestObj2.AddTrack("", "Fire and Forgive", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Incense and Iron", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Sacrament of Sin", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Resurrection by Erection", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Amen and Attack", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Armata Strigoi", "Powerwolf", 140);
-				await TestObj2.AddTrack("", "Nightside of Siberia", "Powerwolf", 140);
-				Assert.True(TestObj2.AudioTracks.Count == 7);
-				await TestObj2.DeleteTrack(TestObj2.AudioTracks[0]);
-				Assert.True(TestObj2.AudioTracks.Count == 6);
-				TestObj2.AudioTracks.Clear();
-				Assert.Empty(TestObj2.AudioTracks);
+				new Thread(async () =>
+				{
+					TestObj2 = SingletonAudioLib;
+					await TestObj2.AddTrack("", "Fire and Forgive", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Incense and Iron", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Sacrament of Sin", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Resurrection by Erection", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Amen and Attack", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Armata Strigoi", "Powerwolf", 140);
+					await TestObj2.AddTrack("", "Nightside of Siberia", "Powerwolf", 140);
+					Assert.True(TestObj2.AudioTracks.Count == 7);
+					await TestObj2.DeleteTrack(TestObj2.AudioTracks[0]);
+					Assert.True(TestObj2.AudioTracks.Count == 6);
+					TestObj2.AudioTracks.Clear();
+					Assert.Empty(TestObj2.AudioTracks);
+				}).Start();
 			});
 		}
 
@@ -247,16 +260,19 @@ namespace UnitTesting.ModelTests
 		{
 			BeforeAfterTest(() =>
 			{
-				TestObj2 = SingletonAudioLib;
-				TestObj2.ChangeToSpotifyLib();
-				FieldInfo _audioLibImplField = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.Instance | BindingFlags.NonPublic);
-				SpotifyAudioLib instance = (SpotifyAudioLib)_audioLibImplField.GetValue(TestObj);
-				instance.AllPlaylists = new SimplePlaylist[1];
-				instance.AllPlaylists[0] = new SimplePlaylist();
-				Assert.Throws<ArgumentException>(() =>
+				new Thread(() =>
 				{
-					TestObj2.SelectedPlaylist = new SimplePlaylist();
-				});
+					TestObj2 = SingletonAudioLib;
+					TestObj2.ChangeToSpotifyLib();
+					FieldInfo _audioLibImplField = typeof(AudioLib).GetField("_audioLibImp", BindingFlags.Instance | BindingFlags.NonPublic);
+					SpotifyAudioLib instance = (SpotifyAudioLib)_audioLibImplField.GetValue(TestObj2);
+					instance.AllPlaylists = new SimplePlaylist[1];
+					instance.AllPlaylists[0] = new SimplePlaylist();
+					Assert.Throws<ArgumentException>(() =>
+					{
+						TestObj2.SelectedPlaylist = new SimplePlaylist();
+					});
+				}).Start();
 			});
 		}
 

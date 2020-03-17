@@ -7,6 +7,7 @@ using Xunit;
 using Xunit.Sdk;
 using Karl.Model;
 using SQLite;
+using System.Threading;
 
 namespace UnitTesting.ModelTests
 {
@@ -28,6 +29,7 @@ namespace UnitTesting.ModelTests
 			BasicAudioTrackDatabase database = BasicAudioTrackDatabase.SingletonDatabase;
 			Mock<SQLiteAsyncConnection> mockDatabase = new Mock<SQLiteAsyncConnection>("", true);
 			_dbInstance.SetValue(database, mockDatabase.Object);
+			BasicAudioTrack.Testing(true);
 		}
 
 		void After()
@@ -42,18 +44,21 @@ namespace UnitTesting.ModelTests
 			BeforeAfterTest(Add_Clear_Song);
 		}
 
-		async void Add_Clear_Song()
+		void Add_Clear_Song()
 		{
-			await TestObj.AddTrack("testUrl", "Fire and Forgive", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl2", "Incense and Iron", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl4", "Sacrament of Sin", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl3", "Resurrection by Erection", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl5", "Amen and Attack", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl6", "Armata Strigoi", "Powerwolf", 140);
-			await TestObj.AddTrack("testUrl7", "Nightside of Siberia", "Powerwolf", 140);
-			Assert.True(TestObj.AudioTracks.Count == 7);
-			TestObj.AudioTracks.Clear();
-			Assert.Empty(TestObj.AudioTracks);
+			new Thread(async () =>
+			{
+				await TestObj.AddTrack("testUrl", "Fire and Forgive", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl2", "Incense and Iron", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl4", "Sacrament of Sin", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl3", "Resurrection by Erection", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl5", "Amen and Attack", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl6", "Armata Strigoi", "Powerwolf", 140);
+				await TestObj.AddTrack("testUrl7", "Nightside of Siberia", "Powerwolf", 140);
+				Assert.True(TestObj.AudioTracks.Count == 7);
+				TestObj.AudioTracks.Clear();
+				Assert.Empty(TestObj.AudioTracks);
+			}).Start();
 
 		}
 

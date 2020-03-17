@@ -23,7 +23,7 @@ namespace Karl.Model
 		public BasicAudioTrack(string storageLocation, string title, string artist, int bpm)
 		{
 			StorageLocation = storageLocation;
-			_file = !_testing ? File.Create(StorageLocation) : null;
+			if (!_testing) _file = File.Create(storageLocation);
 			Title = title;
 			Artist = artist;
 			BPM = bpm;
@@ -35,7 +35,7 @@ namespace Karl.Model
 
 		private double GetDuration()
 		{
-			if (_file != null && _file.Properties.Duration != null)
+			if (!_testing && _file != null && _file.Properties.Duration != null)
 			{
 				return _file.Properties.Duration.TotalSeconds;
 			}
@@ -44,7 +44,7 @@ namespace Karl.Model
 
 		private byte[] GetCover()
 		{
-			if (_file != null && _file.Tag.Pictures.Length >= 1)
+			if (!_testing && _file != null && _file.Tag.Pictures.Length >= 1)
 			{
 				return _file.Tag.Pictures[0].Data.Data;
 			}
