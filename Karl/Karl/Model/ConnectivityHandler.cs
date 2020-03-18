@@ -33,6 +33,7 @@ namespace Karl.Model
 		private readonly IEarableManager _earableManager;
 		private readonly Input _stepDetection;
 		private IEarable _connectedEarable;
+		private bool _connecting;
 
 		/// <summary>
 		/// 
@@ -72,30 +73,39 @@ namespace Karl.Model
 		/// <returns>null if connection failed, the newly connected device otherwise</returns>
 		public virtual async Task<bool> Connect()
 		{
-			var earable = await _earableManager.ConnectEarableAsync();
+			if (EarableConnected || _connecting) return false;
 
-			if (earable == null) return false;
+			_connecting = true;
+			_connectedEarable = await _earableManager.ConnectEarableAsync();
+			_connecting = false;
 
-			earable.ConnectionLost += async (s, args) =>
+			if (_connectedEarable == null) return false;
+
+			_connectedEarable.ConnectionLost += async (s, args) =>
 			{
 				await Disconnect();
 			};
 
-			var imu = earable.GetSensor<MotionSensor>();
-			imu.SamplingRate = _stepDetection.SamplingRate;
-			imu.ValueChanged += _stepDetection.ValueChanged;
-			await imu.StartSamplingAsync();
-
-			var button = earable.GetSensor<PushButton>();
-			button.ValueChanged += (s, args) =>
+			var imu = _connectedEarable?.GetSensor<MotionSensor>();
+			if (imu != null)
 			{
-				bool released = !args.Pressed;
-				if (released) SingletonAudioPlayer.TogglePause();
-			};
-			await button.StartSamplingAsync();
+				imu.SamplingRate = _stepDetection.SamplingRate;
+				imu.ValueChanged += _stepDetection.ValueChanged;
+				await imu.StartSamplingAsync();
+			}
 
-			_connectedEarable = earable;
-			ConnectionChanged?.Invoke(this, null);
+			var button = _connectedEarable?.GetSensor<PushButton>();
+			if (button != null)
+			{
+				button.ValueChanged += (s, args) =>
+				{
+					bool released = !args.Pressed;
+					if (released) SingletonAudioPlayer.TogglePause();
+				};
+				await button.StartSamplingAsync();
+			}
+
+			ConnectionChanged.Invoke(this, null);
 
 			return true;
 		}
@@ -109,7 +119,7 @@ namespace Karl.Model
 			if (!EarableConnected) return;
 			await _connectedEarable.DisconnectAsync();
 			_connectedEarable = null;
-			ConnectionChanged?.Invoke(this, null);
+			ConnectionChanged.Invoke(this, null);
 		}
 
 		/// <summary>
