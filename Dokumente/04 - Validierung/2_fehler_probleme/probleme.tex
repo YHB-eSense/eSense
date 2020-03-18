@@ -8,6 +8,10 @@ Die größte Herausforderung beim Testen der EarableLibrary waren die durch die 
 Da das verwendete \quote{Bluetooth LE plugin for Xamarin} keine Unterstützung für Windows bietet, konnten die Tests nicht direkt auf dem Entwicklungscomputer ausgeführt werden.
 Um diese Einschränkung zu umgehen, haben wir eine auf Android und iOS lauffähige \quote{EarableLibraryTestApp} entwickelt.
 
+Um dennoch Komponententests durchführen zu können war es zudem nötig, die Bluetooth-Verbindung zu simulieren.
+Da die dazu notwendige Logik über viele Klassen verteilt war, hat es sich als sinnvoll erwiesen, sämtliche Verbindungs-Funktionalitäten in eine eigene Klasse
+\quote{BLEConnection} zu verschieben und dadurch die Kopplung zwischen EarableLibrary und dem unterliegendem \quote{Bluetooth LE plugin} zu reduzieren.
+
 Im Zuge der Tests sind mehrere Einschränkungen und Fehler aufgefallen, welche sich durch Änderungen an der EarableLibrary nicht beheben ließen.
 Nähere Begutachtung zeigte, dass diese auf das \quote{Bluetooth LE plugin}, das Betriebssystem oder aber die Earables selbst zurückzuführen waren.
 \begin{itemize}

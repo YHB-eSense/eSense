@@ -1,8 +1,6 @@
-using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EarableLibrary
@@ -27,6 +25,11 @@ namespace EarableLibrary
 		/// If one of these services is not present, communication will most likely fail.
 		/// </summary>
 		public static Guid[] ServiceUuids = { SER_GENERIC, SER_ESENSE };
+
+		/// <summary>
+		/// Invoked when the connection to the earable is lost due to outer circumstances.
+		/// </summary>
+		public event EventHandler ConnectionLost;
 
 		/// <summary>
 		/// Get device name.
@@ -60,6 +63,7 @@ namespace EarableLibrary
 			_conn = connection;
 			_name = new EarableName(_conn);
 			_sensors = CreateSensors(_conn);
+			_conn.ConnectionLost += (s, e) => ConnectionLost.Invoke(this, e);
 		}
 
 		/// <summary>

@@ -56,26 +56,14 @@ namespace Karl.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual bool EarableConnected
-		{
-			get
-			{
-				if (_connectedEarable == null) return false;
-				if (!_connectedEarable.IsConnected())
-				{
-					_connectedEarable = null;
-					return false;
-				}
-				return true;
-			}
-		}
+		public virtual bool EarableConnected => _connectedEarable != null;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public string EarableName
 		{
-			get => _connectedEarable.Name;
+			get => _connectedEarable?.Name;
 		}
 
 		/// <summary>
@@ -84,16 +72,21 @@ namespace Karl.Model
 		/// <returns>null if connection failed, the newly connected device otherwise</returns>
 		public virtual async Task<bool> Connect()
 		{
-			_connectedEarable = await _earableManager.ConnectEarableAsync();
+			var earable = await _earableManager.ConnectEarableAsync();
 
-			if (_connectedEarable == null) return false;
+			if (earable == null) return false;
 
-			var imu = _connectedEarable.GetSensor<MotionSensor>();
+			earable.ConnectionLost += async (s, args) =>
+			{
+				await Disconnect();
+			};
+
+			var imu = earable.GetSensor<MotionSensor>();
 			imu.SamplingRate = _stepDetection.SamplingRate;
 			imu.ValueChanged += _stepDetection.ValueChanged;
 			await imu.StartSamplingAsync();
 
-			var button = _connectedEarable.GetSensor<PushButton>();
+			var button = earable.GetSensor<PushButton>();
 			button.ValueChanged += (s, args) =>
 			{
 				bool released = !args.Pressed;
@@ -101,6 +94,7 @@ namespace Karl.Model
 			};
 			await button.StartSamplingAsync();
 
+			_connectedEarable = earable;
 			ConnectionChanged?.Invoke(this, null);
 
 			return true;
@@ -124,8 +118,7 @@ namespace Karl.Model
 		/// <param name="name">The new Name.</param>
 		public async Task SetDeviceNameAsync(string name)
 		{
-			if (!EarableConnected) return;
-			await _connectedEarable.SetNameAsync(name);
+			await _connectedEarable?.SetNameAsync(name);
 		}
 
 		/// <summary>

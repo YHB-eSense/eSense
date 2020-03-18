@@ -7,7 +7,7 @@ namespace EarableLibrary
 	/// <summary>
 	/// Groups multiple properties into one "battery-state".
 	/// </summary>
-	public struct BatteryState
+	public class BatteryState
 	{
 		/// <summary>
 		/// Current battery voltage.
@@ -53,12 +53,19 @@ namespace EarableLibrary
 		private BatteryState ParseMessage(byte[] data)
 		{
 			var message = new ESenseMessage();
-			message.Decode(data);
-			return new BatteryState()
+			try
 			{
-				Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f,
-				Charging = (message.Data[2] & 1) == 1
-			};
+				message.Decode(data);
+				return new BatteryState()
+				{
+					Voltage = (message.Data[0] * 256 + message.Data[1]) / 1000f,
+					Charging = (message.Data[2] & 1) == 1
+				};
+			}
+			catch(Exception)
+			{
+				return null;
+			}
 		}
 	}
 }

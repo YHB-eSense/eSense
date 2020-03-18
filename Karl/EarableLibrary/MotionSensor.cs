@@ -172,12 +172,19 @@ namespace EarableLibrary
 
 		private MotionSensorSample ParseMessage(byte[] bytes)
 		{
-			var message = new IndexedESenseMessage();
-			message.Decode(bytes);
-			var readings = message.DataAsShortArray();
-			var gyro = new TripleShort(readings[0], readings[1], readings[2]);
-			var acc = new TripleShort(readings[3], readings[4], readings[5]);
-			return new MotionSensorSample(gyro, acc, message.PacketIndex);
+			try
+			{
+				var message = new IndexedESenseMessage();
+				message.Decode(bytes);
+				var readings = message.DataAsShortArray();
+				var gyro = new TripleShort(readings[0], readings[1], readings[2]);
+				var acc = new TripleShort(readings[3], readings[4], readings[5]);
+				return new MotionSensorSample(gyro, acc, message.PacketIndex);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
 		private void ValueUpdated(byte[] value)

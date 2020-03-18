@@ -94,10 +94,17 @@ namespace EarableLibrary
 
 		private ButtonState ParseMessage(byte[] bytes)
 		{
-			var message = new ESenseMessage();
-			message.Decode(bytes);
-			var pushed = (message.Data[0] & 1) == 1;
-			return new ButtonState(pushed);
+			try
+			{
+				var message = new ESenseMessage();
+				message.Decode(bytes);
+				var pushed = (message.Data[0] & 1) == 1;
+				return new ButtonState(pushed);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
 		private void OnValueUpdated(byte[] value)
