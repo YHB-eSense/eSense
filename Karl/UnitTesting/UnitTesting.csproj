@@ -94,7 +94,7 @@
     <Compile Include="ViewModelTests\AudioLibPageVMTests.cs" />
     <Compile Include="ViewModelTests\AudioPlayerPageVMTests.cs" />
     <Compile Include="ViewModelTests\MainPageVMTests.cs" />
-    <Compile Include="ViewModelTests\ModePageVMTests.cs" />
+    <Compile Include="ViewModelTests\ModesPageVMTests.cs" />
     <Compile Include="ViewModelTests\NavigationHandlerTests.cs" />
     <Compile Include="ViewModelTests\SettingsPageVMTests.cs" />
     <Compile Include="ViewModelTests\AddSongPageVMTests.cs" />

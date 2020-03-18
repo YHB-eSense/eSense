@@ -13,7 +13,7 @@ using Xunit;
 
 namespace UnitTesting.ViewModelTests
 {
-	public class ModePageVMTests
+	public class ModesPageVMTests
 	{
 		[Fact]
 		public void RefreshTest()
@@ -42,7 +42,7 @@ namespace UnitTesting.ViewModelTests
 		}
 
 		[Fact]
-		public void PropertyTests()
+		public void PropertyTest()
 		{
 			new Thread(() =>
 			{
