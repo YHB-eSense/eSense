@@ -1,4 +1,5 @@
 using EarableLibrary;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -12,18 +13,7 @@ namespace EarableLibraryTestApp
 		{
 			if (!earable.IsConnected()) await earable.ConnectAsync();
 
-			string name = "";
-			char chr = 'a';
-
-			for (int i = 1; i <= 30; i++)
-			{
-				name += chr;
-				chr++;
-				Status.StatusUpdate("Setting name {0} (length {1})", name, name.Length);
-				await SetName(earable, name);
-			}
-
-			/*string oldName = earable.Name;
+			string oldName = earable.Name;
 			string newName = string.Format("ESense-{0}", DateTime.Now.Millisecond);
 			Status.StatusUpdate("Old name: {0}, New name: {1}", oldName, newName);
 			Assert.NotEqual(oldName, newName);
@@ -32,7 +22,7 @@ namespace EarableLibraryTestApp
 			await SetName(earable, newName);
 
 			Status.StatusUpdate("Restoring old name...");
-			await SetName(earable, oldName);*/
+			await SetName(earable, oldName);
 		}
 
 		private async Task SetName(IEarable earable, string name)
