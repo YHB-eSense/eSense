@@ -104,6 +104,7 @@ namespace EarableLibrary
 		/// <exception cref="MessageError">When the received message is invalid (wrong size or checksum)</exception>
 		public override void Decode(byte[] received)
 		{
+			if (received == null) throw new MessageError("Cannot decode null!");
 			int pos = 0;
 			Header = received[pos++];
 			byte receivedChecksum = received[pos++];
@@ -188,6 +189,7 @@ namespace EarableLibrary
 		/// <exception cref="MessageError">When the received message is invalid (wrong size or checksum)</exception>
 		public override void Decode(byte[] received)
 		{
+			if (received == null) throw new MessageError("Cannot decode null!");
 			int pos = 0;
 			Header = received[pos++];
 			PacketIndex = received[pos++];

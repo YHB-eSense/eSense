@@ -102,7 +102,7 @@ namespace EarableLibrary
 	/// <summary>
 	/// Represents an IMU (Inertial Measurement Unit).
 	/// </summary>
-	public class MotionSensor : ISubscribableSensor<MotionSensorSample>, IReadableSensor<MotionSensorSample>
+	public class MotionSensor : ISubscribableSensor<MotionSensorSample>
 	{
 		// Command used to enable and disable IMU sampling
 		public static readonly byte CMD_IMU_ENABLE = 0x53;
@@ -170,27 +170,21 @@ namespace EarableLibrary
 			await _connection.UnsubscribeAsync(CHAR_IMU_DATA, ValueUpdated);
 		}
 
-		/// <summary>
-		/// Manually retrieve the current sensor reading.
-		/// </summary>
-		/// <returns>Sensor reading</returns>
-		public async Task<MotionSensorSample> ReadAsync()
-		{
-			bool imuOriginalState = _imuEnabled;
-			if (!_imuEnabled) await EnableImu();
-			var result = ParseMessage(await _connection.ReadAsync(CHAR_IMU_DATA));
-			if (!imuOriginalState) await DisableImu();
-			return result;
-		}
-
 		private MotionSensorSample ParseMessage(byte[] bytes)
 		{
-			var message = new IndexedESenseMessage();
-			message.Decode(bytes);
-			var readings = message.DataAsShortArray();
-			var gyro = new TripleShort(readings[0], readings[1], readings[2]);
-			var acc = new TripleShort(readings[3], readings[4], readings[5]);
-			return new MotionSensorSample(gyro, acc, message.PacketIndex);
+			try
+			{
+				var message = new IndexedESenseMessage();
+				message.Decode(bytes);
+				var readings = message.DataAsShortArray();
+				var gyro = new TripleShort(readings[0], readings[1], readings[2]);
+				var acc = new TripleShort(readings[3], readings[4], readings[5]);
+				return new MotionSensorSample(gyro, acc, message.PacketIndex);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
 		private void ValueUpdated(byte[] value)

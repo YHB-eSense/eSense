@@ -17,6 +17,8 @@ namespace EarableLibrary
 	{
 		private readonly IDevice _device;
 
+		public event EventHandler ConnectionLost;
+
 		private readonly Dictionary<Guid, ICharacteristic> _characteristics = new Dictionary<Guid, ICharacteristic>();
 
 		private readonly Dictionary<Guid, List<DataReceiver>> _subscriptions = new Dictionary<Guid, List<DataReceiver>>();
@@ -59,6 +61,7 @@ namespace EarableLibrary
 			{
 				Debug.WriteLine("Device connection lost!");
 				_characteristics.Clear();
+				ConnectionLost.Invoke(this, null);
 			}
 		}
 
@@ -116,7 +119,6 @@ namespace EarableLibrary
 		/// <param name="charId">Characteristic id</param>
 		/// <param name="val">Value to write</param>
 		/// <returns>false if the connection doesn't allow write-operations right now</returns>
-		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
 		public async Task<bool> WriteAsync(Guid charId, byte[] val)
 		{
 			var completitionSource = new TaskCompletionSource<bool>();
@@ -140,10 +142,16 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="charId">Characteristic id</param>
 		/// <returns>Current value of the characteristic</returns>
-		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
 		public async Task<byte[]> ReadAsync(Guid charId)
 		{
-			return await _characteristics[charId].ReadAsync();
+			try
+			{
+				return await _characteristics[charId].ReadAsync();
+			}
+			catch(Exception)
+			{
+				return null;
+			}
 		}
 
 		/// <summary>
@@ -151,25 +159,24 @@ namespace EarableLibrary
 		/// </summary>
 		/// <param name="charId">Characteristic id</param>
 		/// <param name="handler">Handler to be notified when an update occurs</param>
-		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
-		public async Task SubscribeAsync(Guid charId, DataReceiver handler)
+		public async Task<bool> SubscribeAsync(Guid charId, DataReceiver handler)
 		{
-			// TODO: Catch exceptions?
-			if (!_subscriptions.ContainsKey(charId))
+			try
 			{
-				try
+				if (!_subscriptions.ContainsKey(charId))
 				{
 					_subscriptions[charId] = new List<DataReceiver>();
 					var characteristic = _characteristics[charId];
 					characteristic.ValueUpdated += CharacteristicValueUpdated;
 					await characteristic.StartUpdatesAsync();
 				}
-				catch (System.Exception e) {
-					Debug.WriteLine(e.Message);
-				}
-				
+				_subscriptions[charId].Add(handler);
+				return true;
 			}
-			_subscriptions[charId].Add(handler);
+			catch(Exception)
+			{
+				return false;
+			}
 		}
 
 		/// <summary>
@@ -178,19 +185,26 @@ namespace EarableLibrary
 		/// <param name="charId">Characteristic id</param>
 		/// <param name="handler">Handler that has been previously subscribed</param>
 		/// <exception cref="KeyNotFoundException">If a characteristic with the given id has not been loaded</exception>
-		public async Task UnsubscribeAsync(Guid charId, DataReceiver handler)
+		public async Task<bool> UnsubscribeAsync(Guid charId, DataReceiver handler)
 		{
-			// TODO: Catch exceptions?
-			if (_subscriptions.ContainsKey(charId))
+			try
 			{
-				_subscriptions[charId].Remove(handler);
-				if (_subscriptions[charId].Count == 0)
+				if (_subscriptions.ContainsKey(charId))
 				{
-					_subscriptions.Remove(charId);
-					var characteristic = _characteristics[charId];
-					characteristic.ValueUpdated -= CharacteristicValueUpdated;
-					await characteristic.StopUpdatesAsync();
+					_subscriptions[charId].Remove(handler);
+					if (_subscriptions[charId].Count == 0)
+					{
+						_subscriptions.Remove(charId);
+						var characteristic = _characteristics[charId];
+						characteristic.ValueUpdated -= CharacteristicValueUpdated;
+						await characteristic.StopUpdatesAsync();
+					}
 				}
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
 			}
 		}
 
@@ -236,12 +250,19 @@ namespace EarableLibrary
 		/// <returns>true if all given services are available, false otherwise</returns>
 		public async Task<bool> Validate(Guid[] serviceIds)
 		{
-			foreach (Guid serviceId in serviceIds)
+			try
 			{
-				var service = await _device.GetServiceAsync(serviceId);
-				if (service == null) return false;
+				foreach (Guid serviceId in serviceIds)
+				{
+					var service = await _device.GetServiceAsync(serviceId);
+					if (service == null) return false;
+				}
+				return true;
 			}
-			return true;
+			catch(Exception)
+			{
+				return false;
+			}
 		}
 	}
 }

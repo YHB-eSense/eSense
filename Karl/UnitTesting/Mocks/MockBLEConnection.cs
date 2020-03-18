@@ -64,16 +64,20 @@ namespace UnitTesting.Mocks
 			return true;
 		}
 
-		public async Task SubscribeAsync(Guid charId, DataReceiver handler)
+		public async Task<bool> SubscribeAsync(Guid charId, DataReceiver handler)
 		{
+			if (FailOperations) return false;
 			await Task.Delay(OperationDelay);
 			Subscriptions[charId] = handler;
+			return true;
 		}
 
-		public async Task UnsubscribeAsync(Guid charId, DataReceiver handler)
+		public async Task<bool> UnsubscribeAsync(Guid charId, DataReceiver handler)
 		{
+			if (FailOperations) return false;
 			await Task.Delay(OperationDelay);
 			Subscriptions.Remove(charId);
+			return true;
 		}
 
 		public async Task<bool> Validate(Guid[] serviceIds)

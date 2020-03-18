@@ -11,6 +11,8 @@ namespace EarableLibrary
 
 	public interface IDeviceConnection
 	{
+		event EventHandler ConnectionLost;
+
 		ConnectionState State { get; }
 
 		Guid Id { get; }
@@ -23,9 +25,9 @@ namespace EarableLibrary
 
 		Task<byte[]> ReadAsync(Guid charId);
 
-		Task SubscribeAsync(Guid charId, DataReceiver handler);
+		Task<bool> SubscribeAsync(Guid charId, DataReceiver handler);
 
-		Task UnsubscribeAsync(Guid charId, DataReceiver handler);
+		Task<bool> UnsubscribeAsync(Guid charId, DataReceiver handler);
 
 		Task<bool> Validate(Guid[] serviceIds);
 
