@@ -8,7 +8,7 @@ using Xunit;
 
 namespace UnitTesting.ViewModelTests
 {
-	public class SettingsPageVMTests 
+	public class SettingsPageVMTests
 	{
 
 		public SettingsPageVMTests()
@@ -59,6 +59,10 @@ namespace UnitTesting.ViewModelTests
 				spVM.SelectedLanguage = LangManager.SingletonLangManager.AvailableLangs[0];
 				Assert.Equal(LangManager.SingletonLangManager.CurrentLang,
 					LangManager.SingletonLangManager.AvailableLangs[0]);
+				Assert.Equal("Color", spVM.ColorLabel);
+				Assert.Equal("Device Name", spVM.ChangeDeviceNameLabel);
+				Assert.Equal("Language", spVM.LanguageLabel);
+				Assert.Equal("Reset Steps", spVM.ResetStepsLabel);
 			}).Start();
 		}
 

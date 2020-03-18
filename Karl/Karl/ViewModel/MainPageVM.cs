@@ -120,14 +120,19 @@ namespace Karl.ViewModel
 			if (_connectivityHandler.EarableConnected)
 			{
 				bool answer = await AlertWrapper();
-				if(answer) await _connectivityHandler.Disconnect();
+				if (answer)
+				{
+					await _connectivityHandler.Disconnect();
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+				}
 			}
 			else
 			{
 				var success = await _connectivityHandler.Connect();
 				if (!success) { NavigateWrapper(); }
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
 			}
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
+
 		}
 
 		private void GotoModesPage()
