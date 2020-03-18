@@ -91,7 +91,7 @@ namespace UnitTesting.ViewModelTests
 		}
 
 		[Fact]
-		public void RefreshTests()
+		public void RefreshTest()
 		{
 			new Thread(() =>
 			{
