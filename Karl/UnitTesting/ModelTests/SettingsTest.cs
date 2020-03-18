@@ -38,6 +38,7 @@ namespace UnitTesting.ModelTests
 			SpotifyAudioLib.Testing(true);
 			BasicAudioTrackDatabase.Testing(true);
 			SettingsHandler.Testing(true);
+			BasicAudioTrack.Testing(true);
 			fw.MockDatabase();
 			mockObj = new Mock<IDictionary<string, Object>>();
 			PropertiesInjection(mockObj.Object);
@@ -49,6 +50,7 @@ namespace UnitTesting.ModelTests
 			SpotifyAudioLib.Testing(false);
 			BasicAudioTrackDatabase.Testing(false);
 			SettingsHandler.Testing(false);
+			BasicAudioTrack.Testing(false);
 			fw.ResetSingletons();
 			PropertiesInjection(null);
 		}
@@ -88,7 +90,7 @@ namespace UnitTesting.ModelTests
 		}
 
 		[Fact]
-		public void LanguageTest2()
+		public void LanguageTestNoLangInProperties()
 		{
 			BeforeAfterTest(() =>
 			{
@@ -124,7 +126,7 @@ namespace UnitTesting.ModelTests
 		}
 
 		[Fact]
-		public void UseDifferentLibs2()
+		public void UseDifferentLibsAddThrowsException()
 		{
 			BeforeAfterTest(() =>
 			{
@@ -141,7 +143,7 @@ namespace UnitTesting.ModelTests
 		}
 
 		[Fact]
-		public void UseDifferentLibs3()
+		public void SwitchLibsTest()
 		{
 			BeforeAfterTest(() =>
 			{

@@ -110,6 +110,7 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void PropertyTest()
 		{
+<<<<<<< HEAD
 			new Thread(() =>
 			{
 				//setup
@@ -128,6 +129,23 @@ namespace UnitTesting.ViewModelTests
 				Assert.Equal("Pick Audio File", vm.PickFileLabel);
 				Assert.Equal("Title", vm.TitleLabel);
 			}).Start();
+=======
+			//setup
+			SettingsHandler.Testing(true);
+			var mockObj = new Mock<IDictionary<string, Object>>();
+			SettingsHandler.PropertiesInjection(mockObj.Object);
+			var vm = new AddSongPageVM_NEW();
+			SettingsHandler.SingletonSettingsHandler.CurrentLang = SettingsHandler.SingletonSettingsHandler.Languages[0];
+			SettingsHandler.SingletonSettingsHandler.CurrentColor = SettingsHandler.SingletonSettingsHandler.Colors[0];
+			//test
+			Assert.Equal(SettingsHandler.SingletonSettingsHandler.Colors[0].Name, vm.CurrentColor.Name);
+			Assert.Equal("Add New Song", vm.AddSongLabel);
+			Assert.Equal("Artist", vm.ArtistLabel);
+			Assert.Equal("BPM", vm.BPMLabel);
+			Assert.Equal("Calculate BPM", vm.GetBPMLabel);
+			Assert.Equal("Pick Audio File", vm.PickFileLabel);
+			Assert.Equal("Title", vm.TitleLabel);
+>>>>>>> Added UnitTestDokumentation
 		}
 
 		internal class AddSongPageVM_NEW : AddSongPageVM
