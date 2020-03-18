@@ -142,6 +142,7 @@ namespace UnitTesting.ViewModelTests
 				_connectivityHandler = new ConnectivityHandler_NEW();
 			}
 			protected override void NavigateWrapper() { }
+			protected override async Task<bool> AlertWrapper() { return true; }
 			public NavigationHandler NavHandler { get => _navHandler; }
 			public ConnectivityHandler ConHandler { get => _connectivityHandler; }
 			public ImageSource IconOn { get => _iconOn; }

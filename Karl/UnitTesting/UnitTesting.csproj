@@ -72,6 +72,7 @@
     <Compile Include="Mocks\MockEarableManager.cs" />
     <Compile Include="EarableLibraryTests\TestAppTest.cs" />
     <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
+    <Compile Include="ModelTests\BPMCalculatorTests.cs" />
     <Compile Include="ModelTests\ColorManagerTests.cs" />
     <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />
     <Compile Include="Mocks\DatabaseMock.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="ModelTests\ModeHandlerTests.cs" />
     <Compile Include="ModelTests\SettingsTest.cs" />
     <Compile Include="ModelTests\TestFramework.cs" />
-    <Compile Include="ModesPageVMTest.cs" />
+    <Compile Include="ModelTests\ModesTests.cs" />
     <Compile Include="MockForms.cs" />
     <Compile Include="ModelTests\BasicLibTest.cs" />
     <Compile Include="StepDetectionLibraryTests\ActivityLogTest.cs" />

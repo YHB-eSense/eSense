@@ -172,18 +172,21 @@ namespace UnitTesting.ViewModelTests
 		[Fact]
 		public void DeleteSongsCommandTest()
 		{
-			//setup
-			SettingsHandler.Testing(true);
-			var mockObj = new Mock<IDictionary<string, Object>>();
-			SettingsHandler.PropertiesInjection(mockObj.Object);
-			var vm = new AudioLibPageVM_NEW();
-			var track1 = new AudioTrack_NEW("title1", "artist1", 1);
-			vm.EditDeleteListCommand.Execute(track1);
-			vm.Player.CurrentTrack = track1;
-			//test
-			vm.DeleteSongsCommand.Execute(null);
-			Assert.Empty(vm.DeleteList);
-			Assert.Null(vm.Player.CurrentTrack);
+			new Thread(() =>
+			{
+				//setup
+				SettingsHandler.Testing(true);
+				var mockObj = new Mock<IDictionary<string, Object>>();
+				SettingsHandler.PropertiesInjection(mockObj.Object);
+				var vm = new AudioLibPageVM_NEW();
+				var track1 = new AudioTrack_NEW("title1", "artist1", 1);
+				vm.EditDeleteListCommand.Execute(track1);
+				vm.Player.CurrentTrack = track1;
+				//test
+				vm.DeleteSongsCommand.Execute(null);
+				Assert.Empty(vm.DeleteList);
+				Assert.Null(vm.Player.CurrentTrack);
+			}).Start();
 		}
 
 		[Fact]

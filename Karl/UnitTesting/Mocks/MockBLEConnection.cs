@@ -28,6 +28,8 @@ namespace UnitTesting.Mocks
 			FailOperations = false;
 		}
 
+		public event EventHandler ConnectionLost;
+
 		public async Task<bool> Close()
 		{
 			if (FailOperations) return false;

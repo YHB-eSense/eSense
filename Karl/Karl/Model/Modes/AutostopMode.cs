@@ -54,8 +54,6 @@ namespace Karl.Model
 			return true;
 		}
 
-
-
 		public void OnNext(Output value)
 		{
 			Autostopped = value.Log.CountSteps(duration: TimeSpan.FromSeconds(1)) == 0;
