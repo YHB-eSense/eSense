@@ -16,7 +16,7 @@ namespace UnitTesting.StepDetectionLibraryTests
 	/// <summary>
 	/// Class for Modul tests for Stepdetectionlibrary
 	/// </summary>
-	 public class StepDetectionModulTest
+	 public class StepDetectionLibTest
 	{
 		/// <summary>
 		/// Tests if subscriber to output receive if valuechanges
