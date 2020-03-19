@@ -84,12 +84,12 @@
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries
-\IfFileExists{4_glossar/glossar_definitionen.tex}
+\IfFileExists{6_glossar/glossar_definitionen.tex}
 {
-	\input{4_glossar/glossar_definitionen.tex}
+	\input{6_glossar/glossar_definitionen.tex}
 }
 {
-	\input{../4_glossar/glossar_definitionen.tex}
+	\input{../6_glossar/glossar_definitionen.tex}
 }
 
 \begin{document}
@@ -104,15 +104,14 @@
 	\subfile{1_komponententests/stepdetectionlibrary.tex}
 
 	\subfile{2_integrationstests/earablelibrary.tex}
-
 	\subfile{3_systemtests/systemtests.tex}
 
 	\part{Fehler und Probleme}
-	\subfile{2_fehler_probleme/probleme.tex}
+	\subfile{4_fehler_probleme/probleme.tex}
 
 	\part{Statistiken}
-	\subfile{3_statistik/ueberdeckung.tex}
+	\subfile{5_statistik/ueberdeckung.tex}
 
 	\part{Glossar}
-	\subfile{4_glossar/glossar.tex}
+	\subfile{6_glossar/glossar_definitionen.tex}
 \end{document}
