@@ -71,13 +71,10 @@
 \newcommand{\code}[1]{\textbf{\textit{#1}}}
 \newcommand{\sign}[1]{\paragraph{Signatur:}{\code{#1}}\par\noindent}
 \newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
-\newcommand{\add}[2][]{\item[+]{\code{#1} #2}}
-\newcommand{\remove}[2][]{\item[-]{\code{#1} #2}}
-\newcommand{\change}[2][]{\item[\#]{\code{#1} #2}}
 \renewcommand{\check}[1]{\item[\checkmark]{#1}}
 \newcommand{\ftsio}[1]{\item[$\times$]{#1}}
-\newcommand{\changeto}{$\rightarrow$}
-\renewcommand{\array}{\lbrack\rbrack}
+\newcommand{\theory}[2][]{\item[Theory]{\code{#1} #2}}
+\newcommand{\fact}[2][]{\item[Fact]{\code{#1} #2}}
 
 
 % Grafiksuchpfade: relativ zur Hauptdatei, relativ zu den jeweiligen Kapiteln
@@ -85,12 +82,12 @@
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries
-\IfFileExists{4_glossar/glossar_definitionen.tex}
+\IfFileExists{6_glossar/glossar_definitionen.tex}
 {
-	\input{4_glossar/glossar_definitionen.tex}
+	\input{6_glossar/glossar_definitionen.tex}
 }
 {
-	\input{../4_glossar/glossar_definitionen.tex}
+	\input{../6_glossar/glossar_definitionen.tex}
 }
 
 \begin{document}
@@ -98,16 +95,21 @@
 	\subfile{0_praeambel/allgemeines.tex}
 
 	\part{Test-Dokumentation}
-	\subfile{1_dokumentation/integrationstests.tex}
-	\subfile{1_dokumentation/systemtests.tex}
-	\subfile{1_dokumentation/unittests_vm.tex}
+	\subfile{1_komponententests/model.tex}
+	\subfile{1_komponententests/viewmodel.tex}
+	\subfile{1_komponententests/earablelibrary.tex}
+	\subfile{1_komponententests/stepdetectionlibrary.tex}
+
+	\subfile{2_integrationstest/integrationstests.tex}
+
+	\subfile{3_systemtests/systemtests.tex}
 
 	\part{Fehler und Probleme}
-	\subfile{2_fehler_probleme/probleme.tex}
+	\subfile{4_fehler_probleme/probleme.tex}
 
 	\part{Statistiken}
-	\subfile{3_statistik/ueberdeckung.tex}
+	\subfile{5_statistik/ueberdeckung.tex}
 
 	\part{Glossar}
-	\subfile{4_glossar/glossar.tex}
+	\subfile{6_glossar/glossar.tex}
 \end{document}
