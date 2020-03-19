@@ -1,0 +1,20 @@
+\documentclass[../implementierung.tex]{subfiles}
+
+\begin{document}
+
+\subsection{StepDetectionTestApp}
+
+	Die \quote{StepDetectionTestApp} führt den Schritterkennungsalgorithmus mit zuvor aufgezeichneten Daten aus.
+
+	\subsubsection{Funktionsprinzip}
+		Die von uns verwendeten Daten beinhalten aufgezeichnete Schritte, aufgezeichnetes Nichts-Tun und wildes Schütteln der Kopfhörer.
+		Diese Daten werden dann an den Algorithmus geliefert, als kämen diese direkt vom Earable.
+
+	\subsubsection{Algorithmus-Tuning}
+		Unter Verwendung von geeigneten Grenzwerten ist es uns gelungen, eine Schritterkennungsrate von über 95\% der tatsächlichen Schritte zu erzielen.
+		Nicht möglich war jedoch die vollständige Vermeidung von Falschpositiven.
+		Mit dem von uns verwendeten Schwellwertalgorithmus können manche Bewegungen (wie etwas das Schütteln der Kopfhörer) nicht von Schritten unterschieden werden.
+		Nur ein gänzlich anderer Algorithmus-Ansatz (wie etwa maschinelles Lernen) hätte hier Abhilfe leisten können.
+		Dies war für den Einsatz in unserer App (als Schritterkennung beim Joggen) jedoch gar nicht nötig, da der Anteil der Falschpositiven beim Joggen anteilmäßig nicht ins Gewicht fällt.
+
+\end{document}

@@ -55,7 +55,12 @@ namespace EarableLibrary
 		{
 			_name = null;
 			var data = await _conn.ReadAsync(CHAR_NAME_R);
-			if (data != null) _name = Encoding.ASCII.GetString(data);
+			if (data != null)
+			{
+				_name = Encoding.ASCII.GetString(data);
+				int index = _name.IndexOf('\0');
+				if (index > 0) _name = _name.Substring(0, index);
+			}
 		}
 	}
 }
