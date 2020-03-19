@@ -67,23 +67,6 @@ namespace UnitTesting.EarableLibraryTests
 		}
 
 		[Theory]
-		[InlineData(PrebuiltMessage.EMPTY)]
-		[InlineData(PrebuiltMessage.SEQUENCE)]
-		[InlineData(PrebuiltMessage.MAX)]
-		public async Task TestRead(PrebuiltMessage messageId)
-		{
-			MockBLEConnection connection = new MockBLEConnection();
-			ESenseMessage message = GetPrebuiltMessage(messageId);
-			MotionSensorSample expected = GetSample(messageId);
-
-			connection.Storage[MotionSensor.CHAR_IMU_DATA] = message;
-			//MotionSensorSample result = await new MotionSensor(connection).ReadAsync();
-			//Assert.Equal(expected.SampleId, result.SampleId);
-			//Assert.Equal(expected.Acc, result.Acc);
-			//Assert.Equal(expected.Gyro, result.Gyro);
-		}
-
-		[Theory]
 		[InlineData(10)]
 		[InlineData(20)]
 		[InlineData(50)]

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace UnitTesting.EarableLibraryTests
 {
-	public class ESenseTest
+	public class ESenseTests
 	{
 		[Theory]
 		[InlineData("eSense-0001")]

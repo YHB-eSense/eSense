@@ -1,0 +1,56 @@
+\documentclass[../validierung.tex]{subfiles}
+\begin{document}
+
+\subsection{EarableLibrary}
+
+\subsubsection{BLEMessageTests}
+	\begin{itemize}
+		\theory[DataAsShortArrayTest]{Testet das Umwandeln von Byte- in Short-Arrays}
+		\theory[ChecksumTest]{Testet die korrekte Prüfsummenberechnungvon \code{(Indexed)ESenseMessage}s}
+		\theory[EncodeTest]{Testet die korrekte Kodierung von \code{(Indexed)ESenseMessage}s}
+		\theory[DecodeTest]{Testet die korrekte Dekodierung \code{(Indexed)ESenseMessage}s}
+		\theory[RecodeTest]{Testet die Symmetrie von Kodierung und Dekodierung von \code{(Indexed)ESenseMessage}s}
+		\theory[RawMessageTest]{Testet die korrekte \quote{(De-)Kodierung} von \code{RawMessage}s (Daten werden un(de)kodiert übernommen)}
+		\theory[InvalidDecodeTest]{Überprüft, dass ungültige Eingaben für die Dekodierung einen \code{MessageError} auslösen}
+		\fact[ConstructorTest]{Testet das Verhalten unterschiedlicher Konstruktor-Varianten auf Korrektheit}
+		\fact[ImplicitConversionTest]{Testet die implizite Umwandlung von einer \code{BLEMessage} in ein Byte-Array}
+		\fact[EqualsTest]{Testet den Gleichheitstest mittels \code{Equals} auf Korrektheit}
+	\end{itemize}
+
+\subsubsection{ESenseTests}
+	\begin{itemize}
+		\theory[NameChangeTest]{Ändert den Namen und überprüft, ob dieser über eine Neuverbindung hinaus erhalten bleibt}
+		\fact[ConnectionTest]{Simuliert einen Verbindungsaufbau und trennt die simulierte Verbindung anschließend wieder}
+		\fact[ConnectionLossTest]{Simuliert einen Verbindungsabbruch}
+		\fact[GetSensorTest]{Ruft die Sensoren vom Typ \code{MotionSensor}, \code{PushButton} und \code{VoltageSensor} ab}
+		\fact[GuidTest]{Testet die vom Earable angegebene ID auf Korrektheit}
+	\end{itemize}
+
+\subsubsection{MotionSensorTests}
+	\begin{itemize}
+		\theory[TestSubscription]{Prüft die Funktionalität des \quote{Subsription}-Mechanismusses mit verschiedenen Sensorwerten}
+		\theory[StartStopSamplingTest]{Simuliert die Prozdeuren \code{StartSamplingAsync} und \code{StopSamplingAsync} mit unterschiedlichen Sampling-Raten}
+		\fact[MotionSensorSampleTest]{Testet die Hilfsklasse \code{MotionSensorSample} auf korrektes Verhalten}
+		\fact[TripleShortTest]{Testet die Hilfsklasse \code{TripleShort} auf korrektes Verhalten}
+	\end{itemize}
+
+\subsubsection{PushButtonTests}
+	\begin{itemize}
+		\theory[TestSubscription]{Prüft die Funktionalität des \quote{Subsription}-Mechanismusses mit verschiedenen Sensorwerten}
+		\theory[TestRead]{Prüft das direkte Einlesen von Sensorwerten}
+		\fact[StartStopSamplingTest]{Überprüft, dass Änderungen an der Sampling-Rate ignoriert werden, da diese nicht konfigurierbar ist}
+		\fact[ButtonStateTest]{Testet die Hilfsklasse \code{ButtonState} auf korrektes Verhalten}
+	\end{itemize}
+
+\subsubsection{VoltageSensorTests}
+	\begin{itemize}
+		\theory[TestRead]{Prüft das direkte Einlesen von Sensorwerten}
+		\fact[BatteryStateTest]{Testet die Hilfsklasse \code{BatteryState} auf korrektes Verhalten}
+	\end{itemize}
+
+\subsubsection{TestAppTest}
+	\begin{itemize}
+		\fact[TestTheTest]{Simuliert das Ausführen der \quote{EarableLibraryTestApp} (auf diese Weise kann die Testfallüberdeckung der TestApp abgeschätzt werden)}
+	\end{itemize}
+
+\end{document}
