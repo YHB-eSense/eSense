@@ -3,36 +3,36 @@
 \subsection{StepdetectionLibrary}
 \subsubsection{ActivityLogTest}
 \begin{itemize}
-\item \textbf{AddAndResetTest:} Testet hinzufügen und löschen von Schritten
-\item \textbf{LastStepsTest:} Testet, ob neu hinzugefügte Schritte in den aktuellesten Schritten erkannt werden
-\item \textbf{CountandFrequencyTest:} Testet, ob für Beispieleinträge von Schritten, die richte Anzahl der Schritte und die richtige Schrittfrequenz ausgelesen werden
+\fact [AddAndResetTest] {Testet hinzufügen und löschen von Schritten}
+\fact [LastStepsTest]{Testet, ob neu hinzugefügte Schritte in den aktuellesten Schritten erkannt werden}
+\fact [CountandFrequencyTest] {Testet, ob für Beispieleinträge von Schritten, die richte Anzahl der Schritte und die richtige Schrittfrequenz ausgelesen werden}
 \end{itemize}
 \subsubsection{InputTest}
 \begin{itemize}
-\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von Input funktioniert
-\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt
-\item \textbf{ValueChangedTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt, wenn Input durch ein Event benachrichtigt wird
-\item \textbf{SamplingRateTest:} Testet die Samplingrate
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei einer Instanz von Input funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von Input bekommt}
+\fact [ValueChangedTest] {Testet, ob ein angemeldeter Beobachter Updates von Input bekommt, wenn Input durch ein Event benachrichtigt wird}
+\fact [SamplingRateTest] {Testet die Samplingrate}
 \end{itemize}
 \subsubsection{OutputManagerTest}
 \begin{itemize}
-\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei OutputManager funktioniert
-\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von OutputManager bekommt
-\item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei OutputManager funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von OutputManager bekommt}
+\fact [OnErrorTest] {Testet die OnError Methode des OutputManagers}
 \end{itemize}
 \subsubsection{StepDetectionAlgTest}
 \begin{itemize}
-\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von StepdetectionAlg funktioniert
-\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von StepdetectionAlg bekommt
-\item \textbf{CalculateIntensityTest:} Testet die Intesnsitätsberechnung
-\item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei einer Instanz von StepdetectionAlg funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von StepdetectionAlg bekommt}
+\fact [CalculateIntensityTest] {Testet die Intesnsitätsberechnung}
+\fact [OnErrorTest] {Testet die OnError Methode des OutputManagers}
 \end{itemize}
 \subsubsection{StepDetectionLibTest}
 \begin{itemize}
-\item \textbf{InandOutTest:} Testet, ob Beobachter von OutputManager Änderungen erhalten, wenn ein Input durch ein Event benachrichtigt wird
-\item \textbf{NoStepTest:} Testet, ob kein Schritt nicht erkannt wird
-\item \textbf{StepTest:} Testet, ob ein Schritt erkannt wird
-\item \textbf{SampleTest:} Testet, ob die StepDetsectionLibrary mit einem Beispielsatz von Beschleunigungsdaten, die richtige Anzahl von Schritten erkennt
+\fact [InandOutTest] {Testet, ob Beobachter von OutputManager Änderungen erhalten, wenn ein Input durch ein Event benachrichtigt wird}
+\fact [NoStepTest] {Testet, ob kein Schritt nicht erkannt wird}
+\fact [StepTest] {Testet, ob ein Schritt erkannt wird}
+\fact [SampleTest] {Testet, ob die StepDetsectionLibrary mit einem Beispielsatz von Beschleunigungsdaten, die richtige Anzahl von Schritten erkennt}
 \end{itemize}
 
 \end{document}
