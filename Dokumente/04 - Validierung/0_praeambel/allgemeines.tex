@@ -5,31 +5,31 @@
 \clearpage
 
 \section{Allgemeines zum Testverfahren}
-Um die korrekte Funktionsweise der App \quote{Karl} und der zugehörigen Software-Libraries zu gewährleisten,
+Um die korrekte Funktionsweise der App \Gls{karl} und der zugehörigen Software-Libraries zu gewährleisten,
 wurde eine Kombination verschiedener Testverfahren angewandt.
 
 \subsection{Komponententests mit XUnit}
-Für die Komponententests haben wird das Test-Framework \quote{XUnit} verwendet und in \quote{VisualStudio} ein Test-Projekt erstellt.
+Für die Komponententests haben wird das Framework \Gls{xunit} verwendet und in \gls{visualstudio} ein Test-Projekt erstellt.
 Dieses enthält für jede öffentliche Klasse der App (beziehungsweise der Libraries) jeweils eine Testklasse, welche die zugehörigen Tests (für alle öffentlichen Methoden und Attribute) zusammenfasst.
-XUnit unterscheidet dabei zwischen sogenannten \quote{Facts} (Tests für invariante Bedingungen) und \quote{Theories} (Testsfälle, welche nur bei Verwendung von bestimmten Eingabekombinationen bestehen und für andere Fehlschlagen).
+XUnit unterscheidet dabei zwischen sogenannten \Gls{fact}s (Tests für invariante Bedingungen) und \Glspl{theory}s (Testsfälle, welche nur bei Verwendung von bestimmten Eingabekombinationen bestehen und für andere Fehlschlagen).
 
 \subsection{Testfallüberdeckung}
-Um mögliche außer Acht gelassenen Teile des Codes leichter identifizieren zu können, haben wir die Testfallüberdeckung von VisualStudio verwendet.
-Dieses zeigt nach ausführung der Tests, welche Teile des Codes während des Testfalls durchlaufen wurden und welche nicht.
+Um mögliche außer Acht gelassenen Teile des Codes leichter identifizieren zu können, haben wir die in VisualStudio integrierte \Gls{codecoverage}-Analyse verwendet.
+Diese zeigt nach Ausführung eines oder mehrerer Testfälle, welche Teile des Codes durchlaufen wurden und welche nicht.
 
 \subsection{Integrationstest}
-Um die Schnitstellen zwischen App und Libraries zu testen, haben wir zudem zwei \quote{TestApps} erstellt.
+Um die Schnitstellen zwischen App und Libraries zu testen, haben wir zudem zwei \Gls{TestApp}s erstellt.
 
 \subsubsection{EarableLibraryTestApp}
 Die \quote{EarableLibraryTestApp} testet die Schnittstelle zu den Earables direkt auf einem Android- oder iOS-Smartphone.
-Durch umfangreiche Testfälle kann so sichergestellt werden, dass bei der Verwendung der \quote{Karl}-App kein Fehler in der Bluetooth-Konnektivität auftritt.
+Durch umfangreiche Testfälle kann so sichergestellt werden, dass bei der Verwendung der Karl-App kein Fehler in der Bluetooth-Konnektivität auftritt.
 
 \subsubsection{StepDetectionTestApp}
-Die \quote{StepDetectionTestApp} testet den Algorithmus zur Schritterkennung unter festgelegten Bedingungen, indem aufgezeichnete Sensordaten an den Algorithmus übergeben werden.
+Die \quote{StepDetectionTestApp} testet den Algorithmus zur Schritterkennung unter festen Bedingungen, indem aufgezeichnete Sensordaten an den Algorithmus übergeben werden.
 Auf diese Weise kann die Auswirkung von Änderungen am Algorithmus unmittelbar festgestellt und somit die Qualität der Schritterkennung verbessert werden.
 
 \subsection{Systemtest}
-Die in den vorherigen Phasen festgelegten Testfallszenarien dienen als Integrationstest.
+Die in den vorherigen Phasen festgelegten Testfallszenarien dienen als Systemtests.
 
 
 \end{document}
