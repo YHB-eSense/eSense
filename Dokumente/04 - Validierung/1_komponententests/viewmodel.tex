@@ -1,66 +1,64 @@
 \documentclass[../validierung.tex]{subfiles}
 \begin{document}
-
 	\subsection{ViewModel}
 		\subsubsection{AddSongsPageVMTests}
 			\begin{itemize}
-				\item AddSongCommandTest: Überprüft, ob nach hinzufügen einer Audiodatei alle Hilfsvariablen ordnungsgemäß zurückgesetzt werden
-				\item GetBPMCommandTest: Überprüft, ob der BPM-Wert einer Audiodatei nach der Berechnung ausgegeben werden kann
-				\item PickFileBPMCommandTest: Überprüft, ob Metadaten einer Audiodatei eingelesen und ausgegeben werden können
-				\item PropertyTest: Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten
-				\item RefreshTest: Überprüft, ob Properties ordnungsgemäß aktualisiert werden
+				\theory[AddSongCommandTest]{Überprüft, ob nach hinzufügen einer Audiodatei alle Hilfsvariablen ordnungsgemäß zurückgesetzt werden}
+				\theory[GetBPMCommandTest]{Überprüft, ob der BPM-Wert einer Audiodatei nach der Berechnung ausgegeben werden kann}
+				\fact[PickFileBPMCommandTest]{Überprüft, ob Metadaten einer Audiodatei eingelesen und ausgegeben werden können}
+				\fact[PropertyTest]{Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten}
+				\fact[RefreshTest]{Überprüft, ob Properties ordnungsgemäß aktualisiert werden}
 			\end{itemize}
 		\subsubsection{AudioLibPageVMTests}
 			\begin{itemize}
-				\item AddSongCommandTest: Überprüft, ob man ordnungsgemäß zur AddSongPage weitergeleitet wird
-				\item ArtistSortCommandTest: Überprüft die Sortierfunktion nach Künstler 
-				\item BPMSortCommandTest: Überprüft die Sortierfunktion nach BPM-Wert
-				\item DeleteSongsCommandTest: Überprüft, ob das Löschen von Audiodateien ordnungsgemäß funktioniert
-				\item EditDeleteListCommandTest: Überprüft, ob man Audiodateien zum Löschen auswählen kann
-				\item PlaySongCommandTest: Überprüft, ob man eine beliebige Audiodatei zum Abspielen auswählen kann
-				\item SearchSongCommandTest: Überprüft die Suchfunktion
-				\item TitleSortCommandTest: Überprüft die Sortierfunktion nach Titel
-				\item RefreshTests: Überprüft, ob Properties ordnungsgemäß aktualisiert werden
+				\fact[AddSongCommandTest]{Überprüft, ob man ordnungsgemäß zur AddSongPage weitergeleitet wird}
+				\fact[ArtistSortCommandTest]{Überprüft die Sortierfunktion nach Künstler}
+				\fact[BPMSortCommandTest]{Überprüft die Sortierfunktion nach BPM-Wert}
+				\fact[DeleteSongsCommandTest]{Überprüft, ob das Löschen von Audiodateien ordnungsgemäß funktioniert}
+				\fact[EditDeleteListCommandTest]{Überprüft, ob man Audiodateien zum Löschen auswählen kann}
+				\fact[PlaySongCommandTest]{Überprüft, ob man eine beliebige Audiodatei zum Abspielen auswählen kann}
+				\fact[SearchSongCommandTest]{Überprüft die Suchfunktion}
+				\fact[TitleSortCommandTest]{Überprüft die Sortierfunktion nach Titel}
+				\fact[RefreshTests]{Überprüft, ob Properties ordnungsgemäß aktualisiert werden}
 			\end{itemize}
 		\subsubsection{AudioPlayerPageVMTests}
 			\begin{itemize}
-				\item PausePlayCommandTest: Überprüft die Funktionalität des Buttons der die Wiedergabe von Audiodateien startet/stoppt
-				\item PlayNextCommandTest: Überprüft die Funktionalität des Buttons der die Wiedergabe der nächsten Audiodatei startet
-				\item PlayPrevCommandTest: Überprüft die Funktionalität des Buttons der die Wiedergabe der letzten Audiodatei startet
-				\item PositionDragCompletedCommandTest: Überprüft die Funktionalität des Sliders der die Abspielposition ändert
-				\item PositionDragStartedCommandTest: Überprüft die Funktionalität des Sliders der die Abspielposition ändert
-				\item PropertyTest: Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten
-				\item RefreshTest: Überprüft, ob Properties ordnungsgemäß aktualisiert werden
+				\fact[PausePlayCommandTest]{Überprüft die Funktionalität des Buttons der die Wiedergabe von Audiodateien startet/stoppt}
+				\fact[PlayNextCommandTest]{Überprüft die Funktionalität des Buttons der die Wiedergabe der nächsten Audiodatei startet}
+				\fact[PlayPrevCommandTest]{Überprüft die Funktionalität des Buttons der die Wiedergabe der letzten Audiodatei startet}
+				\fact[PositionDragCompletedCommandTest]{Überprüft die Funktionalität des Sliders der die Abspielposition ändert}
+				\fact[PositionDragStartedCommandTest]{Überprüft die Funktionalität des Sliders der die Abspielposition ändert}
+				\fact[PropertyTest]{Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten}
+				\fact[RefreshTest]{Überprüft, ob Properties ordnungsgemäß aktualisiert werden}
 			\end{itemize}
 		\subsubsection{MainPageVMTests}
 			\begin{itemize}
-				\item AudioLibCommandTest: Überprüft, ob man ordnungsgemäß zur AudioLibPage weitergeleitet wird
-				\item AudioPlayerCommandTest: Überprüft, ob man ordnungsgemäß zur AudioPlayerPage weitergeleitet wird
-				\item HelpCommandTest: Überprüft, ob man ordnungsgemäß zur AddSongPage weitergeleitet wird
-				\item ModesPageCommandTest: Überprüft, ob man ordnungsgemäß zur ModesPage weitergeleitet wird
-				\item SettingsPageCommandTest: Überprüft, ob man ordnungsgemäß zur SettingsPage weitergeleitet wird
-				\item TryConnectCommandTest: Überprüft, ob man eine Verbindung zu einem verbundenen Earable aufbauen kann
-				\item PropertyTest: Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten
-				\item RefreshTest: Überprüft, ob Properties ordnungsgemäß aktualisiert werden
+				\fact[AudioLibCommandTest]{Überprüft, ob man ordnungsgemäß zur AudioLibPage weitergeleitet wird}
+				\fact[AudioPlayerCommandTest]{Überprüft, ob man ordnungsgemäß zur AudioPlayerPage weitergeleitet wird}
+				\fact[HelpCommandTest]{Überprüft, ob man ordnungsgemäß zur AddSongPage weitergeleitet wird}
+				\fact[ModesPageCommandTest]{Überprüft, ob man ordnungsgemäß zur ModesPage weitergeleitet wird}
+				\fact[SettingsPageCommandTest]{Überprüft, ob man ordnungsgemäß zur SettingsPage weitergeleitet wird}
+				\fact[TryConnectCommandTest]{Überprüft, ob man eine Verbindung zu einem verbundenen Earable aufbauen kann}
+				\fact[PropertyTest]{Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten}
+				\fact[RefreshTest]{Überprüft, ob Properties ordnungsgemäß aktualisiert werden}
 			\end{itemize}
 		\subsubsection{ModesPageVMTests}
 			\begin{itemize}
-				\item PropertyTest: Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten
-				\item RefreshTest: Überprüft, ob Properties ordnungsgemäß aktualisiert werden
+				\fact[PropertyTest]{Überprüft, ob die Getter und Setter die gewünschte Funktionalität bieten}
+				\fact[RefreshTest]{Überprüft, ob Properties ordnungsgemäß aktualisiert werden}
 			\end{itemize}
 		\subsubsection{SettingsPageVMTests}
 			\begin{itemize}
-				\item ChangeColorTest: Überprüft, ob eine andere Farbe ausgewählt werden kann
-				\item ChangeDeviceNameTest: Überprüft, ob der Name der verbundenen Erables geändert werden kann
-				\item ChangeLanguageTest: Überprüft, ob die Sprache geändert werden kann
-				\item ResetStepsTest: Überprüft, ob die Schrittanzahl auf null zurückgesetzt werden kann
+				\fact[ChangeColorTest]{Überprüft, ob eine andere Farbe ausgewählt werden kann}
+				\fact[ChangeDeviceNameTest]{Überprüft, ob der Name der verbundenen Erables geändert werden kann}
+				\fact[ChangeLanguageTest]{Überprüft, ob die Sprache geändert werden kann}
+				\fact[ResetStepsTest]{Überprüft, ob die Schrittanzahl auf null zurückgesetzt werden kann}
 			\end{itemize}
 		\subsubsection{NavigationHandlerTests}
 			\begin{itemize}
-				\item GoBackTest: Überprüft, ob man ordnungsgemäß zur letzten ContentPage weitergeleitet wird
-				\item GotoPageTest: Überprüft, ob man ordnungsgemäß zur ausgewählten ContentPages weitergeleitet wird
-				\item SetPagesTest: Überprüft, ob man eine Auswahl von ContentPages setzen kann
-				\item SingletonNavHandlerTest: Überprüft ob das NavigationHandlerSingleton ordnungsgemäß abgerufen werden kann
+				\fact[GoBackTest]{Überprüft, ob man ordnungsgemäß zur letzten ContentPage weitergeleitet wird}
+				\fact[GotoPageTest]{Überprüft, ob man ordnungsgemäß zur ausgewählten ContentPages weitergeleitet wird}
+				\fact[SetPagesTest]{Überprüft, ob man eine Auswahl von ContentPages setzen kann}
+				\fact[SingletonNavHandlerTest]{Überprüft ob das NavigationHandlerSingleton ordnungsgemäß abgerufen werden kann}
 			\end{itemize}
-
 \end{document}
