@@ -13,11 +13,11 @@
 		Dies wird gleich zu Beginn überprüft um zu vermeiden, dass daraus resultierende Fehler im späteren Testverlauf falsch interpretiert werden.
 		War die Verbindung zum Kopfhörer erfolgreich, beginnt die sequentielle Ausführung der folgenden Testfälle:
 		\begin{itemize}
-			\item[ConnectionTest] Wiederholtes (Wieder-)Herstellen oder Trennen der Verbindung zu den Earables soll stets in einem Wohldefinierten Zustand resultieren.
-			\item[SensorTest<MotionSensor>] Die inertiale Messeinheit muss per \quote{Subscription}-Mechanismus gültige Messwerte zur Verfügung stellen.
-			\item[SensorTest<PushButton>] Der Durckknopf muss mittels \quote{Subscription}-Mechanismus und bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
-			\item[SensorTest<VoltageSensor>] Der Spannungssensor muss bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
-			\item[NameChangeTest] Der Name des Kopfhörers muss ausgelesen und geändert werden können. Zudem müssen Änderungen über Wiederverbindungen hinaus persistent sein.
+			\item \code{ConnectionTest} Wiederholtes (Wieder-)Herstellen oder Trennen der Verbindung zu den Earables soll stets in einem Wohldefinierten Zustand resultieren.
+			\item \code{SensorTest<MotionSensor>} Die inertiale Messeinheit muss per \quote{Subscription}-Mechanismus gültige Messwerte zur Verfügung stellen.
+			\item \code{SensorTest<PushButton>} Der Durckknopf muss mittels \quote{Subscription}-Mechanismus und bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
+			\item \code{SensorTest<VoltageSensor>} Der Spannungssensor muss bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
+			\item \code{NameChangeTest} Der Name des Kopfhörers muss ausgelesen und geändert werden können. Zudem müssen Änderungen über Wiederverbindungen hinaus persistent sein.
 		\end{itemize}
 
 	\subsubsection{Test-Resultat}
