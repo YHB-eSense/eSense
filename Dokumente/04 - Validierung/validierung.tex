@@ -70,10 +70,13 @@
 \newcommand{\see}[2][\\]{{#1}Siehe: \url{#2}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\glsnote}[1]{\textsuperscript{\gls{#1}}}
+\newcommand{\add}[2][]{\item[+]{\code{#1} #2}}
+\newcommand{\remove}[2][]{\item[-]{\code{#1} #2}}
+\newcommand{\change}[2][]{\item[\#]{\code{#1} #2}}
 \renewcommand{\check}[1]{\item[\checkmark]{#1}}
 \newcommand{\ftsio}[1]{\item[$\times$]{#1}}
-\newcommand{\theory}[2][]{\item[Theory]{\code{#1} #2}}
-\newcommand{\fact}[2][]{\item[Fact]{\code{#1} #2}}
+\newcommand{\changeto}{$\rightarrow$}
+\renewcommand{\array}{\lbrack\rbrack}
 
 
 % Grafiksuchpfade: relativ zur Hauptdatei, relativ zu den jeweiligen Kapiteln
@@ -81,12 +84,12 @@
 
 % Definitionen in allen Kapiteln verfügbar machen
 \makenoidxglossaries
-\IfFileExists{6_glossar/glossar_definitionen.tex}
+\IfFileExists{4_glossar/glossar_definitionen.tex}
 {
-	\input{6_glossar/glossar_definitionen.tex}
+	\input{4_glossar/glossar_definitionen.tex}
 }
 {
-	\input{../6_glossar/glossar_definitionen.tex}
+	\input{../4_glossar/glossar_definitionen.tex}
 }
 
 \begin{document}
@@ -105,11 +108,11 @@
 	\subfile{3_systemtests/systemtests.tex}
 
 	\part{Fehler und Probleme}
-	\subfile{4_fehler_probleme/probleme.tex}
+	\subfile{2_fehler_probleme/probleme.tex}
 
 	\part{Statistiken}
-	\subfile{5_statistik/ueberdeckung.tex}
+	\subfile{3_statistik/ueberdeckung.tex}
 
 	\part{Glossar}
-	\subfile{6_glossar/glossar.tex}
+	\subfile{4_glossar/glossar.tex}
 \end{document}
