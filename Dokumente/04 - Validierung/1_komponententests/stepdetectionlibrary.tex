@@ -1,33 +1,33 @@
 \documentclass[../validierung.tex]{subfiles}
 \begin{document}
-\section{Stepdetection Library Unittests}
-\subsection{ActivityLogTest}
+\subsection{StepdetectionLibrary}
+\subsubsection{ActivityLogTest}
 \begin{itemize}
 \item \textbf{AddAndResetTest:} Testet hinzufügen und löschen von Schritten
 \item \textbf{LastStepsTest:} Testet, ob neu hinzugefügte Schritte in den aktuellesten Schritten erkannt werden
 \item \textbf{CountandFrequencyTest:} Testet, ob für Beispieleinträge von Schritten, die richte Anzahl der Schritte und die richtige Schrittfrequenz ausgelesen werden
 \end{itemize}
-\subsection{InputTest}
+\subsubsection{InputTest}
 \begin{itemize}
 \item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von Input funktioniert
 \item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt
 \item \textbf{ValueChangedTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt, wenn Input durch ein Event benachrichtigt wird
 \item \textbf{SamplingRateTest:} Testet die Samplingrate
 \end{itemize}
-\subsection{OutputManagerTest}
+\subsubsection{OutputManagerTest}
 \begin{itemize}
 \item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei OutputManager funktioniert
 \item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von OutputManager bekommt
 \item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
 \end{itemize}
-\subsection{StepDetectionAlgTest}
+\subsubsection{StepDetectionAlgTest}
 \begin{itemize}
 \item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von StepdetectionAlg funktioniert
 \item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von StepdetectionAlg bekommt
 \item \textbf{CalculateIntensityTest:} Testet die Intesnsitätsberechnung
 \item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
 \end{itemize}
-\subsection{StepDetectionLibTest}
+\subsubsection{StepDetectionLibTest}
 \begin{itemize}
 \item \textbf{InandOutTest:} Testet, ob Beobachter von OutputManager Änderungen erhalten, wenn ein Input durch ein Event benachrichtigt wird
 \item \textbf{NoStepTest:} Testet, ob kein Schritt nicht erkannt wird
