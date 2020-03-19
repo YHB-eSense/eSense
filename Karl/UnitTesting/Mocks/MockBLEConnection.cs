@@ -7,6 +7,8 @@ namespace UnitTesting.Mocks
 {
 	public class MockBLEConnection : IDeviceConnection
 	{
+		public event EventHandler ConnectionLost;
+
 		public ConnectionState State { get; set; }
 
 		public Guid Id { get; set; }
@@ -27,8 +29,6 @@ namespace UnitTesting.Mocks
 			OperationDelay = 100;
 			FailOperations = false;
 		}
-
-		public event EventHandler ConnectionLost;
 
 		public async Task<bool> Close()
 		{
@@ -92,6 +92,11 @@ namespace UnitTesting.Mocks
 		{
 			if (!Subscriptions.ContainsKey(charId)) return;
 			Subscriptions[charId](val);
+		}
+
+		public void InvokeConnectionLostEvent(EventArgs args)
+		{
+			ConnectionLost.Invoke(this, args);
 		}
 	}
 }

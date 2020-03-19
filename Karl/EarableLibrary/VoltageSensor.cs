@@ -29,7 +29,7 @@ namespace EarableLibrary
 	/// </summary>
 	public class VoltageSensor : IReadableSensor<BatteryState>
 	{
-		public static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
+		internal static readonly Guid CHAR_VOLTAGE = GuidExtension.UuidFromPartial(0xFF0A);
 
 		private readonly IDeviceConnection _conn;
 

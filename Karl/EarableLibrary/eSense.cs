@@ -18,7 +18,7 @@ namespace EarableLibrary
 
 		private readonly Dictionary<Type, ISensor> _sensors;
 
-		private readonly EarableName _name;
+		internal readonly EarableName _name;
 
 		/// <summary>
 		/// Ids of all services which are used for BLE communication with the earables.

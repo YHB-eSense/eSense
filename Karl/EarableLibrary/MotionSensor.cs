@@ -105,13 +105,13 @@ namespace EarableLibrary
 	public class MotionSensor : ISubscribableSensor<MotionSensorSample>
 	{
 		// Command used to enable and disable IMU sampling
-		public static readonly byte CMD_IMU_ENABLE = 0x53;
-		public static readonly byte ENABLE = 0x01;
-		public static readonly byte DISABLE = 0x00;
-		public static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
-		public static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
-		public static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
-		public static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
+		internal static readonly byte CMD_IMU_ENABLE = 0x53;
+		internal static readonly byte ENABLE = 0x01;
+		internal static readonly byte DISABLE = 0x00;
+		internal static readonly Guid CHAR_IMU_ENABLE = GuidExtension.UuidFromPartial(0xFF07);
+		internal static readonly Guid CHAR_IMU_DATA = GuidExtension.UuidFromPartial(0xFF08);
+		internal static readonly Guid CHAR_IMU_OFFSET = GuidExtension.UuidFromPartial(0xFF0D);
+		internal static readonly Guid CHAR_IMU_CONFIG = GuidExtension.UuidFromPartial(0xFF0E);
 
 		private readonly IDeviceConnection _connection;
 

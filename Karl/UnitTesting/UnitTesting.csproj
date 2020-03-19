@@ -63,6 +63,7 @@
     <Compile Include="EarableLibraryTests\BLEMessageTests.cs" />
     <Compile Include="EarableLibraryTests\ESenseTest.cs" />
     <Compile Include="EarableLibraryTests\MotionSensorTests.cs" />
+    <Compile Include="EarableLibraryTests\Type.cs" />
     <Compile Include="EarableLibraryTests\VoltageSensorTests.cs">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Compile>

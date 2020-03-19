@@ -2,6 +2,8 @@ using Plugin.BLE;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UnitTesting")]
+
 namespace EarableLibrary
 {
 	/// <summary>

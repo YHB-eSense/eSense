@@ -11,8 +11,8 @@ namespace EarableLibrary
 	/// </summary>
 	internal class EarableName
 	{
-		private static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
-		private static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
+		internal static readonly Guid CHAR_NAME_R = GuidExtension.UuidFromPartial(0x2A00);
+		internal static readonly Guid CHAR_NAME_W = GuidExtension.UuidFromPartial(0xFF0C);
 
 		private readonly IDeviceConnection _conn;
 		private string _name;
