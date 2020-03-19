@@ -1,24 +1,38 @@
 \documentclass[../validierung.tex]{subfiles}
 \begin{document}
 \section{Stepdetection Library Unittests}
-\subsection{ActivityLogTests}
+\subsection{ActivityLogTest}
 \begin{itemize}
-\item \textbf{AddAndResetTest:} Testet hinzufügen und löschen aufgezeichneter Schritte
-\item \textbf{LastStepsTest:} Testet, ob neu hinzugefügte Schritte als aktuellste Schritte gespeichert werden
-\item \textbf{CountandFrequencyTest:} Testet, ob der Algorithmus für einen Beispielinput die richte Anzahl der Schritte und die richtige Schrittfrequenz berechnet
+\item \textbf{AddAndResetTest:} Testet hinzufügen und löschen von Schritten
+\item \textbf{LastStepsTest:} Testet, ob neu hinzugefügte Schritte in den aktuellesten Schritten erkannt werden
+\item \textbf{CountandFrequencyTest:} Testet, ob für Beispieleinträge von Schritten, die richte Anzahl der Schritte und die richtige Schrittfrequenz ausgelesen werden
 \end{itemize}
-\subsection{InputTests}
+\subsection{InputTest}
 \begin{itemize}
-\item \textbf{SubscribeTest:} Testet, ob sich die Input Klasse als Beobachter richtig anmeldet
-\item \textbf{UpdateTest:} Testet, ob die Input Klasse als Beobachter die richtigen Updates bekommt
-\item \textbf{ValueChangedTest:} Testet, ob die Input Klasse als Beobachter die richtigen Updates bekommt wenn sich ein Wert geändert hat
-\item \textbf{SamplingRateTest:} Testet, ob die Sampling Rate bei 25 Hz liegt
+\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von Input funktioniert
+\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt
+\item \textbf{ValueChangedTest:} Testet, ob ein angemeldeter Beobachter Updates von Input bekommt, wenn Input durch ein Event benachrichtigt wird
+\item \textbf{SamplingRateTest:} Testet die Samplingrate
 \end{itemize}
-\subsection{OutputManagerTests}
+\subsection{OutputManagerTest}
 \begin{itemize}
-\item \textbf{SubscribeTest:} Testet das an/abmelden des OutputManagers
-\item \textbf{UpdateTest:} Testet, ob der angemeldete OutputManager Updates bekommt
+\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei OutputManager funktioniert
+\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von OutputManager bekommt
 \item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
+\end{itemize}
+\subsection{StepDetectionAlgTest}
+\begin{itemize}
+\item \textbf{SubscribeTest:} Testet, ob das An- und Abmelden bei einer Instanz von StepdetectionAlg funktioniert
+\item \textbf{UpdateTest:} Testet, ob ein angemeldeter Beobachter Updates von StepdetectionAlg bekommt
+\item \textbf{CalculateIntensityTest:} Testet die Intesnsitätsberechnung
+\item \textbf{OnErrorTest:} Testet die OnError Methode des OutputManagers
+\end{itemize}
+\subsection{StepDetectionLibTest}
+\begin{itemize}
+\item \textbf{InandOutTest:} Testet, ob Beobachter von OutputManager Änderungen erhalten, wenn ein Input durch ein Event benachrichtigt wird
+\item \textbf{NoStepTest:} Testet, ob kein Schritt nicht erkannt wird
+\item \textbf{StepTest:} Testet, ob ein Schritt erkannt wird
+\item \textbf{SampleTest:} Testet, ob die StepDetsectionLibrary mit einem Beispielsatz von Beschleunigungsdaten, die richtige Anzahl von Schritten erkennt
 \end{itemize}
 
 \end{document}

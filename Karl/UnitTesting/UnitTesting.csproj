@@ -85,7 +85,7 @@
     <Compile Include="MockForms.cs" />
     <Compile Include="StepDetectionLibraryTests\ActivityLogTest.cs" />
     <Compile Include="StepDetectionLibraryTests\OutputManagerTest.cs" />
-    <Compile Include="StepDetectionLibraryTests\StepDetectionModulTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\StepDetectionLibTest.cs" />
     <Compile Include="StepDetectionLibraryTests\InputTest.cs" />
     <Compile Include="StepDetectionLibraryTests\StepDetectionAlgTest.cs" />
     <Compile Include="TestAudioTrack.cs" />
