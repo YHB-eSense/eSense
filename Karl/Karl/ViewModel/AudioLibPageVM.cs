@@ -288,7 +288,7 @@ namespace Karl.ViewModel
 					await _audioLib.DeleteTrack(song);
 					if (_audioPlayer.CurrentTrack == song)
 					{
-						_audioPlayer.TogglePause();
+						if (!_audioPlayer.Paused) _audioPlayer.TogglePause();
 						_audioPlayer.CurrentTrack = null;
 					}
 				}

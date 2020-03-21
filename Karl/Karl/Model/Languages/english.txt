@@ -8,9 +8,9 @@ reset_steps=Reset Steps Amount
 title=Title
 artist=Artist
 bpm=BPM
-question_title=Queston:
-question_text=Are you sure you want to delete the selected Songs?
-question_text_2=Are you sure you want to disconnect your Earables?
+question_title=Question:
+question_text=Are you sure you want to delete the selected songs?
+question_text_2=Are you sure you want to disconnect your earables?
 question_no=No
 question_yes=Yes
 pick_file=Pick Audio File
@@ -33,7 +33,7 @@ autostop_mode=AutostopMode
 motivation_mode=MotivationMode
 playlists=Playlists
 use_spotify=Use Spotify
-use_basic=Use integrated audio
+use_basic=Use Integrated Audio
 get_bpm=Calculate BPM
 
 
