@@ -48,8 +48,10 @@ namespace Karl.Model
 				WebAPI = eSenseSpotifyWebAPI.WebApiSingleton.api;
 				Profile = eSenseSpotifyWebAPI.WebApiSingleton.UsersProfile;
 
-				if (!_testing && WebAPI.GetUserPlaylists(Profile.Id).Items.Count != 0)
-					AllPlaylists = WebAPI.GetUserPlaylists(Profile.Id).Items.ToArray();
+				var UserPlaylists = WebAPI.GetUserPlaylists(Profile.Id);
+
+				if (!_testing && UserPlaylists.Items.Count != 0)
+					AllPlaylists = UserPlaylists.Items.ToArray();
 				else if (!_testing)
 				{
 					Debug.WriteLine("[Exception] There are no playlists on this spotify account");

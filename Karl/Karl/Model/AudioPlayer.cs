@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -134,6 +135,21 @@ namespace Karl.Model
 				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
 				AudioChanged?.Invoke(this, null);
 			}
+			/*else
+			{
+				SongsBefore.Push(CurrentTrack);
+
+				var j = SingletonAudioLib.AudioTracks.IndexOf(CurrentTrack);
+
+				if (j == (SingletonAudioLib.AudioTracks.Count - 1)) return;
+				else
+				{
+					j++;
+					_audioPlayerImp.PlayTrack(SingletonAudioLib.AudioTracks[j]);
+					Paused = false;
+					AudioChanged?.Invoke(this, null);
+				}
+			}*/
 		}
 
 		/// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Timers;
+using static Karl.Model.eSenseSpotifyWebAPI;
 
 namespace Karl.Model
 {
@@ -88,7 +89,7 @@ namespace Karl.Model
 		public async void PlayTrack(AudioTrack track)
 		{
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
-			if (await _webAPI.GetPlaybackAsync() == null)
+			if (await _webAPI.GetPlaybackAsync() == null && WebApiSingleton.Equals(""))
 			{
 				return;
 			}
@@ -96,7 +97,7 @@ namespace Karl.Model
 			List<string> currentTrackList = new List<string>();
 			CurrentTrack = track;
 			currentTrackList.Add("spotify:track:" + track.TextId);
-			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
+			_webAPI.ResumePlayback(WebApiSingleton.DeviceId, "", currentTrackList, "", 0);
 			Debug.WriteLine("UPdating2");
 		}
 
