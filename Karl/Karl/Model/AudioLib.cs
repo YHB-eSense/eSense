@@ -1,8 +1,6 @@
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using static Karl.Model.AudioLib;
 
@@ -11,7 +9,7 @@ namespace Karl.Model
 	/// <summary>
 	/// This is the wrapper class for the VM to use.
 	/// </summary>
-	public sealed class AudioLib
+	public class AudioLib
 	{
 		private IAudioLibImpl _audioLibImp;
 		private static AudioLib _singletonAudioLib;
@@ -40,8 +38,21 @@ namespace Karl.Model
 
 		public SimplePlaylist SelectedPlaylist
 		{
-			get => _audioLibImp.SelectedPlaylist;
-			set => _audioLibImp.SelectedPlaylist = value;
+			get
+			{
+				if (SettingsHandler.SingletonSettingsHandler.UsingBasicAudio) return null;
+				return _audioLibImp.SelectedPlaylist;
+			}
+			set
+			{
+				foreach (var playlist in Playlists)
+					if (value == playlist)
+					{
+						_audioLibImp.SelectedPlaylist = value;
+						return;
+					}
+				//throw new ArgumentException("This Playlist does not exist.");
+			}
 		}
 
 		/// <summary>
@@ -57,9 +68,11 @@ namespace Karl.Model
 
 		public delegate void AudioLibEventHandler(object source, EventArgs e);
 		public event AudioLibEventHandler AudioLibChanged;
+		public delegate void AudioLibSwitchedHandler();
+		public event AudioLibSwitchedHandler AudioLibSwitched;
 
 
-		private AudioLib()
+		protected AudioLib()
 		{
 			_singletonAudioLib = this;
 			_audioLibImp = new BasicAudioLib();
@@ -73,26 +86,30 @@ namespace Karl.Model
 		/// <summary>
 		/// Add a new Track to the current Library
 		/// </summary>
-		public async Task AddTrack(string storage, string title, string artist, int bpm)
+		public virtual async Task AddTrack(string storage, string title, string artist, int bpm)
 		{
+			if (bpm < 0) throw new ArgumentException("BPM can't be negative.");
 			await _audioLibImp.AddTrack(storage, title, artist, bpm);
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void DeleteTrack(AudioTrack track)
+		public virtual async Task DeleteTrack(AudioTrack track)
 		{
-			_audioLibImp.DeleteTrack(track);
+			await _audioLibImp.DeleteTrack(track);
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		public void changeToSpotifyLib()
+		public void ChangeToSpotifyLib()
 		{
 			_audioLibImp = new SpotifyAudioLib();
 			_audioLibImp.Init();
+			AudioLibSwitched?.Invoke();
 		}
 
-		public void ChangeToBasicLib() {
+		public void ChangeToBasicLib()
+		{
 			_audioLibImp = new BasicAudioLib();
+			AudioLibSwitched?.Invoke();
 		}
 
 		private void UpdateLib(object sender, EventArgs args)
@@ -100,18 +117,18 @@ namespace Karl.Model
 			AudioLibChanged?.Invoke(this, null);
 		}
 
-		
+
 	}
 
 	internal interface IAudioLibImpl
 	{
 		List<AudioTrack> AllAudioTracks { get; set; }
-	    SimplePlaylist[] AllPlaylists { get; }
+		SimplePlaylist[] AllPlaylists { get; }
 		SimplePlaylist SelectedPlaylist { get; set; }
 		Task AddTrack(string storage, string title, string artist, int bpm);
-		void DeleteTrack(AudioTrack track);
+		Task DeleteTrack(AudioTrack track);
 		void Init();
-
 		event AudioLibEventHandler AudioLibChanged;
 	}
+
 }

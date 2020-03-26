@@ -1,13 +1,11 @@
 using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using TagLib;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	public sealed class BasicAudioTrack : AudioTrack
+	public class BasicAudioTrack : AudioTrack
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
@@ -19,12 +17,12 @@ namespace Karl.Model
 		public override int BPM { get; set; }
 		public override string TextId { get => ""; set => _ = value; }
 
-		private File _file;
+		private File _file = null;
 
 		public BasicAudioTrack(string storageLocation, string title, string artist, int bpm)
 		{
 			StorageLocation = storageLocation;
-			_file = File.Create(StorageLocation);
+			if (!_testing) _file = File.Create(storageLocation);
 			Title = title;
 			Artist = artist;
 			BPM = bpm;
@@ -32,11 +30,11 @@ namespace Karl.Model
 			Cover = GetCover();
 		}
 
-		public BasicAudioTrack() {}
-		
+		public BasicAudioTrack() { }
+
 		private double GetDuration()
 		{
-			if (_file != null && _file.Properties.Duration != null)
+			if (!_testing && _file != null && _file.Properties.Duration != null)
 			{
 				return _file.Properties.Duration.TotalSeconds;
 			}
@@ -45,12 +43,18 @@ namespace Karl.Model
 
 		private byte[] GetCover()
 		{
-			if (_file != null && _file.Tag.Pictures.Length >= 1)
+			if (!_testing && _file != null && _file.Tag.Pictures.Length >= 1)
 			{
 				return _file.Tag.Pictures[0].Data.Data;
 			}
-			return null;	
+			return null;
 		}
 
+		private static bool _testing;
+		[Conditional("TESTING")]
+		internal static void Testing(bool testing)
+		{
+			_testing = testing;
+		}
 	}
 }

@@ -1,10 +1,10 @@
-using System;
 using StepDetectionLibrary;
-using static Karl.Model.AudioPlayer;
+using System;
+using System.Diagnostics;
 using static Karl.Model.AudioLib;
+using static Karl.Model.AudioPlayer;
 using static Karl.Model.LangManager;
 using static StepDetectionLibrary.OutputManager;
-using System.Diagnostics;
 
 namespace Karl.Model
 {
@@ -30,7 +30,7 @@ namespace Karl.Model
 
 		protected override bool Activate()
 		{
-			Debug.WriteLine("Activating mode '{0}'", args: Name);
+			//Debug.WriteLine("Activating mode '{0}'", args: Name);
 			SingletonAudioPlayer.Clear();
 			SingletonAudioPlayer.NextSongEvent += ChooseNextSong;
 			_stepDetectionDisposable = SingletonOutputManager.Subscribe(this);
@@ -69,7 +69,7 @@ namespace Karl.Model
 
 		public void ChooseNextSong()
 		{
-			Debug.WriteLine("Choosing next song...");
+			//Debug.WriteLine("Choosing next song...");
 			AudioTrack BestTrack = null;
 			double MinDiff = MaxAllowedBPMDiff;
 			foreach (AudioTrack Track in SingletonAudioLib.AudioTracks)

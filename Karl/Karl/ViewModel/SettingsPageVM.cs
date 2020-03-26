@@ -1,20 +1,15 @@
+using Karl.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Karl.Model;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
+		protected SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
 
@@ -48,7 +43,7 @@ namespace Karl.ViewModel
 		public Lang SelectedLanguage
 		{
 			get => _settingsHandler.CurrentLang;
-			set => _settingsHandler.CurrentLang = value; 
+			set => _settingsHandler.CurrentLang = value;
 		}
 		public CustomColor CurrentColor
 		{
@@ -65,7 +60,7 @@ namespace Karl.ViewModel
 				}
 				return null;
 			}
-			set => _deviceName = value; 
+			set => _deviceName = value;
 		}
 
 		//Commands binded to SettingsPage of View
@@ -138,14 +133,14 @@ namespace Karl.ViewModel
 		{
 			if (_settingsHandler.UsingSpotifyAudio)
 			{
-				_settingsHandler.changeAudioModuleToBasic();
+				_settingsHandler.ChangeAudioModuleToBasic();
 			}
 			else
 			{
 				eSenseSpotifyWebAPI.WebApiSingleton.Auth();
 				eSenseSpotifyWebAPI.WebApiSingleton.authentificationFinished += (sender, args) =>
 				{
-					SingletonSettingsHandler.changeAudioModuleToSpotify();
+					SettingsHandler.SingletonSettingsHandler.ChangeAudioModuleToSpotify();
 				};
 			}
 		}

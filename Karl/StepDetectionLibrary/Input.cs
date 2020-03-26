@@ -16,17 +16,17 @@ namespace StepDetectionLibrary
 	public class Input : IObservable<AccelerationSample>
 	{
 		private readonly StepDetectionAlg _algorithm = new StepDetectionAlg();
-		private List<IObserver<AccelerationSample>> _observers;
+		private List<IObserver<AccelerationSample>> _observer;
 
 		/// <summary>
 		/// contructor for input
 		/// </summary>
 		public Input()
 		{
-			_observers = new List<IObserver<AccelerationSample>>();
+			_observer = new List<IObserver<AccelerationSample>>();
 			Subscribe(_algorithm);
 		}
-		
+
 		public int SamplingRate { get => 25; } // TODO: make this configurable
 
 		/// <summary>
@@ -37,9 +37,9 @@ namespace StepDetectionLibrary
 		public IDisposable Subscribe(IObserver<AccelerationSample> observer)
 		{
 			{
-				if (!_observers.Contains(observer))
-					_observers.Add(observer);
-				return new Unsubscriber(_observers, observer);
+				if (!_observer.Contains(observer))
+					_observer.Add(observer);
+				return new Unsubscriber(_observer, observer);
 			}
 		}
 
@@ -78,20 +78,21 @@ namespace StepDetectionLibrary
 		/// <param name="data">new accleration + gyro data</param>
 		public void Update(AccelerationSample data)
 		{
-			foreach (var observer in _observers)
+			foreach (var observer in _observer)
 			{
 				observer.OnNext(data);
 			}
 		}
 
-		
+
 
 		/// <summary>
 		/// method to get data from sensors
 		/// </summary>
 		/// <param name="sender">sender object</param>
 		/// <param name="args">parameter</param>
-		public void ValueChanged(object sender, MotionSensorSample args)		{
+		public void ValueChanged(object sender, MotionSensorSample args)
+		{
 			var acc = new AccelerationSample
 			{
 				Acceleration = args.Acc,

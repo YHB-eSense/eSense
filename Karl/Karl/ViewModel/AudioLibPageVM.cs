@@ -1,56 +1,68 @@
+using Karl.Model;
+using Karl.View;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Karl.Model;
-using Karl.View;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using SpotifyAPI.Web.Models;
 using Xamarin.Forms;
-using static Karl.Model.SettingsHandler;
 
 namespace Karl.ViewModel
 {
 	public class AudioLibPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
-		private NavigationHandler _navHandler;
-		private AudioLib _audioLib;
-		private AudioPlayer _audioPlayer;
+		protected SettingsHandler _settingsHandler;
+		protected NavigationHandler _navHandler;
+		protected AudioLib _audioLib;
+		protected AudioPlayer _audioPlayer;
 		private ObservableCollection<AudioTrack> _oldSongs;
-		private List<AudioTrack> _deleteList;
+		protected List<AudioTrack> _deleteList;
 		private Color _titleSortColor;
 		private Color _titleSortTextColor;
 		private Color _artistSortColor;
 		private Color _artistSortTextColor;
 		private Color _bpmSortColor;
 		private Color _bpmSortTextColor;
-		private enum _sortType { TITLESORT, ARTISTSORT, BPMSORT}
-		private _sortType type;
+		protected enum _sortType { TITLESORT, ARTISTSORT, BPMSORT }
+		protected _sortType type;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		//Properties binded to AudioLibPage of View
-		public CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
+		public virtual CustomColor CurrentColor { get => _settingsHandler.CurrentColor; }
 		public string TitleLabel { get => _settingsHandler.CurrentLang.Get("title"); }
 		public string ArtistLabel { get => _settingsHandler.CurrentLang.Get("artist"); }
 		public string BPMLabel { get => _settingsHandler.CurrentLang.Get("bpm"); }
 		public string PlaylistsLabel { get => _settingsHandler.CurrentLang.Get("playlists"); }
-		public SimplePlaylist[] Playlists { get => _audioLib.Playlists; }
-		public SimplePlaylist SelectedPlaylist
+		public SimplePlaylist[] Playlists
 		{
-			get => _audioLib.SelectedPlaylist;
-			set
+			get
 			{
-				_audioLib.SelectedPlaylist = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+				if (UsingBasicAudio) return null;
+				return _audioLib.Playlists;
 			}
 		}
-		public List<AudioTrack> Songs
+		public SimplePlaylist SelectedPlaylist
+		{
+			get
+			{
+				if (UsingBasicAudio) return null;
+				return _audioLib.SelectedPlaylist;
+			}
+			set
+			{
+				if(UsingSpotifyAudio)
+				{
+					_audioLib.SelectedPlaylist = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+				}
+			}
+		}
+		public virtual List<AudioTrack> Songs
 		{
 			get => _audioLib.AudioTracks;
 			set
@@ -59,7 +71,8 @@ namespace Karl.ViewModel
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
 			}
 		}
-		public Color TitleSortColor {
+		public Color TitleSortColor
+		{
 			get => _titleSortColor;
 			set
 			{
@@ -129,12 +142,15 @@ namespace Karl.ViewModel
 		/// Initializises Commands, NavigationHandler and AudioLib, AudioPlayer of Model
 		/// </summary>
 		/// <param name="handler">For navigation</param>
-		public AudioLibPageVM(NavigationHandler handler)
+		public AudioLibPageVM()
 		{
-			_navHandler = handler;
+			InitializeSingletons();
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
+			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
 			_audioLib = AudioLib.SingletonAudioLib;
-			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+			_audioLib.AudioLibChanged += RefreshAudioLib;
 			_oldSongs = null;
 			_deleteList = new List<AudioTrack>();
 			TitleSortCommand = new Command(TitleSort);
@@ -145,10 +161,6 @@ namespace Karl.ViewModel
 			SearchSongCommand = new Command<string>(SearchSong);
 			DeleteSongsCommand = new Command(DeleteSongs);
 			EditDeleteListCommand = new Command<AudioTrack>(EditDeleteList);
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
-			_settingsHandler.AudioModuleChanged += RefreshAudioModule;
-			_audioLib.AudioLibChanged += RefreshAudioLib;
 			TitleSort();
 		}
 
@@ -236,7 +248,7 @@ namespace Karl.ViewModel
 		private void PlaySong(AudioTrack track)
 		{
 			_navHandler.GotoPage<AudioPlayerPage>();
-			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }	
+			if (track != _audioPlayer.CurrentTrack) { _audioPlayer.PlayTrack(track); }
 		}
 
 		private void AddSong()
@@ -258,29 +270,47 @@ namespace Karl.ViewModel
 				Songs = new List<AudioTrack>(_oldSongs);
 				_oldSongs = null;
 			}
-			else { Songs = new List<AudioTrack>(_oldSongs.Where(song =>
-				song.Title.ToLower().Contains(value.ToLower()) ||
-				song.Artist.ToLower().Contains(value.ToLower()))); }
+			else
+			{
+				Songs = new List<AudioTrack>(_oldSongs.Where(song =>
+			 song.Title.ToLower().Contains(value.ToLower()) ||
+			 song.Artist.ToLower().Contains(value.ToLower())));
+			}
 		}
 
 		private async void DeleteSongs()
 		{
-			bool answer = await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
-					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
-					_settingsHandler.CurrentLang.Get("question_no"));
+			bool answer = await AlertWrapper();
 			if (answer)
 			{
-				foreach(AudioTrack song in _deleteList)
+				foreach (AudioTrack song in _deleteList)
 				{
-					_audioLib.DeleteTrack(song);
-					if(_audioPlayer.CurrentTrack == song)
+					await _audioLib.DeleteTrack(song);
+					if (_audioPlayer.CurrentTrack == song)
 					{
-						_audioPlayer.TogglePause();
+						if (!_audioPlayer.Paused) _audioPlayer.TogglePause();
 						_audioPlayer.CurrentTrack = null;
 					}
 				}
+				_deleteList.Clear();
 			}
 		}
+
+		[DoNotCover]
+		protected virtual void InitializeSingletons()
+		{
+			_navHandler = NavigationHandler.SingletonNavHandler;
+			_audioPlayer = AudioPlayer.SingletonAudioPlayer;
+		}
+
+		[DoNotCover]
+		protected virtual async Task<bool> AlertWrapper()
+		{
+			return await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("question_title"),
+					_settingsHandler.CurrentLang.Get("question_text"), _settingsHandler.CurrentLang.Get("question_yes"),
+					_settingsHandler.CurrentLang.Get("question_no"));
+		}
+
 
 	}
 }

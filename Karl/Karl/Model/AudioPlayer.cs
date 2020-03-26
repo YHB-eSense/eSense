@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using static Karl.Model.AudioPlayer;
+using static Karl.Model.AudioLib;
 
 namespace Karl.Model
 {
@@ -20,7 +18,7 @@ namespace Karl.Model
 		public delegate void EventListener();
 
 		public event EventListener NextSongEvent;
-		
+
 
 		//Eventhandling
 		public delegate void AudioEventHandler(object source, EventArgs e);
@@ -29,9 +27,9 @@ namespace Karl.Model
 		/// <summary>
 		/// The Track that is currently chosen.
 		/// </summary>
-		public AudioTrack CurrentTrack
+		public virtual AudioTrack CurrentTrack
 		{
-			get => _audioPlayerImp.CurrentTrack; 
+			get => _audioPlayerImp.CurrentTrack;
 			set
 			{
 				_audioPlayerImp.CurrentTrack = value;
@@ -39,7 +37,7 @@ namespace Karl.Model
 			}
 		}
 
-		public double Volume
+		public virtual double Volume
 		{
 			get => _audioPlayerImp.Volume;
 			set => _audioPlayerImp.Volume = value;
@@ -47,7 +45,7 @@ namespace Karl.Model
 		/// <summary>
 		/// The current second you are at in the song.
 		/// </summary>
-		public double CurrentSecInTrack
+		public virtual double CurrentSecInTrack
 		{
 			get => _audioPlayerImp.CurrentSongPos;
 			set => _audioPlayerImp.CurrentSongPos = value;
@@ -56,7 +54,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Is the track paused?
 		/// </summary>
-		public bool Paused
+		public virtual bool Paused
 		{
 			get => _audioPlayerImp.Paused;
 			set => _audioPlayerImp.Paused = value;
@@ -74,10 +72,12 @@ namespace Karl.Model
 				return _singletonAudioPlayer;
 			}
 		}
+
+		
 		/// <summary>
 		/// Private Constructor initializes AudioLib
 		/// </summary>
-		private AudioPlayer()
+		protected AudioPlayer()
 		{
 			//_audioPlayerImp = SettingsHandler.SingletonSettingsHandler.CurrentAudioModule.AudioPlayer;
 			//SettingsHandler.SingletonSettingsHandler.AudioModuleChanged += UpdateAudioModule;
@@ -91,9 +91,9 @@ namespace Karl.Model
 		public void ChangeToSpotifyPlayer()
 		{
 			Clear();
-			if(!_audioPlayerImp.Paused)_audioPlayerImp.TogglePause();
+			if (!_audioPlayerImp.Paused) _audioPlayerImp.TogglePause();
 			_audioPlayerImp = new SpotifyAudioPlayer();
-			
+
 		}
 
 		public void ChangeToBasicPlayer()
@@ -105,7 +105,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Start playing the song currently selected in the Library
 		/// </summary>
-		public void PlayTrack(AudioTrack track)
+		public virtual void PlayTrack(AudioTrack track)
 		{
 			if (CurrentTrack != null) { SongsBefore.Push(CurrentTrack); }
 			Paused = false;
@@ -116,7 +116,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Pause/continue playback.
 		/// </summary>
-		public void TogglePause()
+		public virtual void TogglePause()
 		{
 			Paused = !Paused;
 			_audioPlayerImp.TogglePause();
@@ -125,7 +125,7 @@ namespace Karl.Model
 		/// <summary>
 		/// Skip current Track.
 		/// </summary>
-		public void NextTrack()
+		public virtual void NextTrack()
 		{
 			if (_songsAfter.Count != 0 || SongsQueue.Count != 0)
 			{
@@ -135,12 +135,27 @@ namespace Karl.Model
 				else _audioPlayerImp.PlayTrack(_songsAfter.Pop());
 				AudioChanged?.Invoke(this, null);
 			}
+			/*else
+			{
+				SongsBefore.Push(CurrentTrack);
+
+				var j = SingletonAudioLib.AudioTracks.IndexOf(CurrentTrack);
+
+				if (j == (SingletonAudioLib.AudioTracks.Count - 1)) return;
+				else
+				{
+					j++;
+					_audioPlayerImp.PlayTrack(SingletonAudioLib.AudioTracks[j]);
+					Paused = false;
+					AudioChanged?.Invoke(this, null);
+				}
+			}*/
 		}
 
 		/// <summary>
 		/// Go to previous Track.
 		/// </summary>
-		public void PrevTrack()
+		public virtual void PrevTrack()
 		{
 			if (SongsBefore.Count != 0)
 			{
@@ -179,7 +194,7 @@ namespace Karl.Model
 		}
 	}
 
-	interface IAudioPlayerImpl
+	public interface IAudioPlayerImpl
 	{
 		AudioTrack CurrentTrack { get; set; }
 		double CurrentSongPos { get; set; }

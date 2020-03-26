@@ -1,8 +1,8 @@
-using System;
 using EarableLibrary;
+using StepDetectionLibrary;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using StepDetectionLibrary;
 using static Karl.Model.AudioPlayer;
 
 namespace Karl.Model
@@ -31,8 +31,9 @@ namespace Karl.Model
 		}
 
 		private readonly IEarableManager _earableManager;
-		private readonly StepDetectionLibrary.Input _stepDetection;
+		private readonly Input _stepDetection;
 		private IEarable _connectedEarable;
+		private bool _connecting;
 
 		/// <summary>
 		/// 
@@ -47,7 +48,7 @@ namespace Karl.Model
 		public event ConnectionEventHandler ConnectionChanged;
 
 
-		private ConnectivityHandler()
+		protected ConnectivityHandler()
 		{
 			_earableManager = new EarableLibrary.EarableLibrary();
 			_stepDetection = new Input();
@@ -56,52 +57,55 @@ namespace Karl.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool EarableConnected
-		{
-			get
-			{
-				if (_connectedEarable == null) return false;
-				if (!_connectedEarable.IsConnected())
-				{
-					_connectedEarable = null;
-					return false;
-				}
-				return true;
-			}
-		}
+		public virtual bool EarableConnected => _connectedEarable != null;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public string EarableName
 		{
-			get => _connectedEarable.Name;
+			get => _connectedEarable?.Name;
 		}
 
 		/// <summary>
 		/// Tries establishing a BLE connection to a bonded EarableDevice.
 		/// </summary>
 		/// <returns>null if connection failed, the newly connected device otherwise</returns>
-		public async Task<bool> Connect()
+		public virtual async Task<bool> Connect()
 		{
+			if (EarableConnected || _connecting) return false;
+
+			_connecting = true;
 			_connectedEarable = await _earableManager.ConnectEarableAsync();
+			_connecting = false;
 
 			if (_connectedEarable == null) return false;
 
-			var imu = _connectedEarable.GetSensor<MotionSensor>();
-			imu.SamplingRate = _stepDetection.SamplingRate;
-			imu.ValueChanged += _stepDetection.ValueChanged;
-			await imu.StartSamplingAsync();
-
-			var button = _connectedEarable.GetSensor<PushButton>();
-			button.ValueChanged += (s, args) =>
+			_connectedEarable.ConnectionLost += async (s, args) =>
 			{
-				bool released = !args.Pressed;
-				if (released) SingletonAudioPlayer.TogglePause();
+				await Disconnect();
 			};
-			await button.StartSamplingAsync();
 
-			ConnectionChanged?.Invoke(this, null);
+			var imu = _connectedEarable?.GetSensor<MotionSensor>();
+			if (imu != null)
+			{
+				imu.SamplingRate = _stepDetection.SamplingRate;
+				imu.ValueChanged += _stepDetection.ValueChanged;
+				await imu.StartSamplingAsync();
+			}
+
+			var button = _connectedEarable?.GetSensor<PushButton>();
+			if (button != null)
+			{
+				button.ValueChanged += (s, args) =>
+				{
+					bool released = !args.Pressed;
+					if (released) SingletonAudioPlayer.TogglePause();
+				};
+				await button.StartSamplingAsync();
+			}
+
+			ConnectionChanged.Invoke(this, null);
 
 			return true;
 		}
@@ -110,12 +114,12 @@ namespace Karl.Model
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public async Task Disconnect()
+		public virtual async Task Disconnect()
 		{
 			if (!EarableConnected) return;
 			await _connectedEarable.DisconnectAsync();
 			_connectedEarable = null;
-			ConnectionChanged?.Invoke(this, null);
+			ConnectionChanged.Invoke(this, null);
 		}
 
 		/// <summary>
@@ -124,8 +128,7 @@ namespace Karl.Model
 		/// <param name="name">The new Name.</param>
 		public async Task SetDeviceNameAsync(string name)
 		{
-			if (!EarableConnected) return;
-			await _connectedEarable.SetNameAsync(name);
+			await _connectedEarable?.SetNameAsync(name);
 		}
 
 		/// <summary>
@@ -134,7 +137,7 @@ namespace Karl.Model
 		public async void RefreshAfterSleep()
 		{
 			if (Plugin.BLE.CrossBluetoothLE.Current.IsOn) { Debug.WriteLine("STILL CONNECTED"); }
-			else { await Disconnect(); }	
+			else { await Disconnect(); }
 		}
 
 	}

@@ -1,11 +1,12 @@
-using Xamarin.Forms;
+using FormsControls.Base;
+using Karl.Model;
 using Karl.View;
 using Karl.ViewModel;
-using FormsControls.Base;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System;
 using System.Diagnostics;
-using Karl.Model;
+using Xamarin.Forms;
 
 namespace Karl
 {
@@ -14,15 +15,13 @@ namespace Karl
 		public App()
 		{
 			InitializeComponent();
-		
-			NavigationHandler handler = new NavigationHandler();
 
 			AudioPlayerPageVM audioPlayerPageVM = new AudioPlayerPageVM();
-			AudioLibPageVM audioLibPageVM = new AudioLibPageVM(handler);
+			AudioLibPageVM audioLibPageVM = new AudioLibPageVM();
 			ModesPageVM modesPageVM = new ModesPageVM();
 			SettingsPageVM settingsPageVM = new SettingsPageVM();
-			AddSongPageVM addSongPageVM = new AddSongPageVM(handler);
-			MainPageVM mainPageVM = new MainPageVM(handler);
+			AddSongPageVM addSongPageVM = new AddSongPageVM();
+			MainPageVM mainPageVM = new MainPageVM();
 
 			AudioPlayerPage audioPlayerPage = new AudioPlayerPage(audioPlayerPageVM);
 			AudioLibPage audioLibPage = new AudioLibPage(audioLibPageVM);
@@ -31,8 +30,8 @@ namespace Karl
 			AddSongPage addSongPage = new AddSongPage(addSongPageVM);
 			MainPage mainPage = new MainPage(mainPageVM);
 
-			ContentPage[] pages = {audioPlayerPage, audioLibPage, modesPage, settingsPage, addSongPage, mainPage};
-			handler.SetPages(pages);
+			ContentPage[] pages = { audioPlayerPage, audioLibPage, modesPage, settingsPage, addSongPage, mainPage };
+			NavigationHandler.SingletonNavHandler.SetPages(pages);
 
 			MainPage = new AnimationNavigationPage(mainPage);
 
@@ -59,10 +58,18 @@ namespace Karl
 
 		private async void GetPermissions()
 		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-			if (status != PermissionStatus.Granted)
+			try
 			{
-				await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+				var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+				if (status != PermissionStatus.Granted)
+				{
+					await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+				}
+			}
+			catch (NotImplementedException)
+			{
+				// happens during unit-testing, where we don't require any permissions
+				return;
 			}
 		}
 

@@ -9,6 +9,11 @@ namespace EarableLibrary
 	public interface IEarable
 	{
 		/// <summary>
+		/// Invoked when the connection to the earable is lost due to outer circumstances.
+		/// </summary>
+		event EventHandler ConnectionLost;
+
+		/// <summary>
 		/// Get the device name.
 		/// </summary>
 		string Name { get; }

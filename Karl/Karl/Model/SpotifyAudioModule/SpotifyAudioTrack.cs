@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace Karl.Model
 {
-	sealed class SpotifyAudioTrack : AudioTrack
+	public class SpotifyAudioTrack : AudioTrack
 	{
 		/// <summary>
 		/// This is the Spotify Tag of this Song.
@@ -20,7 +17,7 @@ namespace Karl.Model
 		public override string TextId { get; set; }
 
 		public SpotifyAudioTrack(double duration, string title, string artist,
-			int bpm, string id, byte [] cover)
+			int bpm, string id, byte[] cover)
 		{
 			Duration = duration;
 			Title = title;

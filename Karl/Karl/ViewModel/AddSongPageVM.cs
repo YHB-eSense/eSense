@@ -1,20 +1,17 @@
 using Karl.Model;
 using Plugin.FilePicker;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using TagLib;
 using Xamarin.Forms;
 
 namespace Karl.ViewModel
 {
 	public class AddSongPageVM : INotifyPropertyChanged
 	{
-		private SettingsHandler _settingsHandler;
+		protected SettingsHandler _settingsHandler;
 		private NavigationHandler _navHandler;
 		private AudioLib _audioLib;
 		private TagLib.File _file;
@@ -22,7 +19,7 @@ namespace Karl.ViewModel
 		private string _newSongTitle;
 		private string _newSongArtist;
 		private string _newSongBPM;
-		private string _newSongFileLocation;
+		protected string _newSongFileLocation;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -72,20 +69,21 @@ namespace Karl.ViewModel
 		/// Initializises Commands, NavigationHandler and AudioLib of Model
 		/// </summary>
 		/// <param name="navHandler"> For navigation</param>
-		public AddSongPageVM(NavigationHandler navHandler)
+		public AddSongPageVM()
 		{
-			_navHandler = navHandler;
+			_navHandler = NavigationHandler.SingletonNavHandler;
 			_settingsHandler = SettingsHandler.SingletonSettingsHandler;
 			_audioLib = AudioLib.SingletonAudioLib;
+			_settingsHandler.LangChanged += RefreshLang;
+			_settingsHandler.ColorChanged += RefreshColor;
 			AddSongCommand = new Command(AddSong);
 			PickFileCommand = new Command(PickFile);
 			GetBPMCommand = new Command(CalculateBPM);
-			_settingsHandler.LangChanged += RefreshLang;
-			_settingsHandler.ColorChanged += RefreshColor;
+			_picked = false;
 		}
 
 		private void RefreshLang(object sender, EventArgs args)
-		{	
+		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TitleLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ArtistLabel)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BPMLabel)));
@@ -99,32 +97,10 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentColor)));
 		}
 
-		private async void AddSong()
-		{
-			int bpm;
-			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
-				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
-			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-					_settingsHandler.CurrentLang.Get("alert_text"), _settingsHandler.CurrentLang.Get("alert_ok"));
-				return;
-			}
-			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
-			_navHandler.GoBack();
-			NewSongTitle = null;
-			NewSongArtist = null;
-			NewSongBPM = null;
-			_newSongFileLocation = null;
-			_picked = false;
-		}
-
 		private async void PickFile()
 		{
-			var pick = await CrossFilePicker.Current.PickFile();
-			if (pick != null)
+			if (await FileNotNullWrapper())
 			{
-				_newSongFileLocation = pick.FilePath;
-				Debug.WriteLine("Audio file picked: {0}", args: _newSongFileLocation);
 				_file = TagLib.File.Create(_newSongFileLocation);
 				_picked = true;
 				NewSongTitle = GetTitle();
@@ -137,20 +113,34 @@ namespace Karl.ViewModel
 		{
 			if (!_picked)
 			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-					_settingsHandler.CurrentLang.Get("alert_text_2"), _settingsHandler.CurrentLang.Get("alert_ok"));
-				return;
+				await AlertWrapper("alert_title", "alert_text_2", "alert_ok");
 			}
-			if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
+			else if (Path.GetExtension(_newSongFileLocation).Equals(".wav"))
 			{
-				BPMCalculator calculator = new BPMCalculator(_newSongFileLocation);
-				NewSongBPM = calculator.Calculate().ToString();
+				NewSongBPM = CalculateBPMWrapper();
 			}
 			else
 			{
-				await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get("alert_title"),
-				"alert_text_3", _settingsHandler.CurrentLang.Get("alert_ok"));
+				await AlertWrapper("alert_title", "alert_text_3", "alert_ok");
 			}
+		}
+
+		private async void AddSong()
+		{
+			int bpm;
+			if (NewSongTitle == null || NewSongTitle == "" || NewSongArtist == null
+				|| NewSongArtist == "" || NewSongBPM == null || NewSongBPM == "" || !_picked || !int.TryParse(NewSongBPM, out bpm))
+			{
+				await AlertWrapper("alert_title", "alert_text", "alert_ok");
+				return;
+			}
+			await _audioLib.AddTrack(_newSongFileLocation, NewSongTitle, NewSongArtist, bpm);
+			_navHandler.GoBack();
+			NewSongTitle = null;
+			NewSongArtist = null;
+			NewSongBPM = null;
+			_newSongFileLocation = null;
+			_picked = false;
 		}
 
 		private string GetTitle()
@@ -161,7 +151,7 @@ namespace Karl.ViewModel
 
 		private string GetArtist()
 		{
-			if (_file != null && _file.Tag.Performers.Length >= 1){ return _file.Tag.Performers[0]; }
+			if (_file != null && _file.Tag.Performers.Length >= 1) { return _file.Tag.Performers[0]; }
 			return _settingsHandler.CurrentLang.Get("unknown");
 		}
 
@@ -169,6 +159,32 @@ namespace Karl.ViewModel
 		{
 			if (_file != null && _file.Tag.BeatsPerMinute != 0) { return Convert.ToString(_file.Tag.BeatsPerMinute); }
 			return _settingsHandler.CurrentLang.Get("unknown");
+		}
+
+		//Wrappers for testing
+
+		[DoNotCover]
+		protected virtual string CalculateBPMWrapper()
+		{
+			return new BPMCalculator(_newSongFileLocation).Calculate().ToString();
+		}
+
+		[DoNotCover]
+		protected virtual async Task<bool> FileNotNullWrapper()
+		{
+			var pick = await CrossFilePicker.Current.PickFile();
+			if(pick != null)
+			{
+				_newSongFileLocation = pick.FilePath;
+			}
+			return pick != null;
+		}
+
+		[DoNotCover]
+		protected virtual async Task AlertWrapper(string title, string text, string ok)
+		{
+			await Application.Current.MainPage.DisplayAlert(_settingsHandler.CurrentLang.Get(title),
+					_settingsHandler.CurrentLang.Get(text), _settingsHandler.CurrentLang.Get(ok));
 		}
 
 	}

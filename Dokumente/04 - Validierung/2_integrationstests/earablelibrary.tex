@@ -1,0 +1,27 @@
+\documentclass[../implementierung.tex]{subfiles}
+
+\begin{document}
+
+\section{Integrationstests}
+
+\subsection{EarableLibraryTestApp}
+
+	Die \quote{EarableLibraryTestApp} testet die Funktionsfähigkeit der EarableLibrary mit einem echten eSense-Kopfhörer.
+
+	\subsubsection{Test-Ablauf}
+		Grundvoraussetzung für die TestApp ist, dass ein eSense-Kopfhörer in Reichweite ist und bereits über die Systemeinstellungen mit dem Test-Smartphone gekoppelt wurde.
+		Dies wird gleich zu Beginn überprüft um zu vermeiden, dass daraus resultierende Fehler im späteren Testverlauf falsch interpretiert werden.
+		War die Verbindung zum Kopfhörer erfolgreich, beginnt die sequentielle Ausführung der folgenden Testfälle:
+		\begin{itemize}
+			\item \code{ConnectionTest} Wiederholtes (Wieder-)Herstellen oder Trennen der Verbindung zu den Earables soll stets in einem Wohldefinierten Zustand resultieren.
+			\item \code{SensorTest<MotionSensor>} Die inertiale Messeinheit muss per \quote{Subscription}-Mechanismus gültige Messwerte zur Verfügung stellen.
+			\item \code{SensorTest<PushButton>} Der Durckknopf muss mittels \quote{Subscription}-Mechanismus und bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
+			\item \code{SensorTest<VoltageSensor>} Der Spannungssensor muss bei direktem Auslesen gültige Messwerte zur Verfügung stellen.
+			\item \code{NameChangeTest} Der Name des Kopfhörers muss ausgelesen und geändert werden können. Zudem müssen Änderungen über Wiederverbindungen hinaus persistent sein.
+		\end{itemize}
+
+	\subsubsection{Test-Resultat}
+		Nach Beendigung des Gesamt-Tests werden die Resultate für alle Testfälle angezeigt (\quote{Passed} oder \quote{Failed}).
+		Im Fehlerfall wird zudem die Fehlerursache mit angegeben.
+
+\end{document}

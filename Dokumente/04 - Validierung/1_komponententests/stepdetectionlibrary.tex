@@ -1,0 +1,38 @@
+\documentclass[../validierung.tex]{subfiles}
+\begin{document}
+\subsection{StepdetectionLibrary}
+\subsubsection{ActivityLogTest}
+\begin{itemize}
+\fact [AddAndResetTest] {Testet hinzufügen und löschen von Schritten}
+\fact [LastStepsTest]{Testet, ob neu hinzugefügte Schritte in den aktuellesten Schritten erkannt werden}
+\fact [CountandFrequencyTest] {Testet, ob für Beispieleinträge von Schritten, die richte Anzahl der Schritte und die richtige Schrittfrequenz ausgelesen werden}
+\end{itemize}
+\subsubsection{InputTest}
+\begin{itemize}
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei einer Instanz von Input funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von Input bekommt}
+\fact [ValueChangedTest] {Testet, ob ein angemeldeter Beobachter Updates von Input bekommt, wenn Input durch ein Event benachrichtigt wird}
+\fact [SamplingRateTest] {Testet die Samplingrate}
+\end{itemize}
+\subsubsection{OutputManagerTest}
+\begin{itemize}
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei OutputManager funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von OutputManager bekommt}
+\fact [OnErrorTest] {Testet die OnError Methode des OutputManagers}
+\end{itemize}
+\subsubsection{StepDetectionAlgTest}
+\begin{itemize}
+\fact [SubscribeTest] {Testet, ob das An- und Abmelden bei einer Instanz von StepdetectionAlg funktioniert}
+\fact [UpdateTest] {Testet, ob ein angemeldeter Beobachter Updates von StepdetectionAlg bekommt}
+\fact [CalculateIntensityTest] {Testet die Intesnsitätsberechnung}
+\fact [OnErrorTest] {Testet die OnError Methode des OutputManagers}
+\end{itemize}
+\subsubsection{StepDetectionLibTest}
+\begin{itemize}
+\fact [InandOutTest] {Testet, ob Beobachter von OutputManager Änderungen erhalten, wenn ein Input durch ein Event benachrichtigt wird}
+\fact [NoStepTest] {Testet, ob kein Schritt nicht erkannt wird}
+\fact [StepTest] {Testet, ob ein Schritt erkannt wird}
+\fact [SampleTest] {Testet, ob die StepDetsectionLibrary mit einem Beispielsatz von Beschleunigungsdaten, die richtige Anzahl von Schritten erkennt}
+\end{itemize}
+
+\end{document}

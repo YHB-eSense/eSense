@@ -1,0 +1,68 @@
+\documentclass[../validierung.tex]{subfiles}
+
+\begin{document}
+
+
+\section{Nichttriviale Fehler und Probleme}
+	\subsection{EarableLibrary}
+		Die größte Herausforderung beim Testen der EarableLibrary waren die durch die Bluetooth-Schnittstelle gegebenen Einschränkungen.
+		Da das verwendete \quote{Bluetooth LE plugin for Xamarin} keine Unterstützung für Windows bietet, konnten die Tests nicht direkt auf dem
+		Entwicklungscomputer ausgeführt werden.
+		Um diese Einschränkung zu umgehen, haben wir eine auf Android und iOS lauffähige \quote{EarableLibraryTestApp} entwickelt.
+		
+		Um dennoch Komponententests durchführen zu können war es zudem nötig, die Bluetooth-Verbindung zu simulieren.
+		Da die dazu notwendige Logik über viele Klassen verteilt war, hat es sich als sinnvoll erwiesen, sämtliche Verbindungs-Funktionalitäten in eine 
+		eigene Klasse \quote{BLEConnection} zu verschieben und dadurch die Kopplung zwischen EarableLibrary und dem unterliegendem 
+		\quote{Bluetooth LE plugin} zu reduzieren.
+		
+		Im Zuge der Tests sind mehrere Einschränkungen und Fehler aufgefallen, welche sich durch Änderungen an der EarableLibrary nicht beheben ließen.
+		Nähere Begutachtung zeigte, dass diese auf das \quote{Bluetooth LE plugin}, das Betriebssystem oder aber die Earables selbst zurückzuführen waren.
+		
+		\begin{itemize}
+			\item Zu dicht aufeinanderfolgendes Trennen und Wiederherstellen der Bluetooth-Verbindung zu den Earables ist nicht möglich. 
+			Obwohl der Vorgang
+			zunächst gelingt, geht wenige Sekunden später die Verbindung zu den Earables verloren. Das Einbauen einer zweisekündigen Verzögerung vor dem
+			Wiederverbindungsvorgang war in allen Testfällen ausreichend, um ein Abbrechen der Verbindung zu vermeiden.
+			Alternativ wäre eine automatische Wiederverbindung nach dem Verbindungsabbruch möglich.
+			\item Der Name, welcher den eSense-Earables zugewiesen werden kann, ist in seiner maximalen Länge auf 11 Zeichen beschränkt. Namen, die länger
+			als 20 Zeichen sind, werden vom Earable nicht übernommen. Hat der Name hingegen eine Länge zwischen 12 und 20 Zeichen, so tritt ein 
+			interessantes Verhalten zutage: Der Name wird vorerst in voller Länge übernommen und übersteht auch Neuverbindungen und Neustarts der 
+			Kopfhörer. Nach einiger Zeit jedoch, oder spätestens wenn die Kopfhörer zurück in die Ladeschale gelegt werden, wird der Name automatisch auf 
+			11 Zeichen gekürzt! 		
+		\end{itemize}
+
+	\subsection{SpotifyAudioModule}
+		Für die Integration von Spotify in die Anwendung wurde ein Plugin verwendet, welches ermöglicht die Funktionen der Spotify Web API zu verwenden. 
+		Da allerdings nur auf Lieder eines Nutzers, die sich in einer Playlist befinden per Spotify Web API zugegriffen werden kann, wurden Playlists in 
+		der Implementierungsphase zur AudioLib hinzugefügt. Beim Testen fiel jedoch auf, dass Nutzer ohne Playlists einfach mit einer leeren AudioLib 
+		konfrontiert wären, was die Benutzerfreundlichkeit der Anwendung einschränken würde.\\ Um dieses Problem zu umgehen, wurde deshalb eine Meldung 
+		integriert, welche dem Nutzer beim Ändern des Audiomodules in einem solchen Fall aufklärt. Anschließend wird das Audiomodul nun zum 
+		BasicAudioModule zurückgesetzt.
+	\subsection{MainPageVM}
+		Um sich in der Anwendung über Bluetooth mit eine Earables-Paar zu verbinden, muss der Nutzer bekanntlich auf der MainPage der mittleren Knopf 
+		betätigen, um anschließend zu den Systemeinstellungen des Geräts weitergeleitet zu werden, wo dieser sich mit den Earables verbinden kann. Hat der 
+		Nutzer dies erledigt, muss dieser den Knopf erneut betätigen um die BLE-Verbindung zu den Earables herzustellen. Da der Nutzer bei wiederholter 
+		Betätigung des Knopfs die BLE-Verbindung trennt, kann es leicht dazu kommen, dass dies aus Versehen geschieht.\\ Um dieses Problem zu vermeiden 
+		und die Benutzerfreundlichkeit der Anwendung aufrecht zu erhalten, wurde eine Meldung integriert, die den Nutzer bei versuchter Trennung der 
+		Verbindung warnt.
+	\subsection{AudioLibPageVM}
+		Beim Ändern des Audiomoduls in der Anwendung vom BasicAudioModule hin zum SpotifyAudioModule wurde eine NotImplementedException geworfen. Diese 	
+		hatte den Grund, dass die AudioLibPage schon auf die Playlists und SelectedPlaylists Properties der AudioLibPageVM zugegriffen hat, während diesen 
+		schon erlaubt war die entsprechenden Properties aus dem Model zurückzugeben, bevor das Audiomodul auf das SpotifyModule gesetzt wurde. Somit wurde 
+		auf die Playlists und SelectedPlaylist Properties der BasicAudioLib zugegriffen, was der Grund für die Exception war, da die BasicAudioLib dies 
+		nicht implementiert.\\ Um diesen Fehler zu beheben, wurden die Reihenfolge der sich verändernden Properties und aufgerufenen Events angepasst.
+	\subsection{BasicAudioLib, AudioLib und AudioLibPageVM}
+		Das Löschen von Audiodateien aus der BasicAudioTrackDatabase geschieht asynchron, aus offensichtlichen Gründen. Jedoch wurde die Methode 
+		DeleteTrackAsync der BasicAudioTrackDatabase in der BasicAudioLib und so auch in der AudioLib und AudioLibPageVM synchron aufgerufen, sodass es 
+		vereinzelt dazu kam, dass die AudioLib in der Anwendung beim Löschen von Dateien nicht richtig aktualisiert wurde.\\ Um diesen Fehler zu beheben, 
+		wurden die Methoden der BasicAudioLib, AudioLib und AudioLibPageVM so angepasst, dass nun die Methode DeleteTrackAsync der BasicAudioTrackDatabase 
+		asynchron aufgerufen wird.
+
+	\subsection{Generelle Fehler}
+		\begin{itemize}
+			\item Es ist aufgefallen, dass wir deutlich zu wenig gegen interfaces implementiert haben.
+			\item Auch deutlich zu oft wurden im Konstruktor neue Objekte erstellt, oft wäre es besser gewesen die Objekte als Parameter zu übergeben. (Dependency Injection)
+		\end{itemize}
+		$\rightarrow$ Beides zusammen führte dazu, dass das Projekt schwer zu testen war.
+
+\end{document}

@@ -1,10 +1,10 @@
+using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Timers;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Models;
+using static Karl.Model.eSenseSpotifyWebAPI;
 
 namespace Karl.Model
 {
@@ -34,7 +34,7 @@ namespace Karl.Model
 			set
 			{
 				_currentSongPosition = value;
-				_webAPI.SeekPlayback((int)_currentSongPosition*1000);
+				_webAPI.SeekPlayback((int)_currentSongPosition * 1000);
 			}
 		}
 		public Stack<AudioTrack> PlayedSongs { get; set; }
@@ -82,14 +82,14 @@ namespace Karl.Model
 			else
 			{
 				_timer.Start();
-				_webAPI.ResumePlayback("", "", null, "",(int)_currentSongPosition*1000);
+				_webAPI.ResumePlayback("", "", null, "", (int)_currentSongPosition * 1000);
 			}
 		}
 
 		public async void PlayTrack(AudioTrack track)
 		{
 			//Checks if users has started the playback(otherwise TogglePause isn't working)
-			if (await _webAPI.GetPlaybackAsync() == null)
+			if (await _webAPI.GetPlaybackAsync() == null && WebApiSingleton.Equals(""))
 			{
 				return;
 			}
@@ -97,7 +97,7 @@ namespace Karl.Model
 			List<string> currentTrackList = new List<string>();
 			CurrentTrack = track;
 			currentTrackList.Add("spotify:track:" + track.TextId);
-			_webAPI.ResumePlayback("", "", currentTrackList, "", 0);
+			_webAPI.ResumePlayback(WebApiSingleton.DeviceId, "", currentTrackList, "", 0);
 			Debug.WriteLine("UPdating2");
 		}
 

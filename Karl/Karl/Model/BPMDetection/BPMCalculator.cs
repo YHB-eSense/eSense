@@ -1,11 +1,10 @@
 using NAudio.Wave;
 using SoundTouch;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Karl.Model
 {
-	public class BPMCalculator
+	public class BPMCalculator : IBPMCalculator
 	{
 		private string _file;
 		private WaveFileReader _reader;
@@ -31,7 +30,7 @@ namespace Karl.Model
 		{
 			if (_file != null)
 			{
-				for(int n = 1; n < _chunkSize; n++)
+				for (int n = 1; n < _chunkSize; n++)
 				{
 					List<float> samples = new List<float>();
 					for (long i = 0; i < _sampleCountFraction; i++)
@@ -53,4 +52,10 @@ namespace Karl.Model
 			return 0;
 		}
 	}
+
+	public interface IBPMCalculator
+	{
+		int Calculate();
+	}
+
 }

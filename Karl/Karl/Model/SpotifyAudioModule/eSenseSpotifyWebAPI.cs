@@ -1,10 +1,12 @@
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace Karl.Model
 {
@@ -14,6 +16,7 @@ namespace Karl.Model
 	/// </summary>
 	public class eSenseSpotifyWebAPI
 	{
+		private static string _deviceName = DeviceInfo.Name;
 		private static eSenseSpotifyWebAPI _instance;
 		public static eSenseSpotifyWebAPI WebApiSingleton
 		{
@@ -34,7 +37,11 @@ namespace Karl.Model
 		/// </summary>
 		private const string CLIENT_ID = "cf74e3a8655c4a03b405d2d52c9193cf";
 		private const string CLIENT_SECRET = "a9b3b53610484638a35a91da896ccae0";
-		private const string SCOPE = "user-read-playback-state user-modify-playback-state";
+		private const string SCOPE =
+			"user-read-playback-state " +
+			"user-modify-playback-state " +
+			"playlist-read-private " +
+			"playlist-read-collaborative";
 		private const string AUTHORIZE_URI = "https://accounts.spotify.com/authorize";
 		private const string REDIRECT_URI = @"karl2.companyname.com:/oauth2redirect";
 		private const string ACCESSTOKEN_URI = "https://accounts.spotify.com/api/token";
@@ -50,6 +57,7 @@ namespace Karl.Model
 		public PrivateProfile UsersProfile { get; set; }
 		public event EventHandler authentificationFinished;
 		public OAuth2Authenticator AuthenticationState { get; private set; }
+		public string DeviceId { get; private set; }
 
 
 		/// <summary>
@@ -105,6 +113,15 @@ namespace Karl.Model
 			PrivateProfile profile = await api.GetPrivateProfileAsync();
 			AvailabeDevices devices = await api.GetDevicesAsync();
 
+			foreach (SpotifyAPI.Web.Models.Device d in devices.Devices)
+			{
+				if (d.Name.Equals(_deviceName))
+				{
+					DeviceId = d.Id;
+				}
+			}
+			if (DeviceId == null) DeviceId = "";
+
 			//If Authentification worked properly
 			if (!profile.HasError())
 			{
@@ -113,7 +130,5 @@ namespace Karl.Model
 			}
 
 		}
-
-
 	}
 }

@@ -1,10 +1,7 @@
+using FormsControls.Base;
+using Karl.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Karl.ViewModel;
-using FormsControls.Base;
-using VolumeSliderPlugin.Shared;
-using System;
-using System.ComponentModel;
 
 namespace Karl.View
 {

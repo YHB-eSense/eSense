@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace StepDetectionLibrary
@@ -21,9 +20,9 @@ namespace StepDetectionLibrary
 	public class OutputManager : IObservable<Output>, IObserver<Output>
 	{
 		private static OutputManager _singletonOutputManager;
-		private List<IObserver<Output>> _observers;
+		private List<IObserver<Output>> _observer;
 
-		
+
 		/// <summary>
 		/// singleton pattern
 		/// </summary>
@@ -49,19 +48,18 @@ namespace StepDetectionLibrary
 		/// </summary>
 		private OutputManager()
 		{
-			_observers = new List<IObserver<Output>>();
+			_observer = new List<IObserver<Output>>();
 			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ActivityLog.db3");
 			Log = new ActivityLog(path);
 		}
 
-        public ActivityLog Log { get; }
+		public ActivityLog Log { get; }
 
-        /// <summary>
-        /// method if provider finished sending data
-        /// </summary>
-        public void OnCompleted()
+		/// <summary>
+		/// method if provider finished sending data
+		/// </summary>
+		public void OnCompleted()
 		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -70,7 +68,7 @@ namespace StepDetectionLibrary
 		/// <param name="error">exception</param>
 		public void OnError(Exception error)
 		{
-			throw new NotImplementedException();
+			throw new Exception();
 		}
 		/// <summary>
 		/// method when recieving new data
@@ -89,9 +87,9 @@ namespace StepDetectionLibrary
 		public IDisposable Subscribe(IObserver<Output> observer)
 		{
 
-			if (!_observers.Contains(observer))
-				_observers.Add(observer);
-			return new Unsubscriber(_observers, observer);
+			if (!_observer.Contains(observer))
+				_observer.Add(observer);
+			return new Unsubscriber(_observer, observer);
 
 		}
 
@@ -102,7 +100,7 @@ namespace StepDetectionLibrary
 		/// <param name="output">new stepfreq and count data</param>
 		public void Update(Output output)
 		{
-			foreach (var observer in _observers)
+			foreach (var observer in _observer)
 			{
 				observer.OnNext(output);
 			}

@@ -1,0 +1,73 @@
+\documentclass[../validierung.tex]{subfiles}
+\begin{document}
+
+	\section{Einheitstests}
+		\subsection{Model Tests}
+			\subsubsection{Settings Handler Tests}
+				\begin{itemize}
+					\item ColorTest: Testet zurücksetzen der UI Farbe, falls kein Wert in den Properties.
+					\item LanguageTest: Testet zurücksetzten der Sprache, falls Wert unter lang in den Properties ungültig.
+					\item LanguageTestNoLangInProperties: Testet setzten der Sprache, falls kein Tag lang in den Properties existiert.
+					\item UseDifferentLibsTest: Testet das Wechseln zur SpotifyLib \& Ob Playlists \& co. richtig gesetzt werden.
+					\item UseDifferentLibsAddThrowsException: Prüft, ob nach dem Wechsel zur SpotifyLib AddTrack eine Exception wirft.
+					\item SwitchLibsTest: Wechselt zwischen Spotify{\&}Basic Lib hin und her.
+					\item StepsPropertyTest: Testet das Zurücksetzten des Schrittzählers.
+					\item ColorPropertyTest: Testet Zurücksetzten \& Setzten der UI Farbe.
+					\item SetLangTest: Setzt die Sprache auf eine Test-Sprache.
+				\end{itemize}
+			\subsubsection{AudioLib Tests}
+				\begin{itemize}
+					\item BasicAudioLibAddSongTest: Testet das hinzufügen \& entfernen von mehreren Songs.
+					\item BasicLibAddSongNegativeBPMTest: Testet, dass eine ArgumentException geworfen wird, wenn Track mit BMP < 0 hinzugefügt werden 
+					soll.
+					\item DeleteTrackNonexistant: Testet, dass ArgumentException geworfen wird, wenn nicht existenter Track gelöscht werden soll.
+					\item PlaylistBasicLibExceptionTest: Testet, dass Playlist funkitonalität nicht aktiv ist.
+					\item SpotifyNonexistantPlaylistTest: Testet, dass ArgumentException geworfen wird, wenn Nichtexistente Playlist gewählt wird.
+					\item SpotifyNotImplementedExceptions: Testet, dass mit der SpotifyAudioLib Add \& Delete Track Exceptions werfen.
+				\end{itemize}
+			\subsubsection{ModeHandler Tests}
+				\begin{itemize}
+					\item ResetModeTest: Testet die Reset-Methode des ModeHandler
+				\end{itemize}
+			\subsubsection{LangManager Tests}
+				\begin{itemize}
+					\item ChooseLangTest: Testet das Setzen einer neuen Sprache.
+				\end{itemize}
+			\subsubsection{ColorManagerTests}
+				\begin{itemize}
+					\item ResetColorsTest: Testet, dass nach dem Zurücksetzten der Farben, die Liste der Farben gleich ist.
+					\item CurrentColorTest Testet, dass die Current Color anfänglich richtig gesetzt wird.
+				\end{itemize}
+			\subsubsection{BasicAudioPlayerTests}
+				\begin{itemize}
+					\item PlayTrackTest: Tests the PlayTrack Method of the BasicAudioPlayer.
+					\item TogglePauseTest: Testet die TogglePause Methode des BasicAudioPlayer.
+				\end{itemize}
+				
+				
+		\subsection{EarableLibraryTests}
+			\subsubsection{BLEMessageTests}
+				\begin{itemize}
+					\item DataAsShortArrayTest: Testet die Methode DataAsShortArray mit verschiedenen Eingaben.
+					\item RecodeTest: Testet das Encoding und Decoding von Messages zu ByteArrays.
+					\item ChecksumTest: Testet die erstellung der Checksumme von messages.
+					\item EncodeTest: Testet das Kodieren von Messages
+					\item DecodeTest: Testet das Dekodieren von Messages
+					\item RawMessageTest: Tests if RawMessage leaves Data unchanged.
+					\item ConstuctorTest: Prüft ob der Konstruktor von IndexedESenseMessage \& ESenseMessage mit Default-Parametern normal funtioniert.
+					\item ImplicitConversionTest: Testet das implizite Typecasting von RawMessage zu Byte[].
+					\item EqualsTest: Testet, die Gleichheit der Daten der verschiedenen Messages (erstellt mit Default-Konstruktor)\& die Ungleichheit 
+					der Messages.
+					\item InvalidDecodeTest: Test for MessageError on various invalid Data Sets.
+				\end{itemize}
+			\subsubsection{ESenseTest}
+				\begin{itemize}
+					\item GuidTest: Testet das Erstellen eines neuen ESense objekt.
+				\end{itemize}
+			\subsubsection{MotionSensorTests}
+				\begin{itemize}
+					\item TestSubscription: Testet den Subscription Service der Sensoren
+					\item TestRead: Tests Reading out Data from a sensor.
+				\end{itemize}
+
+\end{document}

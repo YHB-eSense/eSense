@@ -1,28 +1,36 @@
 using Karl.Model;
 using SQLite;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using static System.Environment;
 
 namespace Karl.Data
 {
 	public class BasicAudioTrackDatabase
 	{
-		readonly SQLiteAsyncConnection _database;
+		private static bool _testing;
+		private SQLiteAsyncConnection _database { get; set; }
 		private static BasicAudioTrackDatabase _singletonDatabase;
 
 		public static BasicAudioTrackDatabase SingletonDatabase
 		{
 			get
 			{
-				if (_singletonDatabase == null) { _singletonDatabase = new BasicAudioTrackDatabase(
-					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-					"BasicAudioTracks.db3")); }
+				if (_singletonDatabase == null)
+				{
+					var path = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData), "BasicAudioTracks.db3");
+					_singletonDatabase = new BasicAudioTrackDatabase(path);
+				}
 				return _singletonDatabase;
 			}
+		}
+
+		protected BasicAudioTrackDatabase()
+		{
+			if (!_testing) throw new MethodAccessException("This Contructor is for creating mocks only.");
 		}
 
 		private BasicAudioTrackDatabase(string dbPath)
@@ -32,12 +40,12 @@ namespace Karl.Data
 			_database.CreateTableAsync<BasicAudioTrack>().Wait();
 		}
 
-		public Task<List<BasicAudioTrack>> GetTracksAsync()
+		public virtual Task<List<BasicAudioTrack>> GetTracksAsync()
 		{
 			return _database.Table<BasicAudioTrack>().ToListAsync();
 		}
 
-		public Task<int> SaveTrackAsync(BasicAudioTrack track)
+		public virtual Task<int> SaveTrackAsync(BasicAudioTrack track)
 		{
 			/*
 			if (track.Id != null)
@@ -52,10 +60,15 @@ namespace Karl.Data
 			return _database.InsertAsync(track);
 		}
 
-		public Task<int> DeleteTrackAsync(AudioTrack track)
+		public virtual Task<int> DeleteTrackAsync(AudioTrack track)
 		{
 			return _database.DeleteAsync(track);
 		}
-		
+
+		[Conditional("TESTING")]
+		internal static void Testing(bool testing)
+		{
+			_testing = testing;
+		}
 	}
 }

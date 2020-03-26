@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Plugin.SimpleAudioPlayer;
-using System.Text;
+using System;
+using System.IO;
 
 namespace Karl.Model
 {
-	
-	sealed class BasicAudioPlayer : IAudioPlayerImpl
+
+	public class BasicAudioPlayer : IAudioPlayerImpl
 	{
 		private Stream _stream;
-		private ISimpleAudioPlayer _simpleAudioPlayer;
+		protected ISimpleAudioPlayer _simpleAudioPlayer;
+		private bool _paused;
 
 		public AudioTrack CurrentTrack { get; set; }
 
@@ -20,7 +19,7 @@ namespace Karl.Model
 			set { _simpleAudioPlayer.Seek(value); }
 		}
 
-		public bool Paused { get; set; }
+		public bool Paused { get => !_simpleAudioPlayer.IsPlaying; set => _paused = value; }
 		public double Volume
 		{
 			get => _simpleAudioPlayer.Volume;
@@ -29,15 +28,13 @@ namespace Karl.Model
 
 		public BasicAudioPlayer()
 		{
-			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
-			Paused = true;
+			GetSimpleAudioPlayer();
 		}
 
 		public void PlayTrack(AudioTrack track)
 		{
 			CurrentTrack = track;
-			_stream = File.OpenRead(CurrentTrack.StorageLocation);
+			_stream = GetStream();
 			_simpleAudioPlayer.Load(_stream);
 			_simpleAudioPlayer.Play();
 		}
@@ -58,5 +55,17 @@ namespace Karl.Model
 		{
 			TogglePause();
 		}
+
+		protected virtual void GetSimpleAudioPlayer()
+		{
+			_simpleAudioPlayer = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+			_simpleAudioPlayer.PlaybackEnded += OnPlaybackEndedEvent;
+		}
+
+		protected virtual Stream GetStream()
+		{
+			return File.OpenRead(CurrentTrack.StorageLocation);
+		}
+
 	}
 }

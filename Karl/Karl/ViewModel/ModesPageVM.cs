@@ -1,12 +1,8 @@
-using System.Windows.Input;
-using Xamarin.Forms;
 using Karl.Model;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System;
 using Microcharts;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Karl.ViewModel
 {
@@ -14,7 +10,7 @@ namespace Karl.ViewModel
 	{
 		private SettingsHandler _settingsHandler;
 		private ModeHandler _modeHandler;
-		private ConnectivityHandler _connectivityHandler;
+		protected ConnectivityHandler _connectivityHandler;
 
 		//Eventhandling
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -24,10 +20,10 @@ namespace Karl.ViewModel
 		public string ModesLabel { get => _settingsHandler.CurrentLang.Get("modes"); }
 		public List<Mode> Modes { get => _modeHandler.Modes; }
 		public LineChart StepChart
-		{		
+		{
 			get
 			{
-				if(_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
+				if (_connectivityHandler.EarableConnected) { return new LineChart { Entries = _settingsHandler.ChartEntries }; }
 				return null;
 			}
 		}
@@ -59,7 +55,7 @@ namespace Karl.ViewModel
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
 
-		public void RefreshChart(object sender, EventArgs args)
+		private void RefreshChart(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
 		}
@@ -67,6 +63,12 @@ namespace Karl.ViewModel
 		private void RefreshConnection(object sender, EventArgs args)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StepChart)));
+		}
+
+		[DoNotCover]
+		protected virtual void InitializeSingletons()
+		{
+			_connectivityHandler = ConnectivityHandler.SingletonConnectivityHandler;
 		}
 
 	}

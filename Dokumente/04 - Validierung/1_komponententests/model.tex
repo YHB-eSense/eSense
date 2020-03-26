@@ -1,0 +1,45 @@
+\documentclass[../validierung.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Model}
+	\subsubsection{Settings Handler Tests}
+		\begin{itemize}
+			\fact[ColorTest] {Testet zurücksetzen der UI Farbe, falls kein Wert in den Properties}
+			\fact[LanguageTest] {Testet zurücksetzten der Sprache, falls Wert unter lang in den Properties ungültig}
+			\fact[LanguageTestNoLangInProperties] {Testet setzten der Sprache, falls kein Tag lang in den Properties existiert}
+			\fact[UseDifferentLibsTest] {Testet das Wechseln zur SpotifyLib \& Ob Playlists \& co. richtig gesetzt werden}
+			\fact[UseDifferentLibsAddThrowsException]  {Prüft, ob nach dem Wechsel zur SpotifyLib AddTrack eine Exception wirft}
+			\fact[SwitchLibsTest] {Wechselt zwischen Spotify{\&}Basic Lib hin und her}
+			\fact[StepsPropertyTest] {Testet das Zurücksetzten des Schrittzählers}
+			\fact[ColorPropertyTest] {Testet Zurücksetzten \& Setzten der UI Farbe}
+			\fact[SetLangTest] {Setzt die Sprache auf eine Test-Sprache}
+		\end{itemize}
+	\subsubsection{AudioLib Tests}
+		\begin{itemize}
+			\fact[BasicAudioLibAddSongTest] {Testet das hinzufügen \& entfernen von mehreren Songs}
+			\fact[BasicLibAddSongNegativeBPMTest] {Testet, dass eine ArgumentException geworfen wird, wenn Track mit BMP < 0 hinzugefügt werden soll}
+			\fact[DeleteTrackNonexistant] {Testet, dass ArgumentException geworfen wird, wenn nicht existenter Track gelöscht werden soll}
+			\fact[PlaylistBasicLibExceptionTest] {Testet, dass Playlist funkitonalität nicht aktiv ist}
+			\fact[SpotifyNonexistantPlaylistTest] {Testet, dass ArgumentException geworfen wird, wenn Nichtexistente Playlist gewählt wird}
+			\fact[SpotifyNotImplementedExceptions]  {Testet, dass mit der SpotifyAudioLib Add \& Delete Track Exceptions werfen}		\end{itemize}
+	\subsubsection{ModeHandler Tests}
+		\begin{itemize}
+			\fact[ResetModeTest] {Testet die Reset-Methode des ModeHandler}
+		\end{itemize}
+	\subsubsection{LangManager Tests}
+		\begin{itemize}
+			\fact[ChooseLangTest] {Testet das Setzen einer neuen Sprache}
+		\end{itemize}
+	\subsubsection{ColorManagerTests}
+		\begin{itemize}
+			\fact[ResetColorsTest] {Testet, dass nach dem Zurücksetzten der Farben, die Liste der Farben gleich ist}
+			\fact[CurrentColorTest] {Testet, dass die Current Color anfänglich richtig gesetzt wird}
+		\end{itemize}
+	\subsubsection{BasicAudioPlayerTests}
+		\begin{itemize}
+			\fact[PlayTrackTest] {Tests the PlayTrack Method of the BasicAudioPlayer}
+			\fact[TogglePauseTest] {Testet die TogglePause Methode des BasicAudioPlayer}
+		\end{itemize}
+
+\end{document}

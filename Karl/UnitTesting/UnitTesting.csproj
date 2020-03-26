@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CF77B81-4ECC-4AA2-A1AD-1D34F57DEBFA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitTesting</RootNamespace>
+    <AssemblyName>UnitTesting</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;TESTING</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;TESTING</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.dotCover.CommandLineTools">
+      <Version>2019.3.4</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq">
+      <Version>4.13.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.6.292</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>4.4.0.991640</Version>
+    </PackageReference>
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EarableLibraryTests\BLEMessageTests.cs" />
+    <Compile Include="EarableLibraryTests\ESenseTests.cs" />
+    <Compile Include="EarableLibraryTests\MotionSensorTests.cs" />
+    <Compile Include="EarableLibraryTests\VoltageSensorTests.cs">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Compile>
+    <Compile Include="EarableLibraryTests\Utilities\PrebuiltMessage.cs" />
+    <Compile Include="EarableLibraryTests\Utilities\EventReceiver.cs" />
+    <Compile Include="Mocks\MockBLEConnection.cs" />
+    <Compile Include="Mocks\MockEarableManager.cs" />
+    <Compile Include="EarableLibraryTests\TestAppTest.cs" />
+    <Compile Include="ModelTests\BasicAudioPlayerTests.cs" />
+    <Compile Include="ModelTests\BPMCalculatorTests.cs" />
+    <Compile Include="ModelTests\ColorManagerTests.cs" />
+    <Compile Include="ModelTests\ConnectivityHandlerTests.cs" />
+    <Compile Include="Mocks\DatabaseMock.cs" />
+    <Compile Include="Mocks\TestDictionary.cs" />
+    <Compile Include="ModelTests\LangManagerTests.cs" />
+    <Compile Include="ModelTests\ModeHandlerTests.cs" />
+    <Compile Include="ModelTests\SettingsTest.cs" />
+    <Compile Include="ModelTests\TestFramework.cs" />
+    <Compile Include="ModelTests\ModesTests.cs" />
+    <Compile Include="StepDetectionLibraryTests\ActivityLogTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\OutputManagerTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\StepDetectionLibTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\InputTest.cs" />
+    <Compile Include="StepDetectionLibraryTests\StepDetectionAlgTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelTests\AudioLibPageVMTests.cs" />
+    <Compile Include="ViewModelTests\AudioPlayerPageVMTests.cs" />
+    <Compile Include="ViewModelTests\MainPageVMTests.cs" />
+    <Compile Include="ViewModelTests\ModesPageVMTests.cs" />
+    <Compile Include="ViewModelTests\NavigationHandlerTests.cs" />
+    <Compile Include="ViewModelTests\SettingsPageVMTests.cs" />
+    <Compile Include="ViewModelTests\AddSongPageVMTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EarableLibraryTestApp\EarableLibraryTestApp\EarableLibraryTestApp.csproj">
+      <Project>{8812A40A-E8D1-4D35-B127-20577312B177}</Project>
+      <Name>EarableLibraryTestApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EarableLibrary\EarableLibrary.csproj">
+      <Project>{BAFA1A92-FC12-40F6-AF50-7CF2424BE89D}</Project>
+      <Name>EarableLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Karl\Karl.csproj">
+      <Project>{F303F778-1006-40B2-BD82-680DCC634D46}</Project>
+      <Name>Karl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StepDetectionLibrary\StepDetectionLibrary.csproj">
+      <Project>{931F0D20-701F-479C-B2D8-45F8960BEDA3}</Project>
+      <Name>StepDetectionLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\test.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\test.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\BAB.mp3" />
+    <Content Include="Files\BAB.wav" />
+    <Compile Include="EarableLibraryTests\PushButtonTests.cs">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

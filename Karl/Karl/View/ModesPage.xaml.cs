@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using FormsControls.Base;
+using Karl.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Karl.ViewModel;
-using FormsControls.Base;
-using SkiaSharp;
-using Microcharts;
 
 namespace Karl.View
 {

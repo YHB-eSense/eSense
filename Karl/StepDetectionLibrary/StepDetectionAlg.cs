@@ -10,6 +10,12 @@ namespace StepDetectionLibrary
 	public class StepDetectionAlg : IObserver<AccelerationSample>, IObservable<Output>
 	{
 		private List<IObserver<Output>> _observer;
+		protected OutputManager OutManager;
+
+		protected virtual void GetOutManager()
+		{
+			OutManager = OutputManager.SingletonOutputManager;
+		}
 
 		/// <summary>
 		/// constructor for stepdetectionalg
@@ -17,7 +23,8 @@ namespace StepDetectionLibrary
 		public StepDetectionAlg()
 		{
 			_observer = new List<IObserver<Output>>();
-			Subscribe(OutputManager.SingletonOutputManager);
+			GetOutManager();
+			Subscribe(OutManager);
 		}
 
 		/// <summary>
@@ -25,7 +32,6 @@ namespace StepDetectionLibrary
 		/// </summary>
 		public void OnCompleted()
 		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -34,7 +40,7 @@ namespace StepDetectionLibrary
 		/// <param name="error">exception</param>
 		public void OnError(Exception error)
 		{
-			throw new NotImplementedException();
+			throw new Exception();
 		}
 
 		/// <summary>
@@ -102,7 +108,7 @@ namespace StepDetectionLibrary
 		/// </summary>
 		/// <param name="acceleration">One acceleration sample</param>
 		/// <param name="sampleTaken">Time (in UTC!) at which the sample was recorded</param>
-		public Output StepDetectAlg(TripleShort acceleration, DateTime sampleTaken)
+		private Output StepDetectAlg(TripleShort acceleration, DateTime sampleTaken)
 		{
 			var intensity = CalculateIntensity(acceleration);
 			if (intensity > IntensityThreshold)
@@ -121,7 +127,7 @@ namespace StepDetectionLibrary
 				if (_currentStep != null)
 				{
 					_currentStep.Duration = sampleTaken - _currentStep.Taken;
-					OutputManager.SingletonOutputManager.Log.Add(_currentStep);
+					OutManager.Log.Add(_currentStep);
 					_currentStep = null;
 				}
 			}
