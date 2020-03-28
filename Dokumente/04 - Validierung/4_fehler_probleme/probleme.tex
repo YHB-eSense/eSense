@@ -50,7 +50,7 @@
 		hatte den Grund, dass die AudioLibPage schon auf die Playlists und SelectedPlaylists Properties der AudioLibPageVM zugegriffen hat, während diesen
 		schon erlaubt war die entsprechenden Properties aus dem Model zurückzugeben, bevor das Audiomodul auf das SpotifyModule gesetzt wurde. Somit wurde
 		auf die Playlists und SelectedPlaylist Properties der BasicAudioLib zugegriffen, was der Grund für die Exception war, da die BasicAudioLib dies
-		nicht implementiert.\\ Um diesen Fehler zu beheben, wurden die Reihenfolge der sich verändernden Properties und aufgerufenen Events angepasst.
+		nicht implementiert.\\ Um diesen Fehler zu beheben, wurden die fehlerhafte Reihenfolge der sich verändernden Properties und aufgerufenen Events angepasst.
 	\subsection{BasicAudioLib, AudioLib und AudioLibPageVM}
 		Das Löschen von Audiodateien aus der BasicAudioTrackDatabase geschieht asynchron, aus offensichtlichen Gründen. Jedoch wurde die Methode
 		DeleteTrackAsync der BasicAudioTrackDatabase in der BasicAudioLib und so auch in der AudioLib und AudioLibPageVM synchron aufgerufen, sodass es
