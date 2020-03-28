@@ -34,12 +34,12 @@
 	\subsection{SpotifyAudioModule}
 		Für die Integration von Spotify in die Anwendung wurde ein Plugin verwendet, welches ermöglicht die Funktionen der Spotify Web API zu verwenden.
 		Da allerdings nur auf Lieder eines Nutzers, die sich in einer Playlist befinden per Spotify Web API zugegriffen werden kann, wurden Playlists in
-		der Implementierungsphase zur AudioLib hinzugefügt. Beim Testen fiel jedoch auf, dass Nutzer ohne Playlists einfach mit einer leeren AudioLib
-		konfrontiert wären, was die Benutzerfreundlichkeit der Anwendung einschränken würde.\\ Um dieses Problem zu umgehen, wurde deshalb eine Meldung
+		der Implementierungsphase zur AudioLib hinzugefügt. Beim Testen fiel jedoch auf, dass sich Nutzer ohne Playlists einfach mit einer leeren AudioLib
+		konfrontiert sähen, was die Benutzerfreundlichkeit der Anwendung einschränken würde.\\ Um dieses Problem zu umgehen, wurde deshalb eine Meldung
 		integriert, welche dem Nutzer beim Ändern des Audiomodules in einem solchen Fall aufklärt. Anschließend wird das Audiomodul nun zum
 		BasicAudioModule zurückgesetzt.
 	\subsection{MainPageVM}
-		Um sich in der Anwendung über Bluetooth mit eine Earables-Paar zu verbinden, muss der Nutzer bekanntlich auf der MainPage der mittleren Knopf
+		Um sich in der Anwendung über Bluetooth mit eine Earables-Paar zu verbinden, muss der Nutzer bekanntlich auf der MainPage den mittleren Knopf
 		betätigen, um anschließend zu den Systemeinstellungen des Geräts weitergeleitet zu werden, wo dieser sich mit den Earables verbinden kann. Hat der
 		Nutzer dies erledigt, muss dieser den Knopf erneut betätigen um die BLE-Verbindung zu den Earables herzustellen. Da der Nutzer bei wiederholter
 		Betätigung des Knopfs die BLE-Verbindung trennt, kann es leicht dazu kommen, dass dies aus Versehen geschieht.\\ Um dieses Problem zu vermeiden
@@ -60,7 +60,7 @@
 
 	\subsection{Generelle Fehler}
 		\begin{itemize}
-			\item Es ist aufgefallen, dass wir deutlich zu wenig gegen interfaces implementiert haben.
+			\item Es ist aufgefallen, dass wir deutlich zu wenig gegen Interfaces implementiert haben.
 			\item Auch deutlich zu oft wurden im Konstruktor neue Objekte erstellt, oft wäre es besser gewesen die Objekte als Parameter zu übergeben. (Dependency Injection)
 		\end{itemize}
 		$\rightarrow$ Beides zusammen führte dazu, dass das Projekt schwer zu testen war.
