@@ -9,6 +9,8 @@ namespace Karl.ViewModel
 {
 	public class SettingsPageVM : INotifyPropertyChanged
 	{
+		internal static readonly int MAX_NAME_LENGTH = 11;
+
 		protected SettingsHandler _settingsHandler;
 		private ConnectivityHandler _connectivityHandler;
 		private string _deviceName;
@@ -60,7 +62,17 @@ namespace Karl.ViewModel
 				}
 				return null;
 			}
-			set => _deviceName = value;
+			set
+			{
+				if (value.Length > MAX_NAME_LENGTH)
+				{
+					Application.Current.MainPage.DisplayAlert(
+						_settingsHandler.CurrentLang.Get("name_length_limited_title"),
+						_settingsHandler.CurrentLang.Get("name_length_limited_text"),
+						_settingsHandler.CurrentLang.Get("name_length_limited_okay"));
+				}
+				_deviceName = value.Substring(0, MAX_NAME_LENGTH);
+			}
 		}
 
 		//Commands binded to SettingsPage of View

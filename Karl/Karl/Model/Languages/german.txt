@@ -35,4 +35,7 @@ playlists=Playlists
 use_spotify=Spotify benutzen
 use_basic=Integriertes Audio benutzen
 get_bpm=BPM berechnen
+name_length_limited_title=Länge begrenzt
+name_length_limited_text=Die Länge des Namens ist auf maximal 11 Zeichen begrenzt.
+name_length_limited_okay=Okay
 
